@@ -1,34 +1,50 @@
-# WEB2_3_BlockB_FE
-### 1. 커밋 유형 지정
+# React + TypeScript + Vite
 
-- 커밋 유형은 영어 소문자로 작성하기
-    
-    
-    | 커밋 유형 | 의미 |
-    | --- | --- |
-    | `feat` | 새로운 기능 추가 |
-    | `fix` | 버그 수정 |
-    | `docs` | 문서 수정 |
-    | `style` | 코드 formatting, 세미콜론 누락, 코드 자체의 변경이 없는 경우 |
-    | `refactor` | 코드 리팩토링 |
-    | `test` | 테스트 코드, 리팩토링 테스트 코드 추가 |
-    | `chore` | 패키지 매니저 수정, 그 외 기타 수정 ex) .gitignore |
-    | `design` | CSS 등 사용자 UI 디자인 변경 |
-    | `comment` | 필요한 주석 추가 및 변경 |
-    | `rename` | 파일 또는 폴더 명을 수정하거나 옮기는 작업만인 경우 |
-    | `remove` | 파일을 삭제하는 작업만 수행한 경우 |
-    | `!BREAKING CHANGE` | 커다란 API 변경의 경우 |
-    | `!HOTFIX` | 급하게 치명적인 버그를 고쳐야 하는 경우 |
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-### 2. 제목과 본문을 빈행으로 분리
+Currently, two official plugins are available:
 
-- 커밋 유형 이후 제목과 본문은 한글로 작성하여 내용이 잘 전달될 수 있도록 할 것
-- 본문에는 변경한 내용과 이유 설명 (어떻게보다는 무엇 & 왜를 설명)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-### 3. 제목 첫 글자는 소문자로, 끝에는 `.` 금지
+## Expanding the ESLint configuration
 
-### 4. 제목은 영문 기준 50자 이내로 할 것
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-### 5. 자신의 코드가 직관적으로 바로 파악할 수 있다고 생각하지 말자
+- Configure the top-level `parserOptions` property like this:
 
-### 6. 여러가지 항목이 있다면 글머리 기호를 통해 가독성 높이기
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
+
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
