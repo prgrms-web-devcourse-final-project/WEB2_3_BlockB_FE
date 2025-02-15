@@ -1,3 +1,4 @@
+import GeneratingRoom from "../components/debate-zone/generating-room/GeneratingRoom";
 import Header from "../components/common/Header";
 import OngoingDebate from "../components/debate-zone/OngoingDebate";
 import VoteResult from "../components/debate-zone/VoteResult";
@@ -10,7 +11,7 @@ import { useState } from "react";
 export default function DebateZone() {
   //   const { debateId } = useParams(); // URL에서 debateId를 받아옵니다.
   //   const { data, connect } = useWebSocket(debateId); // 웹소켓 연결
-  const [roomState, setRoomState] = useState("waiting");
+  const [roomState, setRoomState] = useState("generating");
   const [headerStatus, setHeaderStatus] = useState<
     "debate-waiting" | "debate-ing"
   >("debate-waiting");
@@ -27,8 +28,9 @@ export default function DebateZone() {
   //   }, [data]);
 
   return (
-    <div className="bg-black01">
+    <div className="h-screen bg-[#070707]">
       <Header status={headerStatus} />
+      {roomState === "generating" && <GeneratingRoom />}
       {roomState === "waiting" && <WaitingRoom />}
       {roomState === "ongoing" && <OngoingDebate />}
       {roomState === "voting" && <VoteRoom />}

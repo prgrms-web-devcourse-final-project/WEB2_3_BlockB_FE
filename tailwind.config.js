@@ -18,7 +18,7 @@ export default {
         blue09: "C2D9FF",
         game_blue01: "#0060F0",
         black01: "#070707",
-        white: "#FFFFFF",
+        white: "#FBFBFB",
       },
       fontFamily: {
         SofiaSans: ["Sofia Sans"], //기본 폰트
