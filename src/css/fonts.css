@@ -1,5 +1,12 @@
 .sofia-sans {
   font-family: "Sofia Sans", serif;
   font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.unifrakturcook-bold {
+  font-family: "UnifrakturCook", serif;
+  font-weight: 700;
   font-style: normal;
 }

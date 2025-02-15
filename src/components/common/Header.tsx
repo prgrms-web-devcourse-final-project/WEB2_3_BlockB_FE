@@ -19,23 +19,20 @@ export default function Header({
   return (
     <div
       className={`w-full h-[80px] flex px-[40px] justify-between items-center ${
-        status === "debate-waiting" ? "text-[#FBFBFB]" : "bg-[#FBFBFB]"
+        status === "debate-waiting" ? "text-white" : "bg-white"
       }`}
     >
-      <div className="flex w-[491px] h-[53px] justify-between items-center">
+      <div
+        className="flex w-[491px] h-[53px] justify-between items-center
+      "
+      >
         <Link to={"/"}>
           <img src={status === "debate-waiting" ? logoWhite : logo} />
         </Link>
-        <div className="flex w-[386px] h-[29px] justify-between text-[24px] items-center">
-          <Link to={"/news"} className="sofia-sans">
-            News
-          </Link>
-          <Link to={"/debate-rooms"} className="sofia-sans">
-            Debate Rooms
-          </Link>
-          <Link to={"/debaters"} className="sofia-sans">
-            Debaters
-          </Link>
+        <div className="flex w-[386px] h-[29px] justify-between text-[24px] items-center font-sofiaSans">
+          <Link to={"/news"}>News</Link>
+          <Link to={"/debate-rooms"}>Debate Rooms</Link>
+          <Link to={"/debaters"}>Debaters</Link>
         </div>
       </div>
       <div className="flex w-[237px] h-[30px] justify-end items-center">
