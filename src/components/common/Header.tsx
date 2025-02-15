@@ -3,12 +3,16 @@ import logo from "../../assets/icons/logo.svg";
 import notification from "../../assets/icons/notification.svg";
 import profile from "../../assets/icons/profile.svg";
 
-export default function Header() {
+export default function Header({
+  status,
+}: {
+  status: "default" | "debate-waiting" | "debate-ing";
+}) {
   return (
     <div className="w-full  h-[80px] flex px-[40px] justify-between items-center">
       <div className="flex w-[491px] h-[53px] justify-between items-center  ">
         <Link to={"/"}>
-          <img src={logo} alt="logo" />{" "}
+          <img src={logo} alt="logo" />
         </Link>
         <div className="flex w-[386px] h-[29px] justify-between text-[24px] items-center ">
           <Link to={"/news"} className="sofia-sans">

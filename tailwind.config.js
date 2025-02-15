@@ -23,6 +23,9 @@ export default {
       fontFamily: {
         SofiaSans: ["Sofia Sans"], //기본 폰트
       },
+      animation: {
+        "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
+      },
     },
   },
   plugins: [],
