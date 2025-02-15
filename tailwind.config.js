@@ -18,10 +18,13 @@ export default {
         blue09: "C2D9FF",
         game_blue01: "#0060F0",
         black01: "#070707",
-        white: "#FFFFFF",
+        white: "#FBFBFB",
       },
       fontFamily: {
         SofiaSans: ["Sofia Sans"], //기본 폰트
+      },
+      animation: {
+        "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
     },
   },
