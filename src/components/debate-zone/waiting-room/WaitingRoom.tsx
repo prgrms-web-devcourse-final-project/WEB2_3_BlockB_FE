@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ParticipantBox from "../ParticipantBox";
+import MatchingInterface from "./MatchingInterface";
 import WaitingInfoDrodown from "./WaitingInfoDrodown";
 
 export default function WaitingRoom() {
@@ -6,13 +8,14 @@ export default function WaitingRoom() {
   const [prosNum, setProsNum] = useState<number>(0);
   const [consNum, setConsNum] = useState<number>(0);
   return (
-    <section>
-      waitingRoom
+    <section className="px-[40px] flex justify-between relative">
       <WaitingInfoDrodown
         isWaiting={isWaiting}
         prosNum={prosNum}
         consNum={consNum}
       />
+      <ParticipantBox label="OPONENTS" labelAlignment="end" />
+      <MatchingInterface />
     </section>
   );
 }
