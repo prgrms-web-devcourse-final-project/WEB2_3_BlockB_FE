@@ -1,3 +1,3 @@
-export default function CheckBoxGroup() {
+export default function CheckBoxGroup({label, checklists}) {
   return <div>CheckBoxGroup</div>;
 }
