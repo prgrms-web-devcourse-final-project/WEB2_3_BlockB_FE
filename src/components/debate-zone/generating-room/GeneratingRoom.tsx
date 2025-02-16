@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { gsap } from "gsap";
 import { useNavigate } from "react-router";
 import link from "../../../assets/icons/link.svg";
 import { useRoomStore } from "../../../stores/roomStateStore";
@@ -8,10 +10,9 @@ import ProgressIndicator from "./ProgressIndicator";
 import RoomInputCard from "./RoomInputCard";
 
 export default function GeneratingRoom() {
-  const [genertingType, setGeneratingType] = useState<
+  const [generatingType, setGeneratingType] = useState<
     "fromNews" | "fromDebateList"
   >("fromDebateList");
-  const [roomType, setRoomType] = useState<RoomType>(null);
   const [hasCompleted, setHasCompleted] = useState<boolean>(false);
   const { setRoomState } = useRoomStore();
   const onClickCreateBtn = () => setRoomState("ongoing");
@@ -30,22 +31,51 @@ export default function GeneratingRoom() {
     time: false,
   });
 
+  useEffect(() => {
+    const allChecked = Object.values(checkedStates).every((val) => val);
+    setHasCompleted(allChecked);
+  }, [checkedStates]);
+
+  useEffect(() => {
+    // 전체 컴포넌트 슬라이드업 + 페이드 인
+    gsap.from(".generatingRoomContainer", {
+      opacity: 0,
+      y: 100,
+      duration: 0.2,
+      ease: "power4.out",
+      onComplete: () => {
+        gsap.to(".generatingRoomContainer", { opacity: 1, y: 0 });
+      },
+    });
+    // 내부 요소들이 차례대로 애니메이션
+    gsap.from(".generatingRoomContainer > *", {
+      opacity: 0,
+      y: 20,
+      stagger: 0.1, // 각 요소 0.1
+      duration: 0.4,
+      ease: "power3.out", // 부드러운
+      onComplete: () => {
+        gsap.to(".generatingRoomContainer > *", { opacity: 1, y: 0 });
+      },
+    });
+  }, []);
+
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center min-h-[900px]">
       <div
-        className="flex flex-col justify-between items-center bg-white w-[658px] h-[666px] rounded-[10px] px-[40px] py-[40px] border border-white shadow-[0_4px_20px_rgba(251,251,251,1)] mt-[60px] mb-[90px]"
+        className="generatingRoomContainer flex flex-col justify-between items-center bg-white w-[658px] h-[666px] rounded-[10px] px-[40px] py-[40px] border border-white shadow-[0_4px_20px_rgba(251,251,251,1)] mt-[30px] mb-[90px]"
         style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}
       >
         <ProgressIndicator checkedStates={checkedStates} />
         <div className="w-full flex flex-col gap-[15px]">
           <RoomInputCard
             label="토론 주제"
-            key="title"
+            fieldKey="title"
             setCheckedStates={setCheckedStates}
           />
           <RoomInputCard
             label="방 설명"
-            key="description"
+            fieldKey="description"
             setCheckedStates={setCheckedStates}
           />
           <figure className="w-full flex justify-end items-center gap-2">
@@ -57,7 +87,7 @@ export default function GeneratingRoom() {
         </div>
 
         <CheckBoxGroups
-          genertingType={genertingType}
+          generatingType={generatingType}
           setCheckedStates={setCheckedStates}
         />
         <div className="w-full flex justify-end">

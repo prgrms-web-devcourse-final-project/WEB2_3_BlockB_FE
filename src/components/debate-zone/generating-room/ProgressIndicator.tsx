@@ -1,3 +1,6 @@
+import { useEffect, useRef, useState } from "react";
+
+import gsap from "gsap";
 import progress from "../../../assets/icons/progress/progress-icon";
 
 export default function ProgressIndicator({
@@ -5,7 +8,10 @@ export default function ProgressIndicator({
 }: {
   checkedStates: Record<string, boolean>;
 }) {
-  const checkImgClass = "w-6 h-6 bg-neutral-50 rounded-full";
+  const checkImgClass = "w-6 h-6 bg-neutral-50 rounded-full relative";
+  const imgRefs = useRef<Record<string, HTMLImageElement | null>>({});
+  const [prevCheckedStates, setPrevCheckedStates] = useState(checkedStates);
+
   const checkImgs = [
     {
       key: "title",
@@ -57,6 +63,22 @@ export default function ProgressIndicator({
     },
   ];
 
+  useEffect(() => {
+    Object.keys(checkedStates).forEach((key) => {
+      const img = imgRefs.current[key];
+
+      if (img && !prevCheckedStates[key] && checkedStates[key]) {
+        gsap.fromTo(
+          img,
+          { opacity: 0, rotateY: 180 },
+          { opacity: 1, rotateY: 0, duration: 0.4, ease: "power2.inOut" }
+        );
+      }
+    });
+
+    setPrevCheckedStates(checkedStates);
+  }, [checkedStates, prevCheckedStates]);
+
   return (
     <div className="w-96 h-20 px-4 py-2 bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
       <p className="w-full font-bold text-center">Generating A New Room</p>
@@ -64,6 +86,9 @@ export default function ProgressIndicator({
         {checkImgs.map((item, index) => (
           <figure key={index} className={checkImgClass}>
             <img
+              ref={(el) => {
+                imgRefs.current[item.key] = el;
+              }}
               src={checkedStates[item.key] ? item.complete : item.origin}
               alt={`${item.desPrefix} 입력완료`}
             />

@@ -11,15 +11,15 @@ import { useState } from "react";
 import CheckBoxGroup from "./CheckBoxGroup";
 
 export default function CheckBoxGroups({
-  genertingType,
+  generatingType,
   setCheckedStates,
 }: {
-  genertingType: string;
+  generatingType: string;
   setCheckedStates: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
 }) {
-  // 체크 핸들러
+  // 프로그래스바 핸들러
   const updateProgress = (key: string) => {
     setCheckedStates((prev) => ({
       ...prev,
@@ -51,7 +51,7 @@ export default function CheckBoxGroups({
 
   return (
     <section className="w-full flex flex-col gap-[10px]">
-      {genertingType === "fromDebateList" && (
+      {generatingType === "fromDebateList" && (
         <CheckBoxGroup
           label="대륙"
           checklists={selectedContinent}
