@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { gsap } from "gsap";
-import { useNavigate } from "react-router";
-import link from "../../../assets/icons/link.svg";
-import { useRoomStore } from "../../../stores/roomStateStore";
-import RoomActionButtons from "./../RoomActionButtons";
 import CheckBoxGroups from "./CheckBoxGroups";
 import ProgressIndicator from "./ProgressIndicator";
+import RoomActionButtons from "./../RoomActionButtons";
 import RoomInputCard from "./RoomInputCard";
+import { gsap } from "gsap";
+import link from "../../../assets/icons/link.svg";
+import { useNavigate } from "react-router";
+import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function GeneratingRoom() {
   const [generatingType, setGeneratingType] = useState<
@@ -78,12 +78,14 @@ export default function GeneratingRoom() {
             fieldKey="description"
             setCheckedStates={setCheckedStates}
           />
-          <figure className="w-full flex justify-end items-center gap-2">
-            <img src={link} alt="연관된 뉴스 링크" />
-            <figcaption className="text-gray02 text-[10px] leading-0">
-              {newLink}
-            </figcaption>
-          </figure>
+          {generatingType == "fromNews" && (
+            <figure className="w-full flex justify-end items-center gap-2">
+              <img src={link} alt="연관된 뉴스 링크" />
+              <figcaption className="text-gray02 text-[10px] leading-0">
+                {newLink}
+              </figcaption>
+            </figure>
+          )}
         </div>
 
         <CheckBoxGroups
