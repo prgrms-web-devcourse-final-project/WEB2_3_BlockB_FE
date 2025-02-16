@@ -6,3 +6,8 @@ type RoomType = {
   hasVote: boolean;
   time: number;
 } | null;
+
+type ChecklistItem = {
+  key: string;
+  isChecked: boolean;
+};
