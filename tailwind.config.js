@@ -26,6 +26,9 @@ export default {
       animation: {
         "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
+      boxShadow: {
+        "game-blue": "0 1px 10px rgba(29, 78, 216, 0.5)", 
+      },
     },
   },
   plugins: [],
