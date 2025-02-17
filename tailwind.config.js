@@ -22,12 +22,19 @@ export default {
       fontFamily: {
         sofiaSans: ["Sofia Sans"], //기본 폰트
         unifrakturCook: ["UnifrakturCook"],
+        sourceSerif4: ["Source Serif 4"],
       },
       animation: {
         "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
       boxShadow: {
-        "game-blue": "0 1px 10px rgba(29, 78, 216, 0.5)", 
+        "game-blue": "0 1px 10px rgba(29, 78, 216, 0.5)",
+      },
+      animation: {
+        "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
+      },
+      boxShadow: {
+        "game-blue": "0 1px 10px rgba(29, 78, 216, 0.5)",
       },
     },
   },
