@@ -18,9 +18,9 @@ interface RoomSettings {
   category: string | null;
   participant: string | null;
   stance: string | null;
-  hasVote: string | null;
-  time: string | null;
-  turn: string | null;
+  hasVote: boolean | null;
+  time: number | null;
+  turn: number | null;
   title: string | null;
   description: string | null;
 }

@@ -51,3 +51,17 @@ export const turnChecklist: ChecklistItem[] = [
   { dbKey: 9, key: "9번", isChecked: false },
   { dbKey: 10, key: "10번", isChecked: false },
 ];
+
+const allChecklists = [
+  ...continentChecklist,
+  ...categoryChecklist,
+  ...participantChecklist,
+  ...stanceChecklist,
+  ...hasVoteChecklist,
+  ...timeChecklist,
+  ...turnChecklist,
+];
+
+export const getKeyFromDbKey = (dbKey: string | number | boolean) => {
+  return allChecklists.find((item) => item.dbKey === dbKey)?.key || "";
+};

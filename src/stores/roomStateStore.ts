@@ -16,6 +16,8 @@ export const useRoomStore = create<RoomStateStore>((set) => ({
   roomState: "generating",
   setRoomState: (state) => set({ roomState: state }),
   roomSettings: {
+    title: null,
+    description: null,
     continent: null,
     category: null,
     participant: null,
