@@ -7,19 +7,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: main
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20.18.x"
           cache: "pnpm"
-          package-manager: pnpm@latest
 
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Setup pnpm
+        run: corepack enable && corepack prepare pnpm@latest --activate
+
+      - name: Check pnpm version
+        run: pnpm --version
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -28,7 +29,6 @@ jobs:
         run: pnpm vite build
         env:
           VITE_PUBLIC_URL: ${{ secrets.VITE_PUBLIC_URL }}
-          # 나중에 환경 변수 추가
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v2.0
@@ -43,4 +43,4 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
+        timeout-minutes: 5
