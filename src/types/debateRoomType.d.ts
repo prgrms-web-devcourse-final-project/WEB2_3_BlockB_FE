@@ -21,4 +21,6 @@ interface RoomSettings {
   hasVote: string | null;
   time: string | null;
   turn: string | null;
+  title: string | null;
+  description: string | null;
 }
