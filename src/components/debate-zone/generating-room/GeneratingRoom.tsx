@@ -29,6 +29,7 @@ export default function GeneratingRoom() {
     stance: false,
     hasVote: false,
     time: false,
+    turn: false,
   });
 
   useEffect(() => {
