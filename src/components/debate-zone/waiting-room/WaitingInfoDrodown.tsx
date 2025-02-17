@@ -1,21 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import arrowdown from "../../../assets/icons/arrow-down.svg";
 import arrowup from "../../../assets/icons/arrow-up.svg";
-import link from "../../../assets/icons/link.svg";
 import { getKeyFromDbKey } from "../../../constants";
+import link from "../../../assets/icons/link.svg";
 import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function WaitingInfoDrodown({
   isWaiting,
-  prosNum,
-  consNum,
 }: {
   isWaiting: boolean;
-  prosNum: number;
-  consNum: number;
 }) {
+  
   const [dropdown, setDropDown] = useState<boolean>(false);
   const { roomSettings } = useRoomStore();
+  const [prosNum, setProsNum] = useState<number>(0);
+  const [consNum, setConsNum] = useState<number>(0);
+
+  useEffect(() => {
+    if (roomSettings.stance === "pro") {
+      setProsNum(1);
+    } else {
+      setConsNum(1);
+    }
+  }, [roomSettings]);
+  
   return (
     <div>
       {/* 드롭다운전 */}
@@ -39,7 +48,7 @@ export default function WaitingInfoDrodown({
       {dropdown && (
         <div className="w-[612px] h-auto py-[20px] px-[36px] bg-neutral-50/50 rounded-lg border border-white01  flex flex-col justify-between gap-[20px] shadow-[0px_1px_5px_0px_rgba(251,251,251,1.00)] ">
           {/* 주제 및 설명 */}
-          <div className="text-white font-bold">
+          <div className="text-white font-bold flex flex-col gap-[10px]">
             <h1 className="inline-flex justify-start">
               <span className="w-[71px] mr-[10px]">토론 주제</span>
               <span>{roomSettings.title}</span>
