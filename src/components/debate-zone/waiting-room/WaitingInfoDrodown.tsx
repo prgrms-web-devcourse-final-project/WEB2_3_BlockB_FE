@@ -2,6 +2,8 @@ import { useState } from "react";
 import arrowdown from "../../../assets/icons/arrow-down.svg";
 import arrowup from "../../../assets/icons/arrow-up.svg";
 import link from "../../../assets/icons/link.svg";
+import { getKeyFromDbKey } from "../../../constants";
+import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function WaitingInfoDrodown({
   isWaiting,
@@ -13,6 +15,7 @@ export default function WaitingInfoDrodown({
   consNum: number;
 }) {
   const [dropdown, setDropDown] = useState<boolean>(false);
+  const { roomSettings } = useRoomStore();
   return (
     <div>
       {/* 드롭다운전 */}
@@ -38,39 +41,30 @@ export default function WaitingInfoDrodown({
           {/* 주제 및 설명 */}
           <div className="text-white font-bold">
             <h1 className="inline-flex justify-start">
-              <span className="w-[71px] mr-[10px]">토론주제</span>
-              <span>AI는 인간의 노동을 대체하나 보조하나</span>
+              <span className="w-[71px] mr-[10px]">토론 주제</span>
+              <span>{roomSettings.title}</span>
             </h1>
             <h2 className="inline-flex justify-start">
               <span className="w-[71px] mr-[10px]">방 설명</span>
-              <span>
-                욕설, 비속어 없는 건전한 토론을 지향합니다. 인신공격, 비방은
-                경고없이 신고 들어갑니다.
-              </span>
+              <span>{roomSettings.description}</span>
             </h2>
           </div>
           {/* 토론방 정보 */}
           <div className="flex justify-start gap-[10px] text-black01 font-bold">
             <div className="h-7 px-2.5 py-1 bg-neutral-50/70 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>아프리카</p>
+              <p>{getKeyFromDbKey(roomSettings.continent!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 bg-neutral-50/70 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>정치</p>
+              <p>{getKeyFromDbKey(roomSettings.category!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 bg-neutral-50/70 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>10분</p>
+              <p>{roomSettings.time! * roomSettings.turn!}초</p>
             </div>
             <div className="h-7 px-2.5 py-1 bg-neutral-50/70 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>반대</p>
+              <p>{getKeyFromDbKey(roomSettings.participant!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 bg-neutral-50/70 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>3:3</p>
-            </div>
-            <div className="h-7 px-2.5 py-1 bg-neutral-50/70 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>승패 결정</p>
-            </div>
-            <div className="h-7 px-2.5 py-1 bg-neutral-50/70 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>25분</p>
+              <p>{getKeyFromDbKey(roomSettings.hasVote!)}</p>
             </div>
           </div>
           {/* 링크 */}
