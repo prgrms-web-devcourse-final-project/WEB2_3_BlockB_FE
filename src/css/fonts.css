@@ -1,5 +1,34 @@
 .sofia-sans {
   font-family: "Sofia Sans", serif;
   font-optical-sizing: auto;
+  font-weight: 400;
   font-style: normal;
+}
+
+.unifrakturcook-bold {
+  font-family: "UnifrakturCook", serif;
+  font-weight: 700;
+}
+
+.font-sourceSerif4 {
+  font-family: "Source Serif 4";
+}
+
+@font-face {
+  font-family: "UnifrakturCook";
+  src: url("/src/fonts/UnifrakturCook-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Sofia Sans";
+  font-weight: 800;
+  font-display: swap;
+  src: url("/src/fonts/static/sofia-snas/SofiaSans-ExtraBold.ttf");
+}
+
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/src/fonts/SourceSerif4-VariableFont_wght.ttf");
 }
