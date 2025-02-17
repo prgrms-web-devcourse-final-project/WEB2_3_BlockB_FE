@@ -59,7 +59,13 @@ export default function ProgressIndicator({
       key: "time",
       origin: progress.time,
       complete: progress.timeChecked,
-      desPrefix: "토론시간",
+      desPrefix: "발언 시간",
+    },
+    {
+      key: "turn",
+      origin: progress.turn,
+      complete: progress.turnChecked,
+      desPrefix: "발언 횟수",
     },
   ];
 

@@ -14,6 +14,8 @@ import time from "./time-progress.svg";
 import timeChecked from "./time-progress_checked.svg";
 import title from "./title-progress.svg";
 import titleChecked from "./title-progress_checked.svg";
+import turn from "./turn-progress.svg";
+import turnChecked from "./turn-progress_checked.svg";
 
 const progress: {
   [key: string]: string;
@@ -34,6 +36,8 @@ const progress: {
   hasVoteChecked,
   time,
   timeChecked,
+  turn,
+  turnChecked,
 };
 
 export default progress;

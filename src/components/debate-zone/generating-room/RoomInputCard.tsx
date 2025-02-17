@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
 
+import { useRoomStore } from "../../../stores/roomStateStore";
+
 export default function RoomInputCard({
   label,
-  fieldKey, // key 대신 다른 이름 사용
+  fieldKey,
   setCheckedStates,
 }: {
   label: string;
-  fieldKey: string; // key 대신 다른 이름 사용
+  fieldKey: keyof RoomSettings;
   setCheckedStates: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
 }) {
   const [text, setText] = useState("");
-
+  const { setRoomSettings } = useRoomStore();
   useEffect(() => {
     setCheckedStates((prev) => ({
       ...prev,
-      [fieldKey]: text.length > 0, // text가 비어 있으면 false 처리
+      [fieldKey]: text.length > 0,
     }));
-  }, [text, fieldKey, setCheckedStates]);
+    setRoomSettings(fieldKey, text);
+  }, [text, fieldKey, setCheckedStates, setRoomSettings]);
 
   return (
     <div className="text-white w-full">
