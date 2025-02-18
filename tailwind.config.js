@@ -26,7 +26,8 @@ export default {
         unifrakturCook: ["UnifrakturCook"],
         sourceSerif4: ["Source Serif 4"],
         timmana: ["Timmana"],
-        jersey: ["Jersey 25"],
+        jersey: ["Jersey"],
+        pretendard: ["Pretendard"],
       },
       animation: {
         "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
