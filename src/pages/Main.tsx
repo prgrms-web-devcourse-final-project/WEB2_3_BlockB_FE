@@ -1,7 +1,6 @@
 import { useState } from "react";
-
-import NewsSimpleInfos from "../components/common/NewsSimpleInfos";
-import DebateSimpleInfos from "../components/common/DebateSimpleInfos";
+import NewsSimpleInfos from "../components/main/NewsSimpleInfos";
+import DebateSimpleInfos from "../components/main/DebateSimpleInfos";
 import { year, month, date, day } from "../constants/index";
 
 export default function Main() {

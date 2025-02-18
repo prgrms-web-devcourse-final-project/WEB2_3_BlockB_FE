@@ -7,6 +7,7 @@ export default {
         gray01: "#474747",
         gray02: "#F3F3F4",
         gray03: "#CFD0D2",
+        gray04: "#BABABA",
         blue01: "#13326E",
         blue02: "#386FD9",
         blue03: "#001744",
@@ -18,11 +19,13 @@ export default {
         game_blue01: "#0060F0",
         black01: "#070707",
         white: "#FBFBFB",
+        white02: "EEEDED",
       },
       fontFamily: {
         sofiaSans: ["Sofia Sans"], //기본 폰트
         unifrakturCook: ["UnifrakturCook"],
         sourceSerif4: ["Source Serif 4"],
+        timmana: ["Timmana"],
       },
       animation: {
         "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
