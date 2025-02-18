@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import profile from "../../../assets/icons/profile-white.svg";
 import send from "../../../assets/icons/send.svg";
+import MessageItem from "./MessageItem";
 
 export default function MessageSection() {
   const [currentMessage, setCurrentMessage] = useState<string>("");
@@ -20,24 +21,17 @@ export default function MessageSection() {
   }, [messages]);
 
   return (
-    <div className="w-full h-full flex flex-col py-[30px]">
+    <div className="w-full h-full flex flex-col pb-[30px] pt-[20px]">
       {/* 메시지 목록 */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-2">
+      <div className="flex-1 overflow-y-auto p-4 space-y-[10px]">
         {messages.map((message, index) => (
-          <div
+          <MessageItem
             key={index}
-            className="flex w-full justify-end gap-[10px] font-bold"
-          >
-            <div className="flex flex-col items-end ">
-              <div className="text-white text-right">nickname</div>
-              <div className="bg-blue-500  text-white p-2 rounded-md">
-                {message}
-              </div>
-            </div>
-            <figure>
-              <img src={profile} />
-            </figure>
-          </div>
+            message={message}
+            profile={profile}
+            isMine={index % 2 !== 0}
+            isOppenent={index % 2 === 0} // 임시로 퍼블리싱 위해서 상대방 메시지랑 주고 받을 수 있도록 함
+          />
         ))}
         {/* 스크롤 끝을 위한 div */}
         <div ref={messageEndRef} />

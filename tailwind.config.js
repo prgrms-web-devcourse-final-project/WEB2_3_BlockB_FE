@@ -28,14 +28,30 @@ export default {
         timmana: ["Timmana"],
         jersey: ["Jersey 25"],
       },
+      keyframes: {
+        slideDown: {
+          "0%": { transform: "translateY(-100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        slideUp: {
+          "0%": { transform: "translateY(0%)", opacity: "0" },
+          "100%": { transform: "translateY(-100)", opacity: "1" },
+        },
+        fadeScale: {
+          "0%": { transform: "scale(0.8)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        flip: {
+          "0%": { transform: "rotateX(90deg)", opacity: "0" },
+          "100%": { transform: "rotateX(0)", opacity: "1" },
+        },
+      },
       animation: {
         "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
-      },
-      boxShadow: {
-        "game-blue": "0 1px 10px rgba(29, 78, 216, 0.5)",
-      },
-      animation: {
-        "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "slide-down": "slideDown 1s ease-out",
+        "slide-up": "slideUp 2s ease-in-out",
+        "fade-scale": "fadeScale 0.3s ease-out",
+        flip: "flip 0.7s ease-out",
       },
       boxShadow: {
         "game-blue": "0 1px 10px rgba(29, 78, 216, 0.5)",

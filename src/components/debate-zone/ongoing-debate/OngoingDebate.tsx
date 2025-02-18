@@ -19,10 +19,13 @@ export default function OngoingDebate() {
   const [timerCount, setTimerCount] = useState(roomSettings.time!);
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setTimerCount((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
+
   return (
     <>
       {isLoading ? (
@@ -43,7 +46,7 @@ export default function OngoingDebate() {
               <Counter label="TIMER" boxNumber={3} count={timerCount} />
             </div>
             <ParticipantBox label="CONS" labelAlignment="end" color="blue" />
-            <section className="flex flex-col font-jersey gap-[10px] text-white font-bold mt-[50px] ml-[20px]">
+            <section className="flex flex-col font-jersey gap-[10px] text-white font-bold mt-[50px] ml-[20px] animate-slide-up">
               <p>audience</p>
               <AudienceCard profile={profile} nickname="imaria0219" />
               <AudienceCard profile={profile} nickname="imaria0219" />

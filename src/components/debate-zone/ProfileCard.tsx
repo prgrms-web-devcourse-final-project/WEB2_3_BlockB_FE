@@ -6,7 +6,7 @@ import win from "../../assets/icons/win.svg";
 export default function ProfileCard({ color }: { color?: string }) {
   return (
     <div
-      className={`flex w-[280px] h-auto px-[10px] py-[8px] bg-neutral-50/50 rounded-lg ${
+      className={`flex w-[280px] h-auto px-[10px] py-[8px] bg-neutral-50/50 rounded-lg animate-flip ${
         color === "blue" &&
         "bg-sky-950/50 shadow:0px 1px 10px rgb(0 96 240 /1.00) border border-neutral-50/50 text-white "
       }`}
