@@ -11,6 +11,7 @@ import MyPage from "./pages/MyPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import ProfileUpdate from "./components/my-page/ProfileUpdate";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         </Route>
         <Route path="/debate-zone" element={<DebateZone />} />
         <Route path="/profile-update" element={<ProfileUpdate />} />
+        <Route path="/login" element={<Login />} />
         {/* 헤더 내 분류 */}
       </Routes>
     </>
