@@ -37,7 +37,11 @@ export default function OngoingDebate() {
       ) : (
         <section className="flex justify-between px-[30px] py-[20px]">
           <div className="mt-[117px]">
-            <ParticipantBox label="PROS" labelAlignment="start" />
+            <ParticipantBox
+              label="PROS"
+              labelAlignment="start"
+              hasReportBtn={true}
+            />
           </div>
           <ChatWindow />
           <div>
@@ -45,7 +49,12 @@ export default function OngoingDebate() {
               <Counter label="TURN" boxNumber={2} count={turnCount} />
               <Counter label="TIMER" boxNumber={3} count={timerCount} />
             </div>
-            <ParticipantBox label="CONS" labelAlignment="end" color="blue" />
+            <ParticipantBox
+              label="CONS"
+              labelAlignment="end"
+              color="blue"
+              hasReportBtn={true}
+            />
             <section className="flex flex-col font-jersey gap-[10px] text-white font-bold mt-[50px] ml-[20px] animate-slide-up">
               <p>audience</p>
               <AudienceCard profile={profile} nickname="imaria0219" />

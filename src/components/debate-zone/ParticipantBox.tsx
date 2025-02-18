@@ -4,10 +4,12 @@ export default function ParticipantBox({
   label,
   labelAlignment,
   color,
+  hasReportBtn = false,
 }: {
   label: string;
   labelAlignment: string;
   color?: string;
+  hasReportBtn?: boolean;
 }) {
   return (
     <div className="w-[280px] font-jersey">
@@ -22,9 +24,9 @@ export default function ParticipantBox({
       </div>
       <div className="flex flex-col gap-[20px] text-[16px] text-black01 font-bold">
         {/* 프로필 카드 */}
-        <ProfileCard color={color} />
-        <ProfileCard color={color} />
-        <ProfileCard color={color} />
+        <ProfileCard color={color} hasReportBtn={hasReportBtn} />
+        <ProfileCard color={color} hasReportBtn={hasReportBtn} />
+        <ProfileCard color={color} hasReportBtn={hasReportBtn} />
       </div>
     </div>
   );
