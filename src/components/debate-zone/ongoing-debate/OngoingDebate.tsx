@@ -26,7 +26,7 @@ export default function OngoingDebate() {
           <div>
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
               <Counter label="TURN" boxNumber={2} count={10} />
-              <Counter label="TIMER" boxNumber={3} count={10} />
+              <Counter label="TIMER" boxNumber={3} count={9} />
             </div>
             <ParticipantBox label="CONS" labelAlignment="end" color="blue" />
             <div></div>

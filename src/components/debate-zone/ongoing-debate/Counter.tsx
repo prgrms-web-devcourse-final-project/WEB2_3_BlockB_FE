@@ -21,7 +21,7 @@ export default function Counter({
 
   return (
     <div className="font-bold font-jersey">
-      <div className="flex items-center gap-[2px] justify-end">
+      <div className="flex items-center gap-[2px] justify-end mb-[3px]">
         <figure>
           <img src={label === "TURN" ? turn : timer} alt="" />
         </figure>
