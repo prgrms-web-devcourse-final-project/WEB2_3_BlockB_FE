@@ -35,9 +35,9 @@
 
 @font-face {
   font-family: "Sofia Sans";
-  font-weight: 800;
+  font-weight: 400;
   font-display: swap;
-  src: url("/src/fonts/static/sofia-snas/SofiaSans-ExtraBold.ttf");
+  src: url("/src/fonts/SofiaSans-VariableFont_wght.ttf");
 }
 
 @font-face {
