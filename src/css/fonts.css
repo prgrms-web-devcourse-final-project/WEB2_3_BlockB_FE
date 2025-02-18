@@ -19,7 +19,11 @@
 }
 
 .jersey {
-  font-family: "Jersey 25";
+  font-family: "Jersey";
+}
+
+.pretendard {
+  font-family: "Pretendard";
 }
 
 @font-face {
@@ -45,9 +49,13 @@
   font-family: "Timmana";
   src: url("/src/fonts/Timmana-Regular.ttf");
 }
+
 @font-face {
-  font-family: "Jersey 25";
+  font-family: "Jersey";
   src: url("/src/fonts/Jersey25-Regular.ttf");
-  font-weight: 400;
-  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("/src/fonts/PretendardVariable.ttf");
 }

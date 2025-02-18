@@ -10,6 +10,7 @@ import MyPage from "./pages/MyPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import ObservingZone from "./pages/ObservingZone"; // 관람하는 페이지 컴포넌트 추가
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
         <Route path="/debate-zone/:debateId" element={<DebateZone />} />
         <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
         <Route path="/profile-update" element={<ProfileUpdate />} />
+        <Route path="/login" element={<Login />} />
+        {/* 헤더 내 분류 */}
       </Routes>
     </>
   );
