@@ -2,6 +2,7 @@ import { useState } from "react";
 import Category from "../components/news/category";
 import { useNavigate } from "react-router-dom";
 import search from "../assets/icons/search.svg";
+
 // 뉴스 데이터 타입 정의
 type NewsItem = {
   newsId: number;
@@ -24,7 +25,7 @@ export default function News() {
       newsContent:
         "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
       newsImgUrl:
-        "https://img0.yna.co.kr/photo/cms/2025/02/17/59/PCM20250217000059990_T2.jpg",
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
       newsType: "연합뉴스",
       deliveryTime: "2025-02-17T15:07:00Z",
     },
@@ -34,7 +35,7 @@ export default function News() {
       newsContent:
         "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
       newsImgUrl:
-        "https://img0.yna.co.kr/photo/cms/2025/02/17/59/PCM20250217000059990_T2.jpg",
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
       newsType: "연합뉴스",
       deliveryTime: "2025-02-17T15:07:00Z",
     },
@@ -44,7 +45,7 @@ export default function News() {
       newsContent:
         "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
       newsImgUrl:
-        "https://img0.yna.co.kr/photo/cms/2025/02/17/59/PCM20250217000059990_T2.jpg",
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
       newsType: "연합뉴스",
       deliveryTime: "2025-02-17T15:07:00Z",
     },
@@ -54,7 +55,7 @@ export default function News() {
       newsContent:
         "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
       newsImgUrl:
-        "https://img0.yna.co.kr/photo/cms/2025/02/17/59/PCM20250217000059990_T2.jpg",
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
       newsType: "연합뉴스",
       deliveryTime: "2025-02-17T15:07:00Z",
     },
@@ -64,7 +65,7 @@ export default function News() {
       newsContent:
         "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
       newsImgUrl:
-        "https://img0.yna.co.kr/photo/cms/2025/02/17/59/PCM20250217000059990_T2.jpg",
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
       newsType: "연합뉴스",
       deliveryTime: "2025-02-17T15:07:00Z",
     },
@@ -74,17 +75,52 @@ export default function News() {
       newsContent:
         "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
       newsImgUrl:
-        "https://img0.yna.co.kr/photo/cms/2025/02/17/59/PCM20250217000059990_T2.jpg",
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
+      newsType: "연합뉴스",
+      deliveryTime: "2025-02-17T15:07:00Z",
+    },
+    {
+      newsId: 1,
+      newsTitle: "미국-인도 정상회담 개최",
+      newsContent:
+        "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
+      newsImgUrl:
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
+      newsType: "연합뉴스",
+      deliveryTime: "2025-02-17T15:07:00Z",
+    },
+    {
+      newsId: 1,
+      newsTitle: "미국-인도 정상회담 개최",
+      newsContent:
+        "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
+      newsImgUrl:
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
+      newsType: "연합뉴스",
+      deliveryTime: "2025-02-17T15:07:00Z",
+    },
+    {
+      newsId: 1,
+      newsTitle: "미국-인도 정상회담 개최",
+      newsContent:
+        "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
+      newsImgUrl:
+        "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
       newsType: "연합뉴스",
       deliveryTime: "2025-02-17T15:07:00Z",
     },
   ]);
 
   return (
-    <div className="w-full">
-      <div className="max-w-6xl mx-auto p-6 flex gap-12 relativ">
-        {/* 메인 콘텐츠 영역 */}
-        <div className="w-3/4">
+    <div className="w-full h-screen overflow-hidden">
+      <div className="max-w-10xl mx-auto p-6 flex  pr-0 gap-12 h-full overflow-auto">
+        {/* 카테고리 */}
+        <div className="w-1/6 ml-3">
+          <Category />
+        </div>
+
+        <div className="w-5/6 overflow-auto mr-3">
+          {/* 메인 콘텐츠 영역 */}
           {/* 필터 버튼 */}
           <div className="flex space-x-6 text-lg font-semibold">
             <button
@@ -130,9 +166,13 @@ export default function News() {
           </div>
 
           {/* 뉴스 목록 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             {newsData.map((news) => (
-              <div key={news.newsId} className="rounded-lg shadow-sm">
+              <div
+                key={news.newsId}
+                className="rounded-lg"
+                onClick={() => navigate(`/news/${news.newsId}`)}
+              >
                 <img
                   src={news.newsImgUrl}
                   alt="뉴스 이미지"
@@ -161,11 +201,6 @@ export default function News() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* 카테고리  */}
-        <div className="w-1/4 ml-6">
-          <Category />
         </div>
       </div>
     </div>
