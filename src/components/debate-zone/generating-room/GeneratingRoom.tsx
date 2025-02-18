@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import { gsap } from "gsap";
-import { useNavigate } from "react-router";
-import link from "../../../assets/icons/link.svg";
-import { useRoomStore } from "../../../stores/roomStateStore";
-import RoomActionButtons from "./../RoomActionButtons";
 import CheckBoxGroups from "./CheckBoxGroups";
 import ProgressIndicator from "./ProgressIndicator";
+import RoomActionButtons from "./../RoomActionButtons";
 import RoomInputCard from "./RoomInputCard";
+import { gsap } from "gsap";
+import link from "../../../assets/icons/link.svg";
+import { useNavigate } from "react-router";
+import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function GeneratingRoom() {
   const [generatingType, setGeneratingType] = useState<
@@ -64,7 +64,7 @@ export default function GeneratingRoom() {
   return (
     <div className="flex justify-center ">
       <div
-        className="generatingRoomContainer flex flex-col justify-between items-center bg-white w-[658px] h-[666px] rounded-[10px] px-[40px] py-[40px] border border-white shadow-[0_4px_20px_rgba(251,251,251,1)] mt-[30px] mb-[90px]"
+        className="generatingRoomContainer flex flex-col justify-between items-center bg-white w-[658px] h-[666px] rounded-[10px] px-[40px] py-[40px] border border-white shadow-[0_4px_20px_rgba(251,251,251,1)] mt-[30px] mb-[90px] font-sofiaSans "
         style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}
       >
         <ProgressIndicator checkedStates={checkedStates} />
