@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Category from "../components/news/category";
 import { useNavigate } from "react-router-dom";
 import search from "../assets/icons/search.svg";
+import Category from "../components/news/category";
 
 // 뉴스 데이터 타입 정의
 type NewsItem = {
@@ -112,7 +112,7 @@ export default function News() {
   ]);
 
   return (
-    <div className="w-full h-screen overflow-hidden">
+    <div className="w-full h-screen overflow-hidden font-pretendard">
       <div className="max-w-10xl mx-auto p-6 flex  pr-0 gap-12 h-full overflow-auto">
         {/* 카테고리 */}
         <div className="w-1/6 ml-3">
@@ -178,20 +178,16 @@ export default function News() {
                   alt="뉴스 이미지"
                   className="w-full h-48 object-cover rounded-lg"
                 />
-                <h3 className="text-lg font-extrabold mt-3 font-sofiaSans">
+                <h3 className="text-lg font-extrabold mt-3">
                   {news.newsTitle}
                 </h3>
-                <div className="text-gray-500 font-sofiaSans text-sm flex justify-between mt-2">
-                  <p className="font-sofiaSans">{news.newsType}</p>
-                  <p className="font-sofiaSans">
-                    {new Date(news.deliveryTime).toLocaleString()}
-                  </p>
+                <div className="text-gray-500 text-sm flex justify-between mt-2 ">
+                  <p>{news.newsType}</p>
+                  <p>{new Date(news.deliveryTime).toLocaleString()}</p>
                 </div>
-                <p className="mt-2 text-sm font-sofiaSans text-gray-700">
-                  {news.newsContent}
-                </p>
+                <p className="mt-2 text-sm text-gray-700">{news.newsContent}</p>
                 <div className="flex justify-end items-center mt-3 text-gray-500 text-sm">
-                  <div className="flex space-x-3 font-sofiaSans">
+                  <div className="flex space-x-3 ">
                     <img src={search} alt="검색 아이콘" className="w-5 h-5" />
                     <span>123</span>{" "}
                     <img src={search} alt="검색 아이콘" className="w-5 h-5" />

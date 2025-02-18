@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import avatar from "../assets/icons/avatar.svg";
-import NewsTab from "../components/my-page/NewsTab";
 import DebateTab from "../components/my-page/DebateTab";
 import FollowTab from "../components/my-page/FollowTab";
-import { Link } from "react-router";
+import NewsTab from "../components/my-page/NewsTab";
 export default function MyPage() {
   const [tab, setTab] = useState("news");
   return (
     <div className="flex justify-center ">
-      <div className="w-[960px] h-[790px] mt-[88px] font-sofiaSans ">
+      <div className="w-[960px] h-[790px] mt-[88px] font-pretendard ">
         <div className="flex">
           <img
             src={avatar}

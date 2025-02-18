@@ -1,7 +1,7 @@
 import { useState } from "react";
-import NewsSimpleInfos from "../components/main/NewsSimpleInfos";
 import DebateSimpleInfos from "../components/main/DebateSimpleInfos";
-import { year, month, date, day } from "../constants/index";
+import NewsSimpleInfos from "../components/main/NewsSimpleInfos";
+import { date, day, month, year } from "../constants/index";
 
 export default function Main() {
   const [tab, setTeab] = useState(true);

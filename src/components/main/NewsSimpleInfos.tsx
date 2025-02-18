@@ -1,8 +1,8 @@
-import NewsSimpleInfo from "./NewsSimpleInfo";
-import thumbnail from "../../assets/images/image 36.png";
-import like from "../../assets/icons/like.svg";
 import bookmark from "../../assets/icons/bookmark.svg";
 import connection from "../../assets/icons/connection.svg";
+import like from "../../assets/icons/like.svg";
+import thumbnail from "../../assets/images/image 36.png";
+import NewsSimpleInfo from "./NewsSimpleInfo";
 
 export default function NewsSimpleInfos({
   tab,
@@ -12,7 +12,7 @@ export default function NewsSimpleInfos({
   dates: number[];
 }) {
   return (
-    <div className={`${tab ? "" : "hidden"} font-sofiaSans`}>
+    <div className={`${tab ? "" : "hidden"} font-pretendard`}>
       <div className="w-[1130px] h-[311px]  mb-[50px] flex ">
         <img
           src={thumbnail}

@@ -26,13 +26,13 @@ const Category = () => {
 
   return (
     <div className="w-full border text-gray-400 rounded-md p-4 text-left">
-      <div className="text-blue03 font-extrabold text-lg p-2 font-sofiaSans">
+      <div className="text-blue03 font-extrabold text-lg p-2 font-pretendard">
         카테고리
       </div>
       {categories.map((category) => (
         <div
           key={category.path}
-          className="p-2 text-gray-500 font-bold font-sofiaSans hover:cursor-pointer hover:text-blue03 transition-colors"
+          className="p-2 text-gray-500 font-bold font-pretendard hover:cursor-pointer hover:text-blue03 transition-colors"
           onClick={() => handleNavigate(category.path)}
         >
           {category.name}

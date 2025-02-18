@@ -5,12 +5,12 @@ import RootLayout from "./layouts/RootLayout";
 import DebateRooms from "./pages/DebateRooms";
 import Debaters from "./pages/Debaters";
 import DebateZone from "./pages/DebateZone";
+import Login from "./pages/Login";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
-import ObservingZone from "./pages/ObservingZone"; // 관람하는 페이지 컴포넌트 추가
-import Login from "./pages/Login";
+import ObservingZone from "./pages/ObservingZone";
 
 function App() {
   return (

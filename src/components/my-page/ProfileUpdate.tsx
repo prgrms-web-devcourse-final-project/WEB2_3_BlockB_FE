@@ -1,10 +1,10 @@
-import Header from "../common/Header";
+import { Link } from "react-router";
 import avatar from "../../assets/icons/avatar.svg";
 import edit from "../../assets/icons/edit.svg";
-import { Link } from "react-router";
+import Header from "../common/Header";
 export default function ProfileUpdate() {
   return (
-    <div>
+    <div className="font-pretendard">
       <Header status="default" />
       <div className="flex justify-center mt-[122px]">
         <div className="w-[500px] h-[500px]  flex flex-col justify-between">

@@ -27,7 +27,7 @@ export default function WaitingInfoDrodown({
   return (
     <div>
       {/* 드롭다운전 */}
-      <div className="text-white w-72 h-10 px-4 py-2 bg-neutral-50/50 rounded-lg border border-white01  flex justify-between font-bold z-50 font-sofiaSans ">
+      <div className="text-white w-72 h-10 px-4 py-2 bg-neutral-50/50 rounded-lg border border-white01  flex justify-between font-bold z-50 font-pretendard ">
         <div className="flex gap-[10px]">
           <p className="w-auto">{isWaiting ? "대기중" : "대기완료"}</p>
           <p className="w-[56px]">

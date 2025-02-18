@@ -1,8 +1,8 @@
-import Footer from "../components/common/Footer";
-import logo from "../assets/icons/logo.svg";
 import google from "../assets/icons/google.svg";
 import kakao from "../assets/icons/kakao.svg";
+import logo from "../assets/icons/logo.svg";
 import naver from "../assets/icons/naver.svg";
+import Footer from "../components/common/Footer";
 export default function Login() {
   return (
     <div className="h-screen flex flex-col justify-between bg-gray-50">
@@ -18,7 +18,7 @@ export default function Login() {
           </div>
 
           {/* 로그인 버튼들 */}
-          <div className="space-y-3 font-sofiaSans">
+          <div className="space-y-3 font-pretendard">
             <button className="flex items-center w-full py-3 bg-white border border-gray-300 rounded-md shadow-sm text-gray-700 font-medium relative">
               <img
                 src={google}
