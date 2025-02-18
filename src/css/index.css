@@ -1,2 +1,13 @@
 @import "./tailwind.css";
 @import "./fonts.css";
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+html,
+body {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
