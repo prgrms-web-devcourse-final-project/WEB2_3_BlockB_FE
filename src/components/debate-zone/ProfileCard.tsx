@@ -17,9 +17,9 @@ export default function ProfileCard({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
     <div
-      className={`flex w-[280px] justify-between h-auto px-[10px] py-[8px] bg-neutral-50/50 rounded-lg animate-flip ${
+      className={`flex w-[280px] justify-between h-auto px-[10px] py-[8px] bg-neutral-50/50 rounded-lg  text-white animate-flip ${
         color === "blue" &&
-        "bg-sky-950/50 shadow:0px 1px 10px rgb(0 96 240 /1.00) border border-neutral-50/50 text-white "
+        "bg-sky-950/50 shadow:0px 1px 10px rgb(0 96 240 /1.00) border border-neutral-50/50 "
       }`}
       style={
         color === "blue"
@@ -53,41 +53,6 @@ export default function ProfileCard({
           </div>
         </div>
       </div>
-
-      {hasReportBtn && (
-        <div className="relative">
-          <button onClick={() => setIsModalOpen(true)}>
-            <img
-              src={color === "blue" ? flagWhite : flag}
-              alt="신고하기 열기"
-            />
-          </button>
-        </div>
-      )}
-      {isModalOpen && <ReportModal setIsModalOpen={setIsModalOpen} />}
-      <div className="flex gap-[21px]">
-        <figure className="rounded-full">
-          <img src={profile} alt="" className="w-[54px] h-[54px]" />
-        </figure>
-        <div className="flex flex-col">
-          <p>imaria0218</p>
-          <div className="flex gap-[10px]">
-            <figure className="flex items-center rounded-full">
-              <img src={win} alt="" className="w-[22px] h-[22px] mr-2" />
-              <figcaption>5</figcaption>
-            </figure>
-            <figure className="flex items-center rounded-full">
-              <img src={duse} alt="" className="w-[22px] h-[22px] mr-2" />
-              <figcaption>3</figcaption>
-            </figure>
-            <figure className="flex items-center rounded-full">
-              <img src={lose} alt="" className="w-[22px] h-[22px] mr-2" />
-              <figcaption>0</figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-
       {hasReportBtn && (
         <div className="relative">
           <button onClick={() => setIsModalOpen(true)}>

@@ -21,7 +21,7 @@ export default function MessageSection() {
   }, [messages]);
 
   return (
-    <div className="w-full h-full flex flex-col pb-[30px] pt-[20px]">
+    <div className="w-full h-full flex flex-col pb-[30px] pt-[20px] font-pretendard">
       {/* 메시지 목록 */}
       <div className="flex-1 overflow-y-auto p-4 space-y-[10px]">
         {messages.map((message, index) => (

@@ -17,6 +17,7 @@ export default function OngoingDebate() {
   const { roomSettings } = useRoomStore();
   const [turnCount, setTurnCount] = useState(roomSettings.turn!);
   const [timerCount, setTimerCount] = useState(roomSettings.time!);
+  const { setRoomState } = useRoomStore();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,7 +56,7 @@ export default function OngoingDebate() {
               color="blue"
               hasReportBtn={true}
             />
-            <section className="flex flex-col font-jersey gap-[10px] text-white font-bold mt-[50px] ml-[20px] animate-slide-up">
+            <section className="flex flex-col font-jersey gap-[10px] text-white  mt-[50px] ml-[20px] animate-slide-up">
               <p>audience</p>
               <AudienceCard profile={profile} nickname="imaria0219" />
               <AudienceCard profile={profile} nickname="imaria0219" />
@@ -63,6 +64,14 @@ export default function OngoingDebate() {
               <AudienceCard profile={profile} nickname="imaria0219" />
               <AudienceCard profile={profile} nickname="imaria0219" />
             </section>
+            <button
+              onClick={() => {
+                setRoomState("voting");
+              }}
+              className="text-white"
+            >
+              임시 다음 버튼
+            </button>
           </div>
         </section>
       )}
