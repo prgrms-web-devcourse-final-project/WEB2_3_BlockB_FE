@@ -6,7 +6,7 @@ import RoomActionButtons from "../RoomActionButtons";
 export default function ReportModal({
   setIsModalOpen,
 }: {
-  setIsModalOpen: (boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
 }) {
   const [reportReasons, setReportReasons] = useState(initialReportReasons);
   const [hasCompleted, setHasCompleted] = useState(false);
