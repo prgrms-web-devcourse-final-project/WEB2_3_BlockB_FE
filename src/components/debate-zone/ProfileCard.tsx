@@ -64,6 +64,40 @@ export default function ProfileCard({
           </button>
         </div>
       )}
+      {isModalOpen && <ReportModal setIsModalOpen={setIsModalOpen} />}
+      <div className="flex gap-[21px]">
+        <figure className="rounded-full">
+          <img src={profile} alt="" className="w-[54px] h-[54px]" />
+        </figure>
+        <div className="flex flex-col">
+          <p>imaria0218</p>
+          <div className="flex gap-[10px]">
+            <figure className="flex items-center rounded-full">
+              <img src={win} alt="" className="w-[22px] h-[22px] mr-2" />
+              <figcaption>5</figcaption>
+            </figure>
+            <figure className="flex items-center rounded-full">
+              <img src={duse} alt="" className="w-[22px] h-[22px] mr-2" />
+              <figcaption>3</figcaption>
+            </figure>
+            <figure className="flex items-center rounded-full">
+              <img src={lose} alt="" className="w-[22px] h-[22px] mr-2" />
+              <figcaption>0</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      {hasReportBtn && (
+        <div className="relative">
+          <button onClick={() => setIsModalOpen(true)}>
+            <img
+              src={color === "blue" ? flagWhite : flag}
+              alt="신고하기 열기"
+            />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
