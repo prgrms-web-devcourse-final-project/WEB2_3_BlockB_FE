@@ -26,10 +26,10 @@ export default function Header({
         className="flex w-[491px] h-[53px] justify-between items-center
       "
       >
-        <Link to={"/"}>
+        <Link to={"/main"}>
           <img src={status === "debate-waiting" ? logoWhite : logo} />
         </Link>
-        <div className="flex w-[386px] h-[29px] justify-between text-[24px] items-center font-sofiaSans">
+        <div className="flex w-[386px] h-[29px] justify-between text-[24px] items-center font-sofiaSans text-black01">
           <Link to={"/news"}>News</Link>
           <Link to={"/debate-rooms"}>Debate Rooms</Link>
           <Link to={"/debaters"}>Debaters</Link>
@@ -48,7 +48,7 @@ export default function Header({
             alt="프로필 사진"
           />
         </Link>
-        <Link to={"/my-page"} className="sofia-sans">
+        <Link to={"/my-page"} className="font-sofiaSans">
           <div>Name</div>
         </Link>
       </div>

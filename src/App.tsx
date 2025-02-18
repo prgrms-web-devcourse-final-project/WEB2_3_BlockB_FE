@@ -9,14 +9,15 @@ import Debaters from "./pages/Debaters";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import News from "./pages/News";
-
+import NewsDetail from "./pages/NewsDetail";
 function App() {
   return (
     <>
       <Routes>
         <Route element={<RootLayout />}>
-          <Route path="/" element={<Main />} />
+          <Route path="/main" element={<Main />} />
           <Route path="/news" element={<News />} />
+          <Route path="/news/:newsId" element={<NewsDetail />} />
           <Route path="/debate-rooms" element={<DebateRooms />} />
           <Route path="/my-page" element={<MyPage />} />
           <Route path="/debaters" element={<Debaters />} />
