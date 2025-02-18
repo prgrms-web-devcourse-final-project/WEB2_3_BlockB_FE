@@ -1,17 +1,16 @@
-import "./css/index.css";
-
 import { Route, Routes } from "react-router";
-
+import ProfileUpdate from "./components/my-page/ProfileUpdate";
+import "./css/index.css";
 import RootLayout from "./layouts/RootLayout";
 import DebateRooms from "./pages/DebateRooms";
-import DebateZone from "./pages/DebateZone";
 import Debaters from "./pages/Debaters";
+import DebateZone from "./pages/DebateZone";
+import Login from "./pages/Login";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
-import ProfileUpdate from "./components/my-page/ProfileUpdate";
-import Login from "./pages/Login";
+import ObservingZone from "./pages/ObservingZone";
 
 function App() {
   return (
@@ -25,7 +24,8 @@ function App() {
           <Route path="/my-page" element={<MyPage />} />
           <Route path="/debaters" element={<Debaters />} />
         </Route>
-        <Route path="/debate-zone" element={<DebateZone />} />
+        <Route path="/debate-zone/:debateId" element={<DebateZone />} />
+        <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
         <Route path="/profile-update" element={<ProfileUpdate />} />
         <Route path="/login" element={<Login />} />
         {/* 헤더 내 분류 */}

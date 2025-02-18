@@ -6,7 +6,7 @@ export default function TurnProgress() {
   return (
     <div className="w-full flex justify-center ">
       <div className="flex items-center w-auto h-7 bg-neutral-50/30 rounded-bl-2xl rounded-br-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] border-x border-zinc-100 px-[20px] py-[15px] gap-[10px]">
-        <p className="text-white font-bold font-jersey text-[14px]">
+        <p className="text-white font-jersey text-[14px]">
           <span className="mr-1">Total</span>
           <span>01:21</span>
         </p>

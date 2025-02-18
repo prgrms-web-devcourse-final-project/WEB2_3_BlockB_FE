@@ -5,7 +5,7 @@ export default function DebateTab({ tab }: { tab: string }) {
   const [filter, setFilter] = useState(true);
   return (
     <div className={`${tab === "debate" ? "" : "hidden"}`}>
-      <div className="flex text-[20px] mb-[30px] font-sofiaSans">
+      <div className="flex text-[20px] mb-[30px] font-pretendard">
         <button
           onClick={() => {
             setFilter(true);

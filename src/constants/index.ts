@@ -138,3 +138,12 @@ switch (dates.getDay()) {
     day = "Sun";
     break;
 }
+
+export const reportReasons: ChecklistItem[] = [
+  { dbKey: "sexual", key: "음란성/선정성", isChecked: false },
+  { dbKey: "spam", key: "스팸/광고", isChecked: false },
+  { dbKey: "abuse", key: "욕설/인신공격", isChecked: false },
+  { dbKey: "flooding", key: "도배", isChecked: false },
+  { dbKey: "privacy", key: "개인정보 노출", isChecked: false },
+  { dbKey: "ragequit", key: "사유 없는 탈주", isChecked: false },
+];

@@ -1,10 +1,10 @@
-import thumbnail from "../../assets/images/image 36.png";
-import like from "../../assets/icons/like.svg";
 import bookmark from "../../assets/icons/bookmark.svg";
 import connection from "../../assets/icons/connection.svg";
+import like from "../../assets/icons/like.svg";
+import thumbnail from "../../assets/images/image 36.png";
 export default function NewsSimpleInfo({ date }: { date: number }) {
   return (
-    <div className="w-[356px] h-[478px]  flex flex-col justify-between text-[sofiaSans]">
+    <div className="w-[356px] h-[478px]  flex flex-col justify-between font-pretendard">
       <img
         src={thumbnail}
         alt="썸네일"

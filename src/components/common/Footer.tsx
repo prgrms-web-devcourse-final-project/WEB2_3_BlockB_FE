@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-gray-100 py-6 text-center">
       {/* 네비게이션 링크 */}
-      <nav className="flex justify-center space-x-8 text-black font-sofiaSans">
+      <nav className="flex justify-center space-x-8 text-gray01 font-sofiaSans">
         <a href="/about" className="hover:underline">
           about
         </a>
@@ -28,7 +28,7 @@ export default function Footer() {
       </nav>
 
       {/* 저작권 문구 */}
-      <p className="mt-4 text-lg text-black font-unifrakturCook">
+      <p className="mt-4 text-lg text-gray01 font-unifrakturCook">
         copyright | website made by team BlockB
       </p>
     </footer>

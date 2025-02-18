@@ -17,12 +17,16 @@ export default function OngoingDebate() {
   const { roomSettings } = useRoomStore();
   const [turnCount, setTurnCount] = useState(roomSettings.turn!);
   const [timerCount, setTimerCount] = useState(roomSettings.time!);
+  const { setRoomState } = useRoomStore();
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setTimerCount((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
+
   return (
     <>
       {isLoading ? (
@@ -34,7 +38,11 @@ export default function OngoingDebate() {
       ) : (
         <section className="flex justify-between px-[30px] py-[20px]">
           <div className="mt-[117px]">
-            <ParticipantBox label="PROS" labelAlignment="start" />
+            <ParticipantBox
+              label="PROS"
+              labelAlignment="start"
+              hasReportBtn={true}
+            />
           </div>
           <ChatWindow />
           <div>
@@ -42,8 +50,13 @@ export default function OngoingDebate() {
               <Counter label="TURN" boxNumber={2} count={turnCount} />
               <Counter label="TIMER" boxNumber={3} count={timerCount} />
             </div>
-            <ParticipantBox label="CONS" labelAlignment="end" color="blue" />
-            <section className="flex flex-col font-jersey gap-[10px] text-white font-bold mt-[50px] ml-[20px]">
+            <ParticipantBox
+              label="CONS"
+              labelAlignment="end"
+              color="blue"
+              hasReportBtn={true}
+            />
+            <section className="flex flex-col font-jersey gap-[10px] text-white  mt-[50px] ml-[20px] animate-slide-up">
               <p>audience</p>
               <AudienceCard profile={profile} nickname="imaria0219" />
               <AudienceCard profile={profile} nickname="imaria0219" />
@@ -51,6 +64,14 @@ export default function OngoingDebate() {
               <AudienceCard profile={profile} nickname="imaria0219" />
               <AudienceCard profile={profile} nickname="imaria0219" />
             </section>
+            <button
+              onClick={() => {
+                setRoomState("voting");
+              }}
+              className="text-white"
+            >
+              임시 다음 버튼
+            </button>
           </div>
         </section>
       )}

@@ -6,7 +6,7 @@ export default function AudienceCard({
   nickname: string;
 }) {
   return (
-    <figure className="flex gap-[10px]">
+    <figure className="flex gap-[10px] ">
       <img src={profile} />
       <figcaption>{nickname}</figcaption>
     </figure>
