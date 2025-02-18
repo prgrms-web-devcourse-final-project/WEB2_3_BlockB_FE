@@ -10,6 +10,8 @@ import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
+import ProfileUpdate from "./components/my-page/ProfileUpdate";
+
 function App() {
   return (
     <>
@@ -23,7 +25,7 @@ function App() {
           <Route path="/debaters" element={<Debaters />} />
         </Route>
         <Route path="/debate-zone" element={<DebateZone />} />
-
+        <Route path="/profile-update" element={<ProfileUpdate />} />
         {/* 헤더 내 분류 */}
       </Routes>
     </>
