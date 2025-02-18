@@ -17,7 +17,7 @@ export default function ProfileCard({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
     <div
-      className={`relative flex justify-between w-[280px] h-auto px-[10px] py-[8px] bg-neutral-50/50 rounded-lg animate-flip ${
+      className={`flex w-[280px] justify-between h-auto px-[10px] py-[8px] bg-neutral-50/50 rounded-lg animate-flip ${
         color === "blue" &&
         "bg-sky-950/50 shadow:0px 1px 10px rgb(0 96 240 /1.00) border border-neutral-50/50 text-white "
       }`}
