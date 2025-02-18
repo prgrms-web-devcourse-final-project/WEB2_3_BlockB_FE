@@ -8,7 +8,7 @@ export default function Main() {
 
   return (
     <>
-      <div className="flex justify-center text-black01">
+      <div className="flex justify-center text-black01 mb-[210px]">
         <div className="w-[1128px]">
           <div className="w-full h-[109px]  flex justify-between items-center mt-[30px] mb-[56px]">
             <div className="text-[90px] font-unifrakturCook">
