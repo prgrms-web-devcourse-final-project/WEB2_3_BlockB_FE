@@ -1,14 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import profile from "../../../assets/icons/profile.svg";
+import { useRoomStore } from "../../../stores/roomStateStore";
 import ParticipantBox from "../ParticipantBox";
+import AudienceCard from "./../AudienceCard";
+import ChatWindow from "./ChatWindow";
 import Counter from "./Counter";
 
 export default function OngoingDebate() {
-  const [isLoading, setIsLoading] = useState(false);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-  // }, []);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+  const { roomSettings } = useRoomStore();
+  const [turnCount, setTurnCount] = useState(roomSettings.turn!);
+  const [timerCount, setTimerCount] = useState(roomSettings.time!);
+
+  useEffect(() => {
+    setInterval(() => {
+      setTimerCount((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+  }, []);
   return (
     <>
       {isLoading ? (
@@ -19,17 +33,24 @@ export default function OngoingDebate() {
         </section>
       ) : (
         <section className="flex justify-between px-[30px] py-[20px]">
-          <div className="mt-[140px]">
+          <div className="mt-[117px]">
             <ParticipantBox label="PROS" labelAlignment="start" />
           </div>
-          <section className="w-[590px] h-[700px] relative bg-neutral-50/30 rounded-lg shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] border border-neutral-50"></section>
+          <ChatWindow />
           <div>
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
-              <Counter label="TURN" boxNumber={2} count={10} />
-              <Counter label="TIMER" boxNumber={3} count={9} />
+              <Counter label="TURN" boxNumber={2} count={turnCount} />
+              <Counter label="TIMER" boxNumber={3} count={timerCount} />
             </div>
             <ParticipantBox label="CONS" labelAlignment="end" color="blue" />
-            <div></div>
+            <section className="flex flex-col font-jersey gap-[10px] text-white font-bold mt-[50px] ml-[20px]">
+              <p>audience</p>
+              <AudienceCard profile={profile} nickname="imaria0219" />
+              <AudienceCard profile={profile} nickname="imaria0219" />
+              <AudienceCard profile={profile} nickname="imaria0219" />
+              <AudienceCard profile={profile} nickname="imaria0219" />
+              <AudienceCard profile={profile} nickname="imaria0219" />
+            </section>
           </div>
         </section>
       )}

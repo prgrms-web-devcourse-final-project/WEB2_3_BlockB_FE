@@ -24,7 +24,6 @@ export default function DebateZone() {
 
   return (
     <div className="bg-[#070707] min-h-screen overflow-hidden">
-      <div className="text-white font-jersey">timer</div>
       <Header status={headerStatus} />
       {roomState === "generating" && <GeneratingRoom />}
       {roomState === "waiting" && <WaitingRoom />}
