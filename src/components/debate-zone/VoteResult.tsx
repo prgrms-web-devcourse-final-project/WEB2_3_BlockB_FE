@@ -38,12 +38,11 @@ export default function VoteResult({ isObserver }: { isObserver: boolean }) {
           </button>
           <button
             onClick={() => {
-              navigate("/main");
+              navigate("/debate-rooms");
             }}
             className="font-pretendard text-white border-b "
           >
             다른 토론방 구경하기
-            {/* 현재 라우팅이 안 되어 있어 일단 main으로 라우팅했습니다 */}
           </button>
         </div>
       </section>
