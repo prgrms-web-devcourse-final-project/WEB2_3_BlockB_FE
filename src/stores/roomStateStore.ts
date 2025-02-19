@@ -1,6 +1,13 @@
 import { create } from "zustand";
 
-type RoomState = "generating" | "waiting" | "ongoing" | "voting" | "result";
+type RoomState =
+  | "generating"
+  | "waiting"
+  | "ongoing"
+  | "won-by-default"
+  | "voting"
+  | "replay"
+  | "result";
 
 interface RoomStateStore {
   roomState: RoomState;

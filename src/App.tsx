@@ -1,16 +1,18 @@
-import { Route, Routes } from "react-router";
-import ProfileUpdate from "./components/my-page/ProfileUpdate";
 import "./css/index.css";
-import RootLayout from "./layouts/RootLayout";
+
+import { Route, Routes } from "react-router";
+
 import DebateRooms from "./pages/DebateRooms";
-import Debaters from "./pages/Debaters";
 import DebateZone from "./pages/DebateZone";
+import Debaters from "./pages/Debaters";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import ObservingZone from "./pages/ObservingZone";
+import ProfileUpdate from "./components/my-page/ProfileUpdate";
+import RootLayout from "./layouts/RootLayout";
 
 function App() {
   return (
@@ -28,7 +30,6 @@ function App() {
         <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
         <Route path="/profile-update" element={<ProfileUpdate />} />
         <Route path="/login" element={<Login />} />
-        {/* 헤더 내 분류 */}
       </Routes>
     </>
   );
