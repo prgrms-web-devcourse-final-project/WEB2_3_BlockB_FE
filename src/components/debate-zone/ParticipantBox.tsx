@@ -15,9 +15,12 @@ export default function ParticipantBox({
     <div className="w-[280px] font-jersey">
       <div className={`flex justify-${labelAlignment} mb-[10px]`}>
         <p
-          className={`text-white text-[24px] ${
-            color === "blue" && "text-shadow:_0px_1px_10px_rgb(0_96_240_/_1.00)"
-          }`}
+          className="text-white text-[24px] "
+          style={
+            color === "blue"
+              ? { textShadow: "0px 1px 10px rgba(0, 96, 240, 1.00)" }
+              : {}
+          }
         >
           {label}
         </p>
