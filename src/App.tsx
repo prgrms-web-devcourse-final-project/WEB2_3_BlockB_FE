@@ -14,12 +14,14 @@ import ObservingZone from "./pages/ObservingZone";
 import ProfileUpdate from "./components/my-page/ProfileUpdate";
 import RootLayout from "./layouts/RootLayout";
 import Admin from "./pages/Admin";
+import Landing from "./pages/Landing";
 
 function App() {
   return (
     <>
       <Routes>
         <Route element={<RootLayout />}>
+          <Route path="/" element={<Landing />} />
           <Route path="/main" element={<Main />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:newsId" element={<NewsDetail />} />
