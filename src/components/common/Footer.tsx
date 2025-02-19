@@ -1,8 +1,16 @@
-export default function Footer() {
+export default function Footer({ status }: { status: "default" | "landing" }) {
   return (
-    <footer className="w-full bg-gray-100 py-6 text-center">
+    <footer
+      className={`${
+        status === "default" ? "bg-gray-100" : "bg-black01"
+      } w-full py-6 text-center`}
+    >
       {/* 네비게이션 링크 */}
-      <nav className="flex justify-center space-x-8 text-gray01 font-sofiaSans">
+      <nav
+        className={`${
+          status === "default" ? "text-gray01" : "text-white"
+        } flex justify-center space-x-8 font-sofiaSans`}
+      >
         <a href="/about" className="hover:underline">
           about
         </a>
@@ -28,7 +36,11 @@ export default function Footer() {
       </nav>
 
       {/* 저작권 문구 */}
-      <p className="mt-4 text-lg text-gray01 font-unifrakturCook">
+      <p
+        className={`${
+          status === "default" ? "text-gray01" : "text-white"
+        } mt-4 text-lg font-unifrakturCook`}
+      >
         copyright | website made by team BlockB
       </p>
     </footer>

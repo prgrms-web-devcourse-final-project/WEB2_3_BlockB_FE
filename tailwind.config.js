@@ -49,6 +49,7 @@ export default {
       },
       animation: {
         "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "ping-one": "ping 3s cubic-bezier(0, 0, 0.2, 2) ",
         "slide-down": "slideDown 1s ease-out",
         "slide-up": "slideUp 2s ease-in-out",
         "fade-scale": "fadeScale 0.3s ease-out",
