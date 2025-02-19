@@ -1,8 +1,19 @@
 import { useRoomStore } from "../../stores/roomStateStore";
+import { useObservingStore } from "./../../stores/observingStateStore";
 import ParticipantBox from "./ParticipantBox";
 
-export default function VoteRoom() {
+export default function VoteRoom({
+  isObserver = false,
+}: {
+  isObserver?: boolean;
+}) {
   const { setRoomState } = useRoomStore();
+  const { setObservingState } = useObservingStore();
+
+  const moveState = (stage: "replay" | "result") => {
+    if (isObserver) setObservingState(stage);
+    else setRoomState(stage);
+  };
   const btnClass =
     "w-[46px] h-[30px] px-[10px] py-[4px] bg-white text-black01 text-[14px] font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
   return (
@@ -17,27 +28,27 @@ export default function VoteRoom() {
         <section className="flex items-center gap-[26px]">
           <div className="flex flex-col items-center gap-[26px]">
             <ParticipantBox label="PROS" labelAlignment="center" />
-            <button className={btnClass}>투표</button>
+            <button onClick={() => moveState("result")} className={btnClass}>
+              투표
+            </button>
           </div>
           <p className="text-white font-bold text-[24px] font-jersey">vs</p>
           <div className="flex flex-col items-center gap-[26px]">
             <ParticipantBox label="CONS" color="blue" labelAlignment="center" />
-            <button className={btnClass}>투표</button>
+            <button onClick={() => moveState("result")} className={btnClass}>
+              투표
+            </button>
           </div>
         </section>
         <div className="w-full flex justify-between mt-[60px]">
           <button
-            onClick={() => {
-              setRoomState("replay");
-            }}
+            onClick={() => moveState("replay")}
             className="font-pretendard text-white border-b  "
           >
             토론 다시보기
           </button>
           <button
-            onClick={() => {
-              setRoomState("result");
-            }}
+            onClick={() => moveState("result")}
             className="font-pretendard text-white border-b "
           >
             기권하기

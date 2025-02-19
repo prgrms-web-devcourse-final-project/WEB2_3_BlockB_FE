@@ -1,7 +1,7 @@
-import profile from "../../../assets/icons/profile-white.svg";
+import ParticipantBox from "./../ParticipantBox";
 import { useWaveAnimation } from "../../../hooks/useWaveAnimation";
 
-export default function MatchingInterface({
+export default function ObserverMatchingInterface({
   isWaiting,
 }: {
   isWaiting: boolean;
@@ -13,20 +13,14 @@ export default function MatchingInterface({
     "border-neutral-50/50",
     "border-neutral-50/30",
   ];
-
   return (
-    <div className="absolute top-[250px] left-1/2 transform -translate-x-1/2 text-white">
+    <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 text-white flex flex-col justify-center">
       <div className="relative flex flex-wrap w-[153px] justify-center gap-[10px]">
-        {/* 프로필 이미지 */}
-        {[...Array(3)].map((_, i) => (
-          <figure key={i} className="relative rounded-full">
-            <img
-              src={profile}
-              alt="프로필이미지"
-              className="w-[70px] h-[70px]"
-            />
-          </figure>
-        ))}
+        <div className="relative flex gap-[26px] items-center">
+          <ParticipantBox label="PROS" />
+          <p className="font-jersey text-[24px]">vs</p>
+          <ParticipantBox label="CONS" />
+        </div>
         {/* 파동 애니메이션 요소 */}
         {isWaiting &&
           waveStyles.map((style, i) => (
@@ -41,6 +35,9 @@ export default function MatchingInterface({
             ></div>
           ))}
       </div>
+      <p className="w-full font-pretendard text-center font-bold text-[20px] mt-[50px]">
+        매칭이 끝나면 <br /> 토론이 시작합니다
+      </p>
     </div>
   );
 }

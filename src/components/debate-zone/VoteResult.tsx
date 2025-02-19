@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useObservingStore } from "../../stores/observingStateStore";
 import { useRoomStore } from "../../stores/roomStateStore";
 import ResultGraph from "./ongoing-debate/ResultGraph";
 
-export default function VoteResult() {
+export default function VoteResult({ isObserver }: { isObserver: boolean }) {
   const { setRoomState } = useRoomStore();
+  const { setObservingState } = useObservingStore();
   const navigate = useNavigate();
   const [isWatingResult, setIsWaitingResult] = useState(false);
   return (
@@ -27,6 +29,7 @@ export default function VoteResult() {
         <div className="w-full flex justify-between mt-[60px]">
           <button
             onClick={() => {
+              if (isObserver) setObservingState("replay");
               setRoomState("replay");
             }}
             className="font-pretendard text-white border-b  "
@@ -35,12 +38,11 @@ export default function VoteResult() {
           </button>
           <button
             onClick={() => {
-              navigate("/main");
+              navigate("/debate-rooms");
             }}
             className="font-pretendard text-white border-b "
           >
             다른 토론방 구경하기
-            {/* 현재 라우팅이 안 되어 있어 일단 main으로 라우팅했습니다 */}
           </button>
         </div>
       </section>

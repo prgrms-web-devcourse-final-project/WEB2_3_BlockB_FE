@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import NotificationList from "../notification/NotificationList";
 import logoWhite from "../../assets/icons/logo-white.png";
 import logo from "../../assets/icons/logo.svg";
 import notificationWhite from "../../assets/icons/notification-white.svg";
 import notification from "../../assets/icons/notification.svg";
 import profileWhite from "../../assets/icons/profile-white.svg";
 import profile from "../../assets/icons/profile.svg";
+import NotificationList from "../notification/NotificationList";
 
 export default function Header({
   status,
@@ -14,15 +14,17 @@ export default function Header({
   status: "default" | "debate-waiting" | "debate-ing" | "admin";
 }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   if (status === "debate-ing") {
     return null;
   }
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   return (
     <div
-      className={`w-full h-[80px] flex px-[40px] border-b border-gray03 shadow-md justify-between items-center ${
-        status === "debate-waiting" ? "text-white" : "bg-white"
+      className={`w-full h-[80px] flex px-[40px] shadow-md justify-between items-center ${
+        status === "debate-waiting"
+          ? "text-white"
+          : "bg-white  border-b border-gray03 "
       }`}
     >
       <div
