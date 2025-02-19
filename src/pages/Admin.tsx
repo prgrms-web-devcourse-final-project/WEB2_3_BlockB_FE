@@ -25,42 +25,36 @@ export default function Admin() {
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
-      action: "처리하기",
     },
     {
       reson: "스팸/광고",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
-      action: "처리하기",
     },
     {
       reson: "욕설/인신공격",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
-      action: "처리하기",
     },
     {
       reson: "도배",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
-      action: "처리하기",
     },
     {
       reson: "개인정보 노출",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
-      action: "처리하기",
     },
     {
       reson: "사유없는 탈주",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
-      action: "처리하기",
     },
   ];
 
@@ -71,7 +65,6 @@ export default function Admin() {
       admin: "차도기",
       reason: "음란/선정성",
       date: "2025-02-13",
-      action: "변경하기",
     },
     {
       option: "경고",
@@ -79,7 +72,6 @@ export default function Admin() {
       admin: "차도기",
       reason: "음란/선정성",
       date: "2025-02-13",
-      action: "변경하기",
     },
     {
       option: "경고",
@@ -87,7 +79,6 @@ export default function Admin() {
       admin: "차도기",
       reason: "음란/선정성",
       date: "2025-02-13",
-      action: "변경하기",
     },
     {
       option: "경고",
@@ -95,7 +86,6 @@ export default function Admin() {
       admin: "차도기",
       reason: "음란/선정성",
       date: "2025-02-13",
-      action: "변경하기",
     },
     {
       option: "경고",
@@ -103,7 +93,6 @@ export default function Admin() {
       admin: "차도기",
       reason: "음란/선정성",
       date: "2025-02-13",
-      action: "변경하기",
     },
     {
       option: "경고",
@@ -111,7 +100,6 @@ export default function Admin() {
       admin: "차도기",
       reason: "음란/선정성",
       date: "2025-02-13",
-      action: "변경하기",
     },
   ];
 

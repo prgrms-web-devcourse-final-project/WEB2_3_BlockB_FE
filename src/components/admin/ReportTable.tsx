@@ -18,7 +18,6 @@ export default function ReportTable({
     reporter: string;
     name: string;
     date: string;
-    action: string;
   }[];
   unHeaders: string[];
   unBodys: {
@@ -27,7 +26,6 @@ export default function ReportTable({
     admin: string;
     reason: string;
     date: string;
-    action: string;
   }[];
   check: boolean;
   onCheck: (value: boolean) => void;
@@ -79,7 +77,7 @@ export default function ReportTable({
                 }}
                 className="w-20 h-9 rounded-[10px] bg-blue05 text-white"
               >
-                {body.action}
+                처리하기
               </button>
             </td>
           </tr>
@@ -116,7 +114,7 @@ export default function ReportTable({
                   onEdit(!edit);
                 }}
               >
-                {body.action}
+                변경하기
               </button>
             </td>
           </tr>
