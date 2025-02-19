@@ -8,11 +8,7 @@ import profileWhite from "../../assets/icons/profile-white.svg";
 import profile from "../../assets/icons/profile.svg";
 import NotificationList from "../notification/NotificationList";
 
-export default function Header({
-  status,
-}: {
-  status: "default" | "debate-waiting" | "debate-ing" | "admin" | "landing";
-}) {
+export default function Header({ status }: { status: HeaderStatusType }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   if (status === "debate-ing") {
