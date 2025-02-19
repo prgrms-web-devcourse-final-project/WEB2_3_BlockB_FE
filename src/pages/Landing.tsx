@@ -1,4 +1,5 @@
 import mouse from "../assets/icons/mouse.svg";
+import moveDown from "../assets/icons/move-down.svg";
 import debateScreenshot from "../assets/images/debate screenshot.svg";
 import newsTop10Screenshot from "../assets/images/news top10 screenshot.svg";
 import debateTop10Screenshot from "../assets/images/debate top 10 screenshot.svg";
@@ -13,18 +14,18 @@ export default function Landing() {
           <p className="text-[40px] text-gray02">Think Deep, Speak Clear</p>
         </div>
 
-        <div className="w-[1002px] h-[673px]">
+        <div className="w-[1002px] h-[673px] relative ">
           <div className=" w-[1002px] h-[673px] bg-gradient-to-b from-[#0D1B35] to-[#02050B] rounded-[300px]  flex justify-center items-center  ">
             <div className="w-[878px] h-[621px] bg-gradient-to-b from-[#132D5D] to-[#070F20] rounded-[300px] flex justify-center items-center">
               <div className="w-[768px] h-[519px] bg-gradient-to-b from-[#1B3E7E] to-[#0D1D3D] rounded-[300px] flex justify-center items-center  ">
                 <div className="w-[650px] h-[420px] bg-gradient-to-b from-[#4E87E0] to-blue01 rounded-[300px] flex justify-center items-center">
                   <div className="w-[545px] h-[332px] bg-gradient-to-b from-[#639DF7] to-[#1E5BB8] rounded-[300px] flex justify-center items-center">
                     <div className="w-[414px] h-[238px] bg-gradient-to-b  from-blue09 to-game_blue01 rounded-[300px] flex justify-center items-center">
-                      <div className="w-[308px] h-[138px] bg-gradient-to-b from-[#BDD5FF] to-[#5A98F7] rounded-[300px] flex justify-center items-center">
-                        <button className="w-[203px] h-[58px] bg-white text-black text-[18px] font-bold font-pretendard flex justify-center items-center rounded-[300px] ">
-                          토론하러 가기
-                        </button>
-                      </div>
+                      <div className="w-[308px] h-[138px] bg-gradient-to-b from-[#BDD5FF] to-[#5A98F7] rounded-[300px] flex justify-center items-center"></div>
+                      <div className="w-[1002px] h-[673px] absolute z-10 bg-gradient-to-b from-black01 to-[#070707] opacity-50"></div>
+                      <button className="absolute z-20 w-[203px] h-[58px] bg-white text-black text-[18px] font-bold font-pretendard flex justify-center items-center rounded-[300px]  ">
+                        토론하러 가기
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -34,7 +35,14 @@ export default function Landing() {
         </div>
       </div>
       <div className="flex flex-col items-center  text-[20px]">
-        <img src={mouse} alt="마우스 스크롤 아이콘" className="w-11 h-9" />
+        <div className="relative flex w-11 h-9">
+          <img src={mouse} alt="마우스 아이콘" className="absoulte w-9 h-9" />
+          <img
+            src={moveDown}
+            alt="화살표 아래 아이콘"
+            className="absolute w-6 h-6 mt-2 ml-6 animate-bounce "
+          />
+        </div>
         <p>scroll and browser</p>
         <p>our services</p>
       </div>
