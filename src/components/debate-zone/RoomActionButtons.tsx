@@ -11,7 +11,7 @@ export default function RoomActionButtons({
   cancelColor: string;
   confirmColor: string;
   confirmText: string;
-  hasCompleted: boolean;
+  hasCompleted?: boolean;
 }) {
   return (
     <div className="text-[14px] flex gap-[10px] font-bold">
