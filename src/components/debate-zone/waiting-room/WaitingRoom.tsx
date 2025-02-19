@@ -31,13 +31,13 @@ export default function WaitingRoom() {
           clearInterval(interval);
         };
     }
-  }, [isWaiting]);
+  }, [isWaiting, countDown]);
 
   useEffect(() => {
     if (countDown === 0) {
       setRoomState("ongoing");
     }
-  }, [countDown]);
+  }, [countDown, setRoomState]);
 
   return (
     <section className="px-[40px] flex flex-col gap-[250px] relative">

@@ -5,7 +5,7 @@ import profile from "../../assets/icons/profile-white.svg";
 import MessageItem from "./ongoing-debate/MessageItem";
 import VoteButton from "./VoteButton";
 
-export default function ReplayDebate() {
+export default function ReplayDebate({ isObserver }: { isObserver: boolean }) {
   const messages = [
     { id: 1, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
     { id: 2, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
@@ -19,7 +19,7 @@ export default function ReplayDebate() {
   ];
 
   const voteList: VoteInfo[] = [
-    { label: "찬성", img: agree, btnColor: "blue07" },
+    { label: "찬성", img: agree, btnColor: "game_blue01" },
     { label: "반대", img: disagree, btnColor: "game_blue01" },
     { label: "기권", img: giveup, btnColor: "blue01" },
   ];
@@ -46,7 +46,11 @@ export default function ReplayDebate() {
           <p className="font-jersey text-[24px]">VOTE</p>
           <div className="flex flex-col gap-[20px]">
             {voteList.map((voteInfo, index) => (
-              <VoteButton key={index} voteInfo={voteInfo} />
+              <VoteButton
+                key={index}
+                voteInfo={voteInfo}
+                isObserver={isObserver}
+              />
             ))}
           </div>
         </section>

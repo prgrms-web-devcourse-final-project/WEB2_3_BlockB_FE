@@ -1,9 +1,18 @@
 import vote from "../../assets/icons/vote.svg";
+import { useObservingStore } from "../../stores/observingStateStore";
 import { useRoomStore } from "../../stores/roomStateStore";
 
-export default function VoteButton({ voteInfo }: { voteInfo: VoteInfo }) {
+export default function VoteButton({
+  voteInfo,
+  isObserver = false,
+}: {
+  voteInfo: VoteInfo;
+  isObserver?: boolean;
+}) {
   const { setRoomState } = useRoomStore();
+  const { setObservingState } = useObservingStore();
   const goToVoteResult = () => {
+    if (isObserver) setObservingState("result");
     setRoomState("result");
   };
   return (
@@ -20,7 +29,7 @@ export default function VoteButton({ voteInfo }: { voteInfo: VoteInfo }) {
       </figure>
       <button
         onClick={goToVoteResult}
-        className={`w-[60px] h-[50px] bg-${voteInfo.btnColor} px-[15px] py-auto rounded-[10px]`}
+        className={`w-[60px] h-[50px] bg-${voteInfo.btnColor} bg-opacity-80 px-[15px] py-auto rounded-[10px]`}
       >
         <img src={vote} alt={`${voteInfo.label} 동의 버튼`} />
       </button>

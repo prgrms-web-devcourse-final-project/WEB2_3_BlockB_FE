@@ -14,14 +14,14 @@ export default function Header({
   status: "default" | "debate-waiting" | "debate-ing";
 }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   if (status === "debate-ing") {
     return null;
   }
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   return (
     <div
-      className={`w-full h-[80px] flex px-[40px]shadow-md justify-between items-center ${
+      className={`w-full h-[80px] flex px-[40px] shadow-md justify-between items-center ${
         status === "debate-waiting"
           ? "text-white"
           : "bg-white  border-b border-gray03 "

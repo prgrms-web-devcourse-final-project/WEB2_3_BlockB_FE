@@ -2,12 +2,12 @@ import ProfileCard from "./ProfileCard";
 
 export default function ParticipantBox({
   label,
-  labelAlignment,
+  labelAlignment = "center",
   color,
   hasReportBtn = false,
 }: {
   label: string;
-  labelAlignment: string;
+  labelAlignment?: string;
   color?: string;
   hasReportBtn?: boolean;
 }) {

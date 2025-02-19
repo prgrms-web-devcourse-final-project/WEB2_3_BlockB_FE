@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useObservingStore } from "../../stores/observingStateStore";
 import { useRoomStore } from "../../stores/roomStateStore";
 import ResultGraph from "./ongoing-debate/ResultGraph";
 
-export default function VoteResult() {
+export default function VoteResult({ isObserver }: { isObserver: boolean }) {
   const { setRoomState } = useRoomStore();
+  const { setObservingState } = useObservingStore();
   const navigate = useNavigate();
   const [isWatingResult, setIsWaitingResult] = useState(false);
   return (
@@ -27,6 +29,7 @@ export default function VoteResult() {
         <div className="w-full flex justify-between mt-[60px]">
           <button
             onClick={() => {
+              if (isObserver) setObservingState("replay");
               setRoomState("replay");
             }}
             className="font-pretendard text-white border-b  "
