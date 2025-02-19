@@ -24,3 +24,9 @@ interface RoomSettings {
   title: string | null;
   description: string | null;
 }
+
+type VoteInfo = {
+  label: string;
+  img: string;
+  btnColor: string;
+}

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 import arrowdown from "../../../assets/icons/arrow-down.svg";
 import arrowup from "../../../assets/icons/arrow-up.svg";
-import { getKeyFromDbKey } from "../../../constants";
 import link from "../../../assets/icons/link.svg";
+import { getKeyFromDbKey } from "../../../constants";
 import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function WaitingInfoDrodown({
@@ -11,7 +11,6 @@ export default function WaitingInfoDrodown({
 }: {
   isWaiting: boolean;
 }) {
-  
   const [dropdown, setDropDown] = useState<boolean>(false);
   const { roomSettings } = useRoomStore();
   const [prosNum, setProsNum] = useState<number>(0);
@@ -24,13 +23,13 @@ export default function WaitingInfoDrodown({
       setConsNum(1);
     }
   }, [roomSettings]);
-  
+
   return (
     <div>
       {/* 드롭다운전 */}
-      <div className="text-white w-72 h-10 px-4 py-2 bg-neutral-50/50 rounded-lg border border-white01  flex justify-between font-bold z-50">
+      <div className="text-white w-72 h-10 px-4 py-2 bg-neutral-50/50 rounded-lg border border-white01  flex justify-between font-bold z-50 font-pretendard ">
         <div className="flex gap-[10px]">
-          <p className="w-[56px]">{isWaiting ? "대기중" : "대기완료"}</p>
+          <p className="w-auto">{isWaiting ? "대기중" : "대기완료"}</p>
           <p className="w-[56px]">
             <span>찬성</span> <span>{prosNum}</span>
           </p>

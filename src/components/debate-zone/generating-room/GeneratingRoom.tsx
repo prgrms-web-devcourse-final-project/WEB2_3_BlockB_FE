@@ -64,7 +64,7 @@ export default function GeneratingRoom() {
   return (
     <div className="flex justify-center ">
       <div
-        className="generatingRoomContainer flex flex-col justify-between items-center bg-white w-[658px] h-[666px] rounded-[10px] px-[40px] py-[40px] border border-white shadow-[0_4px_20px_rgba(251,251,251,1)] mt-[30px] mb-[90px]"
+        className="generatingRoomContainer flex flex-col justify-between items-center bg-white w-[658px] h-[666px] rounded-[10px] px-[40px] py-[40px] border border-white shadow-[0_4px_20px_rgba(251,251,251,1)] mt-[30px] mb-[90px] font-pretendard"
         style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}
       >
         <ProgressIndicator checkedStates={checkedStates} />
