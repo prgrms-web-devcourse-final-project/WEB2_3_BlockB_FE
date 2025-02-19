@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router";
+import NotificationList from "../notification/NotificationList";
 import logoWhite from "../../assets/icons/logo-white.png";
 import logo from "../../assets/icons/logo.svg";
 import notificationWhite from "../../assets/icons/notification-white.svg";
@@ -15,10 +17,11 @@ export default function Header({
   if (status === "debate-ing") {
     return null;
   }
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   return (
     <div
-      className={`w-full h-[80px] flex px-[40px] justify-between items-center ${
+      className={`w-full h-[80px] flex px-[40px] border-b border-gray03 shadow-md justify-between items-center ${
         status === "debate-waiting" ? "text-white" : "bg-white"
       }`}
     >
@@ -35,8 +38,8 @@ export default function Header({
           <Link to={"/debaters"}>Debaters</Link>
         </div>
       </div>
-      <div className="flex w-[237px] h-[30px] justify-end items-center">
-        <button>
+      <div className="relative flex w-[237px] h-[30px] justify-end items-center">
+        <button onClick={() => setIsNotificationOpen(!isNotificationOpen)}>
           <img
             src={status === "debate-waiting" ? notificationWhite : notification}
             alt="알림"
@@ -51,6 +54,9 @@ export default function Header({
         <Link to={"/my-page"} className="font-sofiaSans">
           <div>Name</div>
         </Link>
+        {isNotificationOpen && (
+          <NotificationList onClose={() => setIsNotificationOpen(false)} />
+        )}
       </div>
     </div>
   );
