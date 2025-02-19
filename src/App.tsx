@@ -2,19 +2,20 @@ import "./css/index.css";
 
 import { Route, Routes } from "react-router";
 
+import Admin from "./pages/Admin";
 import DebateRooms from "./pages/DebateRooms";
 import DebateZone from "./pages/DebateZone";
 import Debaters from "./pages/Debaters";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
+import NotFound from "./pages/NotFound";
 import ObservingZone from "./pages/ObservingZone";
 import ProfileUpdate from "./components/my-page/ProfileUpdate";
 import RootLayout from "./layouts/RootLayout";
-import Admin from "./pages/Admin";
-import Landing from "./pages/Landing";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         {/* 헤더 내 분류 */}
         <Route path="/debate-zone" element={<DebateZone />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
