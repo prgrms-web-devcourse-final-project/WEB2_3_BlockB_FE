@@ -11,7 +11,7 @@ import profile from "../../assets/icons/profile.svg";
 export default function Header({
   status,
 }: {
-  status: "default" | "debate-waiting" | "debate-ing";
+  status: "default" | "debate-waiting" | "debate-ing" | "admin";
 }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
   if (status === "debate-ing") {
@@ -26,16 +26,22 @@ export default function Header({
       }`}
     >
       <div
-        className="flex w-[491px] h-[53px] justify-between items-center
-      "
+        className={`${
+          status === "admin" ? "w-[600px]" : "w-[491px]"
+        } flex h-[53px] justify-between items-center`}
       >
         <Link to={"/main"}>
           <img src={status === "debate-waiting" ? logoWhite : logo} />
         </Link>
-        <div className="flex w-[386px] h-[29px] justify-between text-[24px] items-center font-sofiaSans text-black01">
+        <div
+          className={`${
+            status === "admin" ? "w-[494px]" : "w-[386px]"
+          } flex  h-[29px] justify-between text-[24px] items-center font-sofiaSans text-black01`}
+        >
           <Link to={"/news"}>News</Link>
           <Link to={"/debate-rooms"}>Debate Rooms</Link>
           <Link to={"/debaters"}>Debaters</Link>
+          {status === "admin" ? <Link to={"/admin"}>Admin</Link> : ""}
         </div>
       </div>
       <div className="relative flex w-[237px] h-[30px] justify-end items-center">

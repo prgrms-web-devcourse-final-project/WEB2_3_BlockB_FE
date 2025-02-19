@@ -13,6 +13,7 @@ import NewsDetail from "./pages/NewsDetail";
 import ObservingZone from "./pages/ObservingZone";
 import ProfileUpdate from "./components/my-page/ProfileUpdate";
 import RootLayout from "./layouts/RootLayout";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -23,13 +24,17 @@ function App() {
           <Route path="/news" element={<News />} />
           <Route path="/news/:newsId" element={<NewsDetail />} />
           <Route path="/debate-rooms" element={<DebateRooms />} />
-          <Route path="/my-page" element={<MyPage />} />
           <Route path="/debaters" element={<Debaters />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/my-page" element={<MyPage />} />
+          <Route path="/profile-update" element={<ProfileUpdate />} />
         </Route>
         <Route path="/debate-zone/:debateId" element={<DebateZone />} />
         <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
         <Route path="/profile-update" element={<ProfileUpdate />} />
         <Route path="/login" element={<Login />} />
+        {/* 헤더 내 분류 */}
+        <Route path="/debate-zone" element={<DebateZone />} />
       </Routes>
     </>
   );
