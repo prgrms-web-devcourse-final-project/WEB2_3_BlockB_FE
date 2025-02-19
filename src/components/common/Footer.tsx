@@ -1,4 +1,4 @@
-export default function Footer({ status }: { status: "default" | "landing" }) {
+export default function Footer({ status }: { status: FooterStatusType }) {
   return (
     <footer
       className={`${
