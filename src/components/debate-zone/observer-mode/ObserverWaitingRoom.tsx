@@ -1,16 +1,16 @@
-import { useState } from "react";
-import profile from "../../../assets/icons/profile-white.svg";
-import { useObservingStore } from "../../../stores/observingStateStore";
+import ObserverMatchingInterface from "./ObserverMatchingInterface";
 import ParticipantBox from "./../ParticipantBox";
 import WaitingInfoDrodown from "./../waiting-room/WaitingInfoDrodown";
-import ObserverMatchingInterface from "./ObserverMatchingInterface";
+import profile from "../../../assets/icons/profile-white.svg";
+import { useObservingStore } from "../../../stores/observingStateStore";
+import { useState } from "react";
 
 export default function ObserverWaitingRoom() {
   const [isWaiting, setIsWaiting] = useState<boolean>(true);
   const { setObservingState } = useObservingStore();
   if (isWaiting)
     return (
-      <section className="px-[40px] flex flex-col gap-[250px] relative">
+      <section className="px-[40px] flex flex-col gap-[250px] relative min-h-screen">
         <div>
           <WaitingInfoDrodown isWaiting={isWaiting} />
           <div className=" w-full font-jersey text-white flex flex-col justify-normal items-end gap-[5px]">
@@ -37,9 +37,9 @@ export default function ObserverWaitingRoom() {
     );
   else
     return (
-      <section className="grid grid-cols-[1fr_2fr_1fr] px-[34px]">
+      <section className="grid grid-cols-[1fr_2fr_1fr] px-[34px] min-h-screen">
         <div></div>
-        <div className=" w-full h-800 flex flex-col items-center mt-[120px]">
+        <div className=" w-full flex flex-col items-center justify-center min-h-screen">
           <div className="flex items-center gap-[26px]">
             <ParticipantBox label="PROS" />
             <p className="font-jersey text-white text-[24px]">vs</p>
@@ -50,7 +50,7 @@ export default function ObserverWaitingRoom() {
           </p>
         </div>
         {/* 최대 */}
-        <div className=" w-full h-800 font-jersey text-white flex flex-col items-end gap-[5px]">
+        <div className=" w-full font-jersey text-white flex flex-col items-end gap-[5px]">
           <div className="w-[188px] flex justify-start">
             <p>audience</p>
           </div>

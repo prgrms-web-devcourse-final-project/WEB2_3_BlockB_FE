@@ -1,6 +1,6 @@
-import { useRoomStore } from "../../stores/roomStateStore";
-import { useObservingStore } from "./../../stores/observingStateStore";
 import ParticipantBox from "./ParticipantBox";
+import { useObservingStore } from "./../../stores/observingStateStore";
+import { useRoomStore } from "../../stores/roomStateStore";
 
 export default function VoteRoom({
   isObserver = false,
@@ -17,7 +17,7 @@ export default function VoteRoom({
   const btnClass =
     "w-[46px] h-[30px] px-[10px] py-[4px] bg-white text-black01 text-[14px] font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
   return (
-    <div className="flex flex-col justify-center items-center gap-[30px] mt-[100px]">
+    <div className="flex flex-col justify-center items-center gap-[30px] min-h-screen">
       <div>
         <h1 className="text-white font-pretendard font-bold text-[24px]">
           토론이 끝났습니다. 승리했다고 생각하시는 입장에 투표해주세요

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { useRoomStore } from "../../../stores/roomStateStore";
-import ParticipantBox from "../ParticipantBox";
 import MatchingInterface from "./MatchingInterface";
+import ParticipantBox from "../ParticipantBox";
 import WaitingInfoDrodown from "./WaitingInfoDrodown";
+import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function WaitingRoom() {
   const [isWaiting, setIsWaiting] = useState<boolean>(true);

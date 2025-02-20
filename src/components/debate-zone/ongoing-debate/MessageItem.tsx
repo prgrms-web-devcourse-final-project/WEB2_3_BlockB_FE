@@ -35,11 +35,9 @@ export default function MessageItem({
         <div
           className={`${
             isMine
-              ? "bg-[#0088FF] text-white"
-              : isOppenent
               ? "bg-white text-black01"
-              : "bg-game_blue01 text-white"
-          } bg-opacity-70  p-2 rounded-md max-w-[400px]  `}
+              : "bg-white bg-opacity-50 text-black01"
+          }   p-2 rounded-md max-w-[400px]  `}
         >
           {message}
         </div>

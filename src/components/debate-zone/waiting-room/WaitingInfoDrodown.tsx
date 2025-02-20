@@ -1,7 +1,7 @@
-import { useState } from "react";
 import arrowdown from "../../../assets/icons/arrow-down.svg";
 import arrowup from "../../../assets/icons/arrow-up.svg";
 import link from "../../../assets/icons/link.svg";
+import { useState } from "react";
 
 export default function WaitingInfoDrodown({
   isWaiting,
@@ -37,7 +37,7 @@ export default function WaitingInfoDrodown({
         </div>
         <button onClick={() => setDropDown(!dropdown)} className="z-50">
           <img
-            src={dropdown ? arrowdown : arrowup}
+            src={dropdown ? arrowup : arrowdown}
             alt="토론방 상세 정보 여닫기"
           />
         </button>

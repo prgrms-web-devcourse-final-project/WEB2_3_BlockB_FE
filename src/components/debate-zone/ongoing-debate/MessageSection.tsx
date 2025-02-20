@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
+import MessageItem from "./MessageItem";
 import profile from "../../../assets/icons/profile-white.svg";
 import send from "../../../assets/icons/send.svg";
-import MessageItem from "./MessageItem";
 
 export default function MessageSection() {
   const [currentMessage, setCurrentMessage] = useState<string>("");
@@ -29,7 +29,7 @@ export default function MessageSection() {
             key={index}
             message={message}
             profile={profile}
-            isMine={index % 2 !== 0}
+            isMine={false}
             isOppenent={index % 2 === 0} // 임시로 퍼블리싱 위해서 상대방 메시지랑 주고 받을 수 있도록 함
           />
         ))}

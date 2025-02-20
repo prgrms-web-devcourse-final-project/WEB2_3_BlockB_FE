@@ -1,11 +1,15 @@
+import MessageItem from "./ongoing-debate/MessageItem";
+import VoteButton from "./VoteButton";
 import agree from "../../assets/icons/agree.svg";
 import disagree from "../../assets/icons/disagree.svg";
 import giveup from "../../assets/icons/giveup.svg";
 import profile from "../../assets/icons/profile-white.svg";
-import MessageItem from "./ongoing-debate/MessageItem";
-import VoteButton from "./VoteButton";
 
-export default function ReplayDebate({ isObserver }: { isObserver: boolean }) {
+export default function ReplayDebate({
+  isObserver = false,
+}: {
+  isObserver?: boolean;
+}) {
   const messages = [
     { id: 1, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
     { id: 2, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
@@ -19,19 +23,19 @@ export default function ReplayDebate({ isObserver }: { isObserver: boolean }) {
   ];
 
   const voteList: VoteInfo[] = [
-    { label: "찬성", img: agree, btnColor: "game_blue01" },
-    { label: "반대", img: disagree, btnColor: "game_blue01" },
-    { label: "기권", img: giveup, btnColor: "blue01" },
+    { label: "찬성", img: agree },
+    { label: "반대", img: disagree },
+    { label: "기권", img: giveup },
   ];
 
   return (
-    <div className="px-[300px] mt-[10px] mb-[60px] flex flex-col">
+    <div className="flex flex-col justify-center items-center min-h-screen">
       <h1 className="text-white font-pretendard font-bold text-[24px] text-center mb-[30px]">
         찬반 투표가 진행중입니다...
       </h1>
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-[200px]">
         {/* 채팅창 */}
-        <section className="w-[500px] h-[600px] bg-neutral-50/30 rounded-lg shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] border border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse">
+        <section className="w-[500px] h-auto bg-neutral-50/30 rounded-lg shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] border border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse">
           {messages.map((msg) => (
             <MessageItem
               key={msg.id}

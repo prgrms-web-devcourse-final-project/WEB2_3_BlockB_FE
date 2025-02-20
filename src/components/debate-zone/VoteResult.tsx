@@ -1,17 +1,21 @@
-import { useState } from "react";
+import ResultGraph from "./ongoing-debate/ResultGraph";
 import { useNavigate } from "react-router";
 import { useObservingStore } from "../../stores/observingStateStore";
 import { useRoomStore } from "../../stores/roomStateStore";
-import ResultGraph from "./ongoing-debate/ResultGraph";
+import { useState } from "react";
 
-export default function VoteResult({ isObserver }: { isObserver: boolean }) {
+export default function VoteResult({
+  isObserver = false,
+}: {
+  isObserver?: boolean;
+}) {
   const { setRoomState } = useRoomStore();
   const { setObservingState } = useObservingStore();
   const navigate = useNavigate();
   const [isWatingResult, setIsWaitingResult] = useState(false);
   return (
-    <div className="flex items-center justify-center">
-      <section className="flex flex-col justify-between w-[643px] mt-[60px]">
+    <div className="flex items-center justify-center min-h-screen">
+      <section className="flex flex-col justify-between w-[643px]">
         <h1 className="text-white font-pretendard font-bold text-[24px] text-center mb-[60px]">
           AI는 인간의 노동을 대체하나 보조하나?
         </h1>
