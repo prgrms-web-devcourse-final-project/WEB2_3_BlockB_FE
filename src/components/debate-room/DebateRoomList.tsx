@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import DebateRoomSkeleton from "../common/skeleton/debate/DebateRoomSkeleton";
 import categoryIcons from "../../assets/icons/category/categoryIcon";
 
 // 목업 데이터 (실제 API 호출 대신 setTimeout으로 2초 후 데이터 로드| 스켈레톤 테스트)
@@ -19,61 +20,33 @@ const mockFetchDebateRooms = () =>
     }, 2000); // 2초 후 데이터 로드
   });
 
-export default function DebateRoomList() {
-  const [debateRooms, setDebateRooms] = useState<DebateRoomType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    mockFetchDebateRooms().then((data) => {
-      setDebateRooms(data);
-      setIsLoading(false);
-    });
-  }, []);
-
-  return (
-    <table className="w-full border-collapse rounded-t-lg overflow-hidden">
-      <thead className="bg-gray02 border-b rounded-t-lg">
-        <tr className="text-gray-700 text-center">
-          <th className="p-3 first:rounded-tl-lg last:rounded-tr-lg">
-            카테고리
-          </th>
-          <th className="p-3">방제</th>
-          <th className="p-3">찬 | 반</th>
-          <th className="p-3">시간</th>
-          <th className="p-3">종류</th>
-          <th className="p-3 first:rounded-tr-lg last:rounded-tr-lg">
-            참여 유형
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {isLoading
-          ? // 스켈레톤 UI
-            Array.from({ length: 10 }).map((_, index) => (
-              <tr key={index} className="border-b animate-pulse">
-                <td className="p-3">
-                  <div className="w-20 h-6 bg-gray03 rounded"></div>
-                </td>
-                <td className="p-3">
-                  <div className="w-56 h-6 bg-gray03 rounded"></div>
-                </td>
-                <td className="p-3 text-center">
-                  <div className="w-14 h-6 bg-gray03 rounded"></div>
-                </td>
-                <td className="p-3 text-center">
-                  <div className="w-16 h-6 bg-gray03 rounded"></div>
-                </td>
-                <td className="p-3 text-center">
-                  <div className="w-16 h-6 bg-gray03 rounded"></div>
-                </td>
-                <td className="p-3 flex space-x-2 items-center justify-end">
-                  <div className="w-16 h-8 bg-gray03 rounded"></div>
-                  <div className="w-16 h-8 bg-gray03 rounded"></div>
-                  <div className="w-16 h-8 bg-gray03 rounded"></div>
-                </td>
-              </tr>
-            ))
-          : // 실제 데이터
+  export default function DebateRoomList() {
+    const [debateRooms, setDebateRooms] = useState<DebateRoomType[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+  
+    useEffect(() => {
+      mockFetchDebateRooms().then((data) => {
+        setDebateRooms(data);
+        setIsLoading(false);
+      });
+    }, []);
+  
+    return (
+      <table className="w-full border-collapse rounded-t-lg overflow-hidden">
+        <thead className="bg-gray02 border-b rounded-t-lg">
+          <tr className="text-gray-700 text-center">
+            <th className="p-3 first:rounded-tl-lg last:rounded-tr-lg">카테고리</th>
+            <th className="p-3">방제</th>
+            <th className="p-3">찬 | 반</th>
+            <th className="p-3">시간</th>
+            <th className="p-3">종류</th>
+            <th className="p-3 first:rounded-tr-lg last:rounded-tr-lg">참여 유형</th>
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading ? (
+            <DebateRoomSkeleton /> 
+          ) : (
             debateRooms.map((room) => (
               <tr key={room.id} className="border-b">
                 <td className="p-3 flex items-center justify-center space-x-2 text-[16px]">
@@ -128,8 +101,10 @@ export default function DebateRoomList() {
                   </button>
                 </td>
               </tr>
-            ))}
-      </tbody>
-    </table>
-  );
-}
+            ))
+          )}
+        </tbody>
+      </table>
+    );
+  }
+  
