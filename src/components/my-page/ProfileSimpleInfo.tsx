@@ -1,17 +1,7 @@
-import { useState, useEffect } from "react";
 import avatar from "../../assets/icons/avatar.svg";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
-import ProfileSimpleInfoSkeleton from "../common/skeleton/mypage/ProfileSimpleInfoSkeleton";
 
 export default function ProfileSimpleInfo() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 2000);
-  }, []);
-
-  if (isLoading) return <ProfileSimpleInfoSkeleton />;
-
   return (
     <div className="w-[450px] h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex items-center justify-between px-6">
       <div className="flex items-center">
