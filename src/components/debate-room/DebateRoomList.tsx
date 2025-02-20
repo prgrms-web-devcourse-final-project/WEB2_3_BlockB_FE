@@ -34,7 +34,7 @@ export default function DebateRoomList() {
         {mockDebateRooms.map((room) => (
           <tr key={room.id} className="border-b ">
             <td className="p-3 flex items-center justify-center space-x-2 text-[16px]">
-              <span className="px-2 py-1 bg-gray-300 text-gray01  shadow-lg text-[16px] rounded flex items-center gap-2">
+              <span className="px-2 py-1 bg-gray-300 text-gray01  text-[16px] rounded flex items-center gap-2">
                 {room.categoryType}
                 {categoryIcons[room.categoryType]?.gray && (
                   <img

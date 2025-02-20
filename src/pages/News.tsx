@@ -155,7 +155,7 @@ export default function News() {
           <div className="relative mt-3 w-full">
             <input
               type="text"
-              className="border rounded-lg px-2 py-2 w-full pl-3 pr-10"
+              className="border rounded-lg px-2 py-2 w-full pl-3 pr-10 focus:outline-none"
               placeholder="검색..."
             />
             <img
