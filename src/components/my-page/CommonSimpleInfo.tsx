@@ -1,4 +1,5 @@
 import politics from "../../assets/icons/politics.svg";
+
 export default function CommonSimpleInfo({
   newsOrDebate,
 }: {

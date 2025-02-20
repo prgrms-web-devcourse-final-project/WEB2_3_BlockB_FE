@@ -1,16 +1,27 @@
-import { Link } from "react-router";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import avatar from "../../assets/icons/avatar.svg";
 import edit from "../../assets/icons/edit.svg";
+import ProfileUpdateSkeleton from "../common/skeleton/mypage/ProfileUpdateSkeleton";
+
 export default function ProfileUpdate() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000);
+  }, []);
+
+  if (isLoading) return <ProfileUpdateSkeleton />;
+
   return (
     <div>
-      <div className="flex justify-center mt-[122px]">
-        <div className="w-[500px] h-[500px]  flex flex-col justify-between">
-          <div className="flex justify-center ">
+      <div className="flex justify-center mt-[122px] font-pretendard">
+        <div className="w-[500px] h-[500px] flex flex-col justify-between">
+          <div className="flex justify-center">
             <img
               src={avatar}
               alt="프로필 이미지"
-              className="w-[200px] h-[200] rounded-full"
+              className="w-[200px] h-[200px] rounded-full"
             />
           </div>
           <div className="flex justify-center">

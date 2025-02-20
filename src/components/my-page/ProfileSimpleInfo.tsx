@@ -1,5 +1,6 @@
 import avatar from "../../assets/icons/avatar.svg";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
+
 export default function ProfileSimpleInfo() {
   return (
     <div className="w-[450px] h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex items-center justify-between px-6">
