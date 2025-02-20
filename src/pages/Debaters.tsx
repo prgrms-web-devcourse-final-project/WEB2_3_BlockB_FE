@@ -88,7 +88,7 @@ export default function Debaters() {
   const otherDebaters: DebaterType[] = debaters.slice(3);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto font-pretendard">
       <div className="relative mt-3 w-full">
         <input
           type="text"
