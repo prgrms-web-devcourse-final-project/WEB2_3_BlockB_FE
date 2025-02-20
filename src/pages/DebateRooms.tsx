@@ -60,8 +60,8 @@ export default function DebateRooms() {
                       key={filter}
                       className={`px-3 py-1 rounded-full border flex items-center gap-1 ${
                         selectedActive === filter
-                          ? "bg-[#002b60] text-white border-[#002b60]"
-                          : "bg-white border-[#002b60]  text-gray-700"
+                          ? "bg-blue03 text-white border-blue03"
+                          : "bg-white border-blue03  text-gray-700"
                       }`}
                       onClick={() => setSelectedActive(filter)}
                     >
@@ -89,8 +89,8 @@ export default function DebateRooms() {
                       key={continent}
                       className={`px-3 py-1 rounded-full shadow-lg border flex items-center gap-1 ${
                         selectedContinent.includes(continent)
-                          ? "bg-[#002b60] text-white border-[#002b60]"
-                          : "bg-white border-[#002b60]  text-gray-700"
+                          ? "bg-blue03 text-white border-blue03"
+                          : "bg-white border-blue03  text-gray-700"
                       }`}
                       onClick={() =>
                         setSelectedContinent((prev) =>
@@ -128,8 +128,8 @@ export default function DebateRooms() {
                         key={category}
                         className={`px-3 py-1 rounded-full border flex items-center gap-2 ${
                           isSelected
-                            ? "bg-[#002b60] text-white border-[#002b60]"
-                            : "bg-white border-[#002b60] text-gray-700"
+                            ? "bg-blue03 text-white border-blue03"
+                            : "bg-white border-blue03 text-gray-700"
                         }`}
                         onClick={() =>
                           setSelectedCategory((prev) =>
@@ -177,8 +177,8 @@ export default function DebateRooms() {
                       key={type}
                       className={`px-3 py-1 rounded-full border flex items-center gap-1 ${
                         selectedParticipant.includes(type)
-                          ? "bg-[#002b60] text-white border-[#002b60]"
-                          : "bg-white border-[#002b60]  text-gray-700"
+                          ? "bg-blue03 text-white border-blue03"
+                          : "bg-white border-blue03  text-gray-700"
                       }`}
                       onClick={() => setSelectedParticipant([type])}
                     >
