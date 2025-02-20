@@ -13,20 +13,9 @@ export default function ReportTable({
   onEdit,
 }: {
   headers: string[];
-  bodys: {
-    reson: string;
-    reporter: string;
-    name: string;
-    date: string;
-  }[];
+  bodys: RepotTableBodyType[];
   unHeaders: string[];
-  unBodys: {
-    option: string;
-    name: string;
-    admin: string;
-    reason: string;
-    date: string;
-  }[];
+  unBodys: RepotTableBodyType[];
   check: boolean;
   onCheck: (value: boolean) => void;
   recover: boolean;
@@ -58,7 +47,7 @@ export default function ReportTable({
             }}
           >
             <td className="text-center border-b-[1px] border-blue07 border-solid ">
-              {body.reson}
+              {body.reason}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
               {body.reporter}
