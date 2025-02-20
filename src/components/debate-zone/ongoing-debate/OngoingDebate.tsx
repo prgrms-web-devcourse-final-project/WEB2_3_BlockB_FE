@@ -33,13 +33,13 @@ export default function OngoingDebate() {
   return (
     <>
       {isLoading ? (
-        <section className="flex justify-center items-center gap-10 h-screen">
+        <section className="flex items-center justify-center h-screen gap-10">
           <ParticipantBox label="PROS" labelAlignment="center" />
           <span className="text-white font-bold text-[24px]">vs</span>
           <ParticipantBox label="CONS" labelAlignment="center" color="blue" />
         </section>
       ) : (
-        <section className="flex justify-between px-[30px] py-[20px]">
+        <section className="flex justify-between px-[30px] py-[20px] ">
           {isExitModalOpen && (
             <ExitModal setIsExitModalOpen={setIsExitModalOpen} />
           )}
