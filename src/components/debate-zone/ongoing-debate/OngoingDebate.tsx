@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import exit from "../../../assets/icons/exit.svg";
-import profile from "../../../assets/icons/profile.svg";
-import { useRoomStore } from "../../../stores/roomStateStore";
-import ParticipantBox from "../ParticipantBox";
 import AudienceCard from "./../AudienceCard";
 import ChatWindow from "./ChatWindow";
 import Counter from "./Counter";
 import ExitModal from "./ExitModal";
+import ParticipantBox from "../ParticipantBox";
+import exit from "../../../assets/icons/exit.svg";
+import profile from "../../../assets/icons/profile.svg";
+import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function OngoingDebate() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +24,7 @@ export default function OngoingDebate() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimerCount((prev) => (prev > 0 ? prev - 1 : 0));
+      setTimerCount((prev: number) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -33,24 +33,30 @@ export default function OngoingDebate() {
   return (
     <>
       {isLoading ? (
-        <section className="flex items-center justify-center h-screen gap-10">
+        <section className="flex justify-center items-center gap-10 min-h-screen">
           <ParticipantBox label="PROS" labelAlignment="center" />
           <span className="text-white font-bold text-[24px]">vs</span>
           <ParticipantBox label="CONS" labelAlignment="center" color="blue" />
         </section>
       ) : (
-        <section className="flex justify-between px-[30px] py-[20px] ">
+
+        <section
+          className="flex justify-between px-[30px] py-[20px] min-h-screen items-center
+        "
+        >
           {isExitModalOpen && (
             <ExitModal setIsExitModalOpen={setIsExitModalOpen} />
           )}
-          <div className="mt-[117px]">
+          <div className="h-[728.4px] pt-[110px]">
             <ParticipantBox
               label="PROS"
               labelAlignment="start"
               hasReportBtn={true}
             />
           </div>
+
           <ChatWindow />
+
           <div>
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
               <Counter label="TURN" boxNumber={2} count={turnCount} />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import Header from "../components/common/Header";
 import GeneratingRoom from "../components/debate-zone/generating-room/GeneratingRoom";
+import Header from "../components/common/Header";
 import OngoingDebate from "../components/debate-zone/ongoing-debate/OngoingDebate";
 import ReplayDebate from "../components/debate-zone/ReplayDebate";
 import VoteResult from "../components/debate-zone/VoteResult";

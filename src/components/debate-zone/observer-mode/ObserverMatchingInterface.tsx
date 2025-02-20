@@ -14,7 +14,7 @@ export default function ObserverMatchingInterface({
     "border-neutral-50/30",
   ];
   return (
-    <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 text-white flex flex-col justify-center">
+    <div className="absolute  left-1/2 transform -translate-x-1/2 text-white flex flex-col justify-center items-center min-h-screen">
       <div className="relative flex flex-wrap w-[153px] justify-center gap-[10px]">
         <div className="relative flex gap-[26px] items-center">
           <ParticipantBox label="PROS" />
