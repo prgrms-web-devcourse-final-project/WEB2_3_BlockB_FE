@@ -2,6 +2,7 @@ import { useState } from "react";
 import DebateSimpleInfos from "../components/main/DebateSimpleInfos";
 import NewsSimpleInfos from "../components/main/NewsSimpleInfos";
 import { date, day, month, year } from "../constants/index";
+import { Link } from "react-router";
 
 export default function Main() {
   const [tab, setTeab] = useState(true);
@@ -61,9 +62,12 @@ export default function Main() {
             >
               Focus
             </span>
-            <button className="w-[113px] h-[34px] bg-gray03 rounded-[10px] text-white">
+            <Link
+              to={tab ? "/news" : "/debate-rooms"}
+              className="w-[113px] h-[34px] bg-gray03 rounded-[10px] text-white justify-center items-center flex"
+            >
               view more
-            </button>
+            </Link>
           </div>
           <NewsSimpleInfos dates={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} tab={tab} />
 
