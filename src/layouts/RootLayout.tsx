@@ -1,7 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
 import { useEffect, useState } from "react";
+
+import Footer from "../components/common/Footer";
+import Header from "../components/common/Header";
+import TopButton from "../components/common/TopButton";
 
 const RootLayout = () => {
   const [headerStatus, setHeaderStatus] = useState<HeaderStatusType>("default");
@@ -24,6 +26,7 @@ const RootLayout = () => {
         <Outlet />
       </main>
       <Footer status={footerStatus} />
+      <TopButton />
     </div>
   );
 };

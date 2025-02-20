@@ -3,6 +3,7 @@ import moveDown from "../assets/icons/move-down.svg";
 import debateScreenshot from "../assets/images/debate screenshot.svg";
 import newsTop10Screenshot from "../assets/images/news top10 screenshot.svg";
 import debateTop10Screenshot from "../assets/images/debate top 10 screenshot.svg";
+import observingZoneScreenshot from "../assets/images/observingzone screenshot.svg";
 export default function Landing() {
   return (
     <div className="h-auto py-20 text-white bg-black01">
@@ -58,8 +59,18 @@ export default function Landing() {
         <img src={debateScreenshot} alt="토론 스크린샷" />
       </div>
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center my-20">
         <div className="w-[914px] mb-20 flex items-end flex-col">
+          <p className="font-sofiaSans font-bold text-[60px]">Observe</p>
+          <p className="font-pretendard text-[20px]">
+            토론을 관전하며 참관자들과 실시간으로 의견을 나눌 수 있습니다
+          </p>
+        </div>
+        <img src={observingZoneScreenshot} alt="참관 스크린샷" />
+      </div>
+
+      <div className="flex flex-col items-center">
+        <div className="w-[914px] mb-20">
           <p className="font-sofiaSans font-bold text-[60px]">connect</p>
           <p className="font-pretendard text-[20px]">
             실시간 뉴스를 열람하고 뉴스페이지에서 손쉽게 토론방을 개설할 수

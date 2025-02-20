@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Win from "../../assets/icons/win.svg";
 import Draw from "../../assets/icons/duse.svg";
 import Lose from "../../assets/icons/lose.svg";
 import { DebaterType } from "../../types/debateType";
-import { useNavigate } from "react-router-dom";
+import DebateListSkeleton from "../common/skeleton/debate/DebateListSkeleton";
 
 interface DebateListProps {
   debaters: DebaterType[];
@@ -10,17 +12,21 @@ interface DebateListProps {
 
 export default function DebateList({ debaters }: DebateListProps) {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleNavigate = () => {
-    navigate("/my-page");
-  };
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 2000);
+  }, []);
+
+  if (isLoading) return <DebateListSkeleton />;
+
   return (
     <div>
       {debaters.map((debater) => (
         <div
           key={debater.userId}
           className="flex items-center justify-between border-b py-3"
-          onClick={handleNavigate}
+          onClick={() => navigate("/my-page")}
         >
           {/* 유저 정보 */}
           <div className="flex items-center gap-4 w-1/3">
@@ -35,7 +41,7 @@ export default function DebateList({ debaters }: DebateListProps) {
             </div>
           </div>
 
-          {/* 팔로우 · 팔로잉*/}
+          {/* 팔로우 · 팔로잉 */}
           <div className="w-1/3 flex justify-center">
             <p className="bg-gray-100 inline-block px-4 py-1 rounded-lg font-medium">
               {debater.totalFollowers} followers · {debater.totalFollowees}{" "}

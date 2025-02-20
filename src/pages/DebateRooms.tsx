@@ -58,7 +58,7 @@ export default function DebateRooms() {
                   {activeFilters.map((filter) => (
                     <button
                       key={filter}
-                      className={`px-3 py-1 rounded-full border flex items-center gap-1 ${
+                      className={`px-3 py-1 rounded-full shadow-lg border flex items-center gap-1 ${
                         selectedActive === filter
                           ? "bg-blue03 text-white border-blue03"
                           : "bg-white border-blue03  text-gray-700"
@@ -126,7 +126,7 @@ export default function DebateRooms() {
                     return (
                       <button
                         key={category}
-                        className={`px-3 py-1 rounded-full border flex items-center gap-2 ${
+                        className={`px-3 py-1 rounded-full shadow-lg border flex items-center gap-2 ${
                           isSelected
                             ? "bg-blue03 text-white border-blue03"
                             : "bg-white border-blue03 text-gray-700"
@@ -175,7 +175,7 @@ export default function DebateRooms() {
                   {participantTypes.map((type) => (
                     <button
                       key={type}
-                      className={`px-3 py-1 rounded-full border flex items-center gap-1 ${
+                      className={`px-3 py-1 rounded-full  shadow-lg border flex items-center gap-1 ${
                         selectedParticipant.includes(type)
                           ? "bg-blue03 text-white border-blue03"
                           : "bg-white border-blue03  text-gray-700"
@@ -220,7 +220,7 @@ export default function DebateRooms() {
         <div className="relative flex-1">
           <input
             type="text"
-            className="border rounded-xl px-4 py-2 w-full pl-3 pr-10 outline-none focus:ring-2 focus:ring-blue-500"
+            className="border rounded-xl px-4 py-2 w-full pl-3 pr-10 focus:outline-none"
             placeholder="찾으시는 토론방 키워드를 검색하세요"
           />
           <img
