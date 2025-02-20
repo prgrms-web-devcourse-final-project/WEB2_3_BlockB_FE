@@ -44,15 +44,15 @@ export default function DebateSimpleInfo({ index }: { index: number }) {
         </div>
       </div>
       <div className="flex font-pretendard h-[27px] text-[18px]">
-        <div className="flex rounded-[10px] bg-gray03 justify-center items-center w-[52px] h-[27px]">
+        <p className="flex rounded-[10px] bg-[#D9D9D9] justify-center items-center w-[52px] h-[27px]">
           15분
-        </div>
-        <div className="flex rounded-[10px] bg-gray03 justify-center items-center w-[52px] h-[27px] mx-2">
+        </p>
+        <p className="flex rounded-[10px] bg-[#D9D9D9] justify-center items-center w-[52px] h-[27px] mx-2">
           15번
-        </div>
-        <div className="flex w-[42px] h-[27px] rounded-[10px] bg-gray03 justify-center items-center ">
+        </p>
+        <p className="flex w-[42px] h-[27px] rounded-[10px] bg-[#D9D9D9] justify-center items-center ">
           1:1
-        </div>
+        </p>
       </div>
     </div>
   );
