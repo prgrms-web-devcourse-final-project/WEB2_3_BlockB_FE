@@ -1,9 +1,20 @@
+import { useState, useEffect } from "react";
 import politics from "../../assets/icons/politics.svg";
+import CommonSimpleInfoSkeleton from "../common/skeleton/mypage/CommonSimpleInfoSkeleton";
+
 export default function CommonSimpleInfo({
   newsOrDebate,
 }: {
   newsOrDebate: boolean;
 }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 2000);
+  }, []);
+
+  if (isLoading) return <CommonSimpleInfoSkeleton />;
+
   return (
     <div className="flex justify-between w-full mb-[30px]">
       <div className="flex text-[16px] items-center">
