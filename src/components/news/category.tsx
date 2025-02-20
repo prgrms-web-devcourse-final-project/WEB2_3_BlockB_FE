@@ -1,28 +1,31 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import CategorySkeleton from "../common/skeleton/news/CatecorySkeleton";
 
 const Category = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const categories = [
     { name: "전체보기", path: "/news/?category=all" },
-    {
-      name: "한국",
-      path: "/news",
-    },
+    { name: "한국", path: "/news" },
     { name: "중국", path: "/news" },
     { name: "일본", path: "/news" },
-    {
-      name: "유럽",
-      path: "/news",
-    },
+    { name: "유럽", path: "/news" },
     { name: "아시아/호주", path: "/news" },
     { name: "미국/중남미", path: "/news" },
     { name: "아프리카/중동", path: "/news" },
   ];
 
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 2000);
+  }, []);
+
   const handleNavigate = (path: string) => {
     navigate(path);
   };
+
+  if (isLoading) return <CategorySkeleton />;
 
   return (
     <div className="w-full border text-gray-400 rounded-md p-4 text-left">
