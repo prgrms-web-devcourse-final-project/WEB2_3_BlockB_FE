@@ -23,7 +23,9 @@ export default function NewsTab({ tab }: { tab: string }) {
             setFilter(false);
           }}
           className={`${
-            filter ? "text-gray03" : "text-blue03 border-b-2 border-blue01"
+            filter
+              ? "text-gray03"
+              : "text-blue03 border-b-2 border-blue01 font-bold"
           } h-6`}
         >
           좋아요

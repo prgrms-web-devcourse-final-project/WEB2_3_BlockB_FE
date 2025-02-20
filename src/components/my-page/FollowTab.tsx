@@ -11,7 +11,9 @@ export default function FollowTab({ tab }: { tab: string }) {
             setFilter(true);
           }}
           className={`${
-            filter ? "text-blue03 border-b-2 border-blue01" : "text-gray03 "
+            filter
+              ? "text-blue03 border-b-2 border-blue01 font-bold"
+              : "text-gray03 "
           } h-6 mr-[30px]`}
         >
           팔로워 10명
@@ -21,7 +23,9 @@ export default function FollowTab({ tab }: { tab: string }) {
             setFilter(false);
           }}
           className={`${
-            filter ? "text-gray03" : "text-blue03 border-b-2 border-blue01"
+            filter
+              ? "text-gray03"
+              : "text-blue03 border-b-2 border-blue01 font-bold"
           } h-6`}
         >
           팔로잉 21명

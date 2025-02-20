@@ -39,6 +39,7 @@ export default function OngoingDebate() {
           <ParticipantBox label="CONS" labelAlignment="center" color="blue" />
         </section>
       ) : (
+
         <section
           className="flex justify-between px-[30px] py-[20px] min-h-screen items-center
         "
