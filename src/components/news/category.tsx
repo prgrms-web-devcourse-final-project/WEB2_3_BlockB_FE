@@ -28,19 +28,38 @@ const Category = () => {
   if (isLoading) return <CategorySkeleton />;
 
   return (
-    <div className="w-full border text-gray-400 rounded-md p-4 text-left">
-      <div className="text-blue03 font-extrabold text-lg p-2 font-pretendard">
+    <div className="w-full md:border text-gray-400 rounded-md md:p-4 text-left">
+      <div className="text-blue03 font-extrabold text-lg md:p-2 mb-2 font-pretendard">
         카테고리
       </div>
-      {categories.map((category) => (
-        <div
-          key={category.path}
-          className="p-2 text-gray-500 font-bold font-pretendard hover:cursor-pointer hover:text-blue03 transition-colors"
-          onClick={() => handleNavigate(category.path)}
-        >
-          {category.name}
+
+      {/* PC 일때때 */}
+      <div className="hidden md:block">
+        {categories.map((category) => (
+          <div
+            key={category.path}
+            className="p-2 text-gray-500 font-bold font-pretendard hover:cursor-pointer hover:text-blue03 transition-colors"
+            onClick={() => handleNavigate(category.path)}
+          >
+            {category.name}
+          </div>
+        ))}
+      </div>
+
+      {/* 모바일 일때 */}
+      <div className="block md:hidden overflow-x-auto whitespace-nowrap scroll mb-5">
+        <div className="flex gap-3">
+          {categories.map((category) => (
+            <div
+              key={category.path}
+              className="px-4 py-2 bg-gray-100 rounded-md text-gray-500 font-bold font-pretendard cursor-pointer hover:text-blue03 transition-colors"
+              onClick={() => handleNavigate(category.path)}
+            >
+              {category.name}
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 };
