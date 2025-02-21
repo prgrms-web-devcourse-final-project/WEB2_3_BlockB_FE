@@ -27,7 +27,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
         </div>
       ) : (
         <div
-          className={`w-full h-[80px] flex px-[40px] shadow-md justify-between items-center ${
+          className={`w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] shadow-md justify-between items-center ${
             status === "debate-waiting"
               ? "text-white"
               : "bg-white  border-b border-gray03 "
@@ -35,16 +35,23 @@ export default function Header({ status }: { status: HeaderStatusType }) {
         >
           <div
             className={`${
-              status === "admin" ? "w-[600px]" : "w-[491px]"
+              status === "admin"
+                ? "w-[550px] max-md:w-[250px]"
+                : "w-[440px] max-md:w-[220px]"
             } flex h-[53px] justify-between items-center`}
           >
             <Link to={"/main"}>
-              <img src={status === "debate-waiting" ? logoWhite : logo} />
+              <img
+                src={status === "debate-waiting" ? logoWhite : logo}
+                className="max-md:w-7 max:md:h-7 max-md:object-cover"
+              />
             </Link>
             <div
               className={`${
-                status === "admin" ? "w-[494px]" : "w-[386px]"
-              } flex  h-[29px] justify-between text-[24px] items-center font-sofiaSans text-black01`}
+                status === "admin"
+                  ? "w-[460px] max-md:w-[220px]"
+                  : "w-[360px] max-md:w-[180px]"
+              } flex  h-[29px] justify-between text-[24px] max-md:text-[12px] items-center font-sofiaSans text-black01`}
             >
               <Link to={"/news"}>News</Link>
               <Link to={"/debate-rooms"}>Debate Rooms</Link>
@@ -52,23 +59,22 @@ export default function Header({ status }: { status: HeaderStatusType }) {
               {status === "admin" ? <Link to={"/admin"}>Admin</Link> : ""}
             </div>
           </div>
-          <div className="relative flex w-[237px] h-[30px] justify-end items-center">
+          <div className="flex w-[87px] max-md:w-9 h-[30px] justify-between items-center">
             <button onClick={() => setIsNotificationOpen(!isNotificationOpen)}>
               <img
+                className="max-md:w-[11px] max-md:h-[14px]"
                 src={
                   status === "debate-waiting" ? notificationWhite : notification
                 }
                 alt="알림"
               />
             </button>
-            <Link to={"/my-page"} className=" mx-[34px]">
+            <Link to={"/my-page"}>
               <img
+                className="max-md:w-[14px] max-md:h-[14px]"
                 src={status === "debate-waiting" ? profileWhite : profile}
                 alt="프로필 사진"
               />
-            </Link>
-            <Link to={"/my-page"} className="font-sofiaSans">
-              <div>Name</div>
             </Link>
             {isNotificationOpen && (
               <NotificationList onClose={() => setIsNotificationOpen(false)} />
