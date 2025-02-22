@@ -86,9 +86,9 @@ export default function ProgressIndicator({
   }, [checkedStates, prevCheckedStates]);
 
   return (
-    <div className="w-96 h-20 px-4 py-2 bg-white rounded-lg flex-col justify-start items-start gap-2.5 inline-flex">
+    <div className="w-90 md:w-96 h-18 md:h-20 px-4 py-2 bg-white rounded-lg flex-col justify-center items-center gap-2.5 inline-flex mb-4">
       <p className="w-full font-bold text-center">Generating A New Room</p>
-      <div className="w-full flex justify-between">
+      <div className="w-full flex justify-between gap-1">
         {checkImgs.map((item, index) => (
           <figure key={index} className={checkImgClass}>
             <img
