@@ -23,7 +23,7 @@ export default function MatchingInterface({
             <img
               src={profile}
               alt="프로필이미지"
-              className="w-[70px] h-[70px]"
+              className="md:w-[70px] md:h-[70px] w-[50px] h-[50px]"
             />
           </figure>
         ))}
@@ -37,7 +37,7 @@ export default function MatchingInterface({
                   waveRefs.current[i] = el;
                 }
               }}
-              className={`absolute left-1/2 top-1/2 w-[300px] h-[300px] border-2 rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-[0px_3px_40px_0px_rgba(251,251,251,1.00)] -z-50 ${style}`}
+              className={`absolute left-1/2 top-1/2 md:w-[300px] md:h-[300px] w-[150px] h-[150px] border-2 rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-[0px_3px_40px_0px_rgba(251,251,251,1.00)] -z-50 ${style}`}
             ></div>
           ))}
       </div>
