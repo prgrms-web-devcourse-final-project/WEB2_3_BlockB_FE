@@ -17,7 +17,7 @@ export default function DebateZone() {
   >("debate-waiting");
 
   useEffect(() => {
-    if (roomState === "ongoing" || roomState === "voting") {
+    if (roomState === "ongoing" || roomState === "voting" || roomState === "replay") {
       setHeaderStatus("debate-ing");
     } else {
       setHeaderStatus("debate-waiting");

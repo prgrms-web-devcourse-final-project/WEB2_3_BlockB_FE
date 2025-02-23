@@ -67,7 +67,7 @@ export default function CheckBoxGroups({
   };
 
   return (
-    <section className="w-full flex flex-col gap-[10px]">
+    <section className="w-full flex flex-col md:gap-[10px] gap-6">
       {checklistGroups.map(({ key, label, list }) => {
         if (generatingType === "fromDebateList" || key !== "continent") {
           return (

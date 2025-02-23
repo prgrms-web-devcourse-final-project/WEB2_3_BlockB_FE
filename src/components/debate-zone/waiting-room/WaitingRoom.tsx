@@ -40,19 +40,19 @@ export default function WaitingRoom() {
   }, [countDown, setRoomState]);
 
   return (
-    <section className="px-[40px] flex flex-col gap-[250px] relative">
-      <div className="flex justify-between">
+    <section className="md:px-[40px] px-[20px]  flex flex-col gap-[250px] relative">
+      <div className="flex justify-between gap-2">
         <WaitingInfoDrodown isWaiting={isWaiting} />
         <ParticipantBox label="OPONENTS" labelAlignment="end" />
       </div>
       <MatchingInterface isWaiting={isWaiting} />
 
       {isWaiting ? (
-        <h3 className="text-white text-2xl font-bold w-full text-center">
+        <h3 className="text-white md:text-2xl sm:text-[16px] text-[14px] font-bold w-full text-center">
           디베이터를 매칭하고 있습니다{dots}
         </h3>
       ) : (
-        <div className="text-white text-2xl font-bold w-full text-center">
+        <div className="text-white md:text-2xl sm:text-[16px] text-[14px] font-bold w-full text-center">
           <h3 className="mb-5">매칭이 완료되었습니다. 곧 토론이 시작됩니다.</h3>
           <p>{countDown}</p>
         </div>

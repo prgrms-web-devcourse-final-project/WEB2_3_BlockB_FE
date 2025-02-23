@@ -20,20 +20,20 @@ export default function Counter({
   }, [count, boxNumber]);
 
   return (
-    <div className="font-bold font-jersey">
-      <div className="flex items-center gap-[2px] justify-end mb-[4px]">
+    <div className="font-bold font-jersey flex md:flex-col flex-row md:gap-[2px] gap-[10px] items-center items-center">
+      <div className="flex items-center gap-[2px] justify-end">
         <figure>
           <img src={label === "TURN" ? turn : timer} alt="" />
         </figure>
-        <p>{label}</p>
+        <p className="md:text-[20px] text-[18px]">{label}</p>
       </div>
-      <div className="flex gap-[7px]">
+      <div className="flex md:gap-[7px] gap-[1px]">
         {displayCount.map((digit, index) => (
           <span
             key={index}
-            className="w-6 h-7 px-1.5 py-1 bg-gradient-to-b from-zinc-800 to-neutral-400 
+            className="md:w-6 md:h-7 w-[13px] h-[17px] bg-gradient-to-b from-zinc-800 to-neutral-400 
               rounded-sm shadow-[0px_1px_5px_0px_rgba(251,251,251,1.00)] 
-              border border-neutral-50 animate-slide-down"
+              border border-neutral-50 animate-slide-down md:text-[16px] text-[12px] text-center"
           >
             {digit}
           </span>

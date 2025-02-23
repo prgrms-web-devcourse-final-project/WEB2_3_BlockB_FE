@@ -17,7 +17,7 @@ export default function VoteButton({
   return (
     <button
       onClick={goToVoteResult}
-      className="w-[220px] h-[70px]  flex justify-between items-center px-[20px] py-[10px]"
+      className="md:w-[220px] w-[137px] md:h-[70px] h-[38px]  flex justify-between items-center px-[20px] py-[10px]"
       style={{
         background:
           "linear-gradient(90deg, rgba(251.18, 251.18, 251.18, 0) 0%, rgba(149.18, 149.18, 149.18, 0.30) 49%, rgba(251.18, 251.18, 251.18, 0) 100%)",
@@ -27,7 +27,7 @@ export default function VoteButton({
         <img
           src={voteInfo.img}
           alt={`${voteInfo.label} 동의`}
-          className="w-[25px] h-[25px]"
+          className="md:w-[25px] md:h-[25px] w-[18px] h-[18px]"
         />
         <figcaption>{voteInfo.label}</figcaption>
       </figure>
