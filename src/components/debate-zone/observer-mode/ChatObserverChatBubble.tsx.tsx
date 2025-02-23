@@ -10,7 +10,7 @@ export default function ChatObserverChatBubble({
   message: string;
 }) {
   return (
-    <div className={`w-full flex ${isMine ? "justify-end" : "justify-start"}`}>
+    <div className={`w-full flex ${isMine ? "justify-end" : "justify-start"} md:text-[16px] text-[14px]`}>
       <div
         className={`bg-white bg-opacity-10 max-w-[320px] h-auto flex ${
           isMine

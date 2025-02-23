@@ -1,14 +1,8 @@
-import arrowdown from "../../../assets/icons/arrow-down.svg";
-import arrowup from "../../../assets/icons/arrow-up.svg";
-import link from "../../../assets/icons/link.svg";
-import info from "../../../assets/icons/info-btn.svg"
+import link from "../../assets/icons/link.svg"
+import info from "../../assets/icons/info-btn.svg"
 import { useState } from "react";
 
-export default function WaitingInfoDrodown({
-  isWaiting,
-}: {
-  isWaiting: boolean;
-}) {
+export default function InfoDrodown() {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
   // const { roomSettings } = useRoomStore(); 쓸지 안 쓸지 미정
   // {getKeyFromDbKey(roomSettings.participant!)}  일단 정보 가져오는 것은 constants에 저장된 이 함수로 형식을 변환하면 됨
@@ -30,7 +24,7 @@ export default function WaitingInfoDrodown({
           <img
             src={info}
             alt="토론방 상세 정보 여닫기"
-            className="md:w-[20px] sm:w-[18px] md:h-[20px] sm:w-[18px]"
+            className="md:w-[20px] sm:w-[18px] md:h-[20px] sm:w-[18px] w-[16px] h-[16px]"
           />
         </button>
       {infoOpen && (

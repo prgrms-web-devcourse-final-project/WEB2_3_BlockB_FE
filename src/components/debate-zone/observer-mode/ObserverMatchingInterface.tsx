@@ -35,7 +35,7 @@ export default function ObserverMatchingInterface({
             ></div>
           ))}
       </div>
-      <p className="w-full font-pretendard text-center font-bold text-[20px] mt-[50px]">
+      <p className="w-full font-pretendard text-center font-bold md:text-2xl sm:text-[16px] text-[14px] mt-[50px] ">
         매칭이 끝나면 <br /> 토론이 시작합니다
       </p>
     </div>

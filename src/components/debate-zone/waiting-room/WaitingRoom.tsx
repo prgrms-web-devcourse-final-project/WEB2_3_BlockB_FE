@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import MatchingInterface from "./MatchingInterface";
 import ParticipantBox from "../ParticipantBox";
-import WaitingInfoDrodown from "./WaitingInfoDrodown";
+import WaitingInfoDrodown from "../InfoDrodown";
 import { useRoomStore } from "../../../stores/roomStateStore";
 
 export default function WaitingRoom() {
