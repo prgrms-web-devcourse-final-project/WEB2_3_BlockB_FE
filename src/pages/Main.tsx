@@ -9,66 +9,76 @@ export default function Main() {
 
   return (
     <>
-      <div className="flex justify-center text-black01 mb-[210px]">
-        <div className="w-[1128px]">
-          <div className="w-full h-[109px]  flex justify-between items-center mt-[30px] mb-[56px]">
-            <div className="text-[90px] font-unifrakturCook">
-              EarthTalk Daily
-            </div>
-            <div className="w-[200px] h-[109px] font-sofiaSans font-extrabold ">
-              <div className="flex text-[60px] h-[64px] items-center justify-end  ">
-                {date} {month}
+      <div className="flex justify-center text-black01 mb-[210px">
+        <div className="w-[1024px]  max-md:w-full ">
+          <div className="flex justify-center">
+            <div className="w-full h-[109px] max-lg:w-[768px] max-md:h-8  max-md:w-80 flex justify-between items-center mt-[30px] mb-[56px] max-md:mt-4 max-md:mb-5">
+              <div className="text-[90px] font-unifrakturCook max-md:text-[30px] max-md:w-[400px] ">
+                EarthTalk Daily
               </div>
-              <div className="flex text-[30px] h-[45px] justify-end">
-                {day} {year}
+              <div className="w-[200px] h-[109px] max-md:h-8 font-sofiaSans font-extrabold  ">
+                <div className="flex text-[60px]  items-center justify-end  max-md:text-[20px]">
+                  {date} {month}
+                </div>
+                <div className="flex text-[30px]  justify-end max-md:text-[10px]">
+                  {day} {year}
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex text-[30px] font-sourceSerif4 font-extrabold">
-            <button
-              onClick={() => {
-                setTeab(true);
-              }}
-              className={`${
-                tab
-                  ? "w-[317px] h-[49px] bg-blue03 text-white justify-center flex rounded-t-[50px] "
-                  : "w-[317px] h-[49px] justify-center flex rounded-t-[50px] shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
-              }`}
-            >
-              news top 10
-            </button>
-            <button
-              onClick={() => {
-                setTeab(false);
-              }}
-              className={`${
-                tab
-                  ? "w-[317px] h-[49px] justify-center flex rounded-t-[50px] shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
-                  : "w-[317px] h-[49px] bg-blue03 text-white justify-center flex rounded-t-[50px] "
-              }`}
-            >
-              debate top 10
-            </button>
+          <div className="justify-center max-lg:flex">
+            <div className="flex text-[30px] font-sourceSerif4 font-extrabold max-lg:w-[768px] max-md:text-[12px] max-md:w-80 ">
+              <button
+                onClick={() => {
+                  setTeab(true);
+                }}
+                className={`${
+                  tab
+                    ? "  bg-blue03 text-white "
+                    : " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
+                } w-[317px] h-[49px] max-md:w-40 max-md:h-5 justify-center flex rounded-t-[50px]`}
+              >
+                news top 10
+              </button>
+              <button
+                onClick={() => {
+                  setTeab(false);
+                }}
+                className={`${
+                  tab
+                    ? " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
+                    : " bg-blue03 text-white "
+                } w-[317px] h-[49px]  max-md:w-40 max-md:h-5 justify-center flex rounded-t-[50px]`}
+              >
+                debate top 10
+              </button>
+            </div>
           </div>
-          <div
-            className={`h-[60px] my-[17px] flex items-center ${
-              tab ? "justify-between" : "justify-end"
-            }`}
-          >
-            <span
-              className={`${
-                tab ? "text-[40px] font-extrabold font-sourceSerif4 " : "hidden"
+
+          <div className=" max-lg:flex max-lg:justify-center">
+            <div
+              className={`h-[60px] my-[17px] flex items-center max-lg:w-[768px] max-md:w-[320px]  ${
+                tab ? "justify-between" : "justify-end"
               }`}
             >
-              Focus
-            </span>
-            <Link
-              to={tab ? "/news" : "/debate-rooms"}
-              className="w-[113px] h-[34px] bg-gray03 rounded-[10px] text-white justify-center items-center flex"
-            >
-              view more
-            </Link>
+              <span
+                className={`max-lg:text-[25px] max-md:text-[14px] ${
+                  tab
+                    ? "text-[40px] font-extrabold font-sourceSerif4 "
+                    : "hidden"
+                }`}
+              >
+                Focus
+              </span>
+              <Link
+                to={tab ? "/news" : "/debate-rooms"}
+                className="w-[112px] h-[34px] text-[20px] max-lg:text-[16px] max-md:text-[12px] max-md:w-[66px] max-md:h-[18px] bg-gray03 rounded-[10px] text-white justify-center items-center flex"
+              >
+                view more
+              </Link>
+            </div>
           </div>
+
           <NewsSimpleInfos dates={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} tab={tab} />
 
           <DebateSimpleInfos
