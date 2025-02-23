@@ -15,13 +15,13 @@ export default function ProfileUpdate() {
 
   return (
     <div>
-      <div className="flex justify-center mt-[122px] font-pretendard">
-        <div className="w-[500px] h-[500px] flex flex-col justify-between">
+      <div className="flex justify-center mt-[122px] max-md:mt-14 font-pretendard">
+        <div className="w-[500px] h-[500px]  flex flex-col justify-between">
           <div className="flex justify-center">
             <img
               src={avatar}
               alt="프로필 이미지"
-              className="w-[200px] h-[200px] rounded-full"
+              className="w-[200px] h-[200px] rounded-full max-md:w-36 max-md:h-36"
             />
           </div>
           <div className="flex justify-center">
@@ -35,20 +35,20 @@ export default function ProfileUpdate() {
             </button>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between max-md:flex-col">
             <span className="text-[20px]">닉네임 변경</span>
             <input
               type="text"
               placeholder="변경하실 닉네임을 입력해주세요."
-              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5"
+              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5 max-md:w-[300px]"
             />
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between max-md:flex-col">
             <span className="text-[20px]">자기소개 변경</span>
             <input
               type="text"
               placeholder="변경하실 자기소개를 입력해주세요."
-              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5"
+              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5 max-md:w-[300px]"
             />
           </div>
           <div className="flex justify-end h-[60px] ">
