@@ -20,6 +20,11 @@ export default function ReplayDebate({
     { id: 7, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
     { id: 8, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
     { id: 9, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
+    { id: 10, message: "조금 긴 예시 텍스트 입니다", isMine: false, isOppenent: false },
+    { id: 11, message: "조금 많이 긴 예시 텍스트 입니다", isMine: true, isOppenent: true },
+    { id: 12, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
+    { id: 13, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
+    { id: 14, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
   ];
 
   const voteList: VoteInfo[] = [
@@ -30,12 +35,12 @@ export default function ReplayDebate({
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
-      <h1 className="text-white font-pretendard font-bold text-[24px] text-center mb-[30px]">
+      <h1 className="text-white font-pretendard font-bold md:text-[24px] text-[18px] text-center md:mb-[30px] mt-[10px] mb-5">
         찬반 투표가 진행중입니다...
       </h1>
-      <div className="flex justify-between gap-[200px]">
+      <div className="flex md:flex-row flex-col justify-between md:gap-[200px] gap-5 h-9/10">
         {/* 채팅창 */}
-        <section className="w-[500px] h-auto bg-neutral-50/30 rounded-lg shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] border border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse">
+        <section className="max-w-[500px] min-w-[370px] md:h-[500px] h-[300px] flex  md:bg-neutral-50/30 rounded-lg md:shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] md:border md:border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse">
           {messages.map((msg) => (
             <MessageItem
               key={msg.id}
@@ -46,7 +51,7 @@ export default function ReplayDebate({
             />
           ))}
         </section>
-        <section className="flex flex-col gap-[14px] font-bold text-white">
+        <section className="flex flex-col items-center gap-[14px] font-bold text-white">
           <p className="font-jersey text-[24px]">VOTE</p>
           <div className="flex flex-col gap-[20px]">
             {voteList.map((voteInfo, index) => (
