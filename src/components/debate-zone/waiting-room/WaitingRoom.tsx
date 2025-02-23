@@ -52,7 +52,7 @@ export default function WaitingRoom() {
           디베이터를 매칭하고 있습니다{dots}
         </h3>
       ) : (
-        <div className="text-white text-2xl font-bold w-full text-center">
+        <div className="text-white md:text-2xl sm:text-[16px] text-[14px] font-bold w-full text-center">
           <h3 className="mb-5">매칭이 완료되었습니다. 곧 토론이 시작됩니다.</h3>
           <p>{countDown}</p>
         </div>

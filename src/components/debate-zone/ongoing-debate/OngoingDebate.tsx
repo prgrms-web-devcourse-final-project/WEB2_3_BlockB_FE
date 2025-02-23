@@ -33,21 +33,21 @@ export default function OngoingDebate() {
   return (
     <>
       {isLoading ? (
-        <section className="flex justify-center items-center gap-10 min-h-screen">
+        <section className="flex justify-center items-center md:gap-10 sm:gap-5 gap-[5px] min-h-screen">
           <ParticipantBox label="PROS" labelAlignment="center" />
-          <span className="text-white font-bold text-[24px]">vs</span>
+          <span className="text-white font-bold md:text-[24px] sm:text-[18px] text-[14px] font-jersery">vs</span>
           <ParticipantBox label="CONS" labelAlignment="center" color="blue" />
         </section>
       ) : (
 
         <section
-          className="flex justify-between px-[30px] py-[20px] min-h-screen items-center
-        "
+          className="flex justify-between md:px-[30px] md:py-[20px] sm:py-[15px] min-h-screen items-center
+        md:gap-[20px]"
         >
           {isExitModalOpen && (
             <ExitModal setIsExitModalOpen={setIsExitModalOpen} />
           )}
-          <div className="h-[728.4px] pt-[110px]">
+          <div className="h-[728.4px] pt-[110px] md:block hidden">
             <ParticipantBox
               label="PROS"
               labelAlignment="start"
@@ -57,10 +57,10 @@ export default function OngoingDebate() {
 
           <ChatWindow />
 
-          <div>
+          <div className="md:block hidden">
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
-              <Counter label="TURN" boxNumber={2} count={turnCount} />
-              <Counter label="TIMER" boxNumber={3} count={timerCount} />
+            <Counter label="TURN" boxNumber={2} count={turnCount} />
+            <Counter label="TIMER" boxNumber={3} count={timerCount} />
             </div>
             <ParticipantBox
               label="CONS"

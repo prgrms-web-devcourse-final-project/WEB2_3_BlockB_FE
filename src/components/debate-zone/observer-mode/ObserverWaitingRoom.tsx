@@ -45,7 +45,7 @@ export default function ObserverWaitingRoom() {
             <p className="font-jersey text-white text-[24px]">vs</p>
             <ParticipantBox label="CONS" />
           </div>
-          <p className="text-white font-pretendard text-[20px] font-bold mt-[50px]">
+          <p className="text-white font-pretendard md:text-[20px] sm:text-[16px] text-[14px] font-bold mt-[50px]">
             매칭이 완료되었습니다. 곧 토론이 시작됩니다.
           </p>
         </div>

@@ -36,7 +36,7 @@ export default function ReportModal({
           기도차
         </p>
         <p className="font-bold text-black01 text-[14px]">옵션</p>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-gray01">
           {reportReasons.map((item, index) => (
             <label
               key={index}

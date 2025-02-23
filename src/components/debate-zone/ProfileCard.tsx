@@ -17,7 +17,7 @@ export default function ProfileCard({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
     <div
-      className={`flex md:w-[280px] w-[150px] h-[34px] justify-between h-auto md:px-[10px] md:py-[8px] p-1 bg-neutral-50/50 md:rounded-lg rounded-[5px] text-white animate-flip ${
+      className={`flex items-center lg:w-[280px] w-[150px] h-[34px] justify-between h-auto lg:px-[10px] lg:py-[8px] p-1 bg-neutral-50/50 lg:rounded-lg rounded-[5px] text-white animate-flip ${
         color === "blue" &&
         "bg-sky-950/50 shadow:0px 1px 10px rgb(0 96 240 /1.00) border border-neutral-50/50 "
       }`}
@@ -31,23 +31,23 @@ export default function ProfileCard({
       }
     >
       {isModalOpen && <ReportModal setIsModalOpen={setIsModalOpen} />}
-      <div className="flex md:gap-[21px] gap-1 items-center">
+      <div className="flex lg:gap-[21px] gap-1 items-center">
         <figure className="rounded-full">
-          <img src={profile} alt="" className="md:w-[54px] md:h-[54px] w-[25px] h-[25px]" />
+          <img src={profile} alt="" className="lg:w-[54px] lg:h-[54px] w-[25px] h-[25px]" />
         </figure>
         <div className="flex flex-col gap-[2px]">
           <p className="leading-0">imaria0218</p>
-          <div className="flex md:gap-[10px] gap-1 md:h-[22px] h-[11px]">
+          <div className="flex lg:gap-[10px] gap-[2px] lg:h-[22px] h-[11px]">
             <figure className="flex items-center rounded-full">
-              <img src={win} alt="" className="md:w-[22px] md:h-[22px] w-[11px] h-[11px] md:mr-2 mr-1" />
+              <img src={win} alt="" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
               <figcaption>5</figcaption>
             </figure>
             <figure className="flex items-center rounded-full">
-              <img src={duse} alt="" className="md:w-[22px] md:h-[22px] w-[11px] h-[11px] md:mr-2 mr-1" />
+              <img src={duse} alt="" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
               <figcaption>3</figcaption>
             </figure>
             <figure className="flex items-center rounded-full">
-              <img src={lose} alt="" className="md:w-[22px] md:h-[22px] w-[11px] h-[11px] md:mr-2 mr-1" />
+              <img src={lose} alt="" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
               <figcaption>0</figcaption>
             </figure>
           </div>
@@ -58,7 +58,8 @@ export default function ProfileCard({
           <button onClick={() => setIsModalOpen(true)}>
             <img
               src={color === "blue" ? flagWhite : flag}
-              alt="신고하기 열기"
+              alt="신고하기 모달 열기"
+              className="md:w-[12px] md:h-[14px] w-[10px] h-[11px]"
             />
           </button>
         </div>
