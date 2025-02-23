@@ -1,6 +1,6 @@
 import ObserverMatchingInterface from "./ObserverMatchingInterface";
 import ParticipantBox from "./../ParticipantBox";
-import WaitingInfoDrodown from "./../waiting-room/WaitingInfoDrodown";
+import InfoDropdwon from "../InfoDrodown";
 import profile from "../../../assets/icons/profile-white.svg";
 import { useObservingStore } from "../../../stores/observingStateStore";
 import { useState } from "react";
@@ -13,7 +13,7 @@ export default function ObserverWaitingRoom() {
     return (
       <section className="px-[40px] flex flex-col gap-[250px] relative min-h-screen">
         <div className="w-full flex justify-between">
-          <WaitingInfoDrodown isWaiting={isWaiting} />
+          <InfoDropdwon />
           <AudienceListBox setIsWaiting={setIsWaiting} />
           {/* TODO: 대기 완료 전환 버튼은 임시로 제작해 놓은 것으로 실제 구현시 props 및 버튼을 삭제하십시오 */}
         </div>
