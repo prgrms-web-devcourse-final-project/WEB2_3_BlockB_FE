@@ -51,7 +51,7 @@ export default function ObserverOngoingRoom() {
     <section className="text-white md:flex justify-between gap-[20px] md:mt-[20px]">
 
       {/* 채팅 메시지 영역 */}
-      <section className={`${ isDebateTabed? " md:border md:border-white w-full md:w-[55%] h-screen md:h-[630px] md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto md:p-[20px] p-[10px]" : "md:flex hidden md:border md:border-white w-full md:w-[55%] h-screen md:h-[630px] md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto md:p-[20px] p-[10px]"}`}>
+      <section className={`${ isDebateTabed? " md:border md:border-white w-full md:w-[55%] h-screen md:h-[630px] md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto md:p-[20px] p-[10px] flex flex-col" : "md:flex flex-col hidden md:border md:border-white w-full md:w-[55%] h-screen md:h-[630px] md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto md:p-[20px] p-[10px]"}`}>
         {messages.map((msg) => (
           <MessageItem
             key={msg.id}
@@ -79,7 +79,7 @@ export default function ObserverOngoingRoom() {
     {/* 투표 버튼 */}
     <button
       onClick={() => setObservingState("voting")}
-      className="text-white font-bold w-full md:w-auto mt-[20px] py-[10px] px-[20px] bg-blue-600 rounded-md"
+      className="hidden text-white font-bold w-full md:w-auto mt-[20px] py-[10px] px-[20px] bg-blue-600 rounded-md"
     >
       투표로 이동
     </button>
