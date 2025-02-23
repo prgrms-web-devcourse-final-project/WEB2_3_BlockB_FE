@@ -14,13 +14,13 @@ export default function VoteResult({
   const navigate = useNavigate();
   const [isWatingResult, setIsWaitingResult] = useState(false);
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen px-[10px]">
       <section className="flex flex-col justify-between w-[643px]">
-        <h1 className="text-white font-pretendard font-bold text-[24px] text-center mb-[60px]">
+        <h1 className="text-white font-pretendard font-bold md:text-[24px] text-[18px] text-center md:mb-[60px] mb-3">
           AI는 인간의 노동을 대체하나 보조하나?
         </h1>
         <div>
-          <h2 className="font-jersey text-white text-[24px] text-center">
+          <h2 className="font-jersey text-white md:text-[24px] text-[16px] text-center">
             VOTE RESULT
           </h2>
           <ResultGraph
@@ -30,7 +30,7 @@ export default function VoteResult({
             noVotePercentage={16}
           />
         </div>
-        <div className="w-full flex justify-between mt-[60px]">
+        <div className="w-full flex justify-between mt-[60px] md:text-[16px] text-[14px]">
           <button
             onClick={() => {
               if (isObserver) setObservingState("replay");

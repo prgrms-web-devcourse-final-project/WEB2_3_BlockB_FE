@@ -39,7 +39,7 @@ export default function ResultGraph({
   }, [isWatingResult]);
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col gap-[20px] font-pretendard">
+    <div className="w-full max-w-md mx-auto flex flex-col gap-[20px] font-pretendard px-[20px]">
       {/* 찬성 막대 */}
       <div className="mb-2">
         <p className="text-white mb-1">찬성 ({prosPercentage}%)</p>
