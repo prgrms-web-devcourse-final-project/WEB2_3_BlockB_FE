@@ -21,48 +21,46 @@ export default function MessageSection() {
   }, [messages]);
 
   return (
-    <div className="w-full h-full flex flex-col pb-[30px] pt-[20px] font-pretendard">
-      {/* 메시지 목록 */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-[10px]">
-        {messages.map((message, index) => (
-          <MessageItem
-            key={index}
-            message={message}
-            profile={profile}
-            isMine={false}
-            isOppenent={index % 2 === 0} // 임시로 퍼블리싱 위해서 상대방 메시지랑 주고 받을 수 있도록 함
+      <div id="message-section" className="w-full md:h-full h-screen flex-1 flex flex-col pb-[30px] pt-[20px] font-pretendard">
+        {/* 메시지 로그 영역 */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-[10px] min-h-[60vh]">
+          {messages.map((message, index) => (
+            <MessageItem
+              key={index}
+              message={message}
+              profile={profile}
+              isMine={false}
+              isOppenent={index % 2 === 0}
+            />
+          ))}
+          <div ref={messageEndRef} />
+        </div>
+      {/* 입력창 */}
+        <div className="md:h-[50px] h-[30px] flex justify-between items-center bg-white bg-opacity-30 border p-2 mx-[10px] my-[10px] rounded-md">
+          <input
+            type="text"
+            placeholder="메시지를 입력하세요"
+            value={currentMessage}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && currentMessage.trim()) {
+                addMessage(currentMessage);
+                setCurrentMessage("");
+              }
+            }}
+            onChange={(e) => setCurrentMessage(e.target.value)}
+            className="appearance-none border-none outline-none focus:ring-0 bg-transparent w-full placeholder:text-gray02 placeholder:font-light text-white font-bold  md:text-[16px] text-[14px]"
           />
-        ))}
-        {/* 스크롤 끝을 위한 div */}
-        <div ref={messageEndRef} />
+          <button
+            onClick={() => {
+              if (currentMessage.trim()) {
+                addMessage(currentMessage);
+                setCurrentMessage("");
+              }
+            }}
+          >
+            <img src={send} className="md:w-[23px] md:h-[23px] w-[17pxs] h-[17px]"/>
+          </button>
+        </div>
       </div>
-
-      {/* 메시지 입력란 */}
-      <div className="flex justify-between bg-white bg-opacity-30 border p-2 mx-[10px] my-[10px] rounded-md">
-        <input
-          type="text"
-          placeholder="메시지를 입력하세요"
-          value={currentMessage}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && currentMessage.trim()) {
-              addMessage(currentMessage);
-              setCurrentMessage("");
-            }
-          }}
-          onChange={(e) => setCurrentMessage(e.target.value)}
-          className="appearance-none border-none outline-none focus:ring-0 bg-transparent  w-full placeholder:text-gray02 placeholder:font-light text-white font-bold"
-        />
-        <button
-          onClick={() => {
-            if (currentMessage.trim()) {
-              addMessage(currentMessage);
-              setCurrentMessage("");
-            }
-          }}
-        >
-          <img src={send} />
-        </button>
-      </div>
-    </div>
   );
 }
