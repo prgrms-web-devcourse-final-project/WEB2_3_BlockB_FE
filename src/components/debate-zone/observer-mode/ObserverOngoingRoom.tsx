@@ -17,7 +17,7 @@ export default function ObserverOngoingRoom() {
   const [isDebateTabed, setIsDebateTabed] = useState<boolean>(true)
 
   return (
-<div className="flex md:flex-col px-[10px] md:px-[100px] lg:px-[200px] md:py-[30px] justify-center items-center min-h-screen ">
+  <div className="flex md:flex-col px-[10px] md:px-[100px] lg:px-[200px] md:py-[30px] justify-center items-center min-h-screen ">
   {isExitModalOpen && <ExitModal setIsExitModalOpen={setIsExitModalOpen} />}
   <div className="w-full max-w-[1200px]">
     {/* md 이상일 때만 나타남: 제목 및 타이머 */}

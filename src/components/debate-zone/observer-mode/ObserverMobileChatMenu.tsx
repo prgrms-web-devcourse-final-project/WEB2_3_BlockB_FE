@@ -21,7 +21,7 @@ export default function ObserverMobileChatMenu() {
         }, 1000);
     
         return () => clearInterval(interval);
-    }, []);
+    }, [timerCount]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {

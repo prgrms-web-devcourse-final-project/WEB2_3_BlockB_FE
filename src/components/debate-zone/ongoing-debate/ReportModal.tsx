@@ -3,16 +3,14 @@ import { createPortal } from "react-dom";
 import check from "../../../assets/icons/checked1.svg";
 import { reportReasons as initialReportReasons } from "../../../constants";
 import RoomActionButtons from "../RoomActionButtons";
+import { useReportStore } from "../../../stores/reportModalStore";
 
-export default function ReportModal({
-  setIsModalOpen,
-}: {
-  setIsModalOpen: (isOpen: boolean) => void;
-}) {
+export default function ReportModal() {
   const [reportReasons, setReportReasons] = useState(initialReportReasons);
   const [hasCompleted, setHasCompleted] = useState(false);
   const [description, setDescription] = useState("");
 
+  const {isReportModalOpen, setIsReportModalOpen} = useReportStore()
   const handleCheckboxChange = (selectedKey: string | boolean | number) => {
     setReportReasons((prev) =>
       prev.map((item) => ({
@@ -26,11 +24,11 @@ export default function ReportModal({
   const handleConfirm = () => {
     const selectedReason = reportReasons.find((item) => item.isChecked);
     if (!selectedReason) return;
-    setIsModalOpen(false);
+    setIsReportModalOpen(false);
   };
 
-  return createPortal(
-    <div className="fixed inset-0 bg-black01 z-50 bg-opacity-70 flex justify-center items-center">
+  if(isReportModalOpen) return createPortal(
+    <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 bg-black01 z-50 bg-opacity-70 flex justify-center items-center">
       <div className="flex flex-col gap-[10px] bg-white w-[265px] h-auto rounded-[10px] px-[30px] py-[18px]">
         <p className="font-bold text-[16px] text-black01">신고하기</p>
         <p className="text-[14px] text-gray01 h-[23px] border-b border-gray03">
@@ -73,7 +71,7 @@ export default function ReportModal({
               setReportReasons(initialReportReasons);
               setHasCompleted(false);
               setDescription("");
-              setIsModalOpen(false);
+              setIsReportModalOpen(false);
             }}
             confirmAction={handleConfirm}
             cancelColor="bg-gray03 text-white"

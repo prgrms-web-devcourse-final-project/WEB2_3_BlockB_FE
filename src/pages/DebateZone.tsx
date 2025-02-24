@@ -9,6 +9,7 @@ import VoteRoom from "../components/debate-zone/VoteRoom";
 import WaitingRoom from "../components/debate-zone/waiting-room/WaitingRoom";
 import WinByDefault from "../components/debate-zone/WinByDefault";
 import { useRoomStore } from "../stores/roomStateStore";
+import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
 
 export default function DebateZone() {
   const { roomState } = useRoomStore();
@@ -27,6 +28,7 @@ export default function DebateZone() {
   return (
     <div className="bg-[#070707] min-h-screen overflow-hidden">
       <Header status={headerStatus} />
+      <ReportModal />
       {roomState === "generating" && <GeneratingRoom />}
       {roomState === "waiting" && <WaitingRoom />}
       {roomState === "ongoing" && <OngoingDebate />}

@@ -21,14 +21,15 @@ export default function OngoingDebate() {
   const [timerCount, setTimerCount] = useState(roomSettings.time!);
   const { setRoomState } = useRoomStore();
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimerCount((prev: number) => (prev > 0 ? prev - 1 : 0));
+      setTimerCount((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
-
+  
     return () => clearInterval(interval);
   }, []);
+  
 
   return (
     <>
@@ -41,7 +42,7 @@ export default function OngoingDebate() {
       ) : (
 
         <section
-          className="flex justify-between md:px-[30px] md:py-[20px] sm:py-[15px] min-h-screen items-center
+          className="flex justify-between md:px-[30px] md:py-[20px] min-h-screen items-center
         md:gap-[20px]"
         >
           {isExitModalOpen && (
