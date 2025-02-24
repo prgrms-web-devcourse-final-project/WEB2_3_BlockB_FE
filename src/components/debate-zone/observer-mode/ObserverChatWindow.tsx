@@ -5,13 +5,15 @@ export default function ObserverChatWindow({ isDebateTabed }: { isDebateTabed: b
   return (
     <section
       id="chatwindow"
-      className={`md:w-[378px] md:h-[440px] rounded-[10px] md:mt-0 mt-[10px] 
-        ${isDebateTabed ? "hidden md:block" : "h-screen"}`}
+      className={`md:w-[378px] md:h-[440px] rounded-[10px] md:mt-0 mt-[10px] flex flex-col 
+        ${isDebateTabed ? "hidden md:flex" : "h-screen"}`}
     >
       {/* 메시지 로그 */}
-      <ObserverChatSection />
+      <div className="flex-grow overflow-y-auto">
+        <ObserverChatSection />
+      </div>
 
-      {/* 메시지 입력 창 */}
+      {/* 메시지 입력 창 (항상 하단 고정) */}
       <div className="flex justify-between items-center bg-white/30 border p-2 mx-[10px] my-[10px] rounded-md font-pretendard">
         <input
           type="text"
