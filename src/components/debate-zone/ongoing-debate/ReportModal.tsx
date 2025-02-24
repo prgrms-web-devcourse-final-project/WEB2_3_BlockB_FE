@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import check from "../../../assets/icons/checked1.svg";
 import { reportReasons as initialReportReasons } from "../../../constants";
 import RoomActionButtons from "../RoomActionButtons";
@@ -28,7 +29,7 @@ export default function ReportModal({
     setIsModalOpen(false);
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black01 z-50 bg-opacity-70 flex justify-center items-center">
       <div className="flex flex-col gap-[10px] bg-white w-[265px] h-auto rounded-[10px] px-[30px] py-[18px]">
         <p className="font-bold text-[16px] text-black01">신고하기</p>
@@ -82,6 +83,7 @@ export default function ReportModal({
           />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
