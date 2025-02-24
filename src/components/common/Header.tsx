@@ -18,10 +18,15 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   return (
     <>
       {status === "landing" ? (
-        <div className="w-full h-[80px] flex px-[40px] justify-between items-center bg-black01 text-white">
-          <img src={logoWhite} />
-          <p className="font-unifrakturCook text-[40px]">Earth Talk</p>
-          <button className="font-pretendard font-bold text-[18px]">
+        <div className="w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] justify-between items-center bg-black01 text-white">
+          <img
+            src={logoWhite}
+            className="max-md:w-7 max:md:h-7 max-md:object-cover"
+          />
+          <p className="font-unifrakturCook text-[40px] max-md:text-[24px]">
+            Earth Talk
+          </p>
+          <button className="font-pretendard font-bold text-[18px] max-md:text-[12px]">
             로그인
           </button>
         </div>
