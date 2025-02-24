@@ -37,7 +37,7 @@ export default function MessageItem({
             isMine
               ? "bg-white text-black01"
               : "bg-white bg-opacity-50 text-black01"
-          }   md:p-2 p-1 rounded-md max-w-[400px]  `}
+          }   md:p-2 p-1 rounded-md max-w-[400px] break-words h-auto `}
         >
           {message}
         </div>
