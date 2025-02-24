@@ -158,7 +158,7 @@ export default function Admin() {
     <>
       <div className="flex justify-center">
         <div className="w-full max-w-[980px] h-auto mt-[50px] pt-7 pl-7 pr-7">
-          <p className="text-[32px] font-bold">신고 목록</p>
+          <p className="text-[24px] font-bold md:text-[32px]">신고 목록</p>
           <div className="flex border-b-[1px] border-gray03 border-solid text-[16px] font-bold my-5">
             <button
               onClick={() => setTab(true)}
