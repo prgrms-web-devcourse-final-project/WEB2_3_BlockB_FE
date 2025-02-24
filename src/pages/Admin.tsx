@@ -157,7 +157,7 @@ export default function Admin() {
   return (
     <>
       <div className="flex justify-center">
-        <div className="w-[980px] h-[800px] mt-[50px] pt-7 pl-7">
+        <div className="w-full max-w-[980px] h-auto mt-[50px] pt-7 pl-7 pr-7">
           <p className="text-[32px] font-bold">신고 목록</p>
           <div className="flex border-b-[1px] border-gray03 border-solid text-[16px] font-bold my-5">
             <button
@@ -182,13 +182,13 @@ export default function Admin() {
             </button>
           </div>
           <div className="flex items-center">
-            <p className="text-[16px] h-5 text-gray01 mr-9">
+            <p className="text-[14px] md:text-[16px] h-5 text-gray01 mr-6 whitespace-nowrap">
               {tab ? "신고 사유" : "처리 옵션"}
             </p>
             <div
               className={`${
                 tab ? "w-[814px] " : "w-[375px]"
-              } h-[30px] flex justify-between text-[14px]`}
+              } h-[40px] flex justify-between text-[14px]  overflow-x-auto  `}
             >
               {tab
                 ? processedFilters.map((filter) => (

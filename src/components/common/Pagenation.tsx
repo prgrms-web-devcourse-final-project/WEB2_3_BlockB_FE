@@ -37,7 +37,7 @@ export default function Pagination({
         <button
           key={i}
           onClick={() => onPageChange(i)}
-          className={`mx-1 px-3 py-1 rounded-lg ${
+          className={`mx-0.5 sm:mx-1 px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-lg ${
             currentPage === i
               ? "bg-blue-500 text-white"
               : "bg-white text-gray-700 hover:bg-gray-100"
@@ -51,11 +51,11 @@ export default function Pagination({
   };
 
   return (
-    <div className={`flex justify-center items-center mt-6`}>
+    <div className="flex justify-center items-center mt-4 sm:mt-6">
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className={`flex items-center justify-center h-8 px-3 text-sm font-medium border rounded-lg me-3 
+        className={`flex items-center justify-center h-7 sm:h-8 px-2 sm:px-3 text-xs sm:text-sm font-medium border rounded-lg me-2 sm:me-3
           ${
             currentPage === 1
               ? "text-gray-400 bg-gray-100 border-gray-200 cursor-not-allowed"
@@ -70,7 +70,7 @@ export default function Pagination({
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className={`flex items-center justify-center h-8 px-3 text-sm font-medium border rounded-lg ms-3 
+        className={`flex items-center justify-center h-7 sm:h-8 px-2 sm:px-3 text-xs sm:text-sm font-medium border rounded-lg ms-2 sm:ms-3
           ${
             currentPage === totalPages
               ? "text-gray-400 bg-gray-100 border-gray-200 cursor-not-allowed"
