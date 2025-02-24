@@ -57,7 +57,7 @@ export default function Main() {
 
           <div className=" max-lg:flex max-lg:justify-center">
             <div
-              className={`h-[60px] my-[17px] flex items-center max-lg:w-[768px] max-md:w-[320px]  ${
+              className={`h-[60px] my-[17px] flex items-center max-lg:w-[768px] max-md:w-[320px] max-md:h-5  ${
                 tab ? "justify-between" : "justify-end"
               }`}
             >
