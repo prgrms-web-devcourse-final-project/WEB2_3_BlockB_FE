@@ -12,7 +12,7 @@ export default function NewsSimpleInfo({ date }: { date: number }) {
           className="w-full h-[237px] rounded-[10px] max-md:w-[128px] max-md:h-[80px]"
         />
         <div className="flex flex-col justify-between ">
-          <div className="text-[24px] font-extrabold max-md:text-[14px] line-clamp-3 ">
+          <div className="text-[24px] font-extrabold max-md:text-[14px] line-clamp-3 md:mt-2">
             {date}미국-인도 정상회담 개최 미국-인도 정상회담 개최미국-인도
             정상회담 개최미국-인도 정상회담 개최미국-인도 정상회담 개최미국-인도
             정상회담 개최미국-인도 정상회담 개최미국-인도 정상회담 개최미국-인도

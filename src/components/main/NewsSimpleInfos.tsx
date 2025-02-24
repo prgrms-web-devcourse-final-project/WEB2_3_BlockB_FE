@@ -18,7 +18,7 @@ export default function NewsSimpleInfos({
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 300);
+    }, 3000);
   }, []);
   return (
     <>
@@ -111,7 +111,7 @@ export default function NewsSimpleInfos({
             </div>
           </div>
           {/* 모바일 */}
-          <div className="flex justify-center lg:hidden md:hidden ">
+          <div className="flex justify-center lg:hidden md:hidden mb-[15px] ">
             <div className="flex flex-col w-[320px] h-[180px]">
               <div className="flex">
                 <img
@@ -132,7 +132,7 @@ export default function NewsSimpleInfos({
                 </div>
               </div>
               <div>
-                <div className="text-[12px] line-clamp-3">
+                <div className="text-[12px] line-clamp-3 mt-[15px]">
                   조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴
                   D.C.에서 정상회담을 갖고 양국 간 경제 및 안보 협력 강화 방안을
                   논의했습니다.
