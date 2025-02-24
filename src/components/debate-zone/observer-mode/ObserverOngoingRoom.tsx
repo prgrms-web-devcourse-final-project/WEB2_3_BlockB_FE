@@ -51,7 +51,11 @@ export default function ObserverOngoingRoom() {
     <section className="text-white flex md:flex-row flex-col flex-grow justify-between gap-[20px] md:mt-[20px] ">
 
       {/* 채팅 메시지 영역 */}
-      <section className={`${ isDebateTabed? " md:border md:border-white w-full md:w-[55%] flex flex-col flex-grow md:h-[630px] md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto md:p-[20px] p-[10px] flex flex-col" : "md:flex flex-col hidden md:border md:border-white w-full md:w-[55%] h-screen md:h-[630px] md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto md:p-[20px] p-[10px]"}`}>
+      <section
+        className={`w-full md:w-[55%] h-screen md:h-[630px] md:border md:border-white 
+          md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto 
+          md:p-[20px] p-[10px] flex flex-col ${isDebateTabed ? "md:flex" : "hidden md:flex"}`}
+      >
         {messages.map((msg) => (
           <MessageItem
             key={msg.id}
