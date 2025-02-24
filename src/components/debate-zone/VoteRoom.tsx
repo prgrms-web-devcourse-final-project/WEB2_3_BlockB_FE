@@ -15,7 +15,7 @@ export default function VoteRoom({
     else setRoomState(stage);
   };
   const btnClass =
-    "white-space md:w-[46px] w-[42px] md:h-[30px] h-[20px] md:px-[10px] px-2 md:py-[4px] bg-white text-black01 font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
+    "white-space md:w-[46px] w-[42px] md:h-[30px] h-[20px] px-2 md:py-[4px] bg-white text-black01 font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
   return (
     <div className="flex flex-col justify-center items-center gap-[30px] min-h-screen">
       <div>
