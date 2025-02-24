@@ -1,26 +1,25 @@
 import send from "../../../assets/icons/send.svg";
 import ObserverChatSection from "./ObserverChatSection";
 
-export default function ObserverChatWindow({isDebateTabed}: {isDebateTabed : boolean}) {
+export default function ObserverChatWindow({ isDebateTabed }: { isDebateTabed: boolean }) {
   return (
     <section
-      className={`${isDebateTabed? "md:block hidden md:w-[378px] md:h-[440px] rounded-[10px] md:mt-0 mt-[10px]" : "md:w-[378px] md:h-[440px] h-screen rounded-[10px] md:mt-0 mt-[10px]"}`}
-      style={{
-        background:
-          "linear-gradient(180deg, rgba(115, 115, 115, 0.30) 0%, rgba(217, 217, 217, 0) 100%)",
-      }}
+      id="chatwindow"
+      className={`md:w-[378px] md:h-[440px] rounded-[10px] md:mt-0 mt-[10px] 
+        ${isDebateTabed ? "hidden md:block" : "h-screen"}`}
     >
       {/* 메시지 로그 */}
       <ObserverChatSection />
+
       {/* 메시지 입력 창 */}
-      <div className="flex justify-between bg-white bg-opacity-30 border p-2 mx-[10px] my-[10px] rounded-md font-pretendard">
+      <div className="flex justify-between items-center bg-white/30 border p-2 mx-[10px] my-[10px] rounded-md font-pretendard">
         <input
           type="text"
           placeholder="메시지를 입력하세요"
-          className="appearance-none border-none outline-none focus:ring-0 bg-transparent  w-full placeholder:text-gray02 placeholder:font-light text-white font-bold "
+          className="w-full bg-transparent border-none outline-none text-white font-bold placeholder:text-gray-400 placeholder:font-light"
         />
-        <button>
-          <img src={send} />
+        <button aria-label="메시지 전송">
+          <img src={send} alt="전송" />
         </button>
       </div>
     </section>
