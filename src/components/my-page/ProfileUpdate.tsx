@@ -34,23 +34,26 @@ export default function ProfileUpdate() {
               />
             </button>
           </div>
+          {["닉네임 변경", "자기소개 변경"].map((title, index) => {
+            const placeholder = [
+              "변경하실 닉네임을 입력해주세요.",
+              "변경하실 자기소개를 입력해주세요.",
+            ];
+            return (
+              <div
+                className="flex items-center justify-between max-md:flex-col"
+                key={index}
+              >
+                <span className="text-[20px] mb-1">{title}</span>
+                <input
+                  type="text"
+                  placeholder={placeholder[index]}
+                  className="w-[366px] h-12 bg-gray02 rounded-lg pl-5 max-md:w-[300px]"
+                />
+              </div>
+            );
+          })}
 
-          <div className="flex items-center justify-between max-md:flex-col">
-            <span className="text-[20px]">닉네임 변경</span>
-            <input
-              type="text"
-              placeholder="변경하실 닉네임을 입력해주세요."
-              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5 max-md:w-[300px]"
-            />
-          </div>
-          <div className="flex items-center justify-between max-md:flex-col">
-            <span className="text-[20px]">자기소개 변경</span>
-            <input
-              type="text"
-              placeholder="변경하실 자기소개를 입력해주세요."
-              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5 max-md:w-[300px]"
-            />
-          </div>
           <div className="flex justify-end h-[60px] ">
             <Link
               to={"/my-page"}
