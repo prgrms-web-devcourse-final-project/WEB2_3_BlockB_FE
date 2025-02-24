@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-
 import { useLocation } from "react-router";
 
 export default function TopButton() {
@@ -8,6 +7,8 @@ export default function TopButton() {
   const [hover, setHover] = useState(false);
 
   const topBtnColor = pathname === "/" ? "#FBFBFB" : "#474747";
+
+  const bgColor = pathname === "/" ? "bg-black" : "bg-white";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +30,8 @@ export default function TopButton() {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="fixed bottom-10 right-10 cursor-pointer group transition-all duration-300 ease-in-out"
+      className={`fixed bottom-10 right-10 cursor-pointer group transition-all duration-300 ease-in-out 
+        ${bgColor}  w-13 h-13 rounded-full `}
     >
       <svg
         width="42"
