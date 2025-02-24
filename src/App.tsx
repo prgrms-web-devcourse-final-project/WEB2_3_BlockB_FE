@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import ObservingZone from "./pages/ObservingZone";
 import ProfileUpdate from "./components/my-page/ProfileUpdate";
 import RootLayout from "./layouts/RootLayout";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
         <Route path="/profile-update" element={<ProfileUpdate />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup/>}/>
         {/* 헤더 내 분류 */}
         <Route path="/debate-zone" element={<DebateZone />} />
         <Route path="*" element={<NotFound />} />
