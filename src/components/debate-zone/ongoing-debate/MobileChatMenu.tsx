@@ -21,7 +21,7 @@ export default function MobileChatMenu() {
         }, 1000);
     
         return () => clearInterval(interval);
-    }, [timerCount]);
+    }, []);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -39,7 +39,7 @@ export default function MobileChatMenu() {
     }, [isSidebarOpen]);
 
   return (
-    <div className="md:hidden flex justify-between items-center relative">
+    <div className="md:hidden flex justify-between items-center relative px-2 py-3 h-10 ">
         {/* 나가기 모달 */}
         {isExitModalOpen && <ExitModal setIsExitModalOpen={setIsExitModalOpen}/>}
         <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">

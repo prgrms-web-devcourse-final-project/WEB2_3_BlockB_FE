@@ -21,9 +21,12 @@ export default function MessageSection() {
   }, [messages]);
 
   return (
-      <div id="message-section" className="w-full md:h-full h-screen flex-1 flex flex-col pb-[30px] pt-[20px] font-pretendard">
+        <div
+          id="message-section"
+          className="w-full flex-1 flex flex-col max-h-[calc(100vh-40px)] overflow-hidden"
+        >
         {/* 메시지 로그 영역 */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-[10px] min-h-[60vh]">
+        <div className="flex-grow overflow-y-auto gap-[10px] md:m-3 m-2 rounded-sm">
           {messages.map((message, index) => (
             <MessageItem
               key={index}
@@ -33,7 +36,7 @@ export default function MessageSection() {
               isOppenent={index % 2 === 0}
             />
           ))}
-          <div ref={messageEndRef} />
+          <div ref={messageEndRef}/>
         </div>
       {/* 입력창 */}
         <div className="md:h-[50px] h-[30px] flex justify-between items-center bg-white bg-opacity-30 border p-2 mx-[10px] my-[10px] rounded-md">
