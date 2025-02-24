@@ -15,13 +15,13 @@ export default function VoteRoom({
     else setRoomState(stage);
   };
   const btnClass =
-    "md:w-[46px] w-[42px] md:h-[30px] h-[20px] md:px-[10px] px-2 md:py-[4px] bg-white text-black01 font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
+    "white-space md:w-[46px] w-[42px] md:h-[30px] h-[20px] md:px-[10px] px-2 md:py-[4px] bg-white text-black01 font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
   return (
     <div className="flex flex-col justify-center items-center gap-[30px] min-h-screen">
       <div>
-        <h1 className="text-white font-pretendard font-bold md:text-[24px] text-[18px]">
-          토론이 끝났습니다. 승리했다고 생각하시는 입장에 투표해주세요
-        </h1>
+      <h1 className="text-white font-pretendard font-bold md:text-[24px] text-[18px] text-center break-keep leading-[1.4] max-w-[300px] md:max-w-full">
+      토론이 끝났습니다. 승리했다고 생각하시는 입장에 투표해주세요
+      </h1>
         <h2>AI는 인간의 노동을 대체하나 보조하나?</h2>
       </div>
       <div>
