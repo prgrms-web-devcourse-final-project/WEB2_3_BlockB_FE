@@ -18,7 +18,7 @@ export default function Signup() {
     const [inputNickname, setInputNickname] = useState(originalID);
 
     const inputStyle = "w-full text-black01 font-bold placeholder:text-gray04 placeholder:font-light bg-transparent outline-none";
-    const inputBoxStyle = "flex justify-between items-center w-[400px] h-[50px] px-[30px] py-[16px] bg-gray02 rounded-[10px]";
+    const inputBoxStyle = "flex justify-between items-center md:w-[400px] w-[300px] h-[50px] px-[30px] py-[16px] bg-gray02 rounded-[10px]";
 
     return (
         <div className="flex flex-col justify-between min-h-screen font-pretendard text-[14px]">
@@ -72,7 +72,7 @@ export default function Signup() {
                         </svg>
                         }
                     </label>
-                    <div className="flex justify-between w-[400px]">
+                    <div className="flex justify-between md:w-[400px] w-[300px]">
                         <button className="border-b border-gray04 text-gray04">다음에 추가하겠습니다</button>
                         <button className={`${isNicknameUniqueable && userDescription.length > 0 ? "text-black01 bg-gray02 w-[54px] h-[20px] text-center px-auto py-auto rounded-[5px] shadow animate-slide-up-fast" : "invisible"}`}>완료</button>
                     </div>
