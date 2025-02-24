@@ -1,10 +1,10 @@
 import send from "../../../assets/icons/send.svg";
 import ObserverChatSection from "./ObserverChatSection";
 
-export default function ObserverChatWindow() {
+export default function ObserverChatWindow({isDebateTabed}: {isDebateTabed : boolean}) {
   return (
     <section
-      className="w-[378px] h-[440px] rounded-[10px]"
+      className={`${isDebateTabed? "md:block hidden md:w-[378px] md:h-[440px] rounded-[10px] md:mt-0 mt-[10px]" : "md:w-[378px] md:h-[440px] h-screen rounded-[10px] md:mt-0 mt-[10px]"}`}
       style={{
         background:
           "linear-gradient(180deg, rgba(115, 115, 115, 0.30) 0%, rgba(217, 217, 217, 0) 100%)",
