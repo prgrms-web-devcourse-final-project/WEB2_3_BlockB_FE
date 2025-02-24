@@ -16,25 +16,22 @@ export default function FilterButton({
 }) {
   return (
     <button
-      onClick={() => {
-        onClick(value);
-      }}
+      onClick={() => onClick(value)}
       className={
         `${
           selected
             ? "border-blue01 shadow-[0px_1px_5px_0px_theme(colors.blue02)]"
-            : "border-gray03"
-        } border border-solid rounded-[30px] h-[30px] bg-white ` + width
+            : "border-gray03 bg-white text-gray-700"
+        } border border-solid rounded-full h-[35px] px-4 mr-2 min-w-[70px] flex-shrink-0 flex items-center justify-center whitespace-nowrap ` +
+        width
       }
     >
-      <div className="flex justify-center">
-        <p>{label}</p>
-        {selected ? (
-          <img src={afterCheck} alt="체크후" className="w-5 h-5 ml-2" />
-        ) : (
-          <img src={beforeCheck} alt="체크전" className="w-5 h-5 ml-2" />
-        )}
-      </div>
+      <p className="text-sm">{label}</p>
+      {selected ? (
+        <img src={afterCheck} alt="체크후" className="w-5 h-5 ml-2" />
+      ) : (
+        <img src={beforeCheck} alt="체크전" className="w-5 h-5 ml-2" />
+      )}
     </button>
   );
 }
