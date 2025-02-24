@@ -10,7 +10,7 @@ export default function NewsSimpleInfosSkeleton({
       {/* 데스크탑 스켈레톤 */}
       <div className="flex justify-center max-lg:hidden">
         <div className="w-full h-[311px] mb-[50px] flex">
-          <div className="w-[497px] h-full mr-5 rounded-[10px] bg-gray-300 "></div>
+          <div className="w-[840px] h-full mr-5 rounded-[10px] bg-gray-300 "></div>
           <div className="flex flex-col justify-between w-full">
             <div className="h-[120px] bg-gray-300 rounded-md mb-2 "></div>
             <div className="flex justify-between text-[16px]">
