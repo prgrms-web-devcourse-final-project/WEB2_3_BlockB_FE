@@ -136,7 +136,7 @@ export default function Modal({
               onClick={() => {
                 onCheck!(!check);
               }}
-              className="w-full sm:w-20 h-10 border border-solid border-gray04 rounded-lg"
+              className="w-20 h-10 border border-solid border-gray04 rounded-[10px]"
             >
               취소
             </button>
