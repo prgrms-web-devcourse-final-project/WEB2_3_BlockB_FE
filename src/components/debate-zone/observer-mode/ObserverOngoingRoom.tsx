@@ -54,7 +54,7 @@ export default function ObserverOngoingRoom() {
       <section
         className={`w-full md:w-[55%] h-screen md:h-[630px] md:border md:border-white 
           md:shadow-lg md:rounded-[10px] md:bg-white md:bg-opacity-20 overflow-y-auto 
-          md:p-[20px] p-[10px] flex flex-col ${isDebateTabed ? "md:flex" : "hidden md:flex"}`}
+          md:p-[20px] p-[10px] flex flex-grow flex-col ${isDebateTabed ? "md:flex" : "hidden md:flex"}`}
       >
         {messages.map((msg) => (
           <MessageItem
@@ -83,7 +83,7 @@ export default function ObserverOngoingRoom() {
     {/* 투표 버튼 */}
     <button
       onClick={() => setObservingState("voting")}
-      className="text-white font-bold w-full md:w-auto mt-[20px] py-[10px] px-[20px] bg-blue-600 rounded-md"
+      className="text-white font-bold w-full md:w-auto py-[10px] px-[20px] bg-blue-600 rounded-md"
     >
       투표로 이동
     </button>
