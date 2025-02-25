@@ -31,7 +31,7 @@ export default function ObserverOngoingRoom() {
         <DebateChatObserverMode isDebateTabed={isDebateTabed}/>
       </div>x
       {/* 우측 */}
-      <section className="flex md:flex-4 flex-col justify-between max-h-screen text-white md:mb-[25px]">
+      <section className="flex md:flex-4 flex-col justify-between max-h-screen text-white">
           <AudienceList /> 
           <div className="flex justify-end md:flex hidden">
             <button onClick={() => setIsExitModalOpen(true)}>
