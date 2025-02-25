@@ -97,7 +97,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
           </div>
         )}
       </div>
-      <div className="pt-[50px] md:pt-[80px]"></div>
+      <div className="pt-[40px] md:pt-[80px]"></div>
     </>
   );
 }
