@@ -13,7 +13,7 @@ import DebateChatObserverMode from "./DebateChatObserverMode";
 
 export default function ObserverOngoingRoom() {
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
-  const { setObservingState } = useObservingStore();
+  // const { setObservingState } = useObservingStore();
   const [isDebateTabed, setIsDebateTabed] = useState<boolean>(true)
 
   return (

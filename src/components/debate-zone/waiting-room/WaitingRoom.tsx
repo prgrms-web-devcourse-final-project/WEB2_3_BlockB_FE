@@ -31,7 +31,7 @@ export default function WaitingRoom() {
   return (
     <section className="md:px-[40px] px-[20px]  flex flex-col gap-[250px] relative">
       <div className="flex justify-between gap-2">
-        <WaitingInfoDrodown isWaiting={isWaiting} />
+        <WaitingInfoDrodown />
         <ParticipantBox label="OPONENTS" labelAlignment="end" />
       </div>
       <MatchingInterface isWaiting={isWaiting} />

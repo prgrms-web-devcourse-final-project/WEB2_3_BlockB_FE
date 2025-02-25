@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import AudienceCard from "./../AudienceCard";
 import ChatWindow from "./ChatWindow";
@@ -16,19 +16,12 @@ export default function OngoingDebate() {
       setIsLoading(false);
     }, 3000);
   }, []);
+
   const { roomSettings } = useRoomStore();
-  const [turnCount, setTurnCount] = useState(roomSettings.turn!);
-  const [timerCount, setTimerCount] = useState(roomSettings.time!);
+  const [turnCount] = useState(roomSettings.turn!);
+  const timerRef = useRef(roomSettings.time!)
   const { setRoomState } = useRoomStore();
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimerCount((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-  
-    return () => clearInterval(interval);
-  }, []);
   
 
   return (
@@ -59,8 +52,8 @@ export default function OngoingDebate() {
 
           <div className="md:block hidden">
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
-              <Counter label="TURN" boxNumber={2} count={turnCount} />
-              <Counter label="TIMER" boxNumber={3} count={timerCount} />
+              <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
+              <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />
             </div>
             <ParticipantBox
               label="CONS"
