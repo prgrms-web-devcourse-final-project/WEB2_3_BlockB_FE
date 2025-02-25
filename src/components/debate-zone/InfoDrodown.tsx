@@ -1,5 +1,5 @@
-import link from "../../assets/icons/link.svg"
-import info from "../../assets/icons/info-btn.svg"
+import link from "../../assets/icons/link.svg";
+import info from "../../assets/icons/info-btn.svg";
 import { useState } from "react";
 
 export default function InfoDrodown() {
@@ -20,24 +20,32 @@ export default function InfoDrodown() {
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}
-        <button onClick={() => setInfoOpen(!infoOpen)} className="z-50">
-          <img
-            src={info}
-            alt="토론방 상세 정보 여닫기"
-            className="md:w-[20px] md:w-[18px] md:h-[20px] md:w-[18px] w-[16px] h-[16px]"
-          />
-        </button>
+      <button onClick={() => setInfoOpen(!infoOpen)} className="z-50">
+        <img
+          src={info}
+          alt="토론방 상세 정보 여닫기"
+          className="md:w-[20px] md:w-[18px] md:h-[20px] md:w-[18px] w-[16px] h-[16px]"
+        />
+      </button>
       {infoOpen && (
         <div className="absolute md:left-10 md:w-[600px] w-[325px] left-6 h-auto py-[20px] px-[36px] md:bg-neutral-50/50 bg-white rounded-lg border border-white01  flex flex-col justify-between gap-[20px] md:shadow-[0px_1px_5px_0px_rgba(251,251,251,1.00)] z-50">
           {/* 주제 및 설명 */}
           <div className="md:text-white font-bold flex flex-col gap-[10px]">
             <h1 className="inline-flex justify-start">
-              <span className="w-[71px] mr-[10px] md:text-white text-black01">토론 주제</span>
-              <span className="md:text-white text-gray01">AI는 인간의 노동을 대체하는가</span>
+              <span className="w-[71px] mr-[10px] md:text-white text-black01">
+                토론 주제
+              </span>
+              <span className="md:text-white text-gray01">
+                AI는 인간의 노동을 대체하는가
+              </span>
             </h1>
             <h2 className="inline-flex justify-start">
-              <span className="w-[71px] mr-[10px] md:text-white text-black01">방 설명</span>
-              <span className="md:text-white text-gray01">비속어 / 욕설 / 분란 곧장 신고 조치합니다.</span>
+              <span className="w-[71px] mr-[10px] md:text-white text-black01">
+                방 설명
+              </span>
+              <span className="md:text-white text-gray01">
+                비속어 / 욕설 / 분란 곧장 신고 조치합니다.
+              </span>
             </h2>
           </div>
           {/* 토론방 정보 */}
@@ -60,7 +68,7 @@ export default function InfoDrodown() {
           </div>
           {/* 링크 */}
           <div>
-            <figure className="w-full flex items-center gap-2">
+            <figure className="flex items-center w-full gap-2">
               <img src={link} alt="연관된 뉴스 링크" />
               <figcaption className="md:text-gray02 text-gray03  md:text-[10px] text-[8px] leading-0">
                 https://www.yna.co.kr/view/AKR20250213094800004?section=politics/all&site=topnews01
