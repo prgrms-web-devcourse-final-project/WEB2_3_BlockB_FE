@@ -22,12 +22,12 @@ export default function ObserverWaitingRoom() {
     );
   else
     return (
-      <section className="grid grid-cols-[1fr_2fr_1fr] px-[34px] min-h-screen">
+      <section className="grid grid-cols-[1fr_2fr_1fr] md:px-[34px] min-h-screen">
         <div></div>
         <div className=" w-full flex flex-col items-center justify-center min-h-screen">
-          <div className="flex items-center gap-[26px]">
+          <div className="flex items-center md:gap-[26px] sm:gap-[10px] gap-[5px]">
             <ParticipantBox label="PROS" />
-            <p className="font-jersey text-white text-[24px]">vs</p>
+            <p className="font-jersey text-white md:text-[30px] text-[18px]">vs</p>
             <ParticipantBox label="CONS" />
           </div>
           <p className="text-white font-pretendard md:text-[20px] sm:text-[16px] text-[14px] font-bold mt-[50px]">

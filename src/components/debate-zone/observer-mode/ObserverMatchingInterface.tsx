@@ -16,9 +16,9 @@ export default function ObserverMatchingInterface({
   return (
     <div className="absolute  left-1/2 transform -translate-x-1/2 text-white flex flex-col justify-center items-center min-h-screen">
       <div className="relative flex flex-wrap w-[153px] justify-center gap-[10px]">
-        <div className="relative flex gap-[26px] items-center">
+        <div className="relative flex md:gap-[26px] sm:gap-[10px] gap-[5px] items-center">
           <ParticipantBox label="PROS" />
-          <p className="font-jersey text-[24px]">vs</p>
+          <p className="font-jersey md:text-[30px] text-[18px]">vs</p>
           <ParticipantBox label="CONS" />
         </div>
         {/* 파동 애니메이션 요소 */}

@@ -24,15 +24,15 @@ export default function VoteRoom({
       </h1>
         <h2>AI는 인간의 노동을 대체하나 보조하나?</h2>
       </div>
-      <div>
-        <section className="flex items-center md;gap-[26px] gap-1 md:text-[16px] text-[14px]">
+      <div className="md:max-w-[700px] max-w-[310px] flex flex-col justify-center">
+        <section className="flex items-center md:gap-[26px] sm:gap-[10px] gap-[5px] md:text-[16px] text-[14px]">
           <div className="flex flex-col items-center gap-[26px]">
             <ParticipantBox label="PROS" labelAlignment="center" />
             <button onClick={() => moveState("result")} className={btnClass}>
               투표
             </button>
           </div>
-          <p className="text-white font-bold md:text-[24px] text-[18px] font-jersey">vs</p>
+          <p className="text-white font-bold md:text-[30px] text-[18px] font-jersey">vs</p>
           <div className="flex flex-col items-center gap-[26px]">
             <ParticipantBox label="CONS" color="blue" labelAlignment="center" />
             <button onClick={() => moveState("result")} className={btnClass}>

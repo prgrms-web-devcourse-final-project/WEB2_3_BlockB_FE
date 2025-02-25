@@ -16,7 +16,7 @@ export default function ProfileCard({
   const {setIsReportModalOpen} = useReportStore()
   return (
     <div
-      className={`flex items-center lg:w-[280px] w-[150px] h-[34px] justify-between h-auto lg:px-[10px] lg:py-[8px] p-1 bg-neutral-50/50 lg:rounded-lg rounded-[5px] text-white animate-flip ${
+      className={`flex items-center lg:w-[280px] w-[145px] h-[34px] justify-between h-auto lg:px-[10px] lg:py-[8px] p-1 bg-neutral-50/50 lg:rounded-lg rounded-[5px] text-white animate-flip ${
         color === "blue" &&
         "bg-sky-950/50 shadow:0px 1px 10px rgb(0 96 240 /1.00) border border-neutral-50/50 "
       }`}
