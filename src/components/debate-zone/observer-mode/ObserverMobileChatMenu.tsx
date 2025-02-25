@@ -39,7 +39,7 @@ export default function ObserverMobileChatMenu() {
     }, [isSidebarOpen]);
 
   return (
-    <div className="md:hidden flex h-[40px] justify-between items-center relative">
+    <div className="md:hidden flex h-[40px] justify-between items-center relative p-2">
         {/* 나가기 모달 */}
         {isExitModalOpen && <ExitModal setIsExitModalOpen={setIsExitModalOpen}/>}
         <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">

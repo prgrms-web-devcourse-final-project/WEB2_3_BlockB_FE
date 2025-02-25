@@ -5,7 +5,7 @@ export default function ObserverChatWindow({ isDebateTabed }: { isDebateTabed: b
   return (
     <section
       id="chatwindow"
-      className={`md:w-[378px] md:h-[440px] rounded-[10px] md:mt-0 mt-[10px] flex flex-col 
+      className={`md:w-full md:h-[440px] max-h-[calc(100vh-90px)] rounded-[10px] md:mt-0 mt-[10px] flex flex-col flex-grow pb-2
         ${isDebateTabed ? "hidden md:flex" : "h-screen"}`}
     >
       {/* 메시지 로그 */}
