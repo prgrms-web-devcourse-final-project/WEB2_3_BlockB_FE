@@ -19,7 +19,7 @@ export default function MyPage() {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center px-[10px]">
       <div className="w-[960px] md:h-[790px] mt-20 max-md:mt-10 font-pretendard">
         {/* 프로필 정보 */}
         <div className="flex max-md:flex-col max-md:items-center">
@@ -34,7 +34,7 @@ export default function MyPage() {
                 김내현
                 <Link
                   to="/profile-update"
-                  className="text-white bg-blue01 w-24 h-9 text-[18px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg"
+                  className="text-white bg-blue01 w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg"
                 >
                   프로필 편집
                 </Link>
