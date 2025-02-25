@@ -3,7 +3,14 @@ import kakao from "../assets/icons/kakao.svg";
 import logo from "../assets/icons/logo.svg";
 import naver from "../assets/icons/naver.svg";
 import Footer from "../components/common/Footer";
+
 export default function Login() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  const handleLogin = (provider: string) => {
+    window.location.href = `${backendUrl}/oauth2/authorization/${provider}`;
+  };
+
   return (
     <div className="flex flex-col justify-between h-screen bg-gray-50">
       {/* 중앙 로그인 박스 */}
@@ -19,7 +26,10 @@ export default function Login() {
 
           {/* 로그인 버튼들 */}
           <div className="space-y-3 font-pretendard">
-            <button className="relative flex items-center w-full py-3 font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm">
+            <button
+              onClick={() => handleLogin("google")}
+              className="relative flex items-center w-full py-3 font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm"
+            >
               <img
                 src={google}
                 alt="Google Logo"
@@ -28,7 +38,10 @@ export default function Login() {
               <span className="w-full text-center">구글 로그인 하기</span>
             </button>
 
-            <button className="relative flex items-center w-full py-3 font-medium text-black bg-yellow-400 rounded-md">
+            <button
+              onClick={() => handleLogin("kakao")}
+              className="relative flex items-center w-full py-3 font-medium text-black bg-yellow-400 rounded-md"
+            >
               <img
                 src={kakao}
                 alt="Kakao Logo"
@@ -37,7 +50,10 @@ export default function Login() {
               <span className="w-full text-center">카카오 로그인 하기</span>
             </button>
 
-            <button className="relative flex items-center w-full py-3 font-medium text-white bg-green-500 rounded-md">
+            <button
+              onClick={() => handleLogin("naver")}
+              className="relative flex items-center w-full py-3 font-medium text-white bg-green-500 rounded-md"
+            >
               <img
                 src={naver}
                 alt="Naver Logo"

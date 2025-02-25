@@ -7,6 +7,7 @@ import notification from "../../assets/icons/notification.svg";
 import profileWhite from "../../assets/icons/profile-white.svg";
 import profile from "../../assets/icons/profile.svg";
 import NotificationList from "../notification/NotificationList";
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ status }: { status: HeaderStatusType }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
@@ -14,6 +15,8 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   if (status === "debate-ing") {
     return null;
   }
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -27,7 +30,10 @@ export default function Header({ status }: { status: HeaderStatusType }) {
             <p className="font-unifrakturCook text-[40px] max-md:text-[24px]">
               Earth Talk
             </p>
-            <button className="font-pretendard font-bold text-[18px] max-md:text-[12px]">
+            <button
+              className="font-pretendard font-bold text-[18px] max-md:text-[12px]"
+              onClick={() => navigate("/login")}
+            >
               로그인
             </button>
           </div>
