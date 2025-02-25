@@ -4,7 +4,10 @@ import debateScreenshot from "../assets/images/debate screenshot.svg";
 import newsTop10Screenshot from "../assets/images/news top10 screenshot.svg";
 import debateTop10Screenshot from "../assets/images/debate top 10 screenshot.svg";
 import observingZoneScreenshot from "../assets/images/observingzone screenshot.svg";
+import { useNavigate } from "react-router-dom";
 export default function Landing() {
+  const navigate = useNavigate();
+
   return (
     <div className="h-auto py-20 text-white bg-black01">
       <div className="flex sm:pl-16 max-sm:flex-col">
@@ -27,7 +30,10 @@ export default function Landing() {
                     <div className="w-[545px] max-xl:w-[409px] max-lg:w-[327px] max-md:w-[240px] max-sm:w-[176px] h-[332px] max-xl:h-[249px] max-lg:h-[200px] max-md:h-[150px] max-sm:h-[100px] bg-gradient-to-b from-[#639DF7] to-[#1E5BB8] rounded-[300px] flex justify-center items-center">
                       <div className="w-[414px] max-xl:w-[311px] max-lg:w-[249px] max-md:w-[190px] max-sm:w-[140px] h-[238px] max-xl:h-[178px] max-lg:h-[143px] max-md:h-[110px] max-sm:h-[72px] bg-gradient-to-b from-blue09 to-game_blue01 rounded-[300px] flex justify-center items-center">
                         <div className="w-[308px] max-xl:w-[231px] max-lg:w-[185px] max-md:w-[140px] max-sm:w-[100px] h-[138px] max-xl:h-[104px] max-lg:h-[83px] max-md:h-[65px] max-sm:h-[52px] bg-gradient-to-b from-[#BDD5FF] to-[#5A98F7] rounded-[300px] flex justify-center items-center"></div>
-                        <button className="absolute z-20 w-[203px] max-xl:w-[152px] max-lg:w-[122px] max-md:w-[100px] max-sm:w-[80px] h-[58px] max-xl:h-[44px] max-lg:h-[35px] max-md:h-[28px] max-sm:h-[24px] bg-white text-black text-[18px] max-xl:text-[14px] max-lg:text-[12px] max-md:text-[11px] max-sm:text-[10px] font-bold font-pretendard flex justify-center items-center rounded-[300px]">
+                        <button
+                          className="absolute z-20 w-[203px] max-xl:w-[152px] max-lg:w-[122px] max-md:w-[100px] max-sm:w-[80px] h-[58px] max-xl:h-[44px] max-lg:h-[35px] max-md:h-[28px] max-sm:h-[24px] bg-white text-black text-[18px] max-xl:text-[14px] max-lg:text-[12px] max-md:text-[11px] max-sm:text-[10px] font-bold font-pretendard flex justify-center items-center rounded-[300px]"
+                          onClick={() => navigate("/login")}
+                        >
                           토론하러 가기
                         </button>
                       </div>

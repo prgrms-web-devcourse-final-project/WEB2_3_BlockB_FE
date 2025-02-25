@@ -17,6 +17,7 @@ import ObservingZone from "./pages/ObservingZone";
 import ProfileUpdate from "./components/my-page/ProfileUpdate";
 import RootLayout from "./layouts/RootLayout";
 import Signup from "./pages/Signup";
+import OAuthCallback from "./pages/OAuthCallback";
 
 function App() {
   return (
@@ -37,7 +38,8 @@ function App() {
         <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
         <Route path="/profile-update" element={<ProfileUpdate />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/oauth/callback" element={<OAuthCallback />} />
         {/* 헤더 내 분류 */}
         <Route path="/debate-zone" element={<DebateZone />} />
         <Route path="*" element={<NotFound />} />
