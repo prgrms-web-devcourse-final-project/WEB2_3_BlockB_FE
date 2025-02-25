@@ -2,8 +2,7 @@ import AudienceList from "./AudienceList";
 import ExitModal from "../ongoing-debate/ExitModal";
 import ObserverChatWindow from "./ObserverChatWindow";
 import exit from "../../../assets/icons/exit.svg";
-
-import { useObservingStore } from "../../../stores/observingStateStore";
+// import { useObservingStore } from "../../../stores/observingStateStore";
 import { useState } from "react";
 import ObserverMobileChatMenu from "./ObserverMobileChatMenu";
 import ObserverMobileTab from "./ObserverMobileTab";

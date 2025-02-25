@@ -11,12 +11,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function Header({ status }: { status: HeaderStatusType }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
+  const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  
   if (status === "debate-ing") {
     return null;
   }
-
-  const navigate = useNavigate();
 
   return (
     <>
