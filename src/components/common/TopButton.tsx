@@ -1,22 +1,37 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router";
+import type { RefObject } from "react";
 
-export default function TopButton() {
+interface TopButtonProps {
+  scrollContainerRef?: RefObject<HTMLDivElement | null>;
+}
+
+export default function TopButton({ scrollContainerRef }: TopButtonProps) {
   const { pathname } = useLocation();
   const [showButton, setShowButton] = useState(false);
   const [hover, setHover] = useState(false);
 
   const topBtnColor = pathname === "/" ? "#FBFBFB" : "#474747";
-
   const bgColor = pathname === "/" ? "bg-black" : "bg-white";
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowButton(window.scrollY > 200);
+      if (scrollContainerRef && scrollContainerRef.current) {
+        setShowButton(scrollContainerRef.current.scrollTop > 200);
+      } else {
+        setShowButton(window.scrollY > 200);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    if (scrollContainerRef && scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      container.addEventListener("scroll", handleScroll);
+      return () => container.removeEventListener("scroll", handleScroll);
+    } else {
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+  }, [scrollContainerRef]);
 
   const hoverStyle = useMemo(() => {
     if (!hover) return topBtnColor;
@@ -27,11 +42,17 @@ export default function TopButton() {
 
   return (
     <button
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={(event) => {
+        event.stopPropagation();
+        if (scrollContainerRef && scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={`fixed md:bottom-10 bottom-4 md:right-10 right-4 cursor-pointer group transition-all duration-300 ease-in-out 
-        ${bgColor}  w-13 h-13 rounded-full `}
+      className={`fixed bottom-10 right-10 cursor-pointer group transition-all duration-300 ease-in-out ${bgColor} w-13 h-13 rounded-full`}
     >
       <svg
         width="42"
