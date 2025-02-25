@@ -9,19 +9,11 @@ import Counter from "../ongoing-debate/Counter";
 import ExitModal from "../ongoing-debate/ExitModal";
 
 export default function ObserverMobileChatMenu() {
-    const [turnCount, setTurnCount] = useState(10)
-    const [timerCount, setTimerCount] = useState(100)
+    const [turnCount] = useState(10)
+    const timerRef = useRef(100)
     const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false)
     const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false)
     const sidebarRef = useRef<HTMLDivElement | null>(null)
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-        setTimerCount((prev: number) => (prev > 0 ? prev - 1 : 0));
-        }, 1000);
-    
-        return () => clearInterval(interval);
-    }, [timerCount]);
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -43,8 +35,8 @@ export default function ObserverMobileChatMenu() {
         {/* 나가기 모달 */}
         {isExitModalOpen && <ExitModal setIsExitModalOpen={setIsExitModalOpen}/>}
         <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">
-            <Counter label="TURN" boxNumber={2} count={turnCount} />
-            <Counter label="TIMER" boxNumber={3} count={timerCount} />
+            <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
+            <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />
         </div>
         <button onClick={()=>setIsSideBarOpen(!isSidebarOpen)}>
             <img src={hambuger} alt="사이드 바 버튼" />
