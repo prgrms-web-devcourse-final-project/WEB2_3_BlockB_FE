@@ -14,9 +14,9 @@ export default function ProfileUpdate() {
   if (isLoading) return <ProfileUpdateSkeleton />;
 
   return (
-    <div>
+    <div >
       <div className="flex justify-center mt-[122px] max-md:mt-14 font-pretendard">
-        <div className="w-[500px] h-[500px]  flex flex-col justify-between">
+        <div className="md:max-w-[500px] max-w-[366px] h-[500px]  flex flex-col justify-between">
           <div className="flex justify-center">
             <img
               src={avatar}
@@ -41,10 +41,10 @@ export default function ProfileUpdate() {
             ];
             return (
               <div
-                className="flex items-center justify-between max-md:flex-col"
+                className="flex md:items-center items-start justify-between max-md:flex-col"
                 key={index}
               >
-                <span className="text-[20px] mb-1">{title}</span>
+                <span className="md:text-[18px] text-[16px] md:mr-3 mb-1">{title}</span>
                 <input
                   type="text"
                   placeholder={placeholder[index]}
@@ -57,7 +57,7 @@ export default function ProfileUpdate() {
           <div className="flex justify-end h-[60px] ">
             <Link
               to={"/my-page"}
-              className="flex bg-blue03 w-[84px] h-11 rounded-[10px] text-[18px] text-white justify-center items-center"
+              className="flex bg-blue03 w-[84px] h-10 rounded-[10px] md:text-[16px] text-[14px] text-white justify-center items-center"
             >
               저장
             </Link>
