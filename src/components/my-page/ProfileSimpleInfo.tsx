@@ -1,8 +1,9 @@
 import avatar from "../../assets/icons/avatar.svg";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
+
 export default function ProfileSimpleInfo() {
   return (
-    <div className="w-[450px] h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex items-center justify-between px-6">
+    <div className="w-[450px] max-md:w-80 max-lg:w-96 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex items-center justify-between px-6 max-md:px-2">
       <div className="flex items-center">
         <img
           src={avatar}

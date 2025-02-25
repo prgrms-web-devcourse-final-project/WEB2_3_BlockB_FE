@@ -1,9 +1,8 @@
 import ChatObserverChatBubble from "./ChatObserverChatBubble.tsx";
 
-// ObserverChatSection 컴포넌트
 export default function ObserverChatSection() {
   return (
-    <div className="w-[378px] h-[376px] p-[10px] font-pretendard flex flex-col gap-[10px] overflow-y-auto">
+    <div className="md:w-[378px] md:h-[376px] flex flex-col flex-grow p-[10px] font-pretendard flex flex-col gap-[10px] overflow-y-auto">
       {/* 상대방 메시지 */}
       <ChatObserverChatBubble
         isMine={false}

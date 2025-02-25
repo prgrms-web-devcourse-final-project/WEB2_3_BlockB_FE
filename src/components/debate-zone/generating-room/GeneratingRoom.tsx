@@ -62,13 +62,12 @@ export default function GeneratingRoom() {
   }, []);
 
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center md:min-h-screen">
       <div
-        className="generatingRoomContainer flex flex-col justify-between items-center bg-white w-[658px] h-[666px] rounded-[10px] px-[40px] py-[40px] border border-white shadow-[0_4px_20px_rgba(251,251,251,1)] mt-[30px] mb-[90px] font-pretendard"
-        style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}
+        className="generatingRoomContainer flex flex-col justify-between items-center md:bg-white md:w-[658px] md:h-[666px] h-auto rounded-[10px] md:px-[40px] md:py-[40px] md:border md:border-white md:bg-opacity-20 md:shadow-[0_4px_20px_rgba(251,251,251,1)] md:mt-[30px] md:mb-[90px] font-pretendard p-[10px]"
       >
         <ProgressIndicator checkedStates={checkedStates} />
-        <div className="w-full flex flex-col gap-[15px]">
+        <div className="w-full flex flex-col md:gap-4 gap-2">
           <RoomInputCard
             label="토론 주제"
             fieldKey="title"
@@ -93,7 +92,7 @@ export default function GeneratingRoom() {
           generatingType={generatingType}
           setCheckedStates={setCheckedStates}
         />
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end md:mt-2 mt-10">
           <RoomActionButtons
             cancelAction={() => {
               navigate(-1);
@@ -106,6 +105,7 @@ export default function GeneratingRoom() {
           />
         </div>
       </div>
+      
     </div>
   );
 }

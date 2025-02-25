@@ -88,11 +88,11 @@ export default function Debaters() {
   const otherDebaters: DebaterType[] = debaters.slice(3);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto font-pretendard">
       <div className="relative mt-3 w-full">
         <input
           type="text"
-          className="border rounded-lg px-2 py-2 w-full pl-3 pr-10"
+          className="border rounded-lg px-2 py-2 w-full pl-3 pr-10 focus:outline-none"
           placeholder="검색..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

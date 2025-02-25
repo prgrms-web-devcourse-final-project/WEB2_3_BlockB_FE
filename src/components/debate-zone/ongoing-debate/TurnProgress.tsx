@@ -4,14 +4,14 @@ import { useRoomStore } from "../../../stores/roomStateStore";
 export default function TurnProgress() {
   const { roomSettings } = useRoomStore();
   return (
-    <div className="w-full flex justify-center ">
+    <div className="w-auto flex justify-center md:block hidden md:mx-[20px] mx-[10px]">
       <div className="flex items-center w-auto h-7 bg-neutral-50/30 rounded-bl-2xl rounded-br-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] border-x border-zinc-100 px-[20px] py-[15px] gap-[10px]">
         <p className="text-white font-jersey text-[14px]">
           <span className="mr-1">Total</span>
           <span>01:21</span>
         </p>
         {/* progress dots */}
-        <div className="flex gap-[10px]">
+        <div className="flex gap-[5px]">
           {Array.from({ length: roomSettings.turn || 0 }).map((_, index) => (
             <React.Fragment key={index}>
               <div className="w-4 h-4 relative">

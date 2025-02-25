@@ -16,12 +16,12 @@ export default function MessageItem({
       key={key}
       className={`flex w-full ${
         isOppenent ? "justify-start" : "justify-end"
-      } gap-[10px] font-bold`}
+      } gap-[10px] font-bold md:text-[16px] text-[14px]`}
     >
       <figure
         className={`rounded-full ${isOppenent ? "order-first" : "order-last"}`}
       >
-        <img src={profile} className="bg-cover w-[35px] h-[35px]" />
+        <img src={profile} className="bg-cover md:w-[35px] md:h-[35px] w-[30px] h-[30px]" />
       </figure>
 
       <div
@@ -35,11 +35,9 @@ export default function MessageItem({
         <div
           className={`${
             isMine
-              ? "bg-[#0088FF] text-white"
-              : isOppenent
               ? "bg-white text-black01"
-              : "bg-game_blue01 text-white"
-          } bg-opacity-70  p-2 rounded-md max-w-[400px]  `}
+              : "bg-white bg-opacity-50 text-black01"
+          }   md:p-2 p-1 rounded-md md:max-w-[300px] sm:max-w-[320px] max-w-[300px] break-words h-auto `}
         >
           {message}
         </div>

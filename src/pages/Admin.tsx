@@ -3,6 +3,8 @@ import FilterButton from "../components/admin/FilterButton";
 import search from "../assets/icons/search-black.svg";
 import ReportTable from "../components/admin/ReportTable";
 import Modal from "../components/admin/Modal";
+import Pagination from "../components/common/Pagenation";
+import { usePagination } from "../hooks/usePagenation";
 import {
   processedFilters,
   processedHeader,
@@ -21,37 +23,73 @@ export default function Admin() {
 
   const processedBody = [
     {
-      reson: "음란/선정성",
+      reason: "음란/선정성",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
     },
     {
-      reson: "스팸/광고",
+      reason: "스팸/광고",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
     },
     {
-      reson: "욕설/인신공격",
+      reason: "욕설/인신공격",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
     },
     {
-      reson: "도배",
+      reason: "도배",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
     },
     {
-      reson: "개인정보 노출",
+      reason: "개인정보 노출",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
     },
     {
-      reson: "사유없는 탈주",
+      reason: "사유없는 탈주",
+      reporter: "기도차",
+      name: "차도기",
+      date: "2025-02-13",
+    },
+    {
+      reason: "음란/선정성",
+      reporter: "기도차",
+      name: "차도기",
+      date: "2025-02-13",
+    },
+    {
+      reason: "스팸/광고",
+      reporter: "기도차",
+      name: "차도기",
+      date: "2025-02-13",
+    },
+    {
+      reason: "욕설/인신공격",
+      reporter: "기도차",
+      name: "차도기",
+      date: "2025-02-13",
+    },
+    {
+      reason: "도배",
+      reporter: "기도차",
+      name: "차도기",
+      date: "2025-02-13",
+    },
+    {
+      reason: "개인정보 노출",
+      reporter: "기도차",
+      name: "차도기",
+      date: "2025-02-13",
+    },
+    {
+      reason: "사유없는 탈주",
       reporter: "기도차",
       name: "차도기",
       date: "2025-02-13",
@@ -102,17 +140,28 @@ export default function Admin() {
       date: "2025-02-13",
     },
   ];
+  const itemsPerPage = 5;
+  const {
+    paginatedData: paginatedProcessedBody,
+    currentPage: processedCurrentPage,
+    totalPages: processedTotalPages,
+    handlePageChange: handleProcessedPageChange,
+  } = usePagination(processedBody, itemsPerPage);
+  const {
+    paginatedData: paginatedUnProcessedBody,
+    currentPage: unProcessedCurrentPage,
+    totalPages: unProcessedTotalPages,
+    handlePageChange: handleUnProcessedPageChange,
+  } = usePagination(unProcessedBody, itemsPerPage);
 
   return (
     <>
       <div className="flex justify-center">
-        <div className="w-[980px]  h-[800px] mt-[50px] pt-7 pl-7">
-          <p className="text-[32px] font-bold">신고 목록</p>
+        <div className="w-full max-w-[980px] h-auto mt-[50px] pt-7 pl-7 pr-7">
+          <p className="text-[24px] font-bold md:text-[32px]">신고 목록</p>
           <div className="flex border-b-[1px] border-gray03 border-solid text-[16px] font-bold my-5">
             <button
-              onClick={() => {
-                setTab(true);
-              }}
+              onClick={() => setTab(true)}
               className={`${
                 tab
                   ? "mr-4 border-b-2 border-solid border-blue01 text-blue03"
@@ -122,9 +171,7 @@ export default function Admin() {
               미처리
             </button>
             <button
-              onClick={() => {
-                setTab(false);
-              }}
+              onClick={() => setTab(false)}
               className={`${
                 tab
                   ? "text-gray04"
@@ -135,13 +182,13 @@ export default function Admin() {
             </button>
           </div>
           <div className="flex items-center">
-            <p className="text-[16px] h-5 text-gray01 mr-9">
+            <p className="text-[14px] md:text-[16px] h-5 text-gray01 mr-6 whitespace-nowrap">
               {tab ? "신고 사유" : "처리 옵션"}
             </p>
             <div
               className={`${
                 tab ? "w-[814px] " : "w-[375px]"
-              } h-[30px] flex justify-between text-[14px]`}
+              } h-[40px] flex justify-between text-[14px]  overflow-x-auto  `}
             >
               {tab
                 ? processedFilters.map((filter) => (
@@ -176,35 +223,49 @@ export default function Admin() {
             <img src={search} alt="검색 아이콘" className="mr-6" />
           </div>
           {tab ? (
-            <ReportTable
-              headers={processedHeader}
-              bodys={processedBody}
-              unHeaders={[]}
-              unBodys={[]}
-              check={check}
-              onCheck={setCheck}
-              recover={recover}
-              onRecover={setRecover}
-              process={process}
-              onProcess={setProcess}
-              edit={edit}
-              onEdit={setEdit}
-            />
+            <>
+              <ReportTable
+                headers={processedHeader}
+                bodys={paginatedProcessedBody}
+                unHeaders={[]}
+                unBodys={[]}
+                check={check}
+                onCheck={setCheck}
+                recover={recover}
+                onRecover={setRecover}
+                process={process}
+                onProcess={setProcess}
+                edit={edit}
+                onEdit={setEdit}
+              />
+              <Pagination
+                totalPages={processedTotalPages}
+                currentPage={processedCurrentPage}
+                onPageChange={handleProcessedPageChange}
+              />
+            </>
           ) : (
-            <ReportTable
-              headers={[]}
-              bodys={[]}
-              unHeaders={unProcessedHeader}
-              unBodys={unProcessedBody}
-              check={check}
-              onCheck={setCheck}
-              recover={recover}
-              onRecover={setRecover}
-              process={process}
-              onProcess={setProcess}
-              edit={edit}
-              onEdit={setEdit}
-            />
+            <>
+              <ReportTable
+                headers={[]}
+                bodys={[]}
+                unHeaders={unProcessedHeader}
+                unBodys={paginatedUnProcessedBody}
+                check={check}
+                onCheck={setCheck}
+                recover={recover}
+                onRecover={setRecover}
+                process={process}
+                onProcess={setProcess}
+                edit={edit}
+                onEdit={setEdit}
+              />
+              <Pagination
+                totalPages={unProcessedTotalPages}
+                currentPage={unProcessedCurrentPage}
+                onPageChange={handleUnProcessedPageChange}
+              />
+            </>
           )}
         </div>
       </div>

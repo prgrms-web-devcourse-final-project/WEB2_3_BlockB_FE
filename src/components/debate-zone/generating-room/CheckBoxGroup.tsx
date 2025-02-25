@@ -12,15 +12,15 @@ export default function CheckBoxGroup({
   onCheck: (key: string) => void;
 }) {
   return (
-    <section className="w-full flex font-bold items-center">
-      <p className="text-white w-[66px] h-auto text-[16px] mr-[10px]">
+    <section className="w-full flex flex-col md:flex-row font-bold items-start md:items-center gap-3">
+      <p className="text-white w-[66px] h-auto text-[16px] md:mr-[10px] ">
         {label}
       </p>
-      <div className="w-auto h-auto flex gap-[9px] text-[14px]">
+      <div className="w-full h-auto flex flex-wrap gap-2 text-[14px]">
         {checklists.map((item) => (
           <div
             key={item.key}
-            className={`flex gap-2 items-center px-[10px] py-[5px] bg-white bg-opacity-70 rounded-[30px] border ${
+            className={`flex gap-2 items-center w-auto h-auto px-[10px] py-[6.5px] bg-white bg-opacity-70 rounded-[30px] border ${
               item.isChecked ? "border-blue-500" : "border-white"
             } cursor-pointer`}
             onClick={() => onCheck(item.key)} // 클릭 시 해당 key 전달

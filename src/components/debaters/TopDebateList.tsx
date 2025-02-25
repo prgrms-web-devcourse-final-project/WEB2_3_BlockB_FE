@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import first from "../../assets/icons/1st.svg";
 import second from "../../assets/icons/2nd.svg";
 import three from "../../assets/icons/3rd.svg";
@@ -5,7 +7,7 @@ import Win from "../../assets/icons/win.svg";
 import Draw from "../../assets/icons/duse.svg";
 import Lose from "../../assets/icons/lose.svg";
 import { DebaterType } from "../../types/debateType";
-import { useNavigate } from "react-router-dom";
+import TopDebateListSkeleton from "../common/skeleton/debate/TopDebateListSkeleton";
 
 interface TopDebateListProps {
   topDebaters: DebaterType[];
@@ -13,21 +15,24 @@ interface TopDebateListProps {
 
 export default function TopDebateList({ topDebaters }: TopDebateListProps) {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleNavigate = () => {
-    navigate("/my-page");
-  };
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 2000);
+  }, []);
+
+  if (isLoading) return <TopDebateListSkeleton />;
+
   return (
     <div>
       <h2 className="text-center text-xl font-bold mt-[14px] mb-4">
         Top debaters
       </h2>
       <div
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 "
-        onClick={handleNavigate}
+        className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"
+        onClick={() => navigate("/my-page")}
       >
         {topDebaters.map((debater, index) => {
-          // 순위별 아이콘 매핑
           const rankIcons = [first, second, three];
           const rankIcon = rankIcons[index] || null;
 
@@ -37,14 +42,11 @@ export default function TopDebateList({ topDebaters }: TopDebateListProps) {
               className="bg-white p-4 rounded-lg border border-gray-200 shadow-xl text-center"
             >
               <div className="relative inline-block">
-                {/* 프로필 이미지 */}
                 <img
                   src={debater.profile}
                   alt="profile"
                   className="rounded-full w-20 h-20 mx-auto"
                 />
-
-                {/* 순위 아이콘 */}
                 {rankIcon && (
                   <img
                     src={rankIcon}

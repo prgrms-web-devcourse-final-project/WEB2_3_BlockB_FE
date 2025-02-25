@@ -28,11 +28,10 @@ interface RoomSettings {
 type VoteInfo = {
   label: string;
   img: string;
-  btnColor: string;
 };
 
 // 토론방 타입 정의
-export interface DebateRoomType {
+interface DebateRoomType {
   id: number;
   title: string;
   categoryType: string;
