@@ -9,7 +9,7 @@ export default function Main() {
 
   return (
     <>
-      <div className="flex justify-center text-black01 mb-[210px">
+      <div className="flex justify-center text-black01 md:mb-[210px] mb-[100px]">
         <div className="w-[1024px]  max-md:w-full ">
           <div className="flex justify-center">
             <div className="w-full h-[109px] max-lg:w-[768px] max-md:h-8  max-md:w-80 flex justify-between items-center mt-[30px] mb-[56px] max-md:mt-4 max-md:mb-5">
