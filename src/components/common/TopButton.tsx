@@ -30,7 +30,7 @@ export default function TopButton() {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={`fixed md:bottom-10 button-5 md:right-10 right-5 cursor-pointer group transition-all duration-300 ease-in-out 
+      className={`fixed md:bottom-10 bottom-4 md:right-10 right-4 cursor-pointer group transition-all duration-300 ease-in-out 
         ${bgColor}  w-13 h-13 rounded-full `}
     >
       <svg
