@@ -12,7 +12,7 @@ export default function ParticipantBox({
   hasReportBtn?: boolean;
 }) {
   return (
-    <div className="lg:w-[280px] w-[150px] font-jersey">
+    <div className="lg:w-[280px] w-[145px] font-jersey">
       <div className={`flex justify-${labelAlignment} mb-[10px]`}>
         <p
           className="text-white md:text-[24px] sm:text-[18px] text-[16px] "

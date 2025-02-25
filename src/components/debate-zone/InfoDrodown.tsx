@@ -24,37 +24,37 @@ export default function InfoDrodown() {
           <img
             src={info}
             alt="토론방 상세 정보 여닫기"
-            className="md:w-[20px] sm:w-[18px] md:h-[20px] sm:w-[18px] w-[16px] h-[16px]"
+            className="md:w-[20px] md:w-[18px] md:h-[20px] md:w-[18px] w-[16px] h-[16px]"
           />
         </button>
       {infoOpen && (
-        <div className="absolute md:left-10 md:w-[600px] w-[325px] left-6 h-auto py-[20px] px-[36px] sm:bg-neutral-50/50 bg-white rounded-lg border border-white01  flex flex-col justify-between gap-[20px] md:shadow-[0px_1px_5px_0px_rgba(251,251,251,1.00)] z-50">
+        <div className="absolute md:left-10 md:w-[600px] w-[325px] left-6 h-auto py-[20px] px-[36px] md:bg-neutral-50/50 bg-white rounded-lg border border-white01  flex flex-col justify-between gap-[20px] md:shadow-[0px_1px_5px_0px_rgba(251,251,251,1.00)] z-50">
           {/* 주제 및 설명 */}
           <div className="md:text-white font-bold flex flex-col gap-[10px]">
             <h1 className="inline-flex justify-start">
-              <span className="w-[71px] mr-[10px] sm:text-white text-black01">토론 주제</span>
-              <span className="sm:text-white text-gray01">AI는 인간의 노동을 대체하는가</span>
+              <span className="w-[71px] mr-[10px] md:text-white text-black01">토론 주제</span>
+              <span className="md:text-white text-gray01">AI는 인간의 노동을 대체하는가</span>
             </h1>
             <h2 className="inline-flex justify-start">
-              <span className="w-[71px] mr-[10px] sm:text-white text-black01">방 설명</span>
-              <span className="sm:text-white text-gray01">비속어 / 욕설 / 분란 곧장 신고 조치합니다.</span>
+              <span className="w-[71px] mr-[10px] md:text-white text-black01">방 설명</span>
+              <span className="md:text-white text-gray01">비속어 / 욕설 / 분란 곧장 신고 조치합니다.</span>
             </h2>
           </div>
           {/* 토론방 정보 */}
           <div className="flex justify-start flex-wrap gap-[10px] text-black01 font-bold">
-            <div className="h-7 px-2.5 py-1 sm:bg-neutral-50/70 border border-gray03 rounded-3xl justify-start items-center gap-2 inline-flex">
+            <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 border border-gray03 rounded-3xl justify-start items-center gap-2 inline-flex">
               <p>아프리카</p>
             </div>
-            <div className="h-7 px-2.5 py-1 sm:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
+            <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>정치</p>
             </div>
-            <div className="h-7 px-2.5 py-1 sm:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
+            <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>1분 30초</p>
             </div>
-            <div className="h-7 px-2.5 py-1 sm:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
+            <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>3:3</p>
             </div>
-            <div className="h-7 px-2.5 py-1 sm:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
+            <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>승패 결정</p>
             </div>
           </div>

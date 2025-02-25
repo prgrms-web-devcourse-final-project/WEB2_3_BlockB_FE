@@ -21,14 +21,15 @@ export default function OngoingDebate() {
   const [timerCount, setTimerCount] = useState(roomSettings.time!);
   const { setRoomState } = useRoomStore();
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimerCount((prev: number) => (prev > 0 ? prev - 1 : 0));
+      setTimerCount((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
-
+  
     return () => clearInterval(interval);
   }, []);
+  
 
   return (
     <>
@@ -39,9 +40,8 @@ export default function OngoingDebate() {
           <ParticipantBox label="CONS" labelAlignment="center" color="blue" />
         </section>
       ) : (
-
         <section
-          className="flex justify-between md:px-[30px] md:py-[20px] sm:py-[15px] min-h-screen items-center
+          className="flex justify-between md:min-h-screen h-screen items-center
         md:gap-[20px]"
         >
           {isExitModalOpen && (
@@ -59,8 +59,8 @@ export default function OngoingDebate() {
 
           <div className="md:block hidden">
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
-            <Counter label="TURN" boxNumber={2} count={turnCount} />
-            <Counter label="TIMER" boxNumber={3} count={timerCount} />
+              <Counter label="TURN" boxNumber={2} count={turnCount} />
+              <Counter label="TIMER" boxNumber={3} count={timerCount} />
             </div>
             <ParticipantBox
               label="CONS"

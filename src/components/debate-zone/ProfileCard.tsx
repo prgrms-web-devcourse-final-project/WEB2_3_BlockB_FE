@@ -1,11 +1,10 @@
-import { useState } from "react";
 import duse from "../../assets/icons/duse.svg";
 import flagWhite from "../../assets/icons/flag-white.svg";
 import flag from "../../assets/icons/flag.svg";
 import lose from "../../assets/icons/lose.svg";
 import profile from "../../assets/icons/profile-white.svg";
 import win from "../../assets/icons/win.svg";
-import ReportModal from "./ongoing-debate/ReportModal";
+import { useReportStore } from "../../stores/reportModalStore";
 
 export default function ProfileCard({
   color,
@@ -14,10 +13,10 @@ export default function ProfileCard({
   color?: string;
   hasReportBtn?: boolean;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const {setIsReportModalOpen} = useReportStore()
   return (
     <div
-      className={`flex items-center lg:w-[280px] w-[150px] h-[34px] justify-between h-auto lg:px-[10px] lg:py-[8px] p-1 bg-neutral-50/50 lg:rounded-lg rounded-[5px] text-white animate-flip ${
+      className={`flex items-center lg:w-[280px] w-[145px] h-[34px] justify-between h-auto lg:px-[10px] lg:py-[8px] p-1 bg-neutral-50/50 lg:rounded-lg rounded-[5px] text-white animate-flip ${
         color === "blue" &&
         "bg-sky-950/50 shadow:0px 1px 10px rgb(0 96 240 /1.00) border border-neutral-50/50 "
       }`}
@@ -30,7 +29,6 @@ export default function ProfileCard({
           : {}
       }
     >
-      {isModalOpen && <ReportModal setIsModalOpen={setIsModalOpen} />}
       <div className="flex lg:gap-[21px] gap-1 items-center">
         <figure className="rounded-full">
           <img src={profile} alt="" className="lg:w-[54px] lg:h-[54px] w-[25px] h-[25px]" />
@@ -55,7 +53,7 @@ export default function ProfileCard({
       </div>
       {hasReportBtn && (
         <div className="relative">
-          <button onClick={() => setIsModalOpen(true)}>
+          <button onClick={() => setIsReportModalOpen(true)}>
             <img
               src={color === "blue" ? flagWhite : flag}
               alt="신고하기 모달 열기"

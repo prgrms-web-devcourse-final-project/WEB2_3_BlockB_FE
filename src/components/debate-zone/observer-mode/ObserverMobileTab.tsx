@@ -2,7 +2,7 @@ import InfoDrodown from "../InfoDrodown";
 
 export default function ObserverMobileTab({ isDebateTabed, setIsDebateTabed }: { isDebateTabed: boolean; setIsDebateTabed: (isTabed: boolean) => void }) {
   return (
-    <section className="md:hidden flex gap-4 h-[24px] border-b border-gray01 items-center">
+    <section className="md:hidden flex gap-4 h-[24px] border-b border-gray01 items-center px-2">
       <InfoDrodown />
       <div className="relative flex gap-2">
         <div

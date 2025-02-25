@@ -17,39 +17,31 @@ export default function ObserverOngoingRoom() {
   const [isDebateTabed, setIsDebateTabed] = useState<boolean>(true)
 
   return (
-<div className="flex md:flex-col px-[10px] md:px-[100px] lg:px-[200px] md:py-[30px] justify-center items-center min-h-screen ">
+  <div className="flex md:flex-col justify-center items-center h-screen md:px-[100px] md:py-[30px]">
   {isExitModalOpen && <ExitModal setIsExitModalOpen={setIsExitModalOpen} />}
-  <div className="w-full max-w-[1200px]">
     {/* md 이상일 때만 나타남: 제목 및 타이머 */}
     <OngoingInfo />
-    {/* sm 이하일 때만 나타남 */}
-    <ObserverMobileChatMenu />
-    <ObserverMobileTab isDebateTabed={isDebateTabed} setIsDebateTabed={setIsDebateTabed}/>
-    {/* 본문 영역 */}
-    <section className="text-white flex md:flex-row flex-col flex-grow justify-between gap-[20px] md:mt-[20px] ">
-      {/* 채팅 메시지 영역 */}
-      <DebateChatObserverMode isDebateTabed={isDebateTabed}/>
-      {/* 우측 패널 */}
-      <section className="flex flex-col gap-[20px] w-full md:w-[40%]">
-        <AudienceList /> 
-        <div className="flex justify-end md:flex hidden">
-          <button onClick={() => setIsExitModalOpen(true)}>
-            <img src={exit} alt="토론방 나가기" />
-          </button>
-        </div>
-      <ObserverChatWindow isDebateTabed={isDebateTabed}/> 
-      </section>
-
-    </section>
-
-    {/* 투표 버튼 */}
-    <button
-      onClick={() => setObservingState("voting")}
-      className="text-white font-bold w-full md:w-auto py-[10px] px-[20px] bg-blue-600 rounded-md"
-    >
-      투표로 이동
-    </button>
-  </div>
+    <div className="w-full md:flex flex-grow overflow-hidden">
+      {/* 좌측 */}
+      <div className="md:flex-6 flex flex-1 flex-col">
+        {/* sm 이하일 때만 나타남 */}
+        <ObserverMobileChatMenu />
+        <ObserverMobileTab isDebateTabed={isDebateTabed} setIsDebateTabed={setIsDebateTabed}/>
+        {/* 디베이터 챗 */}
+        <DebateChatObserverMode isDebateTabed={isDebateTabed}/>
+      </div>x
+      {/* 우측 */}
+      <section className="flex md:flex-4 flex-col justify-between max-h-screen text-white">
+          <AudienceList /> 
+          <div className="flex justify-end md:flex hidden">
+            <button onClick={() => setIsExitModalOpen(true)}>
+              <img src={exit} alt="토론방 나가기" />
+            </button>
+          </div>
+          {/* 참관자 챗 */}
+          <ObserverChatWindow isDebateTabed={isDebateTabed}/> 
+        </section>
+    </div>
 </div>
 
   );

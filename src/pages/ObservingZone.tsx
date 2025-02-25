@@ -8,6 +8,7 @@ import VoteResult from "../components/debate-zone/VoteResult";
 import VoteRoom from "../components/debate-zone/VoteRoom";
 import WinByDefault from "../components/debate-zone/WinByDefault";
 import { useObservingStore } from "../stores/observingStateStore";
+import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
 
 export default function ObservingZone() {
   const { observingState } = useObservingStore();
@@ -30,6 +31,7 @@ export default function ObservingZone() {
   return (
     <div className="bg-[#070707] min-h-screen overflow-hidden">
       <Header status={headerStatus} />
+      <ReportModal />
       {observingState === "waiting" && <ObserverWaitingRoom />}
       {observingState === "ongoing" && <ObserverOngoingRoom />}
       {observingState === "won-by-default" && <WinByDefault />}
