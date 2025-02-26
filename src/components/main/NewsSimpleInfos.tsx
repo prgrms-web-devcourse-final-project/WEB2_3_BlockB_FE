@@ -41,9 +41,7 @@ export default function NewsSimpleInfos({
                   <div className="flex justify-between text-[16px] ">
                     <span>{datas[0].newsType}</span>
                     <span>
-                      {datas[0].deliveryTime
-                        .split("")
-                        .map((item) => (item === "T" ? " " : item))}
+                      {new Date(datas[0].deliveryTime).toLocaleString()}
                     </span>
                   </div>
                 </div>
@@ -84,7 +82,9 @@ export default function NewsSimpleInfos({
                   </div>
                   <div className="flex justify-between text-[16px] ">
                     <span>{datas[0].newsType}</span>
-                    <span>{datas[0].deliveryTime.split("")}</span>
+                    <span>
+                      {new Date(datas[0].deliveryTime).toLocaleString()}
+                    </span>
                   </div>
                 </div>
                 <div className="text-[18px] line-clamp-3">
@@ -125,7 +125,9 @@ export default function NewsSimpleInfos({
                     </div>
                     <div className="flex justify-between text-[10px] ">
                       <span>{datas[0].newsType}</span>
-                      <span>{datas[0].deliveryTime}</span>
+                      <span>
+                        {new Date(datas[0].deliveryTime).toLocaleString()}
+                      </span>
                     </div>
                   </div>
                 </div>

@@ -17,11 +17,7 @@ export default function NewsSimpleInfo({ data }: { data: NewsType }) {
           </div>
           <div className="flex justify-between text-[16px] max-md:text-[10px]">
             <span>{data.newsType}</span>
-            <span>
-              {data.deliveryTime
-                .split("")
-                .map((item) => (item === "T" ? " " : item))}
-            </span>
+            <span>{new Date(data.deliveryTime).toLocaleString()}</span>
           </div>
         </div>
       </div>
