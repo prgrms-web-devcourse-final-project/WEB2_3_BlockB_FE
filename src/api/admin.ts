@@ -50,15 +50,29 @@ const fetchReportDetails = async (reportId: number) => {
 };
 
 // ✅ 신고 처리
-const processReport = async (reportId: number) => {
+const processReport = async (
+  reportId: number,
+  result: string,
+  reportContent: string
+) => {
   try {
-    const response = await axiosInstance.put(`/api/admin/reports/${reportId}`);
+    const requestBody = {
+      result,
+      reportContent,
+    };
+
+    const response = await axiosInstance.put(
+      `/api/admin/reports/${reportId}`,
+      requestBody // 요청 바디 추가
+    );
+
     return response.data;
   } catch (error) {
     console.error(`❌ processReport 실패 (ID: ${reportId}):`, error);
     throw error;
   }
 };
+
 
 // ✅ 신고 처리 복구
 const undoReportAction = async (reportId: number) => {

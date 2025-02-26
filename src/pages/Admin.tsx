@@ -182,7 +182,7 @@ export default function Admin() {
       </div>
       {isCheckModalOpen && <Modal onCheck={setCheckModalOpen} modalType="check" reportId={selectedReportId} />}
       {isRecoverModal && <Modal setRecoverModalOpen={setRecoverModalOpen} modalType="recover" reportId={selectedReportId} />}
-      {isProcessModalOpen && <Modal onProcess={setProcessModalOpen} modalType="process" reportId={selectedReportId} />}
+      {isProcessModalOpen && <Modal setProcessModalOpen={setProcessModalOpen} modalType="process" reportId={selectedReportId} />}
       {isEditModalOpen && <Modal setEditModalOpen={setEditModalOpen} modalType="edit" reportId={selectedReportId} />}
     </>
   )

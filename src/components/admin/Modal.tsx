@@ -6,18 +6,19 @@ import { adminAPI } from "../../api/admin";
 export default function Modal({
   onCheck,
   setRecoverModalOpen,
-  onProcess,
+  setProcessModalOpen,
   setEditModalOpen,
   modalType,
   reportId,
 }: {
   onCheck?: (value: boolean) => void;
   setRecoverModalOpen?: (value: boolean) => void;
-  onProcess?: (value: boolean) => void;
+  setProcessModalOpen?: (value: boolean) => void;
   setEditModalOpen?: (value: boolean) => void;
   modalType: string;
   reportId: number | null
 }) {
+
   // 모달이 열릴 때 스크롤 방지
   useEffect(() => {
     document.body.style.overflow = "hidden"; // 스크롤 방지
@@ -25,10 +26,9 @@ export default function Modal({
       document.body.style.overflow = "auto"; // 언마운트 시 복원
     };
   }, []);
-  const [reason, setReason] = useState("warn");
+
+  // 신고 상세 정보 불러오기
   const [reportDetails, setReportDetails] = useState<ReportDetails>()
-
-
   useEffect(()=>{
     const loadReportDetails = async() => {
       if(!reportId) return
@@ -39,6 +39,15 @@ export default function Modal({
       loadReportDetails()
   },[])
 
+  // 신고 처리하기
+  const [reason, setReason] = useState("WARNING");
+  const [reportContent, setReportContent] = useState("")
+  const onClickProcessBtn = async () => {
+    if(!reportId) return
+    await adminAPI.processReport(reportId, reason , reportContent);
+    setProcessModalOpen!(false)
+    
+  }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-bold font-pretendard p-5">
       <div className="w-full max-w-[858px] sm:w-[90%] max-h-[90vh] overflow-y-auto bg-white px-4 sm:px-6 md:px-8 py-5 flex flex-col justify-between rounded-lg">
@@ -170,12 +179,12 @@ export default function Modal({
           )}
           {modalType === "process" ? (
             <div>
-              <button className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
+              <button onClick={onClickProcessBtn} className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
                 처리완료
               </button>
               <button
                 onClick={() => {
-                  onProcess!(false);
+                  setProcessModalOpen!(false);
                 }}
                 className="w-20 h-10 border border-solid border-gray04 rounded-[10px] ml-4"
               >
