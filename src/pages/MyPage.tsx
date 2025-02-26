@@ -6,7 +6,7 @@ import FollowTab from "../components/my-page/FollowTab";
 import NewsTab from "../components/my-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
 import { userApi } from "../api/user";
-import defaultProfile from "../assets/icons/profile.svg"
+// import defaultProfile from "../assets/icons/profile.svg"
 
 export default function MyPage() {
   const [tab, setTab] = useState("news");
@@ -42,7 +42,7 @@ export default function MyPage() {
         {/* 프로필 정보 */}
         <div className="flex max-md:flex-col max-md:items-center">
           <img
-            src={user?.profileUrl || defaultProfile}
+            src={user?.profileUrl || avatar}
             alt="프로필 이미지"
             className="md:mr-10 w-[200px] h-[200px] rounded-[65px] max-lg:w-44 max-lg:h-44 max-md:w-32 max-md:h-32 max-md:rounded-3xl max-md:mb-7"
           />

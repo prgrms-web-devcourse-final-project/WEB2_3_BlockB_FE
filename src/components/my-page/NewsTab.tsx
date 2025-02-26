@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommonSimpleInfo from "./CommonSimpleInfo";
 import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
+import { userApi } from "../../api/user";
 
 export default function NewsTab({ tab }: { tab: string }) {
   const [filter, setFilter] = useState(true);
@@ -14,6 +15,21 @@ export default function NewsTab({ tab }: { tab: string }) {
     totalPages: totalPages,
     handlePageChange: handlePageChange,
   } = usePagination(arrs, itemsPerPage);
+
+  const [likedNews, setLikedNews] = useState(null)
+  useEffect(()=>{
+    const loadMyNews = async() => {
+      const likedNews = await userApi.fetchLikedNews(2)
+      setLikedNews(likedNews)
+    }
+
+    loadMyNews()
+  },[])
+
+  useEffect(()=>{
+    console.log(likedNews)
+  },[likedNews])
+
   return (
     <div
       className={`${tab === "news" ? "" : "hidden"} flex max-md:justify-center`}
