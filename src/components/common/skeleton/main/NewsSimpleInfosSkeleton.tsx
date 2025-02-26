@@ -1,9 +1,9 @@
 export default function NewsSimpleInfosSkeleton({
   isTabed,
-  dates,
+  datas,
 }: {
   isTabed: boolean;
-  dates: number[];
+  datas: NewsType[];
 }) {
   return (
     <div className={`${isTabed ? "" : "hidden"} animate-pulse`}>
@@ -98,7 +98,7 @@ export default function NewsSimpleInfosSkeleton({
       {/* 뉴스 리스트 */}
       <div className="flex justify-center">
         <div className="grid grid-cols-3 grid-rows-3 gap-[30px]  max-lg:grid-cols-2  max-md:grid-cols-1">
-          {dates
+          {datas
             .filter((date, idx) => {
               if (idx !== 0) return date;
             })

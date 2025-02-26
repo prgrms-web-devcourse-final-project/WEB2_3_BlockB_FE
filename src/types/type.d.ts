@@ -15,3 +15,14 @@ interface RepotTableBodyType {
   admin?: string;
   reason: string;
 }
+
+interface NewsType {
+  bookmark: number;
+  content: string;
+  deliveryTime: string;
+  id: number;
+  imgUrl: string;
+  like: number;
+  newsType: string;
+  title: string;
+}
