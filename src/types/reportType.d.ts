@@ -56,4 +56,6 @@ interface Report {
   reportResult: string; 
   reportContent: string; 
   createdAt: string; // ISO 형식의 날짜 문자열
+  reportedAt: string | null
+  aslignedUserId: number | null
 };

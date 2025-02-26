@@ -39,8 +39,7 @@ export default function Modal({
       loadReportDetails()
   },[])
 
-  // 현재 어드민 user 정보 가져오기
-
+  // TODO: 현재 어드민 user 정보 가져오기 -- feat-profile-page branch와 병합 후 추가
 
   // 신고 처리하기
   const [reason, setReason] = useState("WARNING");
@@ -92,10 +91,10 @@ export default function Modal({
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
             <p>처리 조치: <span>{reportDetails?.reportResult}</span></p>
             <p>신고 사유: <span>{reportDetails?.reportType}</span></p>
-            <p>신고내용: <span>{reportDetails?.reportType}</span></p>
+            <p>신고 내용: <span>{reportDetails?.content}</span></p>
             <p>처리 사유: <span>{reportDetails?.reportContent}</span></p>
-            <p>처리 담당자: <span>imaria0218</span></p>
-            <p>처리 날짜: <span>2020-02-19</span></p>
+            <p>처리 담당자: <span>{reportDetails?.aslignedUserId}</span></p>
+            <p>처리 날짜: <span>{reportDetails?.reportedAt}</span></p>
           </div>
         ) : (
           ""
