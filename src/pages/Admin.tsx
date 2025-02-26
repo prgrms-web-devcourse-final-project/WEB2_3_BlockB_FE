@@ -60,13 +60,13 @@ export default function Admin() {
     }
   };
 
-
+  // 탭 및 필터링 적용시 api 호출
   useEffect(() => {
     if (tab === "미처리") fetchUnprocessedBody();
     if (tab === "처리 완료") fetchProcessedBody();
   }, [selectedReasonFilter, selectedResultFilter, tab]);
 
-
+  // 신고 내역 검색
   const searchReports = async(keyword: string) => {
       const searchResults = await adminAPI.fetchReports({query: keyword})
       if (tab === "미처리") setUnprocessedBody(filterProcessStatus(searchResults.data.content, tab))
@@ -74,8 +74,8 @@ export default function Admin() {
 
   }
 
-  const debouncedSearchTerm = useDebounce(searchKeyword, 300); 
-
+  // 검색 디바운싱
+  const debouncedSearchTerm = useDebounce(searchKeyword, 100); 
   useEffect(() => {
     if (debouncedSearchTerm) {
       searchReports(searchKeyword)
