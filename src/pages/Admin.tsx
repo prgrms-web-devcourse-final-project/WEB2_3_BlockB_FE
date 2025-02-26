@@ -20,10 +20,12 @@ export default function Admin() {
   const [selectedResultFilter, setSelectedResultFilter] = useState("all")
   const [searchKeyword, SetSearchKeyword] = useState<string>("")
 
-  const [check, setCheck] = useState(false);
-  const [recover, setRecover] = useState(false);
-  const [isProccessed, setIsProcessed] = useState(false);
-  const [isEdited, setIsEdited] = useState(false);
+
+  const [isCheckModalOpen, setCheckModalOpen] = useState(false);
+  const [isRecoverModal, setRecoverModalOpen] = useState(false);
+  const [isProcessModalOpen, setProcessModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+
 
   // 테이블 바디
   const [processedBody, setProcessedBody] = useState<Report[]>([]);
@@ -82,6 +84,8 @@ export default function Admin() {
     }
   }, [debouncedSearchTerm]);
 
+  
+  // 페이지네이션
   const itemsPerPage = 5;
   const {
     paginatedData: paginatedProcessedBody,
@@ -173,14 +177,10 @@ export default function Admin() {
                 bodys={[]}
                 unHeaders={unprocessedHeader}
                 unBodys={paginatedUnProcessedBody}
-                check={check}
-                onCheck={setCheck}
-                recover={recover}
-                onRecover={setRecover}
-                isProcessed={isProccessed}
-                onProcess={setIsProcessed}
-                isEdited={isEdited}
-                onEdit={setIsEdited}
+                setCheckModalOpen={setCheckModalOpen}
+                setRecoverModalOpen={setRecoverModalOpen}
+                setProcessModalOpen={setProcessModalOpen}
+                setEditModalOpen={setEditModalOpen}
               />
               <Pagination
                 totalPages={unProcessedTotalPages}
@@ -195,14 +195,10 @@ export default function Admin() {
                 bodys={paginatedProcessedBody}
                 unHeaders={[]}
                 unBodys={[]}
-                check={check}
-                onCheck={setCheck}
-                recover={recover}
-                onRecover={setRecover}
-                isProcessed={isProccessed}
-                onProcess={setIsProcessed}
-                isEdited={isEdited}
-                onEdit={setIsEdited}
+                setCheckModalOpen={setCheckModalOpen}
+                setRecoverModalOpen={setRecoverModalOpen}
+                setProcessModalOpen={setProcessModalOpen}
+                setEditModalOpen={setEditModalOpen}
               />
               <Pagination
                 totalPages={processedTotalPages}
@@ -213,14 +209,14 @@ export default function Admin() {
           )}
         </div>
       </div>
-      {check && <Modal onCheck={setCheck} check={check} modalType={"check"} />}
-      {recover && (
-        <Modal onRecover={setRecover} recover={recover} modalType={"recover"} />
+      {isCheckModalOpen && <Modal onCheck={setCheckModalOpen} modalType={"check"} />}
+      {isRecoverModal && (
+        <Modal setRecoverModalOpen={setRecoverModalOpen} modalType={"recover"} />
       )}
-      {isProccessed && (
-        <Modal onProcess={setIsProcessed} process={isProccessed} modalType={"process"} />
+      {isProcessModalOpen && (
+        <Modal onProcess={setProcessModalOpen} modalType={"process"} />
       )}
-      {isEdited && <Modal onEdit={setIsEdited} edit={isEdited} modalType={"edit"} />}
+      {isEditModalOpen && <Modal setEditModalOpen={setEditModalOpen} modalType={"edit"} />}
     </>
   )
 }

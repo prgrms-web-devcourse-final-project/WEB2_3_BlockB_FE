@@ -3,24 +3,16 @@ import { editOptions } from "../../constants";
 import FilterButton from "./FilterButton";
 
 export default function Modal({
-  check,
   onCheck,
-  recover,
-  onRecover,
-  process,
+  setRecoverModalOpen,
   onProcess,
-  edit,
-  onEdit,
+  setEditModalOpen,
   modalType,
 }: {
-  check?: boolean;
   onCheck?: (value: boolean) => void;
-  recover?: boolean;
-  onRecover?: (value: boolean) => void;
-  process?: boolean;
+  setRecoverModalOpen?: (value: boolean) => void;
   onProcess?: (value: boolean) => void;
-  edit?: boolean;
-  onEdit?: (value: boolean) => void;
+  setEditModalOpen?: (value: boolean) => void;
   modalType: string;
 }) {
   // 모달이 열릴 때 스크롤 방지
@@ -93,8 +85,8 @@ export default function Modal({
                     label={editOption.label}
                     value={editOption.value}
                     width={editOption.width}
-                    onClick={setReason}
                     selected={reason === editOption.value}
+                    onClick={setReason}
                   />
                 ))}
               </div>
@@ -134,7 +126,7 @@ export default function Modal({
           {modalType === "check" ? (
             <button
               onClick={() => {
-                onCheck!(!check);
+                onCheck!(false);
               }}
               className="w-20 h-10 border border-solid border-gray04 rounded-[10px]"
             >
@@ -150,7 +142,7 @@ export default function Modal({
               </button>
               <button
                 onClick={() => {
-                  onRecover!(!recover);
+                  setRecoverModalOpen!(false);
                 }}
                 className="w-20 h-10 border border-solid border-gray04 rounded-[10px] ml-4"
               >
@@ -167,7 +159,7 @@ export default function Modal({
               </button>
               <button
                 onClick={() => {
-                  onProcess!(!process);
+                  onProcess!(false);
                 }}
                 className="w-20 h-10 border border-solid border-gray04 rounded-[10px] ml-4"
               >
@@ -184,7 +176,7 @@ export default function Modal({
               </button>
               <button
                 onClick={() => {
-                  onEdit!(!edit);
+                  setEditModalOpen!(false);
                 }}
                 className="w-20 h-10 border border-solid border-gray04 rounded-[10px] ml-4"
               >
