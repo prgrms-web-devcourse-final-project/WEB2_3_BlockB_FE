@@ -53,7 +53,8 @@ export default function Modal({
   const [reportContent, setReportContent] = useState("")
   const onClickProcessBtn = async () => {
     await adminAPI.processReport(reportId!, reason , reportContent, 2);
-    setProcessModalOpen!(false)
+    if(modalType === "process") setProcessModalOpen!(false)
+    if(modalType === "edit") setEditModalOpen!(false)
     
   }
 
