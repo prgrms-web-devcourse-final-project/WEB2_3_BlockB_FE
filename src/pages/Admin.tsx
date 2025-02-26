@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
-import FilterButton from "../components/admin/FilterButton";
 import search from "../assets/icons/search-black.svg";
 import ReportTable from "../components/admin/ReportTable";
 import Modal from "../components/admin/Modal";
 import Pagination from "../components/common/Pagenation";
 import { usePagination } from "../hooks/usePagenation";
 import {
-  processedFilters,
   processedHeader,
-  unprocessedFilters,
   unprocessedHeader,
 } from "../constants/index";
 import { adminAPI } from "../api/admin";
 import useDebounce from "../hooks/useDebounce";
+import AdminTab from "../components/admin/AdminTab";
+import AdminFilteringButtons from "../components/admin/AdminFilteringButtons";
 
 export default function Admin() {
-  const [tab, setTab] = useState<"미처리" | "처리 완료">("미처리");
+  const [tab, setTab] = useState<AdminTab>("미처리");
   const [selectedReasonFilter, setSelectedReasonFilter] = useState("all");
   const [selectedResultFilter, setSelectedResultFilter] = useState("all")
   const [searchKeyword, SetSearchKeyword] = useState<string>("")
-
 
   const [isCheckModalOpen, setCheckModalOpen] = useState(false);
   const [isRecoverModal, setRecoverModalOpen] = useState(false);
   const [isProcessModalOpen, setProcessModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-
 
   // 테이블 바디
   const [processedBody, setProcessedBody] = useState<Report[]>([]);
@@ -84,7 +81,7 @@ export default function Admin() {
     }
   }, [debouncedSearchTerm]);
 
-  
+
   // 페이지네이션
   const itemsPerPage = 5;
   const {
@@ -105,60 +102,8 @@ export default function Admin() {
       <div className="flex justify-center">
         <div className="w-full max-w-[980px] h-auto mt-[50px] pt-7 pl-7 pr-7">
           <p className="text-[24px] font-bold md:text-[32px]">신고 목록</p>
-          <div className="flex border-b-[1px] border-gray03 border-solid text-[16px] font-bold my-5">
-            <button
-              onClick={() => setTab("미처리")}
-              className={`${
-                tab==="미처리"
-                  ? "mr-4 border-b-2 border-solid border-blue01 text-blue03"
-                  : "text-gray04"
-              }`}
-            >
-              미처리
-            </button>
-            <button
-              onClick={() => setTab("처리 완료")}
-              className={`${
-                tab === "미처리"
-                  ? "text-gray04"
-                  : "ml-4 border-b-2 border-solid border-blue01 text-blue03"
-              }`}
-            >
-              처리 완료
-            </button>
-          </div>
-          <div className="flex items-center">
-            <p className="text-[14px] md:text-[16px] h-5 text-gray01 mr-6 whitespace-nowrap">
-              {tab === "미처리" ? "신고 사유" : "처리 옵션"}
-            </p>
-            <div
-              className={`${
-                tab === "미처리" ? "w-[814px] " : "w-[375px]"
-              } h-[40px] flex justify-between text-[14px]  overflow-x-auto  `}
-            >
-              {tab === "미처리"
-                ? unprocessedFilters.map((filter) => (
-                    <FilterButton
-                      key={filter.value}
-                      label={filter.label}
-                      value={filter.value}
-                      selected={selectedReasonFilter === filter.value}
-                      setFilter={setSelectedReasonFilter}
-                      width={filter.width}
-                    />
-                  ))
-                : processedFilters.map((filter) => (
-                    <FilterButton
-                      key={filter.value}
-                      label={filter.label}
-                      value={filter.value}
-                      selected={selectedResultFilter === filter.value}
-                      setFilter={setSelectedResultFilter}
-                      width={filter.width}
-                    />
-                  ))}
-            </div>
-          </div>
+          <AdminTab tab={tab} setTab={setTab}/>
+          <AdminFilteringButtons tab={tab} selectedReasonFilter={selectedReasonFilter} setSelectedReasonFilter={setSelectedReasonFilter} selectedResultFilter={selectedResultFilter} setSelectedResultFilter={setSelectedResultFilter}/>
           <div className="flex bg-white border border-solid border-gray03 rounded-[10px] my-5">
             <input
               type="text"

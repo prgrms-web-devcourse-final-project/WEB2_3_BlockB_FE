@@ -85,3 +85,5 @@ interface Report {
     };
   }
   
+
+ type AdminTab =  "미처리" | "처리 완료"
