@@ -5,18 +5,18 @@ export default function FilterButton({
   label,
   value,
   selected,
-  onClick,
+  setFilter,
   width,
 }: {
   label: string;
   value: string;
   selected: boolean;
-  onClick: (value: string) => void;
+  setFilter: (value: string) => void;
   width: string;
 }) {
   return (
     <button
-      onClick={() => onClick(value)}
+      onClick={() => setFilter(value)}
       className={
         `${
           selected

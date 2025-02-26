@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import FilterButton from "../components/admin/FilterButton";
 import search from "../assets/icons/search-black.svg";
 import ReportTable from "../components/admin/ReportTable";
@@ -8,49 +8,67 @@ import { usePagination } from "../hooks/usePagenation";
 import {
   processedFilters,
   processedHeader,
-  unProcessedFilters,
-  unProcessedHeader,
+  unprocessedFilters,
+  unprocessedHeader,
 } from "../constants/index";
 import { adminAPI } from "../api/admin";
 
 export default function Admin() {
-  const [tab, setTab] = useState("미처리");
-  const [reason, setReason] = useState("all");
+  const [tab, setTab] = useState<"미처리" | "처리 완료">("미처리");
+  const [selectedReasonFilter, setSelectedReasonFilter] = useState("all");
+  const [selectedResultFilter, setSelectedResultFilter] = useState("all")
 
   const [check, setCheck] = useState(false);
   const [recover, setRecover] = useState(false);
   const [isProccessed, setIsProcessed] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
 
-  const [allPosts, setAllPosts] = useState<Report[]>([])
-  const [processedBody, setProssedBody] = useState<Report[] >([])
-  const [unProcessedBody, setUnprossedBody] = useState<Report[] >([])
+  // 테이블 바디
+  const [processedBody, setProcessedBody] = useState<Report[]>([]);
+  const [unProcessedBody, setUnprocessedBody] = useState<Report[]>([]);
 
-  useEffect(()=>{
-    const loadReports = async () => {
-      const reportsResponse = await adminAPI.fetchReports({})
-      console.log(reportsResponse.data.content)
-      setAllPosts(reportsResponse.data.content)
+  // 처리 여부에 따른 필터링
+  const filterProcessStatus = (reports: Report[], tab: "미처리" | "처리 완료") => {
+    return reports.filter((post) => post.status === tab);
+  };
+
+  // 미처리 신고 내역
+  const fetchUnprocessedBody = async () => {
+    if (selectedReasonFilter === "all") {
+      const allReportsResponse = await adminAPI.fetchReports({});
+      const allUnprocessedReports = filterProcessStatus(allReportsResponse.data.content, "미처리");
+      setUnprocessedBody(allUnprocessedReports);
+    } else {
+      const reportsFilteredByReason = await adminAPI.fetchReports({ type: selectedReasonFilter });
+      const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByReason.data.content, "미처리");
+      setUnprocessedBody(reportsFilteredByStatus);
     }
+  };
 
-    loadReports()
-  },[])
+  // 처리 완료된 신고 내역
+  const fetchProcessedBody = async () => {
+    if (selectedResultFilter === "all") {
+      const allReportsResponse = await adminAPI.fetchReports({});
+      const allProcessedReports = filterProcessStatus(allReportsResponse.data.content, "처리 완료");
+      setProcessedBody(allProcessedReports);
+    } else {
+      const reportsFilteredByResult = await adminAPI.fetchReports({ result: selectedResultFilter });
+      const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByResult.data.content, "처리 완료");
+      setProcessedBody(reportsFilteredByStatus);
+    }
+  };
+
+
+  useEffect(() => {
+    if (tab === "미처리") fetchUnprocessedBody();
+    if (tab === "처리 완료") fetchProcessedBody();
+  }, [selectedReasonFilter, selectedResultFilter, tab]);
+
 
   useEffect(()=>{
-    if(!allPosts) return
-     if(tab === "처리" ) {
-       const filteredProcessedBody = allPosts.filter((post) => post.status === "처리완료")
-       setProssedBody(allPosts)
-     }
-     if(tab === "미처리") {
-       const filteredUnprocessedBody = allPosts.filter((post) => post.status === "미처리")
-       setProssedBody(allPosts)
-     }
-     
-   },[reason, tab])
-
-
-
+    console.log("선택된 신고사유 필터",selectedReasonFilter)
+    console.log("선택된 결과 필터",selectedResultFilter)
+  },[selectedReasonFilter, selectedResultFilter])
 
   const itemsPerPage = 5;
   const {
@@ -83,14 +101,14 @@ export default function Admin() {
               미처리
             </button>
             <button
-              onClick={() => setTab("처리")}
+              onClick={() => setTab("처리 완료")}
               className={`${
                 tab === "미처리"
                   ? "text-gray04"
                   : "ml-4 border-b-2 border-solid border-blue01 text-blue03"
               }`}
             >
-              처리
+              처리 완료
             </button>
           </div>
           <div className="flex items-center">
@@ -103,23 +121,23 @@ export default function Admin() {
               } h-[40px] flex justify-between text-[14px]  overflow-x-auto  `}
             >
               {tab === "미처리"
-                ? processedFilters.map((filter) => (
+                ? unprocessedFilters.map((filter) => (
                     <FilterButton
                       key={filter.value}
                       label={filter.label}
                       value={filter.value}
-                      selected={reason === filter.value}
-                      onClick={setReason}
+                      selected={selectedReasonFilter === filter.value}
+                      setFilter={setSelectedReasonFilter}
                       width={filter.width}
                     />
                   ))
-                : unProcessedFilters.map((filter) => (
+                : processedFilters.map((filter) => (
                     <FilterButton
                       key={filter.value}
                       label={filter.label}
                       value={filter.value}
-                      selected={reason === filter.value}
-                      onClick={setReason}
+                      selected={selectedResultFilter === filter.value}
+                      setFilter={setSelectedResultFilter}
                       width={filter.width}
                     />
                   ))}
@@ -135,6 +153,28 @@ export default function Admin() {
             <img src={search} alt="검색 아이콘" className="mr-6" />
           </div>
           {tab === "미처리" ? (
+            <>
+              <ReportTable
+                headers={[]}
+                bodys={[]}
+                unHeaders={unprocessedHeader}
+                unBodys={paginatedUnProcessedBody}
+                check={check}
+                onCheck={setCheck}
+                recover={recover}
+                onRecover={setRecover}
+                isProcessed={isProccessed}
+                onProcess={setIsProcessed}
+                isEdited={isEdited}
+                onEdit={setIsEdited}
+              />
+              <Pagination
+                totalPages={unProcessedTotalPages}
+                currentPage={unProcessedCurrentPage}
+                onPageChange={handleProcessedPageChange}
+              />
+            </>
+          ) : (
             <>
               <ReportTable
                 headers={processedHeader}
@@ -153,28 +193,6 @@ export default function Admin() {
               <Pagination
                 totalPages={processedTotalPages}
                 currentPage={processedCurrentPage}
-                onPageChange={handleProcessedPageChange}
-              />
-            </>
-          ) : (
-            <>
-              <ReportTable
-                headers={[]}
-                bodys={[]}
-                unHeaders={unProcessedHeader}
-                unBodys={paginatedUnProcessedBody}
-                check={check}
-                onCheck={setCheck}
-                recover={recover}
-                onRecover={setRecover}
-                isProcessed={isProccessed}
-                onProcess={setIsProcessed}
-                isEdited={isEdited}
-                onEdit={setIsEdited}
-              />
-              <Pagination
-                totalPages={unProcessedTotalPages}
-                currentPage={unProcessedCurrentPage}
                 onPageChange={handleUnProcessedPageChange}
               />
             </>
@@ -190,5 +208,5 @@ export default function Admin() {
       )}
       {isEdited && <Modal onEdit={setIsEdited} edit={isEdited} modalType={"edit"} />}
     </>
-  );
+  )
 }

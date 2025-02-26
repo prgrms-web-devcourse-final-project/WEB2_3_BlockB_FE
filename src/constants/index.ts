@@ -151,20 +151,32 @@ export const reportReasons: ChecklistItem[] = [
 
 // 관리자 페이지
 
-export const processedFilters = [
+type AdminFilters = {
+  label: string, value: string, width: string
+}
+
+// 신고 사유
+export const unprocessedFilters = [
   { label: "전체", value: "all", width: "w-[74px]" },
-  { label: "음란/선정성", value: "obscenity", width: "w-[118px]" },
-  { label: "스팸/광고", value: "spam", width: "w-[105px]" },
-  { label: "욕설/인신공격", value: "cuss", width: "w-[131px]" },
-  { label: "도배", value: "flooding", width: "w-[74px]" },
+  { label: "음란/선정성", value: "OBSCENITY", width: "w-[118px]" },
+  { label: "스팸/광고", value: "SPAM", width: "w-[105px]" },
+  { label: "욕설/인신공격", value: "CUSS", width: "w-[131px]" },
+  { label: "도배", value: "FLOODING", width: "w-[74px]" },
   {
     label: "개인정보 노출",
-    value: "leakage",
+    value: "LEAKAGE",
     width: "w-[129px]",
   },
-  { label: "사유없는 탈주", value: "dodge", width: "w-[129px]" },
+  { label: "사유없는 탈주", value: "DODGE", width: "w-[129px]" },
 ];
-export const processedHeader = [
+
+export const findFilterValue = (filterType: AdminFilters[], label: string): string | undefined => {
+  const item = filterType.find((filter) => filter.label === label);
+  return item ? item.value : undefined;
+};
+
+
+export const unprocessedHeader = [
   "신고 사유",
   "신고자",
   "신고대상자",
@@ -172,15 +184,17 @@ export const processedHeader = [
   "조치",
 ];
 
-export const unProcessedFilters = [
+// 처리 결과
+export const processedFilters = [
   { label: "전체", value: "all", width: "w-[74px]" },
-  { label: "경고", value: "warning", width: "w-[74px]" },
-  { label: "일시정지", value: "suspension", width: "w-[100px]" },
-  { label: "영구정지", value: "ban", width: "w-[100px]" },
-  { label: "처리없음", value: "none", width: "w-[100px]" },
+  { label: "경고", value: "WARNING", width: "w-[74px]" },
+  { label: "일시정지", value: "SUSPENSION", width: "w-[100px]" },
+  { label: "영구정지", value: "BAN", width: "w-[100px]" },
+  { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];
 
-export const unProcessedHeader = [
+
+export const processedHeader = [
   "처리 옵션",
   "처리 대상자",
   "처리자",

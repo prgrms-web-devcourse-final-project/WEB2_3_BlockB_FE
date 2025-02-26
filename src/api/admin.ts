@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNTUzOTEzLCJleHAiOjE3NDA1NTc1MTN9.UoV_JxXKIbIAlnYN91DvCyIuoyu8iNpONNLFNBghFu6u8mPCejeerwsonKa5q4NrbYQSXflv5QGl309BYl6KNg", // 토큰이 있을 때만 추가
+    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNTc0NDQ0LCJleHAiOjE3NDA1NzgwNDR9.5HpYUz_8mY5HmiCUSsG2VxoQPi79-DFyrqHzUEe9xQU_P46ji5vlsdQWTn5AeSmzQGVLWc1ss8RMUZIXK5Nb-g", // 토큰이 있을 때만 추가
   },
 });
 
@@ -25,9 +25,9 @@ const fetchReports = async ({
   }) => {
     try {
       const params = new URLSearchParams();
-      if (query) params.append("q", query);
-      if (type) params.append("type", type);
-      if (result) params.append("result", result);
+      if (query) params.append("q", query); // 검색
+      if (type) params.append("type", type); // 신고 유형
+      if (result) params.append("result", result); // 처리 결과
       params.append("p", String(page));
   
       const response = await axiosInstance.get(`/api/admin/reports?${params.toString()}`);

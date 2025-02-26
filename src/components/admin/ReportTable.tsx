@@ -38,7 +38,7 @@ export default function ReportTable({
         </tr>
       </thead>
       <tbody>
-        {bodys.map((body, index) => (
+        {unBodys.map((body, index) => (
           <tr
             className="h-[75px] font-medium"
             key={index}
@@ -72,7 +72,7 @@ export default function ReportTable({
           </tr>
         ))}
 
-        {unBodys.map((body, index) => (
+        {bodys.map((body, index) => (
           <tr
             className="h-[75px] font-medium"
             key={index}
