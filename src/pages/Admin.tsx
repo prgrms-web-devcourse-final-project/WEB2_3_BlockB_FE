@@ -87,17 +87,17 @@ export default function Admin() {
   // 페이지네이션
   const itemsPerPage = 5;
   const {
-    paginatedData: paginatedProcessedBody,
-    currentPage: processedCurrentPage,
-    totalPages: processedTotalPages,
-    handlePageChange: handleProcessedPageChange,
-  } = usePagination<Report>(processedBody, itemsPerPage);
-  const {
     paginatedData: paginatedUnProcessedBody,
     currentPage: unProcessedCurrentPage,
     totalPages: unProcessedTotalPages,
     handlePageChange: handleUnProcessedPageChange,
   } = usePagination<Report>(unProcessedBody, itemsPerPage);
+  const {
+    paginatedData: paginatedProcessedBody,
+    currentPage: processedCurrentPage,
+    totalPages: processedTotalPages,
+    handlePageChange: handleProcessedPageChange,
+  } = usePagination<Report>(processedBody, itemsPerPage);
 
   return (
     <>

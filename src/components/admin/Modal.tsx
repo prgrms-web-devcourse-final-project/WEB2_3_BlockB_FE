@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { editOptions } from "../../constants";
+import { editOptions, findFilterValue, processedFilters, unprocessedFilters } from "../../constants";
 import FilterButton from "./FilterButton";
 import { adminAPI } from "../../api/admin";
 
@@ -29,17 +29,22 @@ export default function Modal({
 
   // 신고 상세 정보 불러오기
   const [reportDetails, setReportDetails] = useState<ReportDetails>()
-  useEffect(()=>{
-    const loadReportDetails = async() => {
-      if(!reportId) return
-      const reportDetailResponse = await adminAPI.fetchReportDetails(reportId)
-      setReportDetails(reportDetailResponse.data)
+  useEffect(() => {
+    const loadReportDetails = async () => {
+      if (!reportId) return;
+      const reportDetailResponse = await adminAPI.fetchReportDetails(reportId);
+      setReportDetails(reportDetailResponse.data);
+    };
+    loadReportDetails();
+  }, [reportId]);
   
-      if(modalType === "edit") setReportContent(reportDetails?.reportContent || "")
+  useEffect(() => {
+    if (modalType === "edit" && reportDetails) {
+      setReportContent(reportDetails.reportContent || "");
+      setReason(findFilterValue(processedFilters, reportDetails.reportResult)!)
     }
-      loadReportDetails()
-
-  },[modalType])
+  }, [modalType, reportDetails]); 
+  
 
   // TODO: 현재 어드민 user 정보 가져오기 -- feat-profile-page branch와 병합 후 추가
 
@@ -214,7 +219,7 @@ export default function Modal({
           )}
           {modalType === "edit" ? (
             <div>
-              <button className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
+              <button onClick={onClickProcessBtn} className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
                 변경하기
               </button>
               <button

@@ -151,7 +151,7 @@ export const reportReasons: ChecklistItem[] = [
 
 // 관리자 페이지
 
-type AdminFilters = {
+type AdminFilter = {
   label: string, value: string, width: string
 }
 
@@ -170,9 +170,9 @@ export const unprocessedFilters = [
   { label: "사유없는 탈주", value: "DODGE", width: "w-[129px]" },
 ];
 
-export const findFilterValue = (filterType: AdminFilters[], label: string): string | undefined => {
-  const item = filterType.find((filter) => filter.label === label);
-  return item ? item.value : undefined;
+export const findFilterValue = (filterType: AdminFilter[], selectedLabel: string): string | undefined => {
+  const tag = filterType.find((selection) => selection.label === selectedLabel);
+  return tag ? tag.value : undefined;
 };
 
 
