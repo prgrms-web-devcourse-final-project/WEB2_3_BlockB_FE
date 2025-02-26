@@ -12,11 +12,13 @@ import {
   unprocessedHeader,
 } from "../constants/index";
 import { adminAPI } from "../api/admin";
+import useDebounce from "../hooks/useDebounce";
 
 export default function Admin() {
   const [tab, setTab] = useState<"미처리" | "처리 완료">("미처리");
   const [selectedReasonFilter, setSelectedReasonFilter] = useState("all");
   const [selectedResultFilter, setSelectedResultFilter] = useState("all")
+  const [searchKeyword, SetSearchKeyword] = useState<string>("")
 
   const [check, setCheck] = useState(false);
   const [recover, setRecover] = useState(false);
@@ -65,10 +67,20 @@ export default function Admin() {
   }, [selectedReasonFilter, selectedResultFilter, tab]);
 
 
-  useEffect(()=>{
-    console.log("선택된 신고사유 필터",selectedReasonFilter)
-    console.log("선택된 결과 필터",selectedResultFilter)
-  },[selectedReasonFilter, selectedResultFilter])
+  const searchReports = async(keyword: string) => {
+      const searchResults = await adminAPI.fetchReports({query: keyword})
+      if (tab === "미처리") setUnprocessedBody(filterProcessStatus(searchResults.data.content, tab))
+      if (tab === "처리 완료") setProcessedBody(filterProcessStatus(searchResults.data.content, tab))
+
+  }
+
+  const debouncedSearchTerm = useDebounce(searchKeyword, 300); 
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      searchReports(searchKeyword)
+    }
+  }, [debouncedSearchTerm]);
 
   const itemsPerPage = 5;
   const {
@@ -146,9 +158,11 @@ export default function Admin() {
           <div className="flex bg-white border border-solid border-gray03 rounded-[10px] my-5">
             <input
               type="text"
-              name=""
-              id=""
-              className="w-full h-[53px] rounded-[10px] px-6 focus:outline-none"
+              id="reports-lists-search"
+              className="w-full h-[53px] rounded-[10px] px-6 focus:outline-none md:text-16px] text-[14px]"
+              placeholder="신고 대상자 이름으로 검색하세요"
+              value={searchKeyword}
+              onChange={(e)=>{SetSearchKeyword(e.target.value)}}
             />
             <img src={search} alt="검색 아이콘" className="mr-6" />
           </div>

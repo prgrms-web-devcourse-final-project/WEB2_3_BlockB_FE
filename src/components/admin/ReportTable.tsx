@@ -26,7 +26,7 @@ export default function ReportTable({
   onEdit: (value: boolean) => void;
 }) {
   return (
-    <table className="w-full  font-pretendard md:text-[18px] text-[9px] sm:text-[14px]">
+    <table className="w-full  font-pretendard md:text-[14px] text-[9px] sm:text-[14px]">
       <thead className="h-[54px] bg-blue04">
         <tr>
           {headers.map((header, index) => (
