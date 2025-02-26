@@ -6,6 +6,7 @@ interface Report {
     reportResult: string;
     status: string;
     createdAt: string;
+    reportedAt: string;
   }
   
   interface Sort {

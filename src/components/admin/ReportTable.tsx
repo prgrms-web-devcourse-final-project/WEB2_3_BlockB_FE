@@ -82,7 +82,8 @@ export default function ReportTable({
               처리자 이름
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.createdAt}
+              {body.reportedAt || "알 수 없음"}
+              {/* TODO: 백엔드 배포 후 다시 확인 */}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid font-bold">
               <button
