@@ -36,11 +36,9 @@ export default function Modal({
       setReportDetails(reportDetailResponse.data)
   
     }
-    if(modalType === "check") {
       loadReportDetails()
-    }
   },[])
-  
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-bold font-pretendard p-5">
       <div className="w-full max-w-[858px] sm:w-[90%] max-h-[90vh] overflow-y-auto bg-white px-4 sm:px-6 md:px-8 py-5 flex flex-col justify-between rounded-lg">
@@ -52,7 +50,7 @@ export default function Modal({
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
             <p>신고 사유: <span>{reportDetails?.reportType}</span></p>
             <p>신고자: <span>{reportDetails?.nickname}</span></p>
-            <p>신고내용: <span>{reportDetails?.reportContent}</span></p>
+            <p>신고내용: <span>{reportDetails?.content}</span></p>
             <p>신고 날짜: <span>{reportDetails?.createdAt}</span></p>
             <p>
               신고 위치:
@@ -80,12 +78,12 @@ export default function Modal({
         )}
         {modalType === "recover" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
-            <p>처리 조치: 경고</p>
-            <p>신고 사유: 욕설</p>
-            <p>신고내용: 해당 유저 욕설 사용</p>
-            <p>처리 사유: 욕</p>
-            <p>처리 담당자: 도차기</p>
-            <p>처리 날짜: 2025-02-13</p>
+            <p>처리 조치: <span>{reportDetails?.reportResult}</span></p>
+            <p>신고 사유: <span>{reportDetails?.reportType}</span></p>
+            <p>신고내용: <span>{reportDetails?.reportType}</span></p>
+            <p>처리 사유: <span>{reportDetails?.reportContent}</span></p>
+            <p>처리 담당자: <span>imaria0218</span></p>
+            <p>처리 날짜: <span>2020-02-19</span></p>
           </div>
         ) : (
           ""
@@ -93,7 +91,7 @@ export default function Modal({
         {modalType === "process" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
             <p>신고된 내용</p>
-            <p className="ml-4">내용 내용 내용 내용 내용</p>
+            <p className="ml-4"><span>{reportDetails?.reportType}</span>-<span>{reportDetails?.content}</span></p>
             <div className="flex flex-col sm:flex-row whitespace-nowrap items-start sm:items-center">
               <p>처리 옵션</p>
               <div className="flex w-full overflow-x-auto ml-0 sm:ml-8 ">
@@ -118,7 +116,7 @@ export default function Modal({
         {modalType === "edit" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
             <p>신고된 내용</p>
-            <p className="ml-4">내용 내용 내용 내용 내용</p>
+            <p className="ml-4"><span>{reportDetails?.reportType}</span>-<span>{reportDetails?.content}</span></p>
             <div className="flex flex-col sm:flex-row whitespace-nowrap items-start sm:items-center">
               <p>변경 옵션</p>
               <div className="flex w-full overflow-x-auto ml-0 sm:ml-8 ">
