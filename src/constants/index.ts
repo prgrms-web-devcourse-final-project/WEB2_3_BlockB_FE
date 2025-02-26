@@ -203,8 +203,8 @@ export const processedHeader = [
 ];
 
 export const editOptions = [
-  { label: "경고", value: "warning", width: "w-[74px]" },
-  { label: "일시정지", value: "suspension", width: "w-[100px]" },
-  { label: "영구정지", value: "ban", width: "w-[100px]" },
-  { label: "처리없음", value: "none", width: "w-[100px]" },
+  { label: "경고", value: "WARNING", width: "w-[74px]" },
+  { label: "일시정지", value: "SUSPENSION", width: "w-[100px]" },
+  { label: "영구정지", value: "BAN", width: "w-[100px]" },
+  { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];

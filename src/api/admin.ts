@@ -53,12 +53,14 @@ const fetchReportDetails = async (reportId: number) => {
 const processReport = async (
   reportId: number,
   result: string,
-  reportContent: string
+  reportContent: string,
+  asignedUserId: number
 ) => {
   try {
     const requestBody = {
       result,
       reportContent,
+      asignedUserId,
     };
 
     const response = await axiosInstance.put(

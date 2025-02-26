@@ -39,12 +39,15 @@ export default function Modal({
       loadReportDetails()
   },[])
 
+  // 현재 어드민 user 정보 가져오기
+
+
   // 신고 처리하기
   const [reason, setReason] = useState("WARNING");
   const [reportContent, setReportContent] = useState("")
   const onClickProcessBtn = async () => {
     if(!reportId) return
-    await adminAPI.processReport(reportId, reason , reportContent);
+    await adminAPI.processReport(reportId, reason , reportContent, 2);
     setProcessModalOpen!(false)
     
   }
@@ -111,13 +114,17 @@ export default function Modal({
                     value={editOption.value}
                     width={editOption.width}
                     selected={reason === editOption.value}
-                    onClick={setReason}
+                    setReason={setReason}
+                    type="selectReason"
                   />
                 ))}
               </div>
             </div>
             <p>처리사유</p>
-            <textarea className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
+            <textarea 
+            value={reportContent}
+            onChange={(e)=> {setReportContent(e.target.value)}}
+            className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
           </div>
         ) : (
           ""
@@ -135,14 +142,18 @@ export default function Modal({
                     label={editOption.label}
                     value={editOption.value}
                     width={editOption.width}
-                    onClick={setReason}
+                    setReason={setReason}
                     selected={reason === editOption.value}
+                    type="selectReason"
                   />
                 ))}
               </div>
             </div>
             <p>처리사유</p>
-            <textarea className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
+            <textarea 
+              value={reportContent}
+              onChange={(e)=> {setReportContent(e.target.value)}}
+            className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
           </div>
         ) : (
           ""
