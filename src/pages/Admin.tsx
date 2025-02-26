@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FilterButton from "../components/admin/FilterButton";
 import search from "../assets/icons/search-black.svg";
 import ReportTable from "../components/admin/ReportTable";
@@ -11,148 +11,60 @@ import {
   unProcessedFilters,
   unProcessedHeader,
 } from "../constants/index";
+import { adminAPI } from "../api/admin";
 
 export default function Admin() {
-  const [tab, setTab] = useState(true);
+  const [tab, setTab] = useState("미처리");
   const [reason, setReason] = useState("all");
 
   const [check, setCheck] = useState(false);
   const [recover, setRecover] = useState(false);
-  const [process, setProcess] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [isProccessed, setIsProcessed] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
 
-  const processedBody = [
-    {
-      reason: "음란/선정성",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "스팸/광고",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "욕설/인신공격",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "도배",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "개인정보 노출",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "사유없는 탈주",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "음란/선정성",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "스팸/광고",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "욕설/인신공격",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "도배",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "개인정보 노출",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-    {
-      reason: "사유없는 탈주",
-      reporter: "기도차",
-      name: "차도기",
-      date: "2025-02-13",
-    },
-  ];
+  const [allPosts, setAllPosts] = useState<Report[]>([])
+  const [processedBody, setProssedBody] = useState<Report[] >([])
+  const [unProcessedBody, setUnprossedBody] = useState<Report[] >([])
 
-  const unProcessedBody = [
-    {
-      option: "경고",
-      name: "기도차",
-      admin: "차도기",
-      reason: "음란/선정성",
-      date: "2025-02-13",
-    },
-    {
-      option: "경고",
-      name: "기도차",
-      admin: "차도기",
-      reason: "음란/선정성",
-      date: "2025-02-13",
-    },
-    {
-      option: "경고",
-      name: "기도차",
-      admin: "차도기",
-      reason: "음란/선정성",
-      date: "2025-02-13",
-    },
-    {
-      option: "경고",
-      name: "기도차",
-      admin: "차도기",
-      reason: "음란/선정성",
-      date: "2025-02-13",
-    },
-    {
-      option: "경고",
-      name: "기도차",
-      admin: "차도기",
-      reason: "음란/선정성",
-      date: "2025-02-13",
-    },
-    {
-      option: "경고",
-      name: "기도차",
-      admin: "차도기",
-      reason: "음란/선정성",
-      date: "2025-02-13",
-    },
-  ];
+  useEffect(()=>{
+    const loadReports = async () => {
+      const reportsResponse = await adminAPI.fetchReports({})
+      console.log(reportsResponse.data.content)
+      setAllPosts(reportsResponse.data.content)
+    }
+
+    loadReports()
+  },[])
+
+  useEffect(()=>{
+    if(!allPosts) return
+     if(tab === "처리" ) {
+       const filteredProcessedBody = allPosts.filter((post) => post.status === "처리완료")
+       setProssedBody(allPosts)
+     }
+     if(tab === "미처리") {
+       const filteredUnprocessedBody = allPosts.filter((post) => post.status === "미처리")
+       setProssedBody(allPosts)
+     }
+     
+   },[reason, tab])
+
+
+
+
   const itemsPerPage = 5;
   const {
     paginatedData: paginatedProcessedBody,
     currentPage: processedCurrentPage,
     totalPages: processedTotalPages,
     handlePageChange: handleProcessedPageChange,
-  } = usePagination(processedBody, itemsPerPage);
+  } = usePagination<Report>(processedBody, itemsPerPage);
   const {
     paginatedData: paginatedUnProcessedBody,
     currentPage: unProcessedCurrentPage,
     totalPages: unProcessedTotalPages,
     handlePageChange: handleUnProcessedPageChange,
-  } = usePagination(unProcessedBody, itemsPerPage);
+  } = usePagination<Report>(unProcessedBody, itemsPerPage);
 
   return (
     <>
@@ -161,9 +73,9 @@ export default function Admin() {
           <p className="text-[24px] font-bold md:text-[32px]">신고 목록</p>
           <div className="flex border-b-[1px] border-gray03 border-solid text-[16px] font-bold my-5">
             <button
-              onClick={() => setTab(true)}
+              onClick={() => setTab("미처리")}
               className={`${
-                tab
+                tab==="미처리"
                   ? "mr-4 border-b-2 border-solid border-blue01 text-blue03"
                   : "text-gray04"
               }`}
@@ -171,9 +83,9 @@ export default function Admin() {
               미처리
             </button>
             <button
-              onClick={() => setTab(false)}
+              onClick={() => setTab("처리")}
               className={`${
-                tab
+                tab === "미처리"
                   ? "text-gray04"
                   : "ml-4 border-b-2 border-solid border-blue01 text-blue03"
               }`}
@@ -183,14 +95,14 @@ export default function Admin() {
           </div>
           <div className="flex items-center">
             <p className="text-[14px] md:text-[16px] h-5 text-gray01 mr-6 whitespace-nowrap">
-              {tab ? "신고 사유" : "처리 옵션"}
+              {tab === "미처리" ? "신고 사유" : "처리 옵션"}
             </p>
             <div
               className={`${
-                tab ? "w-[814px] " : "w-[375px]"
+                tab === "미처리" ? "w-[814px] " : "w-[375px]"
               } h-[40px] flex justify-between text-[14px]  overflow-x-auto  `}
             >
-              {tab
+              {tab === "미처리"
                 ? processedFilters.map((filter) => (
                     <FilterButton
                       key={filter.value}
@@ -222,7 +134,7 @@ export default function Admin() {
             />
             <img src={search} alt="검색 아이콘" className="mr-6" />
           </div>
-          {tab ? (
+          {tab === "미처리" ? (
             <>
               <ReportTable
                 headers={processedHeader}
@@ -233,10 +145,10 @@ export default function Admin() {
                 onCheck={setCheck}
                 recover={recover}
                 onRecover={setRecover}
-                process={process}
-                onProcess={setProcess}
-                edit={edit}
-                onEdit={setEdit}
+                isProcessed={isProccessed}
+                onProcess={setIsProcessed}
+                isEdited={isEdited}
+                onEdit={setIsEdited}
               />
               <Pagination
                 totalPages={processedTotalPages}
@@ -255,10 +167,10 @@ export default function Admin() {
                 onCheck={setCheck}
                 recover={recover}
                 onRecover={setRecover}
-                process={process}
-                onProcess={setProcess}
-                edit={edit}
-                onEdit={setEdit}
+                isProcessed={isProccessed}
+                onProcess={setIsProcessed}
+                isEdited={isEdited}
+                onEdit={setIsEdited}
               />
               <Pagination
                 totalPages={unProcessedTotalPages}
@@ -273,10 +185,10 @@ export default function Admin() {
       {recover && (
         <Modal onRecover={setRecover} recover={recover} modalType={"recover"} />
       )}
-      {process && (
-        <Modal onProcess={setProcess} process={process} modalType={"process"} />
+      {isProccessed && (
+        <Modal onProcess={setIsProcessed} process={isProccessed} modalType={"process"} />
       )}
-      {edit && <Modal onEdit={setEdit} edit={edit} modalType={"edit"} />}
+      {isEdited && <Modal onEdit={setIsEdited} edit={isEdited} modalType={"edit"} />}
     </>
   );
 }

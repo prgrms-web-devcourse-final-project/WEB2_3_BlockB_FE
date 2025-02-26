@@ -7,22 +7,22 @@ export default function ReportTable({
   onCheck,
   recover,
   onRecover,
-  process,
+  isProcessed,
   onProcess,
-  edit,
+  isEdited,
   onEdit,
 }: {
   headers: string[];
-  bodys: RepotTableBodyType[];
+  bodys: Report[];
   unHeaders: string[];
-  unBodys: RepotTableBodyType[];
+  unBodys: Report[];
   check: boolean;
   onCheck: (value: boolean) => void;
   recover: boolean;
   onRecover: (value: boolean) => void;
-  process: boolean;
+  isProcessed: boolean;
   onProcess: (value: boolean) => void;
-  edit: boolean;
+  isEdited: boolean;
   onEdit: (value: boolean) => void;
 }) {
   return (
@@ -47,22 +47,22 @@ export default function ReportTable({
             }}
           >
             <td className="text-center border-b-[1px] border-blue07 border-solid ">
-              {body.reason}
+              {body.reportType}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.reporter}
+              {body.nickname}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.name}
+              {body.targetNickname}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.date}
+              {body.createdAt}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid font-bold">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onProcess(!process);
+                  onProcess(!isProcessed);
                 }}
                 className="w-10 h-6 md:w-20 md:h-9 sm:w-20 sm:h-9 rounded-[10px] bg-blue05 text-white"
               >
@@ -81,26 +81,23 @@ export default function ReportTable({
             }}
           >
             <td className="text-center border-b-[1px] border-blue07 border-solid ">
-              {body.option}
+              {body.reportResult}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.name}
+              {body.targetNickname}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.admin}
+              처리자 이름
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.reason}
-            </td>
-            <td className="text-center border-b-[1px] border-blue07 border-solid">
-              {body.date}
+              {body.createdAt}
             </td>
             <td className="text-center border-b-[1px] border-blue07 border-solid font-bold">
               <button
                 className="w-10 h-6 md:w-20 md:h-9 sm:w-20 sm:h-9  rounded-[10px] bg-blue05 text-white"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onEdit(!edit);
+                  onEdit(!isEdited);
                 }}
               >
                 변경하기
