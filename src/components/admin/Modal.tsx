@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { editOptions } from "../../constants";
 import FilterButton from "./FilterButton";
+import { adminAPI } from "../../api/admin";
 
 export default function Modal({
   onCheck,
@@ -8,12 +9,14 @@ export default function Modal({
   onProcess,
   setEditModalOpen,
   modalType,
+  reportId,
 }: {
   onCheck?: (value: boolean) => void;
   setRecoverModalOpen?: (value: boolean) => void;
   onProcess?: (value: boolean) => void;
   setEditModalOpen?: (value: boolean) => void;
   modalType: string;
+  reportId: number | null
 }) {
   // 모달이 열릴 때 스크롤 방지
   useEffect(() => {
@@ -23,19 +26,34 @@ export default function Modal({
     };
   }, []);
   const [reason, setReason] = useState("warn");
+  const [reportDetails, setReportDetails] = useState<ReportDetails>()
+
+
+  useEffect(()=>{
+    const loadReportDetails = async() => {
+      if(!reportId) return
+      const reportDetailResponse = await adminAPI.fetchReportDetails(reportId)
+      setReportDetails(reportDetailResponse.data)
+  
+    }
+    if(modalType === "check") {
+      loadReportDetails()
+    }
+  },[])
+  
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-bold font-pretendard p-5">
       <div className="w-full max-w-[858px] sm:w-[90%] max-h-[90vh] overflow-y-auto bg-white px-4 sm:px-6 md:px-8 py-5 flex flex-col justify-between rounded-lg">
         <p className="text-lg sm:text-xl">
           {modalType === "edit" ? "변경하기" : ""}
         </p>
-        <p className="text-sm sm:text-base">닉네임: 기도차</p>
+        <p className="text-sm sm:text-base">닉네임: <span>{reportDetails?.targetNickname}</span></p>
         {modalType === "check" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
-            <p>신고 사유: 욕설</p>
-            <p>신고자: 도기차</p>
-            <p>신고내용: 해당 유저 욕설 사용</p>
-            <p>신고 날짜: 2025-02-13</p>
+            <p>신고 사유: <span>{reportDetails?.reportType}</span></p>
+            <p>신고자: <span>{reportDetails?.nickname}</span></p>
+            <p>신고내용: <span>{reportDetails?.reportContent}</span></p>
+            <p>신고 날짜: <span>{reportDetails?.createdAt}</span></p>
             <p>
               신고 위치:
               <a

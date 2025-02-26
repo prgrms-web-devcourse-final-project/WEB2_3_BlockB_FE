@@ -18,6 +18,8 @@ export default function Admin() {
   const [selectedReasonFilter, setSelectedReasonFilter] = useState("all");
   const [selectedResultFilter, setSelectedResultFilter] = useState("all")
   const [searchKeyword, SetSearchKeyword] = useState<string>("")
+  const [selectedReportId, setSelectedReportId] = useState<number | null>(null);
+
 
   const [isCheckModalOpen, setCheckModalOpen] = useState(false);
   const [isRecoverModal, setRecoverModalOpen] = useState(false);
@@ -122,10 +124,22 @@ export default function Admin() {
                 bodys={[]}
                 unHeaders={unprocessedHeader}
                 unBodys={paginatedUnProcessedBody}
-                setCheckModalOpen={setCheckModalOpen}
-                setRecoverModalOpen={setRecoverModalOpen}
-                setProcessModalOpen={setProcessModalOpen}
-                setEditModalOpen={setEditModalOpen}
+                setCheckModalOpen={(isOpen, reportId) => {
+                  setCheckModalOpen(isOpen);
+                  setSelectedReportId(reportId); 
+                }}
+                setRecoverModalOpen={(isOpen, reportId) => {
+                  setRecoverModalOpen(isOpen);
+                  setSelectedReportId(reportId);
+                }}
+                setProcessModalOpen={(isOpen, reportId) => {
+                  setProcessModalOpen(isOpen);
+                  setSelectedReportId(reportId);
+                }}
+                setEditModalOpen={(isOpen, reportId) => {
+                  setEditModalOpen(isOpen);
+                  setSelectedReportId(reportId);
+                }}
               />
               <Pagination
                 totalPages={unProcessedTotalPages}
@@ -140,10 +154,22 @@ export default function Admin() {
                 bodys={paginatedProcessedBody}
                 unHeaders={[]}
                 unBodys={[]}
-                setCheckModalOpen={setCheckModalOpen}
-                setRecoverModalOpen={setRecoverModalOpen}
-                setProcessModalOpen={setProcessModalOpen}
-                setEditModalOpen={setEditModalOpen}
+                setCheckModalOpen={(isOpen, reportId) => {
+                  setCheckModalOpen(isOpen);
+                  setSelectedReportId(reportId); 
+                }}
+                setRecoverModalOpen={(isOpen, reportId) => {
+                  setRecoverModalOpen(isOpen);
+                  setSelectedReportId(reportId);
+                }}
+                setProcessModalOpen={(isOpen, reportId) => {
+                  setProcessModalOpen(isOpen);
+                  setSelectedReportId(reportId);
+                }}
+                setEditModalOpen={(isOpen, reportId) => {
+                  setEditModalOpen(isOpen);
+                  setSelectedReportId(reportId);
+                }}
               />
               <Pagination
                 totalPages={processedTotalPages}
@@ -154,14 +180,10 @@ export default function Admin() {
           )}
         </div>
       </div>
-      {isCheckModalOpen && <Modal onCheck={setCheckModalOpen} modalType={"check"} />}
-      {isRecoverModal && (
-        <Modal setRecoverModalOpen={setRecoverModalOpen} modalType={"recover"} />
-      )}
-      {isProcessModalOpen && (
-        <Modal onProcess={setProcessModalOpen} modalType={"process"} />
-      )}
-      {isEditModalOpen && <Modal setEditModalOpen={setEditModalOpen} modalType={"edit"} />}
+      {isCheckModalOpen && <Modal onCheck={setCheckModalOpen} modalType="check" reportId={selectedReportId} />}
+      {isRecoverModal && <Modal setRecoverModalOpen={setRecoverModalOpen} modalType="recover" reportId={selectedReportId} />}
+      {isProcessModalOpen && <Modal onProcess={setProcessModalOpen} modalType="process" reportId={selectedReportId} />}
+      {isEditModalOpen && <Modal setEditModalOpen={setEditModalOpen} modalType="edit" reportId={selectedReportId} />}
     </>
   )
 }

@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNTc4NDk5LCJleHAiOjE3NDA1ODIwOTl9.B98UVe2Q7v3pBrGJQN8yEesO_UlgoI8MLxjRCiB5zEYQTJ64a0IF1WxALPA1N_wzKY_G-6LL6Al579_urH8SWg", // 토큰이 있을 때만 추가
+    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNTgyNDQzLCJleHAiOjE3NDA1ODYwNDN9.-U12Z0NVVYhvKsg2HaTGg84VLzLU-yE3GNkwm3Ax3Jt8HBK9XGocDM_sEun6IaOoH9csdVvvmRQkMmciBYuAnA", // 토큰이 있을 때만 추가
   },
 });
 

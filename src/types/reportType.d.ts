@@ -1,47 +1,3 @@
-type ReportInfo = {
-    "status": string,
-    "message": string,
-    "data": {
-        "totalElements": number,
-        "totalPages": number,
-        "size": number,
-        "content": [
-        {
-            "id": number,
-            "nickname": string,
-            "targetNickname": string,
-            "reportType": string,
-            "reportResult": string,
-            "status": string,
-            "createdAt": string
-        }
-        ],
-        "number": number,
-        "sort": {
-        "empty": true,
-        "sorted": true,
-        "unsorted": true
-        },
-        "numberOfElements": number,
-        "pageable": {
-        "offset": number,
-        "sort": {
-            "empty": true,
-            "sorted": true,
-            "unsorted": true
-        },
-        "paged": true,
-        "pageNumber": number,
-        "pageSize": number,
-        "unpaged": true
-        },
-        "first": true,
-        "last": true,
-        "empty": true
-    }
-}
-
-
 interface Report {
     id: number;
     nickname: string;
@@ -87,3 +43,17 @@ interface Report {
   
 
  type AdminTab =  "미처리" | "처리 완료"
+
+ type ReportDetails = {
+  id: number;
+  nickname: string;
+  targetType: "CHAT" | "PROFILE"
+  targetRoomId?: number; 
+  targetUserId: number;
+  targetNickname: string;
+  content: string;
+  reportType: string; 
+  reportResult: string; 
+  reportContent: string; 
+  createdAt: string; // ISO 형식의 날짜 문자열
+};
