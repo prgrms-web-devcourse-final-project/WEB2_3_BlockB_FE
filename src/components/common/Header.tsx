@@ -19,7 +19,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   if (status === "debate-ing") {
     return null;
   }
-
+  
   return (
     <>
       <div className="fixed top-0 w-full z-50">
