@@ -4,13 +4,38 @@ type UserInfo = {
     "id": number,
     "email": string,
     "nickname": string,
-    "introduction": string,
+    "introduction": string | null,
     "profileUrl": string,
-    "winNumber": number,
-    "drawNumber": number,
-    "defeatNumber": number,
-    "role": number,
-    "socialType": number,
-    "socialId": number,
-    "fcmtoken": number
+    "winNumber": number | null
+    "drawNumber": number | null,
+    "defeatNumber": number | null,
+    "role": string,
+    "socialType": string,
+    "socialId": string,
+    "fcmtoken": string | null
   }
+
+type MyNews = {
+    "newsId": number,
+    "title": string,
+    "continent": string,
+    "createdAt": string,
+}
+
+type Follower = {
+    "followerId": number,
+    "nickname": string,
+    "profile": string,
+    "introduction": string
+}
+
+type ArchivedDebate = {
+  "debateId": number,
+  "category": string,
+  "title": string,
+  "time": string,
+  "member": string,
+  "status": string,
+  "isParticipant": boolean
+}
+
