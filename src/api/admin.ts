@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNTg2MzgwLCJleHAiOjE3NDA1ODk5ODB9.zp3az2s5mhACywocOf0US_p9sl-1WV8PwPaYa5NXjgdNblI-cueM9HhMliyDuxeCpsDYklzCWd2EB6gWBU24MQ", // 토큰이 있을 때만 추가
+    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjE1NDIwLCJleHAiOjE3NDA2MTkwMjB9.oEQHtmpnBFVIQpl0ggoFxaQkeXRRB8N9l9i-mT0LcWqzUKIFB_jml8nPiNH-O4cwmmESOrunFXTf8HNMbk74GQ", // TODO: 로그인 전 임시 - axios interceptor 통해 동적 추가되도록 변경
   },
 });
 

@@ -12,8 +12,10 @@ import { adminAPI } from "../api/admin";
 import useDebounce from "../hooks/useDebounce";
 import AdminTab from "../components/admin/AdminTab";
 import AdminFilteringButtons from "../components/admin/AdminFilteringButtons";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 
 export default function Admin() {
+  const [isLoading, setLoading] = useState<boolean>(true)
   const [tab, setTab] = useState<AdminTab>("미처리");
   const [selectedReasonFilter, setSelectedReasonFilter] = useState("all");
   const [selectedResultFilter, setSelectedResultFilter] = useState("all")
@@ -37,6 +39,7 @@ export default function Admin() {
 
   // 미처리 신고 내역
   const fetchUnprocessedBody = async () => {
+    setLoading(true)
     if (selectedReasonFilter === "all") {
       const allReportsResponse = await adminAPI.fetchReports({});
       const allUnprocessedReports = filterProcessStatus(allReportsResponse.data.content, "미처리");
@@ -46,10 +49,12 @@ export default function Admin() {
       const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByReason.data.content, "미처리");
       setUnprocessedBody(reportsFilteredByStatus);
     }
+    setLoading(false)
   };
 
   // 처리 완료된 신고 내역
   const fetchProcessedBody = async () => {
+    setLoading(true)
     if (selectedResultFilter === "all") {
       const allReportsResponse = await adminAPI.fetchReports({});
       const allProcessedReports = filterProcessStatus(allReportsResponse.data.content, "처리 완료");
@@ -59,12 +64,15 @@ export default function Admin() {
       const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByResult.data.content, "처리 완료");
       setProcessedBody(reportsFilteredByStatus);
     }
+    setLoading(false)
   };
 
   // 탭 및 필터링 적용시 api 호출
   useEffect(() => {
+
     if (tab === "미처리") fetchUnprocessedBody();
     if (tab === "처리 완료") fetchProcessedBody();
+
   }, [selectedReasonFilter, selectedResultFilter, tab]);
 
   // 신고 내역 검색
@@ -101,6 +109,7 @@ export default function Admin() {
 
   return (
     <>
+      {isLoading && <LoadingSpinner/> }
       <div className="flex justify-center mb-10">
         <div className="w-full max-w-[980px] h-auto mt-[50px] pt-7 pl-7 pr-7">
           <p className="text-[24px] font-bold md:text-[32px]">신고 목록</p>
