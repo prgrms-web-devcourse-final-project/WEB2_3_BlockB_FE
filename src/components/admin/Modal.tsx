@@ -48,11 +48,11 @@ export default function Modal({
 
   // TODO: 현재 어드민 user 정보 가져오기 -- feat-profile-page branch와 병합 후 추가
 
-  // 신고 처리하기
+  // 신고 처리하기/수정하기
   const [reason, setReason] = useState("WARNING");
   const [reportContent, setReportContent] = useState("")
   const onClickProcessBtn = async () => {
-    await adminAPI.processReport(reportId!, reason , reportContent, 2);
+    await adminAPI.processReport(reportId!, reason , reportContent, 2); // TODO: assignedUserId 동적으로 추가
     if(modalType === "process") setProcessModalOpen!(false)
     if(modalType === "edit") setEditModalOpen!(false)
     

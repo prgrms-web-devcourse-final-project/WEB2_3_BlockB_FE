@@ -144,7 +144,7 @@ export default function Admin() {
               <Pagination
                 totalPages={unProcessedTotalPages}
                 currentPage={unProcessedCurrentPage}
-                onPageChange={handleProcessedPageChange}
+                onPageChange={handleUnProcessedPageChange}
               />
             </>
           ) : (
@@ -174,7 +174,7 @@ export default function Admin() {
               <Pagination
                 totalPages={processedTotalPages}
                 currentPage={processedCurrentPage}
-                onPageChange={handleUnProcessedPageChange}
+                onPageChange={handleProcessedPageChange}
               />
             </>
           )}
