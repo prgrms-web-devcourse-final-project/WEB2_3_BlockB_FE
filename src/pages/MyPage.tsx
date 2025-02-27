@@ -13,8 +13,9 @@ export default function MyPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserInfo | null>(null);
 
+
   useEffect(() => {
-    const loadData = async () => {
+    const loadProfileData = async () => {
       try {
         const userInforesponse = await userApi.fetchMyProfile();
         setUser(userInforesponse.data);
@@ -23,8 +24,9 @@ export default function MyPage() {
       }
     };
 
-    loadData();
+    loadProfileData();
   }, []);
+
 
   useEffect(()=>{
     if(user) setIsLoading(false);
@@ -114,7 +116,7 @@ export default function MyPage() {
           <hr className="w-full bg-gray03 h-[2px] mb-3 max-md:w-80" />
         </div>
 
-        <NewsTab tab={tab} />
+        <NewsTab tab={tab} user={user} />
         <DebateTab tab={tab} />
         <FollowTab tab={tab} />
       </div>

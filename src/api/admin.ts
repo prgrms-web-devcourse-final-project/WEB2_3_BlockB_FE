@@ -25,9 +25,9 @@ const fetchReports = async ({
 }) => {
   try {
     const params = {
-      q: query || undefined, // 값이 없으면 undefined로 전달 (쿼리에서 제외)
-      type: type || undefined,
-      result: result || undefined,
+      q: query,
+      type: type,
+      result: result,
       p: page
     };
 

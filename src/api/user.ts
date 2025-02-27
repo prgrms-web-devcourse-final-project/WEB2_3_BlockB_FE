@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjE5NDEyLCJleHAiOjE3NDA2MjMwMTJ9.CZ1a9uCVjgimiErq7ENeeRy74OXVM1NnKjBCUAQsLE2B7j4-sqGv60VSZuyaX5Xgo2ci0xUK9nPMxdnG5MZt_A", // TODO: 로그인 전 임시 - axios interceptor 통해 동적 추가되도록 변경
+    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjMyNTc1LCJleHAiOjE3NDA2MzYxNzV9.GcsTOytnF2WtCmXibPbdzs-ZyKHY_xY7R3ibzREk6_w8kU75mH5C_5S9KWsejkYgeoLsul8dYZL0k0Vf_3FIqA"
   },
 });
 
@@ -23,6 +23,18 @@ const fetchMyProfile = async () => {
     throw error;
   }
 };
+
+// 프로필 수정
+const updateUserProfile = async (userId: number, data: ProfileUpdate) => {
+  try {
+    const response = await axiosInstance.put(`/api/users/mypage/${userId}`, null, { params: data });
+    return response.data;
+  } catch (error) {
+    console.error("사용자 프로필 업데이트 실패:", error);
+    throw error;
+  }
+};
+
 
 // 유저 프로필
 const fetchUserProfile = async (userId: number) => {
@@ -92,7 +104,7 @@ const fetchFollowees = async (userId: number) => {
 // 팔로잉 추가
 const insertFollowees = async (userId: number, followeeId: number) => {
   try {
-    const response = await axiosInstance.get(`/api/users/mypage/${userId}/${followeeId}/insertFollowees`)
+    const response = await axiosInstance.post(`/api/users/mypage/${userId}/${followeeId}/insertFollowees`)
     return response.data;
   } catch (error) {
     console.error("북마크한 뉴스 불러오기 실패:", error)
@@ -103,7 +115,7 @@ const insertFollowees = async (userId: number, followeeId: number) => {
 // 팔로잉 삭제
 const deleteFollowees = async (userId: number, followeeId: number) => {
   try {
-    const response = await axiosInstance.get(`/api/users/mypage/${userId}/${followeeId}/deleteFollowees`)
+    const response = await axiosInstance.delete(`/api/users/mypage/${userId}/${followeeId}/deleteFollowees`)
     return response.data;
   } catch (error) {
     console.error("북마크한 뉴스 불러오기 실패:", error)
@@ -114,6 +126,7 @@ const deleteFollowees = async (userId: number, followeeId: number) => {
 export const userApi = {
   fetchMyProfile,
   fetchUserProfile,
+  updateUserProfile,
   fetchLikedNews,
   fetchMarkedNews,
   fetchArchivedDebates,
