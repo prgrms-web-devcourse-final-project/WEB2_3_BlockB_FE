@@ -68,13 +68,23 @@ const fetchMarkedNews = async (userId: number) => {
   }
 }
 
-// 아카이브된 토론방
-const fetchArchivedDebates = async (debateId: number) => {
+// 참여한 토론방 목록
+const fetchArchivedDebateList = async (userId: number) => {
+  try {
+    const response = await axiosInstance.get(`/api/users/mypage/${userId}/debates`)
+    return response.data
+  } catch(error) {
+    console.error("참여한 토론방 목록 가져오기 실패:", error)
+  }
+}
+
+// 아카이브된 토론방 상세
+const fetchArchivedDebateDetails = async (debateId: number) => {
   try {
     const response = await axiosInstance.get(`/api/users/mypage/${debateId}/debateChats`)
     return response.data;
   } catch (error) {
-    console.error("북마크한 뉴스 불러오기 실패:", error)
+    console.error("아카이브된 토론방 불러오기 실패:", error)
     throw error
   }
 }
@@ -85,7 +95,7 @@ const fetchFollowers = async (userId: number) => {
     const response = await axiosInstance.get(`/api/users/mypage/${userId}/followers`)
     return response.data;
   } catch (error) {
-    console.error("북마크한 뉴스 불러오기 실패:", error)
+    console.error("팔로워 목록 불러오기 실패:", error)
     throw error
   }
 }
@@ -96,7 +106,7 @@ const fetchFollowees = async (userId: number) => {
     const response = await axiosInstance.get(`/api/users/mypage/${userId}/followees`)
     return response.data;
   } catch (error) {
-    console.error("북마크한 뉴스 불러오기 실패:", error)
+    console.error("팔로잉 목록 불러오기 실패:", error)
     throw error
   }
 }
@@ -107,7 +117,7 @@ const insertFollowees = async (userId: number, followeeId: number) => {
     const response = await axiosInstance.post(`/api/users/mypage/${userId}/${followeeId}/insertFollowees`)
     return response.data;
   } catch (error) {
-    console.error("북마크한 뉴스 불러오기 실패:", error)
+    console.error("팔로우 추가 실패:", error)
     throw error
   }
 }
@@ -118,7 +128,7 @@ const deleteFollowees = async (userId: number, followeeId: number) => {
     const response = await axiosInstance.delete(`/api/users/mypage/${userId}/${followeeId}/deleteFollowees`)
     return response.data;
   } catch (error) {
-    console.error("북마크한 뉴스 불러오기 실패:", error)
+    console.error("팔로우 삭제 실패:", error)
     throw error
   }
 }
@@ -129,7 +139,8 @@ export const userApi = {
   updateUserProfile,
   fetchLikedNews,
   fetchMarkedNews,
-  fetchArchivedDebates,
+  fetchArchivedDebateList,
+  fetchArchivedDebateDetails,
   fetchFollowers,
   fetchFollowees,
   insertFollowees,

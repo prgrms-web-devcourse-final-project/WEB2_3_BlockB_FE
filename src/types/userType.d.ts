@@ -29,7 +29,7 @@ type Follower = {
     "introduction": string
 }
 
-type ArchivedDebate = {
+type ArchivedDebateDetails = {
   "debateId": number,
   "category": string,
   "title": string,
@@ -39,5 +39,14 @@ type ArchivedDebate = {
   "isParticipant": boolean
 }
 
+type ArchivedDebate = {
+  "debateId": number,
+  "category": string,
+  "title":string,
+  "time": string,
+  "member": string,
+  "status": string,
+  "isParticipant": boolean
+}
 
 type ProfileUpdate = { nickname: string, introduction: string, profileUrl: string}

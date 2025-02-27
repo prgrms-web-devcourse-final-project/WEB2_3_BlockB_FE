@@ -117,7 +117,7 @@ export default function MyPage() {
         </div>
 
         <NewsTab tab={tab} user={user} />
-        <DebateTab tab={tab} />
+        <DebateTab tab={tab} user={user}/>
         <FollowTab tab={tab} />
       </div>
     </div>
