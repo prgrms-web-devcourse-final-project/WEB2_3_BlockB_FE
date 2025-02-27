@@ -15,7 +15,6 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { userId, profileUrl } = useUserStore();
-  
   if (status === "debate-ing") {
     return null;
   }
@@ -41,7 +40,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
           </div>
         ) : (
           <div
-            className={`w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] shadow-md justify-between items-center 
+            className={`w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] shadow-md justify-between items-center  
             ${
               status === "debate-waiting"
                 ? "text-white bg-black"
@@ -91,7 +90,10 @@ export default function Header({ status }: { status: HeaderStatusType }) {
               <Link to={`/user-page/${userId}`}>
                 <img
                   className="md:w-[35px] w-[16px] md:h-[35px] h-[16px] rounded-full"
-                  src={ profileUrl || (status === "debate-waiting" ? profileWhite : profile)}
+                  src={
+                    profileUrl ||
+                    (status === "debate-waiting" ? profileWhite : profile)
+                  }
                   alt="프로필 사진"
                 />
               </Link>
