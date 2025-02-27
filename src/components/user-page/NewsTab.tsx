@@ -1,19 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommonSimpleInfo from "./CommonSimpleInfo";
 import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
+import { userApi } from "../../api/user";
 
-export default function NewsTab({ tab }: { tab: string }) {
-  const [filter, setFilter] = useState(true);
-  const arrs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+export default function NewsTab({ tab, user }: { tab: string, user: UserInfo | null}) {
+  const [filter, setFilter] = useState("marked");
+  const [mynews, setmyNews] = useState<MyNews[]>([])
   const itemsPerPage = 6;
+
+  useEffect(()=>{
+    if (!user) return  
+    const loadNews = async () => {
+        const newsResponse = filter === "marked" ? await userApi.fetchMarkedNews(user.id) : await userApi.fetchLikedNews(user.id);
+        setmyNews(newsResponse.data)
+    }
+    loadNews()
+  },[tab, user, filter])
+
+  // useEffect(()=>{
+  //   console.log("mynews", mynews)
+  //   console.log("paginatedBody", paginatedBody)
+  // },[mynews])
+  
 
   const {
     paginatedData: paginatedBody,
     currentPage: currentPage,
     totalPages: totalPages,
     handlePageChange: handlePageChange,
-  } = usePagination(arrs, itemsPerPage);
+  } = usePagination(mynews, itemsPerPage);
+
+  
+
+
   return (
     <div
       className={`${tab === "news" ? "" : "hidden"} flex max-md:justify-center`}
@@ -22,10 +42,10 @@ export default function NewsTab({ tab }: { tab: string }) {
         <div className="flex text-[20px] mb-[30px] font-pretendard">
           <button
             onClick={() => {
-              setFilter(true);
+              setFilter("marked");
             }}
             className={`${
-              filter
+              filter === "marked"
                 ? "text-blue03 border-b-2 border-blue01 font-bold"
                 : "text-gray03"
             } h-6 mr-[30px]`}
@@ -34,20 +54,20 @@ export default function NewsTab({ tab }: { tab: string }) {
           </button>
           <button
             onClick={() => {
-              setFilter(false);
+              setFilter("liked");
             }}
             className={`${
-              filter
-                ? "text-gray03"
-                : "text-blue03 border-b-2 border-blue01 font-bold"
+              filter === "liked"
+                ? "text-blue03 border-b-2 border-blue01 font-bold"
+                : "text-gray03"
             } h-6`}
           >
             좋아요
           </button>
         </div>
         <div>
-          {paginatedBody.map((_) => (
-            <CommonSimpleInfo newsOrDebate={true} />
+          {paginatedBody.map((news, index) => (
+            <CommonSimpleInfo key={index} type="news" data={news} />
           ))}
         </div>
         <Pagination

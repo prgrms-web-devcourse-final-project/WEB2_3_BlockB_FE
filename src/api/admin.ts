@@ -7,36 +7,38 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjE1NDIwLCJleHAiOjE3NDA2MTkwMjB9.oEQHtmpnBFVIQpl0ggoFxaQkeXRRB8N9l9i-mT0LcWqzUKIFB_jml8nPiNH-O4cwmmESOrunFXTf8HNMbk74GQ", // TODO: 로그인 전 임시 - axios interceptor 통해 동적 추가되도록 변경
+    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjQ0MjIwLCJleHAiOjE3NDA2NDc4MjB9.xkMj8O57O_WmYj2BiJZ-6fvZVsTYgvIzMwlMygiApR5z1QUZPgSJAuWxhniVaqq_yXqABSe8jCaDtMK3lN5ppA", // TODO: 로그인 전 임시 - axios interceptor 통해 동적 추가되도록 변경
   },
 });
 
 // ✅ 신고 리스트 조회
 const fetchReports = async ({
-    query = "",
-    type = "",
-    result = "",
-    page = 1
-  }: {
-    query?: string;
-    type?: string;
-    result?: string;
-    page?: number;
-  }) => {
-    try {
-      const params = new URLSearchParams();
-      if (query) params.append("q", query); // 검색
-      if (type) params.append("type", type); // 신고 유형
-      if (result) params.append("result", result); // 처리 결과
-      params.append("p", String(page));
-  
-      const response = await axiosInstance.get(`/api/admin/reports?${params.toString()}`);
-      return response.data;
-    } catch (error) {
-      console.error("❌ fetchReports 실패:", error);
-      throw error;
-    }
-  };
+  query = "",
+  type = "",
+  result = "",
+  page = 1
+}: {
+  query?: string;
+  type?: string;
+  result?: string;
+  page?: number;
+}) => {
+  try {
+    const params = {
+      q: query,
+      type: type,
+      result: result,
+      p: page
+    };
+
+    const response = await axiosInstance.get("/api/admin/reports", { params });
+    return response.data;
+  } catch (error) {
+    console.error("❌ fetchReports 실패:", error);
+    throw error;
+  }
+};
+
   
 // ✅ 특정 신고 상세 조회
 const fetchReportDetails = async (reportId: number) => {

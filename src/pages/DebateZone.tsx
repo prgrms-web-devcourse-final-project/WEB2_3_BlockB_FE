@@ -8,8 +8,8 @@ import VoteResult from "../components/debate-zone/VoteResult";
 import VoteRoom from "../components/debate-zone/VoteRoom";
 import WaitingRoom from "../components/debate-zone/waiting-room/WaitingRoom";
 import WinByDefault from "../components/debate-zone/WinByDefault";
-import { useRoomStore } from "../stores/roomStateStore";
 import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
+import { useRoomStore } from "../stores/roomStateStore";
 
 export default function DebateZone() {
   const { roomState } = useRoomStore();

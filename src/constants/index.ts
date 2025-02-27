@@ -208,3 +208,13 @@ export const editOptions = [
   { label: "영구정지", value: "BAN", width: "w-[100px]" },
   { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];
+
+// TODO: 백엔드가 어떤 분류로 주는지 재확인
+export const continentKR:Record<string, string> = {
+  "CN": "중국",
+  "AS": "호주",
+  "JP": "일본",
+  "EU": "유럽",
+  "AM": "미국",
+  "AF": "아프리카"
+}
