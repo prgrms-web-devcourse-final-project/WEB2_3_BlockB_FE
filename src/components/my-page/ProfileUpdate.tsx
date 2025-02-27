@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import edit from "../../assets/icons/edit.svg";
 import ProfileUpdateSkeleton from "../common/skeleton/mypage/ProfileUpdateSkeleton";
 import { userApi } from "../../api/user";
+import ProfileUpdateInputBox from "./ProfileUpdateInputBox";
 
 export default function ProfileUpdate() {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,30 +54,8 @@ export default function ProfileUpdate() {
               />
             </button>
           </div>
-          <div
-            className="flex md:items-center items-start justify-between max-md:flex-col"
-          >
-            <span className="md:text-[18px] text-[16px] md:mr-3 mb-1">닉네임 변경</span>
-            <input
-              type="text"
-              value={newNickname}
-              placeholder="변경하실 닉네임을 입력해주세요."
-              onChange={(e)=> setNewNickname(e.target.value)}
-              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5 max-md:w-[300px]"
-            />
-          </div>
-          <div
-            className="flex md:items-center items-start justify-between max-md:flex-col"
-          >
-            <span className="md:text-[18px] text-[16px] md:mr-3 mb-1">자기소개 변경</span>
-            <input
-              type="text"
-              value={newIntroduction}
-              placeholder="변경하실 소개글을 입력해주세요."
-              onChange={(e) => setNewIntroduction(e.target.value)}
-              className="w-[366px] h-12 bg-gray02 rounded-lg pl-5 max-md:w-[300px]"
-            />
-          </div>
+          <ProfileUpdateInputBox label="닉네임 변경" value={newNickname} setNewValue={setNewNickname} />
+          <ProfileUpdateInputBox label="닉네임 변경" value={newIntroduction} setNewValue={setNewIntroduction} />
           <div className="flex justify-end h-[60px] ">
             <button
               onClick={onSubmitUpdatedProfile}
