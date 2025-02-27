@@ -10,22 +10,12 @@ export default function NewsTab({ tab, user }: { tab: string, user: UserInfo | n
   const itemsPerPage = 6;
 
   useEffect(()=>{
-    if (!user) return 
-    else if (filter === "marked") {
-      const loadMarkedNews = async () => {
-        const markedNewsResponse = await userApi.fetchMarkedNews(user.id)
-        setmyNews(markedNewsResponse.data)
-      }
-      loadMarkedNews()
+    if (!user) return  
+    const loadNews = async () => {
+        const newsResponse = filter === "marked" ? await userApi.fetchMarkedNews(user.id) : await userApi.fetchLikedNews(user.id);
+        setmyNews(newsResponse.data)
     }
-    else if (filter === "liked") {
-      const loadLikedNews = async ()=> {
-        const likedNewsResponse = await userApi.fetchLikedNews(user.id);
-        setmyNews(likedNewsResponse.data)
-      }
-      loadLikedNews();
-    }
-
+    loadNews()
   },[tab, user, filter])
 
   // useEffect(()=>{
