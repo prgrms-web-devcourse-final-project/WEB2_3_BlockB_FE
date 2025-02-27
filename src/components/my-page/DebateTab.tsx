@@ -37,7 +37,7 @@ export default function DebateTab({ tab, user }: { tab: string, user: UserInfo |
         <div className="flex text-[20px] mb-[30px] font-pretendard">
           <button
             onClick={() => {
-              setEnd(true);
+              setEnd(false);
             }}
             className={`${
               isEnd ? "text-gray03"
@@ -49,7 +49,7 @@ export default function DebateTab({ tab, user }: { tab: string, user: UserInfo |
           </button>
           <button
             onClick={() => {
-              setEnd(false);
+              setEnd(true);
             }}
             className={`${
               isEnd ? "text-blue03 border-b-2 border-blue01 font-bold"
