@@ -9,8 +9,9 @@ export default function ProfileUpdate() {
   const [isLoading, setIsLoading] = useState(true);
   const [newNickname, setNewNickname] = useState("")
   const [userId, setUserId] = useState<number | null>(null)
-  const [newIntroduction, setNewIntroduction] = useState("")
-  const [newProfileImg, setNewProfileImg] = useState("")
+  const [newIntroduction, setNewIntroduction] = useState<string>("")
+  const [newProfileImg, setNewProfileImg] = useState<string>("")
+  const [selectedImgFile, setImgFile] = useState<File|null>(null)
 
   useEffect(()=>{
     const loadOriginalProfile = async() => {
@@ -24,11 +25,15 @@ export default function ProfileUpdate() {
     loadOriginalProfile()
 },[])
 
+  const onClickImgEdit = () => {
+    console.log("이미지 변경 버튼 클릭")
+  }
+
   const navigate = useNavigate()
     
   const onSubmitUpdatedProfile = async() => {
     await userApi.updateUserProfile(userId!, {nickname: newNickname, introduction: newIntroduction, profileUrl: newProfileImg})
-    navigate("/my-page")
+    navigate(`/user-page/${userId}`)
   }
 
   if (isLoading) return <ProfileUpdateSkeleton />;
@@ -45,7 +50,9 @@ export default function ProfileUpdate() {
             />
           </div>
           <div className="flex justify-center">
-            <button className="flex w-[148px] h-10 bg-blue03 text-white text-[14px] items-center rounded-[10px] justify-center ">
+            <button
+            onClick={onClickImgEdit}
+            className="flex w-[148px] h-10 bg-blue03 text-white text-[14px] items-center rounded-[10px] justify-center ">
               <span>프로필 사진 변경</span>
               <img
                 src={edit}

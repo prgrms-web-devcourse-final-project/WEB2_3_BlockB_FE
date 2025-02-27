@@ -9,12 +9,12 @@ import Debaters from "./pages/Debaters";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import MyPage from "./pages/MyPage";
+import UserPage from "./pages/UserPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import NotFound from "./pages/NotFound";
 import ObservingZone from "./pages/ObservingZone";
-import ProfileUpdate from "./components/my-page/ProfileUpdate";
+import ProfileUpdate from "./components/user-page/ProfileUpdate";
 import RootLayout from "./layouts/RootLayout";
 import Signup from "./pages/Signup";
 import OAuthCallback from "./pages/OAuthCallback";
@@ -31,7 +31,7 @@ function App() {
           <Route path="/debate-rooms" element={<DebateRooms />} />
           <Route path="/debaters" element={<Debaters />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/my-page" element={<MyPage />} />
+          <Route path="/user-page/:userId" element={<UserPage />} />
           <Route path="/profile-update" element={<ProfileUpdate />} />
         </Route>
         <Route path="/debate-zone/:debateId" element={<DebateZone />} />

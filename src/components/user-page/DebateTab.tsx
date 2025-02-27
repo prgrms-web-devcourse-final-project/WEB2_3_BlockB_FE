@@ -5,7 +5,7 @@ import { usePagination } from "../../hooks/usePagenation";
 import { userApi } from "../../api/user";
 
 export default function DebateTab({ tab, user }: { tab: string, user: UserInfo | null }) {
-  const [isEnd, setEnd] = useState<boolean>(true);
+  const [isEnd, setEnd] = useState<boolean>(false);
   const [myDebates, setMyDebates] = useState<ArchivedDebate[]>([])
 
   useEffect(()=>{

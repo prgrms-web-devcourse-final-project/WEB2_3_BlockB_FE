@@ -1,26 +1,27 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import avatar from "../assets/icons/avatar.svg";
-import DebateTab from "../components/my-page/DebateTab";
-import FollowTab from "../components/my-page/FollowTab";
-import NewsTab from "../components/my-page/NewsTab";
+import DebateTab from "../components/user-page/DebateTab";
+import FollowTab from "../components/user-page/FollowTab";
+import NewsTab from "../components/user-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
 import { userApi } from "../api/user";
 // import defaultProfile from "../assets/icons/profile.svg"
 
-export default function MyPage() {
+export default function UserPage() {
   const [tab, setTab] = useState("news");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserInfo | null>(null);
 
+  const { userId } = useParams()
 
   useEffect(() => {
     const loadProfileData = async () => {
       try {
-        const userInforesponse = await userApi.fetchMyProfile();
+        const userInforesponse = await userApi.fetchUserProfile(Number(userId));
         setUser(userInforesponse.data);
       } catch (error) {
-        console.error("마이페이지 불러오기 실패");
+        console.error("유저페이지 불러오기 실패");
       }
     };
 
