@@ -3,89 +3,27 @@ import search from "../assets/icons/search.svg";
 import { DebaterType } from "../types/debateType";
 import DebateList from "../components/debaters/DebateList";
 import TopDebateList from "../components/debaters/TopDebateList";
+import useDebounce from "../hooks/useDebounce";
+import { debatesAPI } from "../api/debates";
+import SearchResultNone from "../components/debaters/SearchResultNone";
 
 export default function Debaters() {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredDebaters, setFilteredDebaters] = useState<DebaterType[]>([]);
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+  const [debaters, setDebaters] = useState<DebaterType[]>([]);
 
-  // 더미 데이터 (나중에 API 연동 시 대체)
-  const debaters: DebaterType[] = [
-    {
-      userId: 12,
-      nickname: "기도차",
-      profile:
-        "https://cdn.pixabay.com/photo/2021/05/09/06/07/dog-6240043_1280.jpg",
-      introduction: "유저설명",
-      totalFollowers: 1500,
-      totalFollowees: 145,
-      wins: 71,
-      draws: 13,
-      losses: 5,
-    },
-    {
-      userId: 34,
-      nickname: "도차기",
-      profile:
-        "https://cdn.pixabay.com/photo/2021/05/09/06/07/dog-6240043_1280.jpg",
-      introduction: "유저설명",
-      totalFollowers: 1498,
-      totalFollowees: 145,
-      wins: 65,
-      draws: 23,
-      losses: 14,
-    },
-    {
-      userId: 56,
-      nickname: "분노왕왕",
-      profile:
-        "https://cdn.pixabay.com/photo/2021/05/09/06/07/dog-6240043_1280.jpg",
-      introduction: "유저설명",
-      totalFollowers: 1400,
-      totalFollowees: 140,
-      wins: 60,
-      draws: 20,
-      losses: 10,
-    },
-    {
-      userId: 54,
-      nickname: "분노왕왕1",
-      profile:
-        "https://cdn.pixabay.com/photo/2021/05/09/06/07/dog-6240043_1280.jpg",
-      introduction: "유저설명",
-      totalFollowers: 1400,
-      totalFollowees: 140,
-      wins: 60,
-      draws: 20,
-      losses: 10,
-    },
-    {
-      userId: 54,
-      nickname: "우우우",
-      profile:
-        "https://cdn.pixabay.com/photo/2021/05/09/06/07/dog-6240043_1280.jpg",
-      introduction: "유저설명",
-      totalFollowers: 1400,
-      totalFollowees: 140,
-      wins: 60,
-      draws: 20,
-      losses: 10,
-    },
-  ];
+  const fetchDebaters = async (query: string = "") => {
+    try {
+      const data = await debatesAPI.getTopDebaters(query);
+      setDebaters(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setFilteredDebaters([]);
-    } else {
-      setFilteredDebaters(
-        debaters.filter((debater) =>
-          debater.nickname.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      );
-    }
-  }, [searchTerm]);
-  // 상위 3명과 나머지 유저 분리
-  const topDebaters: DebaterType[] = debaters.slice(0, 3);
-  const otherDebaters: DebaterType[] = debaters.slice(3);
+    fetchDebaters(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
   return (
     <div className="p-6 max-w-6xl mx-auto font-pretendard">
@@ -104,12 +42,14 @@ export default function Debaters() {
         />
       </div>
 
-      {searchTerm ? (
-        <DebateList debaters={filteredDebaters} />
+      {debaters.length === 0 ? (
+        <SearchResultNone searchTerm={searchTerm} />
+      ) : searchTerm ? (
+        <DebateList debaters={debaters} />
       ) : (
         <>
-          <TopDebateList topDebaters={topDebaters} />
-          <DebateList debaters={otherDebaters} />
+          <TopDebateList topDebaters={debaters.slice(0, 3)} />
+          <DebateList debaters={debaters.slice(3)} />
         </>
       )}
     </div>

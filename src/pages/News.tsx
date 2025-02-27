@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import search from "../assets/icons/search.svg";
 import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
 import NewsList from "../components/news/NewsList";
@@ -10,24 +10,100 @@ export default function News() {
   const [status, setStatus] = useState<1 | 2>(1); // 1: 최신순, 2: 인기순
   const [isLoading, setIsLoading] = useState(true);
   const [newsData, setNewsData] = useState<NewsType[]>([]);
+  const [text, setText] = useState("");
+  const [cursor, setCursor] = useState<number | null>(null);
+  const observerRef = useRef<HTMLDivElement>(null);
+  const [currentSearchTerm, setCurrentSearchTerm] = useState("");
+  const [currentSort, setCurrentSort] = useState<"LATEST" | "POPULAR">(
+    "LATEST"
+  );
 
-  const fetchAllNews = async (sort: string) => {
-    try {
-      const newsResults = await newsAPI.getAllNews(sort);
-      setNewsData(newsResults.data.content);
-    } catch (error) {
-      console.error("Error fetching news:", error);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
     }
   };
-  useEffect(() => {
-    fetchAllNews("최신순");
-  }, []);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  const fetchAllNews = async (
+    sort?: "LATEST" | "POPULAR",
+    isNewSearch: boolean = false
+  ) => {
+    try {
+      let newsResults;
+      const actualSort = sort || currentSort;
+
+      if (isNewSearch) {
+        setCursor(null);
+        setCurrentSearchTerm(text);
+        setCurrentSort(actualSort);
+      }
+
+      if (cursor && !isNewSearch) {
+        newsResults = await newsAPI.getAllNews(
+          actualSort,
+          currentSearchTerm,
+          cursor
+        );
+      } else {
+        newsResults = await newsAPI.getAllNews(
+          actualSort,
+          isNewSearch ? text : currentSearchTerm
+        );
+      }
+
+      if (newsResults.data.content) {
+        if (isNewSearch) {
+          setNewsData(newsResults.data.content);
+        } else {
+          setNewsData((previousNews) => [
+            ...previousNews,
+            ...newsResults.data.content,
+          ]);
+        }
+
+        if (newsResults.data.content.length > 0) {
+          setCursor(
+            newsResults.data.content[newsResults.data.content.length - 1].id
+          );
+        } else {
+          setCursor(null);
+        }
+      }
+
+      console.log(newsData);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
   }, []);
+
+  useEffect(() => {
+    fetchAllNews();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const firstEntry = entries[0];
+      if (firstEntry.isIntersecting && !isLoading) {
+        fetchAllNews(currentSort, false);
+      }
+    });
+    if (observerRef.current) observer.observe(observerRef.current);
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
+    };
+  }, [currentSort]);
 
   return (
     <div className="w-full h-screen overflow-hidden font-pretendard">
@@ -52,7 +128,7 @@ export default function News() {
                   }`}
                   onClick={() => {
                     setStatus(1);
-                    fetchAllNews("최신순");
+                    fetchAllNews("LATEST", true);
                   }}
                 >
                   최신순
@@ -65,7 +141,7 @@ export default function News() {
                   }`}
                   onClick={() => {
                     setStatus(2);
-                    fetchAllNews("인기순");
+                    fetchAllNews("POPULAR", true);
                   }}
                 >
                   인기순
@@ -78,18 +154,39 @@ export default function News() {
                   type="text"
                   className="w-full px-2 py-2 pl-3 pr-10 border rounded-lg focus:outline-none"
                   placeholder="검색..."
+                  onChange={onChange}
+                  onKeyDown={handleKeyDown}
                 />
-                <img
-                  src={search}
-                  alt="검색 아이콘"
-                  className="absolute w-5 h-5 text-gray-500 right-3 top-3"
-                />
+                <button
+                  onClick={() => {
+                    fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
+                  }}
+                >
+                  <img
+                    src={search}
+                    alt="검색 아이콘"
+                    className="absolute w-5 h-5 text-gray-500 right-3 top-3"
+                  />
+                </button>
               </div>
             </>
           )}
 
           {/* 뉴스 목록 */}
           {isLoading ? <NewsSkeleton /> : <NewsList newsData={newsData} />}
+          <div
+            className="w-full h-20 border border-black border-solid"
+            ref={observerRef}
+          >
+            <button
+              className="w-full h-full"
+              onClick={() => {
+                if (cursor) fetchAllNews(currentSort, false);
+              }}
+            >
+              더보기
+            </button>
+          </div>
         </div>
       </div>
     </div>

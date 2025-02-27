@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommonSimpleInfo from "./CommonSimpleInfo";
 import Pagination from "../common/Pagenation";
 import { usePagination } from "../../hooks/usePagenation";
+import { userApi } from "../../api/user";
 
-export default function DebateTab({ tab }: { tab: string }) {
-  const [filter, setFilter] = useState(true);
-  const arrs = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7,
-    8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5,
-    6, 7, 8, 9,
-  ];
+export default function DebateTab({ tab, user }: { tab: string, user: UserInfo | null }) {
+  const [isEnd, setEnd] = useState<boolean>(false);
+  const [myDebates, setMyDebates] = useState<ArchivedDebate[]>([])
+
+  useEffect(()=>{
+      if (!user) return 
+      const loadDebateList = async () => {
+        const myDebateResponse = await userApi.fetchArchivedDebateList(user.id)
+        setMyDebates(myDebateResponse.data.filter((debate: ArchivedDebate)=> isEnd ? debate.status === "CLOSED" : debate.status === "DEBATE"))
+      }
+      loadDebateList()
+    },[tab, user, isEnd])
+
+
   const itemsPerPage = 6;
 
   const {
@@ -17,7 +25,7 @@ export default function DebateTab({ tab }: { tab: string }) {
     currentPage: currentPage,
     totalPages: totalPages,
     handlePageChange: handlePageChange,
-  } = usePagination(arrs, itemsPerPage);
+  } = usePagination(myDebates, itemsPerPage);
 
   return (
     <div
@@ -29,32 +37,31 @@ export default function DebateTab({ tab }: { tab: string }) {
         <div className="flex text-[20px] mb-[30px] font-pretendard">
           <button
             onClick={() => {
-              setFilter(true);
+              setEnd(false);
             }}
             className={`${
-              filter
-                ? "text-blue03 border-b-2 border-blue01 font-bold"
-                : "text-gray03"
+              isEnd ? "text-gray03"
+              : "text-blue03 border-b-2 border-blue01 font-bold"
+
             } h-6 mr-[30px]`}
           >
             진행
           </button>
           <button
             onClick={() => {
-              setFilter(false);
+              setEnd(true);
             }}
             className={`${
-              filter
-                ? "text-gray03"
-                : "text-blue03 border-b-2 border-blue01 font-bold"
+              isEnd ? "text-blue03 border-b-2 border-blue01 font-bold"
+              : "text-gray03"
             } h-6`}
           >
             종료
           </button>
         </div>
         <div>
-          {paginatedBody.map((_) => (
-            <CommonSimpleInfo newsOrDebate={false} />
+          {paginatedBody.map((debate) => (
+            <CommonSimpleInfo type="debate" data={debate} />
           ))}
         </div>
         <Pagination

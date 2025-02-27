@@ -8,15 +8,17 @@ import profileWhite from "../../assets/icons/profile-white.svg";
 import profile from "../../assets/icons/profile.svg";
 import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../stores/userStore";
 
 export default function Header({ status }: { status: HeaderStatusType }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
+  const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const { userId, profileUrl } = useUserStore();
+  
   if (status === "debate-ing") {
     return null;
   }
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -86,10 +88,10 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   alt="알림"
                 />
               </button>
-              <Link to={"/my-page"}>
+              <Link to={`/user-page/${userId}`}>
                 <img
-                  className="max-md:w-[14px] max-md:h-[14px]"
-                  src={status === "debate-waiting" ? profileWhite : profile}
+                  className="md:w-[35px] w-[16px] md:h-[35px] h-[16px] rounded-full"
+                  src={ profileUrl || (status === "debate-waiting" ? profileWhite : profile)}
                   alt="프로필 사진"
                 />
               </Link>

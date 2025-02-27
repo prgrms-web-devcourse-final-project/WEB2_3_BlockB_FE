@@ -1,18 +1,39 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import avatar from "../assets/icons/avatar.svg";
-import DebateTab from "../components/my-page/DebateTab";
-import FollowTab from "../components/my-page/FollowTab";
-import NewsTab from "../components/my-page/NewsTab";
+import DebateTab from "../components/user-page/DebateTab";
+import FollowTab from "../components/user-page/FollowTab";
+import NewsTab from "../components/user-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
+import { userApi } from "../api/user";
+// import defaultProfile from "../assets/icons/profile.svg"
 
-export default function MyPage() {
+export default function UserPage() {
   const [tab, setTab] = useState("news");
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<UserInfo | null>(null);
+
+  const { userId } = useParams()
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 2000);
+    const loadProfileData = async () => {
+      try {
+        const userInforesponse = await userApi.fetchUserProfile(Number(userId));
+        setUser(userInforesponse.data);
+      } catch (error) {
+        console.error("유저페이지 불러오기 실패");
+      }
+    };
+
+    loadProfileData();
   }, []);
+
+
+  useEffect(()=>{
+    if(user) setIsLoading(false);
+    console.log(user)
+  },[user])
+
 
   if (isLoading) {
     return <MyPageSkeleton />;
@@ -24,14 +45,14 @@ export default function MyPage() {
         {/* 프로필 정보 */}
         <div className="flex max-md:flex-col max-md:items-center">
           <img
-            src={avatar}
-            alt="프로필 사진"
+            src={user?.profileUrl || avatar}
+            alt="프로필 이미지"
             className="md:mr-10 w-[200px] h-[200px] rounded-[65px] max-lg:w-44 max-lg:h-44 max-md:w-32 max-md:h-32 max-md:rounded-3xl max-md:mb-7"
           />
           <div className="w-[550px] max-lg:w-[480px] max-md:w-80 flex flex-col justify-between">
             <div>
               <div className="flex justify-between font-bold text-[20px] max-md:text-[14px] max-md:w-80">
-                김내현
+                {user?.nickname}
                 <Link
                   to="/profile-update"
                   className="text-white bg-blue01 w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg"
@@ -40,13 +61,13 @@ export default function MyPage() {
                 </Link>
               </div>
               <div className="text-gray01 text-[14px] max-md:text-[10px]">
-                안녕하세요. 김내현입니다...
+                {user?.introduction || "아직 소개가 없습니다"}
               </div>
             </div>
 
             {/* 승리, 무승부, 패배 정보 */}
             <div className="flex w-[550px] max-lg:w-[480px] max-md:w-80 justify-between max-md:mt-6">
-              {["승리", "무승부", "패배"].map((title, index) => {
+              {[{label:"승리", count: user?.winNumber}, {label: "무승부", count: user?.drawNumber},{label:"패배", count: user?.defeatNumber}].map((item, index) => {
                 const stats = ["W", "D", "L"];
                 return (
                   <div
@@ -54,11 +75,11 @@ export default function MyPage() {
                     className="w-40 max-lg:w-36 max-md:w-24 h-[135px] max-lg:h-28 max-md:h-20 border border-solid border-white02 rounded-2xl bg-white pl-6 pt-4 max-md:pl-3 max-md:pt-2"
                   >
                     <div className="text-[15px] font-semibold max-md:text-[12px]">
-                      {title}
+                      {item.label}
                     </div>
                     <div className="flex justify-between h-12">
                       <div className="text-[48px] font-semibold max-lg:text-[36px] max-md:text-[24px]">
-                        77
+                        {item.count || 0}
                       </div>
                       <div className="font-timmana text-[80px] max-lg:text-[60px] max-md:text-[40px] text-blue04">
                         {stats[index]}
@@ -96,9 +117,9 @@ export default function MyPage() {
           <hr className="w-full bg-gray03 h-[2px] mb-3 max-md:w-80" />
         </div>
 
-        <NewsTab tab={tab} />
-        <DebateTab tab={tab} />
-        <FollowTab tab={tab} />
+        <NewsTab tab={tab} user={user} />
+        <DebateTab tab={tab} user={user}/>
+        <FollowTab tab={tab} user={user}/>
       </div>
     </div>
   );

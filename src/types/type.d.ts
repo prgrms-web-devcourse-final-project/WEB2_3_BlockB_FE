@@ -26,3 +26,11 @@ interface NewsType {
   newsType: string;
   title: string;
 }
+
+interface NewsDetailType {
+  like: number;
+  liked: boolean;
+  link: string;
+  mark: number;
+  marked: boolean;
+}

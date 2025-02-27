@@ -12,9 +12,9 @@ export default function NewsList({ newsData }: { newsData: NewsType[] }) {
   return (
     <div ref={scrollContainerRef} className="relative h-screen overflow-auto">
       <div className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-3">
-        {newsData.map((news) => (
+        {newsData.map((news, index) => (
           <div
-            key={news.id}
+            key={index}
             className="rounded-lg cursor-pointer"
             onClick={() => navigate(`/news/${news.id}`)}
           >
