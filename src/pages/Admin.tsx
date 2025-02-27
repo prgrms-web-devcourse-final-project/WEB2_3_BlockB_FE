@@ -73,7 +73,7 @@ export default function Admin() {
     if (tab === "미처리") fetchUnprocessedBody();
     if (tab === "처리 완료") fetchProcessedBody();
 
-  }, [selectedReasonFilter, selectedResultFilter, tab]);
+  }, [selectedReasonFilter, selectedResultFilter, tab, isCheckModalOpen, isEditModalOpen, isProcessModalOpen, isRecoverModal]);
 
   // 신고 내역 검색
   const searchReports = async(keyword: string) => {
