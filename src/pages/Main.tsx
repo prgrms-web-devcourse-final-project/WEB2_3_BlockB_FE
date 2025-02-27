@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DebateSimpleInfos from "../components/main/DebateSimpleInfos";
 import NewsSimpleInfos from "../components/main/NewsSimpleInfos";
 import { date, day, month, year } from "../constants/index";
 import { Link } from "react-router";
+import { newsAPI } from "../api/news";
 
 export default function Main() {
   const [tab, setTeab] = useState(true);
+  const [newses, setNewses] = useState<NewsType[]>([]);
 
+  useEffect(() => {
+    const fetchNewsTop10 = async () => {
+      try {
+        const newsTop10Results = await newsAPI.getNewsTop10();
+        setNewses(newsTop10Results.data);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+    };
+    fetchNewsTop10();
+  }, []);
   return (
     <>
       <div className="flex justify-center text-black01 md:mb-[210px] mb-[100px]">
@@ -79,7 +92,7 @@ export default function Main() {
             </div>
           </div>
 
-          <NewsSimpleInfos dates={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} tab={tab} />
+          <NewsSimpleInfos datas={newses} tab={tab} />
 
           <DebateSimpleInfos
             tab={tab}

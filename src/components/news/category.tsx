@@ -28,17 +28,17 @@ const Category = () => {
   if (isLoading) return <CategorySkeleton />;
 
   return (
-    <div className="w-full md:border text-gray-400 rounded-md md:p-4 text-left">
-      <div className="text-blue03 font-extrabold text-lg md:p-2 mb-2 font-pretendard">
+    <div className="w-full text-left text-gray-400 rounded-md md:border md:p-4">
+      <div className="mb-2 text-lg font-extrabold text-blue03 md:p-2 font-pretendard">
         카테고리
       </div>
 
       {/* PC 일때때 */}
       <div className="hidden md:block">
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <div
-            key={category.path}
-            className="p-2 text-gray-500 font-bold font-pretendard hover:cursor-pointer hover:text-blue03 transition-colors"
+            key={index}
+            className="p-2 font-bold text-gray-500 transition-colors font-pretendard hover:cursor-pointer hover:text-blue03"
             onClick={() => handleNavigate(category.path)}
           >
             {category.name}
@@ -47,12 +47,12 @@ const Category = () => {
       </div>
 
       {/* 모바일 일때 */}
-      <div className="block md:hidden overflow-x-auto whitespace-nowrap scroll mb-5">
+      <div className="block mb-5 overflow-x-auto md:hidden whitespace-nowrap scroll">
         <div className="flex gap-3">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <div
-              key={category.path}
-              className="px-4 py-2 bg-gray-100 rounded-md text-gray-500 font-bold font-pretendard cursor-pointer hover:text-blue03 transition-colors"
+              key={index}
+              className="px-4 py-2 font-bold text-gray-500 transition-colors bg-gray-100 rounded-md cursor-pointer font-pretendard hover:text-blue03"
               onClick={() => handleNavigate(category.path)}
             >
               {category.name}

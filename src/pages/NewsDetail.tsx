@@ -1,25 +1,45 @@
 import { useState, useEffect } from "react";
 import Category from "../components/news/category";
 import bookmark from "../assets/icons/bookmark.svg";
+import bookmarked from "../assets/icons/bookmarked.svg";
 import connection from "../assets/icons/connection.svg";
 import like from "../assets/icons/like.svg";
+import liked from "../assets/icons/liked.svg";
 import speechBubble from "../assets/icons/speechBubble.svg";
 import NewsDetailSkeleton from "../components/common/skeleton/news/NewsDetailSkeleton";
+import { useParams } from "react-router";
+import { newsAPI } from "../api/news";
 
 export default function NewsDetail() {
   const [isLoading, setIsLoading] = useState(true);
+  let { newsId } = useParams();
+  const [newsInfo, setNewsInfo] = useState<NewsDetailType>();
 
+  const fetchNewsDetail = async () => {
+    const newsDetail = await newsAPI.getNewsDetail(Number(newsId), 4);
+    setNewsInfo(newsDetail.data);
+  };
+
+  const postNewsLike = async () => {
+    await newsAPI.postNewsLike(Number(newsId), 4);
+    await fetchNewsDetail();
+  };
+  const postNewsBookmark = async () => {
+    await newsAPI.postNewsBookmark(Number(newsId), 4);
+    await fetchNewsDetail();
+  };
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 2000);
+    fetchNewsDetail();
   }, []);
 
   return (
     <div className="w-full h-screen overflow-hidden font-pretendard">
-      <div className="max-w-10xl mx-auto p-6 flex flex-col md:flex-row md:pr-0 md:gap-6 h-full overflow-auto">
-        <div className="w-full md:w-1/6 md:ml-3 order-1">
+      <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0 md:gap-6">
+        <div className="order-1 w-full md:w-1/6 md:ml-3">
           <Category />
         </div>
-        <div className="w-full md:w-5/6 overflow-auto md:mr-3 order-2">
+        <div className="order-2 w-full overflow-auto md:w-5/6 md:mr-3">
           {isLoading ? (
             <NewsDetailSkeleton />
           ) : (
@@ -27,34 +47,58 @@ export default function NewsDetail() {
               {/* 뉴스 본문 (iframe) */}
               <div className="w-full h-[500px] md:h-[650px]  bg-white">
                 <iframe
-                  src="https://www.yna.co.kr/view/AKR20250217150300001?section=politics/all&site=topnews01"
+                  src={newsInfo?.link}
                   className="w-full h-full border-none"
                   title="News Detail"
                 />
               </div>
 
               {/* 구분선 */}
-              <div className="border-t border-gray-300 my-6"></div>
+              <div className="my-6 border-t border-gray-300"></div>
 
               {/* 좋아요, 북마크, 커넥트 버튼 */}
-              <div className="flex flex-col md:flex-row justify-between items-center text-gray-600 text-lg gap-4">
-                <div className="flex w-full md:w-auto justify-between md:space-x-6">
-                  <button className="flex items-center space-x-2">
-                    <img src={like} alt="좋아요" className="w-6 h-6" />
-                    <span className="text-base w-8 text-center">123</span>
+              <div className="flex flex-col items-center justify-between gap-4 text-lg text-gray-600 md:flex-row">
+                <div className="flex justify-between w-full md:w-auto md:space-x-6">
+                  <button
+                    className="flex items-center space-x-2"
+                    onClick={() => {
+                      if (newsInfo?.liked) return;
+                      postNewsLike();
+                    }}
+                  >
+                    <img
+                      src={newsInfo?.liked ? liked : like}
+                      alt="좋아요"
+                      className="w-6 h-6"
+                    />
+                    <span className="w-8 text-base text-center">
+                      {newsInfo?.like}
+                    </span>
                   </button>
-                  <button className="flex items-center space-x-2">
-                    <img src={bookmark} alt="북마크" className="w-6 h-6" />
-                    <span className="text-base w-8 text-center">12</span>
+                  <button
+                    className="flex items-center space-x-2"
+                    onClick={() => {
+                      if (newsInfo?.marked) return;
+                      postNewsBookmark();
+                    }}
+                  >
+                    <img
+                      src={newsInfo?.marked ? bookmarked : bookmark}
+                      alt="북마크"
+                      className="w-6 h-6"
+                    />
+                    <span className="w-8 text-base text-center">
+                      {newsInfo?.mark}
+                    </span>
                   </button>
                   <button className="flex items-center space-x-2">
                     <img src={connection} alt="커넥트" className="w-6 h-6" />
-                    <span className="text-base w-8 text-center">12</span>
+                    <span className="w-8 text-base text-center">12</span>
                   </button>
                 </div>
 
                 {/* 토론방 */}
-                <button className="w-full md:w-auto flex items-center rounded-md bg-blue-950 px-4 py-2 text-white justify-center">
+                <button className="flex items-center justify-center w-full px-4 py-2 text-white rounded-md md:w-auto bg-blue-950">
                   토론방 개설
                   <span className="ml-2">
                     <img

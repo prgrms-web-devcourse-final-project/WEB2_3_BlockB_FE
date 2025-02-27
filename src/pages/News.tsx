@@ -1,104 +1,119 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import search from "../assets/icons/search.svg";
 import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
 import NewsList from "../components/news/NewsList";
 import Category from "../components/news/category";
 import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearchSkeleton";
-
-// 뉴스 데이터 타입 정의
-type NewsItem = {
-  newsId: number;
-  newsTitle: string;
-  newsContent: string;
-  newsImgUrl: string;
-  newsType: string;
-  deliveryTime: string;
-};
+import { newsAPI } from "../api/news";
 
 export default function News() {
-  const navigate = useNavigate();
   const [status, setStatus] = useState<1 | 2>(1); // 1: 최신순, 2: 인기순
   const [isLoading, setIsLoading] = useState(true);
-  const [newsData, setNewsData] = useState<NewsItem[]>([]);
+  const [newsData, setNewsData] = useState<NewsType[]>([]);
+  const [text, setText] = useState("");
+  const [cursor, setCursor] = useState<number | null>(null);
+  const observerRef = useRef<HTMLDivElement>(null);
+  const [currentSearchTerm, setCurrentSearchTerm] = useState("");
+  const [currentSort, setCurrentSort] = useState<"LATEST" | "POPULAR">(
+    "LATEST"
+  );
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
+    }
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  const fetchAllNews = async (
+    sort?: "LATEST" | "POPULAR",
+    isNewSearch: boolean = false
+  ) => {
+    try {
+      let newsResults;
+      const actualSort = sort || currentSort;
+
+      if (isNewSearch) {
+        setCursor(null);
+        setCurrentSearchTerm(text);
+        setCurrentSort(actualSort);
+      }
+
+      if (cursor && !isNewSearch) {
+        newsResults = await newsAPI.getAllNews(
+          actualSort,
+          currentSearchTerm,
+          cursor
+        );
+      } else {
+        newsResults = await newsAPI.getAllNews(
+          actualSort,
+          isNewSearch ? text : currentSearchTerm
+        );
+      }
+
+      if (newsResults.data.content) {
+        if (isNewSearch) {
+          setNewsData(newsResults.data.content);
+        } else {
+          setNewsData((previousNews) => [
+            ...previousNews,
+            ...newsResults.data.content,
+          ]);
+        }
+
+        if (newsResults.data.content.length > 0) {
+          setCursor(
+            newsResults.data.content[newsResults.data.content.length - 1].id
+          );
+        } else {
+          setCursor(null);
+        }
+      }
+
+      console.log(newsData);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => {
-      setNewsData([
-        {
-          newsId: 1,
-          newsTitle: "미국-인도 정상회담 개최",
-          newsContent:
-            "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
-          newsImgUrl:
-            "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
-          newsType: "연합뉴스",
-          deliveryTime: "2025-02-17T15:07:00Z",
-        },
-        {
-          newsId: 1,
-          newsTitle: "미국-인도 정상회담 개최",
-          newsContent:
-            "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
-          newsImgUrl:
-            "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
-          newsType: "연합뉴스",
-          deliveryTime: "2025-02-17T15:07:00Z",
-        },
-        {
-          newsId: 1,
-          newsTitle: "미국-인도 정상회담 개최",
-          newsContent:
-            "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
-          newsImgUrl:
-            "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
-          newsType: "연합뉴스",
-          deliveryTime: "2025-02-17T15:07:00Z",
-        },
-        {
-          newsId: 1,
-          newsTitle: "미국-인도 정상회담 개최",
-          newsContent:
-            "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
-          newsImgUrl:
-            "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
-          newsType: "연합뉴스",
-          deliveryTime: "2025-02-17T15:07:00Z",
-        },
-        {
-          newsId: 1,
-          newsTitle: "미국-인도 정상회담 개최",
-          newsContent:
-            "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
-          newsImgUrl:
-            "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
-          newsType: "연합뉴스",
-          deliveryTime: "2025-02-17T15:07:00Z",
-        },
-        {
-          newsId: 1,
-          newsTitle: "미국-인도 정상회담 개최",
-          newsContent:
-            "조 바이든 미국 대통령과 나렌드라 모디 인도 총리가 워싱턴 D.C.에서 정상회담을 갖고 경제 및 안보 협력 강화 방안을 논의했습니다.",
-          newsImgUrl:
-            "https://img1.yna.co.kr/photo/yna/YH/2025/02/17/PYH2025021704480001300_P4.jpg",
-          newsType: "연합뉴스",
-          deliveryTime: "2025-02-17T15:07:00Z",
-        },
-      ]);
       setIsLoading(false);
     }, 2000);
   }, []);
 
+  useEffect(() => {
+    fetchAllNews();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const firstEntry = entries[0];
+      if (firstEntry.isIntersecting && !isLoading) {
+        fetchAllNews(currentSort, false);
+      }
+    });
+    if (observerRef.current) observer.observe(observerRef.current);
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
+    };
+  }, [currentSort]);
+
   return (
     <div className="w-full h-screen overflow-hidden font-pretendard">
-      <div className="max-w-10xl mx-auto p-6 flex flex-col md:flex-row md:pr-0 md:gap-6 h-full overflow-auto">
+      <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0 md:gap-6">
         {/* 카테고리 */}
-        <div className="w-full md:w-1/6 md:ml-3 order-1 md:order-1">
+        <div className="order-1 w-full md:w-1/6 md:ml-3 md:order-1">
           <Category />
         </div>
 
-        <div className="md:w-5/6 overflow-auto md:mr-3 order-2 md:order-2">
+        <div className="order-2 overflow-auto md:w-5/6 md:mr-3 md:order-2">
           {/* 필터 & 검색 바 */}
           {isLoading ? (
             <FilterSearchSkeleton />
@@ -112,8 +127,8 @@ export default function News() {
                       : "text-gray-400"
                   }`}
                   onClick={() => {
-                    navigate(`/news`);
                     setStatus(1);
+                    fetchAllNews("LATEST", true);
                   }}
                 >
                   최신순
@@ -125,8 +140,8 @@ export default function News() {
                       : "text-gray-400"
                   }`}
                   onClick={() => {
-                    navigate(`/news`);
                     setStatus(2);
+                    fetchAllNews("POPULAR", true);
                   }}
                 >
                   인기순
@@ -134,23 +149,44 @@ export default function News() {
               </div>
 
               {/* 검색 바 */}
-              <div className="relative mt-3 w-full">
+              <div className="relative w-full mt-3">
                 <input
                   type="text"
-                  className="border rounded-lg px-2 py-2 w-full pl-3 pr-10 focus:outline-none"
+                  className="w-full px-2 py-2 pl-3 pr-10 border rounded-lg focus:outline-none"
                   placeholder="검색..."
+                  onChange={onChange}
+                  onKeyDown={handleKeyDown}
                 />
-                <img
-                  src={search}
-                  alt="검색 아이콘"
-                  className="absolute right-3 top-3 w-5 h-5 text-gray-500"
-                />
+                <button
+                  onClick={() => {
+                    fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
+                  }}
+                >
+                  <img
+                    src={search}
+                    alt="검색 아이콘"
+                    className="absolute w-5 h-5 text-gray-500 right-3 top-3"
+                  />
+                </button>
               </div>
             </>
           )}
 
           {/* 뉴스 목록 */}
           {isLoading ? <NewsSkeleton /> : <NewsList newsData={newsData} />}
+          <div
+            className="w-full h-20 border border-black border-solid"
+            ref={observerRef}
+          >
+            <button
+              className="w-full h-full"
+              onClick={() => {
+                if (cursor) fetchAllNews(currentSort, false);
+              }}
+            >
+              더보기
+            </button>
+          </div>
         </div>
       </div>
     </div>
