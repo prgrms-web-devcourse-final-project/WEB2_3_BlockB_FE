@@ -141,29 +141,42 @@ switch (dates.getDay()) {
 }
 
 export const reportReasons: ChecklistItem[] = [
-  { dbKey: "sexual", key: "음란성/선정성", isChecked: false },
+  { dbKey: "obscenity", key: "음란성/선정성", isChecked: false },
   { dbKey: "spam", key: "스팸/광고", isChecked: false },
-  { dbKey: "abuse", key: "욕설/인신공격", isChecked: false },
+  { dbKey: "cuss", key: "욕설/인신공격", isChecked: false },
   { dbKey: "flooding", key: "도배", isChecked: false },
-  { dbKey: "privacy", key: "개인정보 노출", isChecked: false },
-  { dbKey: "ragequit", key: "사유 없는 탈주", isChecked: false },
+  { dbKey: "leakage", key: "개인정보 노출", isChecked: false },
+  { dbKey: "dodge", key: "사유 없는 탈주", isChecked: false },
 ];
+
 // 관리자 페이지
 
-export const processedFilters = [
+type AdminFilter = {
+  label: string, value: string, width: string
+}
+
+// 신고 사유
+export const unprocessedFilters = [
   { label: "전체", value: "all", width: "w-[74px]" },
-  { label: "음란/선정성", value: "sexual", width: "w-[118px]" },
-  { label: "스팸/광고", value: "ad", width: "w-[105px]" },
-  { label: "욕설/인신공격", value: "profanity", width: "w-[131px]" },
-  { label: "도배", value: "papering", width: "w-[74px]" },
+  { label: "음란/선정성", value: "OBSCENITY", width: "w-[118px]" },
+  { label: "스팸/광고", value: "SPAM", width: "w-[105px]" },
+  { label: "욕설/인신공격", value: "CUSS", width: "w-[131px]" },
+  { label: "도배", value: "FLOODING", width: "w-[74px]" },
   {
     label: "개인정보 노출",
-    value: "personalInformation",
+    value: "LEAKAGE",
     width: "w-[129px]",
   },
-  { label: "사유없는 탈주", value: "escape", width: "w-[129px]" },
+  { label: "사유없는 탈주", value: "DODGE", width: "w-[129px]" },
 ];
-export const processedHeader = [
+
+export const findFilterValue = (filterType: AdminFilter[], selectedLabel: string): string | undefined => {
+  const tag = filterType.find((selection) => selection.label === selectedLabel);
+  return tag ? tag.value : undefined;
+};
+
+
+export const unprocessedHeader = [
   "신고 사유",
   "신고자",
   "신고대상자",
@@ -171,25 +184,27 @@ export const processedHeader = [
   "조치",
 ];
 
-export const unProcessedFilters = [
+// 처리 결과
+export const processedFilters = [
   { label: "전체", value: "all", width: "w-[74px]" },
-  { label: "경고", value: "warn", width: "w-[74px]" },
-  { label: "일시정지", value: "pause", width: "w-[100px]" },
-  { label: "영구정지", value: "permanentStop", width: "w-[100px]" },
+  { label: "경고", value: "WARNING", width: "w-[74px]" },
+  { label: "일시정지", value: "SUSPENSION", width: "w-[100px]" },
+  { label: "영구정지", value: "BAN", width: "w-[100px]" },
+  { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];
 
-export const unProcessedHeader = [
+
+export const processedHeader = [
   "처리 옵션",
   "처리 대상자",
   "처리자",
-  "처리 사유",
   "처리 날짜",
   "조치",
 ];
 
 export const editOptions = [
-  { label: "경고", value: "warn", width: "w-[74px]" },
-  { label: "일시정지", value: "pause", width: "w-[100px]" },
-  { label: "영구정지", value: "permanentStop", width: "w-[100px]" },
-  { label: "처리없음", value: "none", width: "w-[100px]" },
+  { label: "경고", value: "WARNING", width: "w-[74px]" },
+  { label: "일시정지", value: "SUSPENSION", width: "w-[100px]" },
+  { label: "영구정지", value: "BAN", width: "w-[100px]" },
+  { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];
