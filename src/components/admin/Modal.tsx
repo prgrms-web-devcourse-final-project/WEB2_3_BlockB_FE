@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react";
-import { editOptions } from "../../constants";
+import { editOptions, findFilterValue, processedFilters, unprocessedFilters } from "../../constants";
 import FilterButton from "./FilterButton";
+import { adminAPI } from "../../api/admin";
 
 export default function Modal({
-  check,
   onCheck,
-  recover,
-  onRecover,
-  process,
-  onProcess,
-  edit,
-  onEdit,
+  setRecoverModalOpen,
+  setProcessModalOpen,
+  setEditModalOpen,
   modalType,
+  reportId,
 }: {
-  check?: boolean;
   onCheck?: (value: boolean) => void;
-  recover?: boolean;
-  onRecover?: (value: boolean) => void;
-  process?: boolean;
-  onProcess?: (value: boolean) => void;
-  edit?: boolean;
-  onEdit?: (value: boolean) => void;
+  setRecoverModalOpen?: (value: boolean) => void;
+  setProcessModalOpen?: (value: boolean) => void;
+  setEditModalOpen?: (value: boolean) => void;
   modalType: string;
+  reportId: number | null
 }) {
+
   // 모달이 열릴 때 스크롤 방지
   useEffect(() => {
     document.body.style.overflow = "hidden"; // 스크롤 방지
@@ -30,20 +26,57 @@ export default function Modal({
       document.body.style.overflow = "auto"; // 언마운트 시 복원
     };
   }, []);
-  const [reason, setReason] = useState("warn");
+
+  // 신고 상세 정보 불러오기
+  const [reportDetails, setReportDetails] = useState<ReportDetails>()
+  useEffect(() => {
+    const loadReportDetails = async () => {
+      if (!reportId) return;
+      const reportDetailResponse = await adminAPI.fetchReportDetails(reportId);
+      setReportDetails(reportDetailResponse.data);
+    };
+    loadReportDetails();
+  }, [reportId]);
+  
+  useEffect(() => {
+    if (modalType === "edit" && reportDetails) {
+      setReportContent(reportDetails.reportContent || "");
+      setReason(findFilterValue(processedFilters, reportDetails.reportResult)!)
+    }
+  }, [modalType, reportDetails]); 
+  
+
+  // TODO: 현재 어드민 user 정보 가져오기 -- feat-profile-page branch와 병합 후 추가
+
+  // 신고 처리하기/수정하기
+  const [reason, setReason] = useState("WARNING");
+  const [reportContent, setReportContent] = useState("")
+  const onClickProcessBtn = async () => {
+    await adminAPI.processReport(reportId!, reason , reportContent, 2); // TODO: assignedUserId 동적으로 추가
+    if(modalType === "process") setProcessModalOpen!(false)
+    if(modalType === "edit") setEditModalOpen!(false)
+    
+  }
+
+  // 신고 복구하기
+  const onClickRecoverBtn = async () => {
+    await adminAPI.undoReportAction(reportId!)
+    setRecoverModalOpen!(false)
+  }
+  
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-bold font-pretendard p-5">
       <div className="w-full max-w-[858px] sm:w-[90%] max-h-[90vh] overflow-y-auto bg-white px-4 sm:px-6 md:px-8 py-5 flex flex-col justify-between rounded-lg">
         <p className="text-lg sm:text-xl">
           {modalType === "edit" ? "변경하기" : ""}
         </p>
-        <p className="text-sm sm:text-base">닉네임: 기도차</p>
+        <p className="text-sm sm:text-base">닉네임: <span>{reportDetails?.targetNickname}</span></p>
         {modalType === "check" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
-            <p>신고 사유: 욕설</p>
-            <p>신고자: 도기차</p>
-            <p>신고내용: 해당 유저 욕설 사용</p>
-            <p>신고 날짜: 2025-02-13</p>
+            <p>신고 사유: <span>{reportDetails?.reportType}</span></p>
+            <p>신고자: <span>{reportDetails?.nickname}</span></p>
+            <p>신고내용: <span>{reportDetails?.content}</span></p>
+            <p>신고 날짜: <span>{reportDetails?.createdAt}</span></p>
             <p>
               신고 위치:
               <a
@@ -70,12 +103,12 @@ export default function Modal({
         )}
         {modalType === "recover" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
-            <p>처리 조치: 경고</p>
-            <p>신고 사유: 욕설</p>
-            <p>신고내용: 해당 유저 욕설 사용</p>
-            <p>처리 사유: 욕</p>
-            <p>처리 담당자: 도차기</p>
-            <p>처리 날짜: 2025-02-13</p>
+            <p>처리 조치: <span>{reportDetails?.reportResult}</span></p>
+            <p>신고 사유: <span>{reportDetails?.reportType}</span></p>
+            <p>신고 내용: <span>{reportDetails?.content}</span></p>
+            <p>처리 사유: <span>{reportDetails?.reportContent}</span></p>
+            <p>처리 담당자: <span>{reportDetails?.aslignedUserId}</span></p>
+            <p>처리 날짜: <span>{reportDetails?.reportedAt}</span></p>
           </div>
         ) : (
           ""
@@ -83,7 +116,7 @@ export default function Modal({
         {modalType === "process" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
             <p>신고된 내용</p>
-            <p className="ml-4">내용 내용 내용 내용 내용</p>
+            <p className="ml-4"><span>{reportDetails?.reportType}</span>-<span>{reportDetails?.content}</span></p>
             <div className="flex flex-col sm:flex-row whitespace-nowrap items-start sm:items-center">
               <p>처리 옵션</p>
               <div className="flex w-full overflow-x-auto ml-0 sm:ml-8 ">
@@ -93,14 +126,18 @@ export default function Modal({
                     label={editOption.label}
                     value={editOption.value}
                     width={editOption.width}
-                    onClick={setReason}
                     selected={reason === editOption.value}
+                    setReason={setReason}
+                    type="selectReason"
                   />
                 ))}
               </div>
             </div>
             <p>처리사유</p>
-            <textarea className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
+            <textarea 
+            value={reportContent}
+            onChange={(e)=> {setReportContent(e.target.value)}}
+            className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
           </div>
         ) : (
           ""
@@ -108,7 +145,7 @@ export default function Modal({
         {modalType === "edit" ? (
           <div className="bg-blue06 rounded-lg p-4 sm:p-6 max-h-[70vh] overflow-y-auto flex flex-col gap-y-4 text-sm sm:text-base">
             <p>신고된 내용</p>
-            <p className="ml-4">내용 내용 내용 내용 내용</p>
+            <p className="ml-4"><span>{reportDetails?.reportType}</span>-<span>{reportDetails?.content}</span></p>
             <div className="flex flex-col sm:flex-row whitespace-nowrap items-start sm:items-center">
               <p>변경 옵션</p>
               <div className="flex w-full overflow-x-auto ml-0 sm:ml-8 ">
@@ -118,14 +155,18 @@ export default function Modal({
                     label={editOption.label}
                     value={editOption.value}
                     width={editOption.width}
-                    onClick={setReason}
+                    setReason={setReason}
                     selected={reason === editOption.value}
+                    type="selectReason"
                   />
                 ))}
               </div>
             </div>
             <p>처리사유</p>
-            <textarea className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
+            <textarea 
+              value={reportContent}
+              onChange={(e)=> {setReportContent(e.target.value)}}
+            className="w-full   h-[108px] resize-none rounded-lg px-4 py-4 border border-gray-300"></textarea>
           </div>
         ) : (
           ""
@@ -134,7 +175,7 @@ export default function Modal({
           {modalType === "check" ? (
             <button
               onClick={() => {
-                onCheck!(!check);
+                onCheck!(false);
               }}
               className="w-20 h-10 border border-solid border-gray04 rounded-[10px]"
             >
@@ -145,12 +186,12 @@ export default function Modal({
           )}
           {modalType === "recover" ? (
             <div>
-              <button className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
+              <button onClick={onClickRecoverBtn} className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
                 복구하기
               </button>
               <button
                 onClick={() => {
-                  onRecover!(!recover);
+                  setRecoverModalOpen!(false);
                 }}
                 className="w-20 h-10 border border-solid border-gray04 rounded-[10px] ml-4"
               >
@@ -162,12 +203,12 @@ export default function Modal({
           )}
           {modalType === "process" ? (
             <div>
-              <button className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
+              <button onClick={onClickProcessBtn} className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
                 처리완료
               </button>
               <button
                 onClick={() => {
-                  onProcess!(!process);
+                  setProcessModalOpen!(false);
                 }}
                 className="w-20 h-10 border border-solid border-gray04 rounded-[10px] ml-4"
               >
@@ -179,12 +220,12 @@ export default function Modal({
           )}
           {modalType === "edit" ? (
             <div>
-              <button className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
+              <button onClick={onClickProcessBtn} className="w-20 h-10 border border-solid bg-blue03 text-white rounded-[10px]">
                 변경하기
               </button>
               <button
                 onClick={() => {
-                  onEdit!(!edit);
+                  setEditModalOpen!(false);
                 }}
                 className="w-20 h-10 border border-solid border-gray04 rounded-[10px] ml-4"
               >

@@ -9,10 +9,24 @@ const RootLayout = () => {
   const [headerStatus, setHeaderStatus] = useState<HeaderStatusType>("default");
   const [footerStatus, setFooterStatus] = useState<FooterStatusType>("default");
   const { pathname } = useLocation();
+  const [hideHeaderFooter, setHideHeaderFooter] = useState(false);
   useEffect(() => {
+    // 특정 페이지에서는 헤더 & 푸터 숨기기
+    const noHeaderFooterPages = ["/debate-zone", "/observing-zone", "/login"];
+
+    if (noHeaderFooterPages.some((path) => pathname.startsWith(path))) {
+      setHideHeaderFooter(true);
+    } else {
+      setHideHeaderFooter(false);
+    }
+
+    // 페이지별 헤더/푸터 스타일 설정
     if (pathname === "/") {
       setHeaderStatus("landing");
       setFooterStatus("landing");
+      // } else if (["/login", "/signup", "/oauth/callback"].includes(pathname)) {
+      //   setHeaderStatus("auth");
+      //   setFooterStatus("auth");
     } else {
       setHeaderStatus("default");
       setFooterStatus("default");
@@ -21,11 +35,11 @@ const RootLayout = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header status={headerStatus} />
+      {!hideHeaderFooter && <Header status={headerStatus} />}
       <main className="flex-1">
         <Outlet />
       </main>
-      <Footer status={footerStatus} />
+      {!hideHeaderFooter && <Footer status={footerStatus} />}
       <TopButton />
     </div>
   );
