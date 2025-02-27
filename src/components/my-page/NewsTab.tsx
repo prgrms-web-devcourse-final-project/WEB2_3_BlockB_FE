@@ -9,9 +9,6 @@ export default function NewsTab({ tab, user }: { tab: string, user: UserInfo | n
   const [mynews, setmyNews] = useState<MyNews[]>([])
   const itemsPerPage = 6;
 
-  // const [likedNews, setLikedNews] = useState<MyNews[]>([])
-  // const [markedNews, setMarkedNews] = useState<MyNews[]>([])
-
   useEffect(()=>{
     if (!user) return 
     else if (filter === "marked") {
