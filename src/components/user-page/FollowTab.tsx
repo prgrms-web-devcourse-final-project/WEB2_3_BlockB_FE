@@ -3,7 +3,7 @@ import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
 import { userApi } from "../../api/user";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 
 
 export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab: string, user: UserInfo | null, isFollowed: boolean, handleFollow: (id: number, action: "delete" | "follow")=>void}) {
@@ -138,7 +138,7 @@ function ProfileSimpleInfo({
     const profileId = isFollower(profile) ? profile.followerId : profile.followeeId;
 
     return (
-        <div className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
+        <Link to={`/user-page/${profileId}`} className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
             <div className="flex items-center">
                 <img
                     src={profile.profile}
@@ -164,6 +164,6 @@ function ProfileSimpleInfo({
                     <img src={kebab} alt="신고 버튼" />
                 </button>
             </div>
-        </div>
+        </Link>
     );
 }
