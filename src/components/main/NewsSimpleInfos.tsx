@@ -21,7 +21,7 @@ function Desktop({ datas }: { datas: NewsType[] }) {
         />
         <div className="flex flex-col justify-between">
           <div className="flex flex-col justify-between">
-            <div className="text-[40px] font-extrabold line-clamp-2">
+            <div className="text-[40px] font-extrabold line-clamp-2 text-left">
               {datas[0].title}
             </div>
             <div className="flex justify-between text-[16px]">
@@ -29,9 +29,11 @@ function Desktop({ datas }: { datas: NewsType[] }) {
               <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
             </div>
           </div>
-          <div className="text-[18px] line-clamp-4">{datas[0].content}</div>
+          <div className="text-[18px] line-clamp-4 text-left">
+            {datas[0].content}
+          </div>
           <div className="flex justify-end py-[12px]">
-            <div className="flex w-[142px] justify-between text-[12px]">
+            <div className="flex w-24 justify-between text-[12px]">
               <div className="w-[41px] h-[15px] flex items-center justify-between">
                 <img src={like} alt="좋아요" />
                 <span>{datas[0].like}</span>
@@ -59,7 +61,7 @@ function Tablet({ datas }: { datas: NewsType[] }) {
         />
         <div className="flex flex-col justify-between">
           <div className="flex flex-col justify-between">
-            <div className="text-[25px] font-extrabold line-clamp-2">
+            <div className="text-[25px] font-extrabold line-clamp-2 text-left">
               {datas[0].title}
             </div>
             <div className="flex justify-between text-[16px]">
@@ -67,9 +69,11 @@ function Tablet({ datas }: { datas: NewsType[] }) {
               <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
             </div>
           </div>
-          <div className="text-[18px] line-clamp-3">{datas[0].content}</div>
+          <div className="text-[18px] line-clamp-3 text-left">
+            {datas[0].content}
+          </div>
           <div className="flex justify-end py-[12px]">
-            <div className="flex w-[142px] justify-between text-[12px]">
+            <div className="flex w-24 justify-between text-[12px]">
               <div className="w-[41px] h-[15px] flex items-center justify-between">
                 <img src={like} alt="좋아요" />
                 <span>{datas[0].like}</span>
@@ -98,7 +102,7 @@ function Mobile({ datas }: { datas: NewsType[] }) {
           />
           <div className="flex flex-col justify-between">
             <div className="flex flex-col justify-between h-20">
-              <div className="text-[14px] font-extrabold line-clamp-3">
+              <div className="text-[14px] font-extrabold line-clamp-3 text-left">
                 {datas[0].title}
               </div>
               <div className="flex justify-between text-[10px]">
@@ -109,11 +113,11 @@ function Mobile({ datas }: { datas: NewsType[] }) {
           </div>
         </div>
         <div>
-          <div className="text-[12px] line-clamp-3 mt-[15px]">
+          <div className="text-[12px] line-clamp-3 mt-[15px] text-left">
             {datas[0].content}
           </div>
           <div className="flex justify-end py-2">
-            <div className="flex w-[142px] justify-between text-[10px]">
+            <div className="flex w-24 justify-between text-[10px]">
               <div className="w-[41px] h-[15px] flex items-center justify-between">
                 <img src={like} alt="좋아요" />
                 <span>{datas[0].like}</span>
@@ -151,7 +155,10 @@ export default function NewsSimpleInfos({
         <NewsSimpleInfosSkeleton isTabed={tab} datas={datas} />
       ) : (
         <div className={`${tab ? "" : "hidden"} font-pretendard`}>
-          <button onClick={() => navigate(`/news/${datas[0].id}`)}>
+          <button
+            onClick={() => navigate(`/news/${datas[0].id}`)}
+            className="flex justify-center w-full"
+          >
             <Desktop datas={datas} />
             <Tablet datas={datas} />
             <Mobile datas={datas} />
