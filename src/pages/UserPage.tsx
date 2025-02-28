@@ -7,7 +7,6 @@ import NewsTab from "../components/user-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
 import { userApi } from "../api/user";
 import { useUserStore } from "../stores/userStore";
-// import defaultProfile from "../assets/icons/profile.svg"
 
 export default function UserPage() {
   const [tab, setTab] = useState("news");
@@ -54,7 +53,7 @@ export default function UserPage() {
       followersResponse.data.map((follower:Follower)=>{return follower.followerId === currentUserId ? setFollowing(true) : setFollowing(false)})
     }
     loadFollowerList()
-  },[handleFollow])
+  },[isFollowed])
 
   if (isLoading) {
     return <MyPageSkeleton />;
