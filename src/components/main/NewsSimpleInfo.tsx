@@ -1,7 +1,7 @@
 import { Link } from "react-router";
-import bookmark from "../../assets/icons/bookmark.svg";
-import connection from "../../assets/icons/connection.svg";
+
 import like from "../../assets/icons/like.svg";
+import bookmark from "../../assets/icons/bookmark.svg";
 
 export default function NewsSimpleInfo({ data }: { data: NewsType }) {
   return (
@@ -29,7 +29,7 @@ export default function NewsSimpleInfo({ data }: { data: NewsType }) {
         </div>
 
         <div className="flex justify-end ">
-          <div className="flex w-[142px] justify-between text-[12px] max-md:text-[10px]">
+          <div className="flex w-24 justify-between text-[12px] max-md:text-[10px]">
             <div className="w-[41px] h-[15px] flex items-center justify-between">
               <img src={like} alt="좋아요" />
               <span>{data.like}</span>
@@ -37,10 +37,6 @@ export default function NewsSimpleInfo({ data }: { data: NewsType }) {
             <div className="w-[37px] h-[15px] flex items-center justify-between">
               <img src={bookmark} alt="북마크" />
               <span>{data.bookmark}</span>
-            </div>
-            <div className="w-[41px] h-[15px] flex items-center justify-between">
-              <img src={connection} alt="연결" />
-              <span>12</span>
             </div>
           </div>
         </div>
