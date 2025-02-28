@@ -8,7 +8,7 @@ import {
   processedHeader,
   unprocessedHeader,
 } from "../constants/index";
-import { adminAPI } from "../api/admin";
+import { adminAPI } from "../api/report";
 import useDebounce from "../hooks/useDebounce";
 import AdminTab from "../components/admin/AdminTab";
 import AdminFilteringButtons from "../components/admin/AdminFilteringButtons";

@@ -141,19 +141,7 @@ const deleteFollower = async (userId: number) => {
   }
 };
 
-// 유저 대상 신고
-const reportUser = async ( targetUserId: number, reportType: string, content: string, ) => {
-  try {
-    const myUserResponse = await fetchMyProfile()
-    const userId = myUserResponse.data.id
-    const targetType = "CHAT"
-    const targetRoomId = null
 
-
-  } catch(error) {
-    console.error(`${targetUserId} 유저 대상 신고 실패:`, error)
-  }
-}
 
 export const userApi = {
   fetchMyProfile,
@@ -167,5 +155,4 @@ export const userApi = {
   fetchFollowees,
   insertFollower,
   deleteFollower,
-  reportUser,
 };

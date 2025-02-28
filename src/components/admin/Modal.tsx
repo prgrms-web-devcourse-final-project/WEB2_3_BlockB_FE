@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { editOptions, findFilterValue, processedFilters, unprocessedFilters } from "../../constants";
 import FilterButton from "./FilterButton";
-import { adminAPI } from "../../api/admin";
+import { adminAPI } from "../../api/report";
 
 export default function Modal({
   onCheck,
