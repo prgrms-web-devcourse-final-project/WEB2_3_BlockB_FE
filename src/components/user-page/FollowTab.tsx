@@ -3,7 +3,7 @@ import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
 import { userApi } from "../../api/user";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import ReportModal from "../debate-zone/ongoing-debate/ReportModal";
 import { useReportStore } from "../../stores/reportModalStore";
 
