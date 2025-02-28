@@ -7,7 +7,6 @@ import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearc
 import { newsAPI } from "../api/news";
 
 export default function News() {
-  const [status, setStatus] = useState<1 | 2>(1); // 1: 최신순, 2: 인기순
   const [isLoading, setIsLoading] = useState(true);
   const [newsData, setNewsData] = useState<NewsType[]>([]);
   const [text, setText] = useState("");
@@ -20,7 +19,7 @@ export default function News() {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
+      fetchAllNews(currentSort, true);
     }
   };
 
@@ -122,12 +121,12 @@ export default function News() {
               <div className="flex space-x-6 text-lg font-semibold">
                 <button
                   className={`pb-2 ${
-                    status === 1
+                    currentSort === "LATEST"
                       ? "text-black border-b-2 border-black"
                       : "text-gray-400"
                   }`}
                   onClick={() => {
-                    setStatus(1);
+                    setCurrentSort("LATEST");
                     fetchAllNews("LATEST", true);
                   }}
                 >
@@ -135,12 +134,12 @@ export default function News() {
                 </button>
                 <button
                   className={`pb-2 ${
-                    status === 2
+                    currentSort === "POPULAR"
                       ? "text-black border-b-2 border-black"
                       : "text-gray-400"
                   }`}
                   onClick={() => {
-                    setStatus(2);
+                    setCurrentSort("POPULAR");
                     fetchAllNews("POPULAR", true);
                   }}
                 >
@@ -159,7 +158,7 @@ export default function News() {
                 />
                 <button
                   onClick={() => {
-                    fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
+                    fetchAllNews(currentSort, true);
                   }}
                 >
                   <img
