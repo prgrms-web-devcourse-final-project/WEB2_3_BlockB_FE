@@ -29,6 +29,13 @@ type Follower = {
     "introduction": string
 }
 
+type Followee = {
+    "followeeId": number,
+    "nickname": string,
+    "profile": string,
+    "introduction": string
+}
+
 type ArchivedDebateDetails = {
   "debateId": number,
   "category": string,

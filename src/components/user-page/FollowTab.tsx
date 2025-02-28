@@ -7,7 +7,7 @@ import { userApi } from "../../api/user";
 export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab: string, user: UserInfo | null, isFollowed: boolean, handleFollow: (id: number, action: "delete" | "follow")=>void}) {
   const [isFollowerTabed, setFollowerTabed] = useState(true);
   const [followers, setFollowers] = useState<Follower[]>([])
-  const [followees, setFollowees] = useState<Follower[]>([])
+  const [followees, setFollowees] = useState<Followee[]>([])
 
 
   const loadNetworkList = async () => {
@@ -36,7 +36,7 @@ export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab
   
   useEffect(() => {
     loadAllNetworkList();
-  }, [isFollowed]); 
+  }, [isFollowed, handleFollow]); 
 
   const itemsPerPage = 6;
   const {
@@ -44,7 +44,7 @@ export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab
     currentPage: currentPage,
     totalPages: totalPages,
     handlePageChange: handlePageChange,
-  } = usePagination(isFollowerTabed? followers : followees, itemsPerPage);
+  } = usePagination<Follower | Followee>(isFollowerTabed? followers : followees, itemsPerPage);
   return (
     <div
       className={`${
