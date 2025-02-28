@@ -89,7 +89,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   alt="알림"
                 />
               </button>
-              <Link to={`/user-page/${userId}`}>
+              <button onClick={()=> navigate(`/user-page/${userId}`)}>
                 <img
                   className="md:w-[35px] w-[16px] md:h-[35px] h-[16px] rounded-full"
                   src={
@@ -98,7 +98,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   }
                   alt="프로필 사진"
                 />
-              </Link>
+              </button>
               {isNotificationOpen && (
                 <NotificationList
                   status={status}

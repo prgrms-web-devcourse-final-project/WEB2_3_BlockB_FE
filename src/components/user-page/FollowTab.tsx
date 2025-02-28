@@ -36,7 +36,7 @@ export default function FollowTab({ tab, user, isFollowed }: { tab: string, user
   
   useEffect(() => {
     loadAllNetworkList();
-  }, []); 
+  }, [isFollowed]); 
 
   const itemsPerPage = 6;
   const {
