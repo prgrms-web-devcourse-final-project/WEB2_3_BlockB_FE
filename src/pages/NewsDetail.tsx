@@ -28,6 +28,15 @@ export default function NewsDetail() {
     await newsAPI.postNewsBookmark(Number(newsId), 4);
     await fetchNewsDetail();
   };
+
+  const deleteNewsLike = async () => {
+    await newsAPI.deleteNewsLike(Number(newsId), 4);
+    await fetchNewsDetail();
+  };
+  const deleteNewsBookmark = async () => {
+    await newsAPI.deleteNewsBookmark(Number(newsId), 4);
+    await fetchNewsDetail();
+  };
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 2000);
     fetchNewsDetail();
@@ -62,8 +71,11 @@ export default function NewsDetail() {
                   <button
                     className="flex items-center space-x-2"
                     onClick={() => {
-                      if (newsInfo?.liked) return;
-                      postNewsLike();
+                      if (newsInfo?.liked) {
+                        deleteNewsLike();
+                      } else {
+                        postNewsLike();
+                      }
                     }}
                   >
                     <img
@@ -78,8 +90,11 @@ export default function NewsDetail() {
                   <button
                     className="flex items-center space-x-2"
                     onClick={() => {
-                      if (newsInfo?.marked) return;
-                      postNewsBookmark();
+                      if (newsInfo?.marked) {
+                        deleteNewsBookmark();
+                      } else {
+                        postNewsBookmark();
+                      }
                     }}
                   >
                     <img
