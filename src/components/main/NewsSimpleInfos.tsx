@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import NewsSimpleInfo from "./NewsSimpleInfo";
 
 import like from "../../assets/icons/like.svg";
@@ -121,18 +119,14 @@ function Mobile({ datas }: { datas: NewsType[] }) {
 export default function NewsSimpleInfos({
   tab,
   datas,
+  isLoading,
 }: {
   tab: boolean;
   datas: NewsType[];
+  isLoading: boolean;
 }) {
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, []);
   return (
     <>
       {isLoading ? (
