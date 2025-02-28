@@ -37,13 +37,17 @@ export default function UserPage() {
     console.log(user)
   },[user])
 
-  const handleFollow = async () => {
+  const handleFollow = async (targetUserId: number, action: "delete" | "follow") => {
     if(!currentUserId) return
-    isFollowed? await userApi.deleteFollower(Number(userId), currentUserId) : await userApi.insertFollower(Number(userId), currentUserId)
+    action === "delete"? await userApi.deleteFollower(targetUserId) : await userApi.insertFollower(targetUserId)
+  }
+
+  const toggleFollow = async () => {
+    isFollowed? handleFollow(Number(userId), "delete") : handleFollow(Number(userId), "follow") 
     setFollowing(!isFollowed)
   }
-  // 해당 프로필 페이지의 유저를 현재 유저가 팔로우 했는지 안했는지 가져오는 함수
 
+  // 해당 프로필 페이지의 유저를 현재 유저가 팔로우 했는지 안했는지 가져오는 함수
   useEffect(()=> {
     const loadFollowerList = async () => {
       const followersResponse = await userApi.fetchFollowers(Number(userId))
@@ -55,7 +59,6 @@ export default function UserPage() {
   if (isLoading) {
     return <MyPageSkeleton />;
   }
-
   return (
     <div className="flex justify-center px-[10px]">
       <div className="w-[960px] md:h-[790px] mt-20 max-md:mt-10 font-pretendard">
@@ -77,7 +80,7 @@ export default function UserPage() {
                   프로필 편집
                 </Link>
                 : 
-                <button onClick={handleFollow} className={`${isFollowed? "bg-gray01": "bg-blue01"} text-white w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg`}>{isFollowed? "팔로우 취소" : "팔로우"}</button>}
+                <button onClick={toggleFollow} className={`${isFollowed? "bg-gray01": "bg-blue01"} text-white w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg`}>{isFollowed? "팔로우 취소" : "팔로우"}</button>}
               </div>
               <div className="text-gray01 text-[14px] max-md:text-[10px]">
                 {user?.introduction || "아직 소개가 없습니다"}
@@ -138,7 +141,7 @@ export default function UserPage() {
 
         <NewsTab tab={tab} user={user} />
         <DebateTab tab={tab} user={user}/>
-        <FollowTab tab={tab} user={user} isFollowed={isFollowed}/>
+        <FollowTab tab={tab} user={user} isFollowed={isFollowed} handleFollow={handleFollow} />
       </div>
     </div>
   );

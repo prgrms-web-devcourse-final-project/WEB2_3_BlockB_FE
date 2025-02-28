@@ -3,7 +3,7 @@ import kebab from "../../assets/icons/kebab-menu-icon.svg";
 import { userApi } from "../../api/user";
 import { useParams } from "react-router";
 
-export default function ProfileSimpleInfo({profile, isFollowerTabed}: {profile: Follower, isFollowerTabed: boolean}) {
+export default function ProfileSimpleInfo({profile, isFollowerTabed, handleFollow}: {profile: Follower, isFollowerTabed: boolean, handleFollow: (id: number, action: "delete" | "follow") => void}) {
   const [isCurrentPageMine, setIsCurrentPageMine] = useState(false) 
   const {userId} = useParams()
   useEffect(()=>{
@@ -13,6 +13,7 @@ export default function ProfileSimpleInfo({profile, isFollowerTabed}: {profile: 
     }
     checkCurrentPageIsMine()
   },[isFollowerTabed])
+
   return (
     <div className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
       <div className="flex items-center">
@@ -28,7 +29,8 @@ export default function ProfileSimpleInfo({profile, isFollowerTabed}: {profile: 
       </div>
 
       <div className="flex items-center">
-        {(isCurrentPageMine && !isFollowerTabed) && <button className="rounded-[5px] bg-gray02 w-12 h-5 justify-center flex mr-2">
+        {(isCurrentPageMine && !isFollowerTabed) && 
+        <button onClick={()=> {handleFollow(profile.followerId, "delete")}} className="rounded-[5px] bg-gray02 w-12 h-5 justify-center flex mr-2">
           삭제
         </button>}
         <button className="w-1 h-3">

@@ -1,15 +1,16 @@
-import axios from "axios";
 
-const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+// const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-const axiosInstance = axios.create({
-  baseURL: VITE_BACKEND_URL,
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjQ0MjIwLCJleHAiOjE3NDA2NDc4MjB9.xkMj8O57O_WmYj2BiJZ-6fvZVsTYgvIzMwlMygiApR5z1QUZPgSJAuWxhniVaqq_yXqABSe8jCaDtMK3lN5ppA", // TODO: 로그인 전 임시 - axios interceptor 통해 동적 추가되도록 변경
-  },
-});
+import { axiosInstance } from "./axios";
+
+// const axiosInstance = axios.create({
+//   baseURL: VITE_BACKEND_URL,
+//   headers: {
+//     "Content-Type": "application/json",
+//     "Accept": "application/json",
+//     "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjQ0MjIwLCJleHAiOjE3NDA2NDc4MjB9.xkMj8O57O_WmYj2BiJZ-6fvZVsTYgvIzMwlMygiApR5z1QUZPgSJAuWxhniVaqq_yXqABSe8jCaDtMK3lN5ppA", // TODO: 로그인 전 임시 - axios interceptor 통해 동적 추가되도록 변경
+//   },
+// });
 
 // ✅ 신고 리스트 조회
 const fetchReports = async ({

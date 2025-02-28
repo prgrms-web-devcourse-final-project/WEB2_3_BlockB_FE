@@ -4,7 +4,7 @@ import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import { userApi } from "../../api/user";
 
-export default function FollowTab({ tab, user, isFollowed }: { tab: string, user: UserInfo | null, isFollowed: boolean}) {
+export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab: string, user: UserInfo | null, isFollowed: boolean, handleFollow: (id: number, action: "delete" | "follow")=>void}) {
   const [isFollowerTabed, setFollowerTabed] = useState(true);
   const [followers, setFollowers] = useState<Follower[]>([])
   const [followees, setFollowees] = useState<Follower[]>([])
@@ -80,7 +80,7 @@ export default function FollowTab({ tab, user, isFollowed }: { tab: string, user
         </div>
         <div className="grid  md:grid-cols-2 gap-[20px] ">
           {paginatedBody.map((profile) => (
-            <ProfileSimpleInfo profile={profile} isFollowerTabed={isFollowerTabed} />
+            <ProfileSimpleInfo profile={profile} isFollowerTabed={isFollowerTabed} handleFollow={handleFollow} />
           ))}
         </div>
         <Pagination

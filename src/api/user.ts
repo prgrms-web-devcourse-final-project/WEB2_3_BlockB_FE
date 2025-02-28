@@ -114,10 +114,11 @@ const fetchFollowees = async (userId: number) => {
 };
 
 // 팔로잉 추가
-const insertFollower = async (userId: number, followerId: number) => {
+const insertFollower = async (targetUserId: number) => {
   try {
+    const userInforResponse = await fetchMyProfile()
     const response = await axiosInstance.post(
-      `/api/users/mypage/${userId}/${followerId}/insertfollowers`
+      `/api/users/mypage/${targetUserId}/${userInforResponse.data.id}/insertfollowers`
     );
     return response.data;
   } catch (error) {
@@ -127,10 +128,11 @@ const insertFollower = async (userId: number, followerId: number) => {
 };
 
 // 팔로잉 삭제
-const deleteFollower = async (userId: number, followerId: number) => {
+const deleteFollower = async (userId: number) => {
   try {
+    const userInforResponse = await fetchMyProfile()
     const response = await axiosInstance.delete(
-      `/api/users/mypage/${userId}/${followerId}/deletefollowers`
+      `/api/users/mypage/${userId}/${userInforResponse.data.id}/deletefollowers`
     );
     return response.data;
   } catch (error) {
@@ -138,6 +140,20 @@ const deleteFollower = async (userId: number, followerId: number) => {
     throw error;
   }
 };
+
+// 유저 대상 신고
+const reportUser = async ( targetUserId: number, reportType: string, content: string, ) => {
+  try {
+    const myUserResponse = await fetchMyProfile()
+    const userId = myUserResponse.data.id
+    const targetType = "CHAT"
+    const targetRoomId = null
+
+
+  } catch(error) {
+    console.error(`${targetUserId} 유저 대상 신고 실패:`, error)
+  }
+}
 
 export const userApi = {
   fetchMyProfile,
@@ -151,4 +167,5 @@ export const userApi = {
   fetchFollowees,
   insertFollower,
   deleteFollower,
+  reportUser,
 };
