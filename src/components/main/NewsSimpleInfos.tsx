@@ -7,6 +7,23 @@ import bookmark from "../../assets/icons/bookmark.svg";
 import NewsSimpleInfosSkeleton from "../common/skeleton/main/NewsSimpleInfosSkeleton";
 import { useNavigate } from "react-router";
 
+function LikeBookmarkSection({ datas }: { datas: NewsType[] }) {
+  return (
+    <div className="flex justify-end py-[12px]">
+      <div className="flex w-24 justify-between text-[12px]">
+        <div className="w-[41px] h-[15px] flex items-center justify-between">
+          <img src={like} alt="좋아요" />
+          <span>{datas[0].like}</span>
+        </div>
+        <div className="w-[37px] h-[15px] flex items-center justify-between">
+          <img src={bookmark} alt="북마크" />
+          <span>{datas[0].bookmark}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 {
   /* 크기별 분류 */
 }
@@ -32,18 +49,7 @@ function Desktop({ datas }: { datas: NewsType[] }) {
           <div className="text-[18px] line-clamp-4 text-left">
             {datas[0].content}
           </div>
-          <div className="flex justify-end py-[12px]">
-            <div className="flex w-24 justify-between text-[12px]">
-              <div className="w-[41px] h-[15px] flex items-center justify-between">
-                <img src={like} alt="좋아요" />
-                <span>{datas[0].like}</span>
-              </div>
-              <div className="w-[37px] h-[15px] flex items-center justify-between">
-                <img src={bookmark} alt="북마크" />
-                <span>{datas[0].bookmark}</span>
-              </div>
-            </div>
-          </div>
+          <LikeBookmarkSection datas={datas} />
         </div>
       </div>
     </div>
@@ -72,18 +78,7 @@ function Tablet({ datas }: { datas: NewsType[] }) {
           <div className="text-[18px] line-clamp-3 text-left">
             {datas[0].content}
           </div>
-          <div className="flex justify-end py-[12px]">
-            <div className="flex w-24 justify-between text-[12px]">
-              <div className="w-[41px] h-[15px] flex items-center justify-between">
-                <img src={like} alt="좋아요" />
-                <span>{datas[0].like}</span>
-              </div>
-              <div className="w-[37px] h-[15px] flex items-center justify-between">
-                <img src={bookmark} alt="북마크" />
-                <span>{datas[0].bookmark}</span>
-              </div>
-            </div>
-          </div>
+          <LikeBookmarkSection datas={datas} />
         </div>
       </div>
     </div>
@@ -116,18 +111,7 @@ function Mobile({ datas }: { datas: NewsType[] }) {
           <div className="text-[12px] line-clamp-3 mt-[15px] text-left">
             {datas[0].content}
           </div>
-          <div className="flex justify-end py-2">
-            <div className="flex w-24 justify-between text-[10px]">
-              <div className="w-[41px] h-[15px] flex items-center justify-between">
-                <img src={like} alt="좋아요" />
-                <span>{datas[0].like}</span>
-              </div>
-              <div className="w-[37px] h-[15px] flex items-center justify-between">
-                <img src={bookmark} alt="북마크" />
-                <span>{datas[0].bookmark}</span>
-              </div>
-            </div>
-          </div>
+          <LikeBookmarkSection datas={datas} />
         </div>
       </div>
     </div>
