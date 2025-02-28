@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Category from "../components/news/category";
 import bookmark from "../assets/icons/bookmark.svg";
 import bookmarked from "../assets/icons/bookmarked.svg";
-import connection from "../assets/icons/connection.svg";
 import like from "../assets/icons/like.svg";
 import liked from "../assets/icons/liked.svg";
 import speechBubble from "../assets/icons/speechBubble.svg";
@@ -105,10 +104,6 @@ export default function NewsDetail() {
                     <span className="w-8 text-base text-center">
                       {newsInfo?.mark}
                     </span>
-                  </button>
-                  <button className="flex items-center space-x-2">
-                    <img src={connection} alt="커넥트" className="w-6 h-6" />
-                    <span className="w-8 text-base text-center">12</span>
                   </button>
                 </div>
 
