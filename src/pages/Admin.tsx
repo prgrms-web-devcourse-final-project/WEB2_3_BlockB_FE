@@ -8,7 +8,7 @@ import {
   processedHeader,
   unprocessedHeader,
 } from "../constants/index";
-import { adminAPI } from "../api/report";
+import { reportApi } from "../api/report";
 import useDebounce from "../hooks/useDebounce";
 import AdminTab from "../components/admin/AdminTab";
 import AdminFilteringButtons from "../components/admin/AdminFilteringButtons";
@@ -41,11 +41,11 @@ export default function Admin() {
   const fetchUnprocessedBody = async () => {
     setLoading(true)
     if (selectedReasonFilter === "all") {
-      const allReportsResponse = await adminAPI.fetchReports({});
+      const allReportsResponse = await reportApi.fetchReports({});
       const allUnprocessedReports = filterProcessStatus(allReportsResponse.data.content, "미처리");
       setUnprocessedBody(allUnprocessedReports);
     } else {
-      const reportsFilteredByReason = await adminAPI.fetchReports({ type: selectedReasonFilter });
+      const reportsFilteredByReason = await reportApi.fetchReports({ type: selectedReasonFilter });
       const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByReason.data.content, "미처리");
       setUnprocessedBody(reportsFilteredByStatus);
     }
@@ -56,11 +56,11 @@ export default function Admin() {
   const fetchProcessedBody = async () => {
     setLoading(true)
     if (selectedResultFilter === "all") {
-      const allReportsResponse = await adminAPI.fetchReports({});
+      const allReportsResponse = await reportApi.fetchReports({});
       const allProcessedReports = filterProcessStatus(allReportsResponse.data.content, "처리 완료");
       setProcessedBody(allProcessedReports);
     } else {
-      const reportsFilteredByResult = await adminAPI.fetchReports({ result: selectedResultFilter });
+      const reportsFilteredByResult = await reportApi.fetchReports({ result: selectedResultFilter });
       const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByResult.data.content, "처리 완료");
       setProcessedBody(reportsFilteredByStatus);
     }
@@ -77,7 +77,7 @@ export default function Admin() {
 
   // 신고 내역 검색
   const searchReports = async(keyword: string) => {
-      const searchResults = await adminAPI.fetchReports({query: keyword})
+      const searchResults = await reportApi.fetchReports({query: keyword})
       if (tab === "미처리") setUnprocessedBody(filterProcessStatus(searchResults.data.content, tab))
       if (tab === "처리 완료") setProcessedBody(filterProcessStatus(searchResults.data.content, tab))
 

@@ -4,7 +4,7 @@ import { axiosInstance } from "./axios";
 import { userApi } from "./user";
 
 // ✅ 신고
-const reportUser = async ( targetUserId: number, targetType: TargetType = "CHAT", targetRoomId: number, content: string, reportType: string)  => {
+const reportUser = async ( {targetUserId, targetType="CHAT", targetRoomId = null, content, reportType}: {targetUserId: number, targetType: TargetType, targetRoomId: number | null, content: string, reportType: string})  => {
   try {
     const myUserResponse = await userApi.fetchMyProfile();
     const userId = myUserResponse.data.id; // 신고자 아이디
@@ -107,7 +107,7 @@ const undoReportAction = async (reportId: number) => {
 };
 
 
-export const adminAPI = {
+export const reportApi = {
   reportUser,
   fetchReports,
   fetchReportDetails,

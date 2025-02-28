@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
 import { userApi } from "../../api/user";
 import { Link, useParams } from "react-router";
+import ReportModal from "../debate-zone/ongoing-debate/ReportModal";
+import { useReportStore } from "../../stores/reportModalStore";
 
 
 export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab: string, user: UserInfo | null, isFollowed: boolean, handleFollow: (id: number, action: "delete" | "follow")=>void}) {
@@ -129,7 +131,6 @@ function ProfileSimpleInfo({
         checkCurrentPageIsMine();
     }, [isFollowerTabed]);
 
-
     // 타입 가드
     const isFollower = (profile: Profile): profile is Follower => {
         return (profile as Follower).followerId !== undefined;
@@ -137,8 +138,20 @@ function ProfileSimpleInfo({
 
     const profileId = isFollower(profile) ? profile.followerId : profile.followeeId;
 
+    // 신고모달 열기
+    const {setIsReportModalOpen} = useReportStore()
+
+    const reportData = useRef<{ targetUserId: number; targetType: "PROFILE" | "CHAT" }>({
+      targetUserId: profileId,
+      targetType: "PROFILE",
+    });
+
     return (
         <Link to={`/user-page/${profileId}`} className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
+            <ReportModal
+              targetUserId={reportData.current.targetUserId}
+              targetType={reportData.current.targetType}
+            />
             <div className="flex items-center">
                 <img
                     src={profile.profile}
@@ -160,7 +173,7 @@ function ProfileSimpleInfo({
                         삭제
                     </button>
                 )}
-                <button className="w-1 h-3">
+                <button onClick={()=> setIsReportModalOpen(true)} className="w-1 h-3">
                     <img src={kebab} alt="신고 버튼" />
                 </button>
             </div>
