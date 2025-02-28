@@ -34,3 +34,16 @@ interface NewsDetailType {
   mark: number;
   marked: boolean;
 }
+
+/**
+ * 뉴스 대륙별 필터링 코드
+ * AS = 아시아 / 호주
+ * AM = 미국 / 중남미
+ * EU = 유럽
+ * CN = 중국
+ * JP = 일본
+ * AF = 아프리카 / 중동
+ * KR = 국내
+ */
+
+type ContinentType = "AS" | "AM" | "EU" | "CN" | "JP" | "AP" | "KR";
