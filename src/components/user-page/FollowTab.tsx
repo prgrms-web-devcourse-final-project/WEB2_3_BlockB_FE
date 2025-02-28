@@ -3,11 +3,13 @@ import ProfileSimpleInfo from "./ProfileSimpleInfo";
 import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import { userApi } from "../../api/user";
+import { useUserStore } from "../../stores/userStore";
 
 export default function FollowTab({ tab, user, isFollowed }: { tab: string, user: UserInfo | null, isFollowed: boolean}) {
   const [isFollowerTabed, setFollowerTabed] = useState(true);
   const [followers, setFollowers] = useState<Follower[]>([])
   const [followees, setFollowees] = useState<Follower[]>([])
+
 
   const loadNetworkList = async () => {
     if (!user) return;
@@ -79,7 +81,7 @@ export default function FollowTab({ tab, user, isFollowed }: { tab: string, user
         </div>
         <div className="grid  md:grid-cols-2 gap-[20px] ">
           {paginatedBody.map((profile) => (
-            <ProfileSimpleInfo profile={profile} />
+            <ProfileSimpleInfo profile={profile} isFollowerTabed={isFollowerTabed} />
           ))}
         </div>
         <Pagination
