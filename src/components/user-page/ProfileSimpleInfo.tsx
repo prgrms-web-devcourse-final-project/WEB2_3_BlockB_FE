@@ -28,7 +28,7 @@ export default function ProfileSimpleInfo({profile, isFollowerTabed}: {profile: 
       </div>
 
       <div className="flex items-center">
-        {isCurrentPageMine && <button className="rounded-[5px] bg-gray02 w-12 h-5 justify-center flex mr-2">
+        {(isCurrentPageMine && !isFollowerTabed) && <button className="rounded-[5px] bg-gray02 w-12 h-5 justify-center flex mr-2">
           삭제
         </button>}
         <button className="w-1 h-3">

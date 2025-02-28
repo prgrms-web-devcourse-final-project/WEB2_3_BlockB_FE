@@ -3,7 +3,6 @@ import ProfileSimpleInfo from "./ProfileSimpleInfo";
 import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import { userApi } from "../../api/user";
-import { useUserStore } from "../../stores/userStore";
 
 export default function FollowTab({ tab, user, isFollowed }: { tab: string, user: UserInfo | null, isFollowed: boolean}) {
   const [isFollowerTabed, setFollowerTabed] = useState(true);
