@@ -69,6 +69,21 @@ const postNewsLike = async (newsId: number, userId: number) => {
 };
 
 /**
+ * 뉴스 좋아요 삭제 함수
+ * @param newsId 뉴스 아이디
+ * @param userId 유저 아이디
+ */
+const deleteNewsLike = async (newsId: number, userId: number) => {
+  try {
+    await axiosInstance.delete(`/api/news/${newsId}/like`, {
+      params: { userId },
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
  * 뉴스 북마크하는 함수
  * @param newsId 뉴스 아이디
  * @param userId 유저 아이디
@@ -83,10 +98,27 @@ const postNewsBookmark = async (newsId: number, userId: number) => {
   }
 };
 
+/**
+ * 뉴스 북마크하는 함수
+ * @param newsId 뉴스 아이디
+ * @param userId 유저 아이디
+ */
+const deleteNewsBookmark = async (newsId: number, userId: number) => {
+  try {
+    await axiosInstance.delete(`/api/news/${newsId}/bookmark`, {
+      params: { userId },
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const newsAPI = {
   getAllNews,
   getNewsTop10,
   getNewsDetail,
   postNewsLike,
+  deleteNewsLike,
   postNewsBookmark,
+  deleteNewsBookmark,
 };
