@@ -6,14 +6,17 @@ import FollowTab from "../components/user-page/FollowTab";
 import NewsTab from "../components/user-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
 import { userApi } from "../api/user";
+import { useUserStore } from "../stores/userStore";
 // import defaultProfile from "../assets/icons/profile.svg"
 
 export default function UserPage() {
   const [tab, setTab] = useState("news");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserInfo | null>(null);
+  const [isFollowed, setFollowing] = useState(false)
 
   const { userId } = useParams()
+  const {userId: currentUserId} = useUserStore()
 
   useEffect(() => {
     const loadProfileData = async () => {
@@ -34,6 +37,20 @@ export default function UserPage() {
     console.log(user)
   },[user])
 
+  const handleFollow = async () => {
+    if(!currentUserId) return
+    isFollowed? await userApi.deleteFollower(Number(userId), currentUserId) : await userApi.insertFollower(Number(userId), currentUserId)
+    setFollowing(!isFollowed)
+  }
+  // 해당 프로필 페이지의 유저를 현재 유저가 팔로우 했는지 안했는지 가져오는 함수
+
+  useEffect(()=> {
+    const loadFollowerList = async () => {
+      const followersResponse = await userApi.fetchFollowers(Number(userId))
+      followersResponse.data.map((follower:Follower)=>{return follower.followerId === currentUserId ? setFollowing(true) : setFollowing(false)})
+    }
+    loadFollowerList()
+  },[handleFollow])
 
   if (isLoading) {
     return <MyPageSkeleton />;
@@ -53,12 +70,14 @@ export default function UserPage() {
             <div>
               <div className="flex justify-between font-bold text-[20px] max-md:text-[14px] max-md:w-80">
                 {user?.nickname}
-                <Link
+                {currentUserId === Number(userId) ? <Link
                   to="/profile-update"
                   className="text-white bg-blue01 w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg"
                 >
                   프로필 편집
                 </Link>
+                : 
+                <button onClick={handleFollow} className={`${isFollowed? "bg-gray01": "bg-blue01"} text-white w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg`}>{isFollowed? "팔로우 취소" : "팔로우"}</button>}
               </div>
               <div className="text-gray01 text-[14px] max-md:text-[10px]">
                 {user?.introduction || "아직 소개가 없습니다"}
@@ -119,7 +138,7 @@ export default function UserPage() {
 
         <NewsTab tab={tab} user={user} />
         <DebateTab tab={tab} user={user}/>
-        <FollowTab tab={tab} user={user}/>
+        <FollowTab tab={tab} user={user} isFollowed={isFollowed}/>
       </div>
     </div>
   );

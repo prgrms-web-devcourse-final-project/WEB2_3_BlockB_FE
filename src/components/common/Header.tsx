@@ -10,6 +10,8 @@ import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
 
+// TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
+
 export default function Header({ status }: { status: HeaderStatusType }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
   const navigate = useNavigate();

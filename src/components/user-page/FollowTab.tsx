@@ -4,29 +4,38 @@ import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import { userApi } from "../../api/user";
 
-export default function FollowTab({ tab, user }: { tab: string, user: UserInfo | null}) {
-  const [isFollowers, setIsFollowers] = useState(true);
+export default function FollowTab({ tab, user, isFollowed }: { tab: string, user: UserInfo | null, isFollowed: boolean}) {
+  const [isFollowerTabed, setFollowerTabed] = useState(true);
   const [followers, setFollowers] = useState<Follower[]>([])
   const [followees, setFollowees] = useState<Follower[]>([])
-  useEffect(() => {
-    if (!user) return;
-  
-    const loadNetworkList = async () => {
-        if(isFollowers){
-          const followersResponse = await userApi.fetchFollowers(user.id)
-          setFollowers(followersResponse.data)
-        }
-        else {
-          const followeesResponse = await userApi.fetchFollowees(user.id);
-          setFollowees(followeesResponse.data)
-        }
-          
-    };
-  
-    loadNetworkList();
-  }, [tab, user?.id, isFollowers]); 
-  
 
+  const loadNetworkList = async () => {
+    if (!user) return;
+    if(isFollowerTabed){
+      const followersResponse = await userApi.fetchFollowers(user.id)
+      setFollowers(followersResponse.data)
+    }
+    else {
+      const followeesResponse = await userApi.fetchFollowees(user.id);
+      setFollowees(followeesResponse.data)
+    }
+      
+};
+   const loadAllNetworkList = async() => {
+    if(!user) return
+    const followersResponse = await userApi.fetchFollowers(user.id)
+    setFollowers(followersResponse.data)
+    const followeesResponse = await userApi.fetchFollowees(user.id);
+    setFollowees(followeesResponse.data)
+   }
+
+  useEffect(() => {
+    loadNetworkList();
+  }, [tab, user?.id, isFollowerTabed, isFollowed]); 
+  
+  useEffect(() => {
+    loadAllNetworkList();
+  }, []); 
 
   const itemsPerPage = 6;
   const {
@@ -34,7 +43,7 @@ export default function FollowTab({ tab, user }: { tab: string, user: UserInfo |
     currentPage: currentPage,
     totalPages: totalPages,
     handlePageChange: handlePageChange,
-  } = usePagination(isFollowers? followers : followees, itemsPerPage);
+  } = usePagination(isFollowerTabed? followers : followees, itemsPerPage);
   return (
     <div
       className={`${
@@ -45,10 +54,10 @@ export default function FollowTab({ tab, user }: { tab: string, user: UserInfo |
         <div className="flex text-[20px]  mb-[30px] font-pretendard ">
           <button
             onClick={() => {
-              setIsFollowers(true);
+              setFollowerTabed(true);
             }}
             className={`${
-              isFollowers
+              isFollowerTabed
                 ? "text-blue03 border-b-2 border-blue01 font-bold"
                 : "text-gray03 "
             } h-6 mr-[30px]`}
@@ -57,10 +66,10 @@ export default function FollowTab({ tab, user }: { tab: string, user: UserInfo |
           </button>
           <button
             onClick={() => {
-              setIsFollowers(false);
+              setFollowerTabed(false);
             }}
             className={`${
-              isFollowers
+              isFollowerTabed
                 ? "text-gray03"
                 : "text-blue03 border-b-2 border-blue01 font-bold"
             } h-6`}
