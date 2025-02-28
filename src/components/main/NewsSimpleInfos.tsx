@@ -5,6 +5,7 @@ import NewsSimpleInfo from "./NewsSimpleInfo";
 import like from "../../assets/icons/like.svg";
 import bookmark from "../../assets/icons/bookmark.svg";
 import NewsSimpleInfosSkeleton from "../common/skeleton/main/NewsSimpleInfosSkeleton";
+import { useNavigate } from "react-router";
 
 {
   /* 크기별 분류 */
@@ -136,22 +137,26 @@ export default function NewsSimpleInfos({
   tab: boolean;
   datas: NewsType[];
 }) {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
   }, []);
-
   return (
     <>
       {isLoading ? (
         <NewsSimpleInfosSkeleton isTabed={tab} datas={datas} />
       ) : (
         <div className={`${tab ? "" : "hidden"} font-pretendard`}>
-          <Desktop datas={datas} />
-          <Tablet datas={datas} />
-          <Mobile datas={datas} />
+          <button onClick={() => navigate(`/news/${datas[0].id}`)}>
+            <Desktop datas={datas} />
+            <Tablet datas={datas} />
+            <Mobile datas={datas} />
+          </button>
+
           <div className="flex justify-center">
             <div className="grid grid-cols-3 gap-[30px] max-lg:grid-cols-2 max-md:grid-cols-1">
               {datas
