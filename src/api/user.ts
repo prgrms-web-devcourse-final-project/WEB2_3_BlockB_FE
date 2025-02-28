@@ -114,10 +114,11 @@ const fetchFollowees = async (userId: number) => {
 };
 
 // 팔로잉 추가
-const insertFollowees = async (userId: number, followeeId: number) => {
+const insertFollower = async (targetUserId: number) => {
   try {
+    const userInforResponse = await fetchMyProfile()
     const response = await axiosInstance.post(
-      `/api/users/mypage/${userId}/${followeeId}/insertFollowees`
+      `/api/users/mypage/${targetUserId}/${userInforResponse.data.id}/insertfollowers`
     );
     return response.data;
   } catch (error) {
@@ -127,10 +128,11 @@ const insertFollowees = async (userId: number, followeeId: number) => {
 };
 
 // 팔로잉 삭제
-const deleteFollowees = async (userId: number, followeeId: number) => {
+const deleteFollower = async (userId: number) => {
   try {
+    const userInforResponse = await fetchMyProfile()
     const response = await axiosInstance.delete(
-      `/api/users/mypage/${userId}/${followeeId}/deleteFollowees`
+      `/api/users/mypage/${userId}/${userInforResponse.data.id}/deletefollowers`
     );
     return response.data;
   } catch (error) {
@@ -138,6 +140,8 @@ const deleteFollowees = async (userId: number, followeeId: number) => {
     throw error;
   }
 };
+
+
 
 export const userApi = {
   fetchMyProfile,
@@ -149,6 +153,6 @@ export const userApi = {
   fetchArchivedDebateDetails,
   fetchFollowers,
   fetchFollowees,
-  insertFollowees,
-  deleteFollowees,
+  insertFollower,
+  deleteFollower,
 };

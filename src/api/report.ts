@@ -1,15 +1,30 @@
-import axios from "axios";
+import { axiosInstance } from "./axios";
+import { userApi } from "./user";
 
-const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+// ✅ 신고
+const reportUser = async ( {targetUserId, targetType="CHAT", targetRoomId = null, content, reportType}: {targetUserId: number, targetType: TargetType, targetRoomId: number | null, content: string, reportType: string})  => {
+  try {
+    const myUserResponse = await userApi.fetchMyProfile();
+    const userId = myUserResponse.data.id; // 신고자 아이디
+    const requestBody = {
+      userId,
+      targetUserId,
+      targetType,
+      targetRoomId,
+      content,
+      reportType
+    }
 
-const axiosInstance = axios.create({
-  baseURL: VITE_BACKEND_URL,
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5M2E2OGExNy1hODg3LTQwZGItOGY5MC04NzhiMWY4NjQ1MjNAc29jaWFsVXNlci5jb20iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIiwiaWF0IjoxNzQwNjQ0MjIwLCJleHAiOjE3NDA2NDc4MjB9.xkMj8O57O_WmYj2BiJZ-6fvZVsTYgvIzMwlMygiApR5z1QUZPgSJAuWxhniVaqq_yXqABSe8jCaDtMK3lN5ppA", // TODO: 로그인 전 임시 - axios interceptor 통해 동적 추가되도록 변경
-  },
-});
+    const response = await axiosInstance.post(
+      "/api/report",
+      requestBody 
+    );
+
+    return response.data;
+  } catch(error) {
+    console.error(`${targetUserId} 유저 대상 신고 실패:`, error)
+  }
+}
 
 // ✅ 신고 리스트 조회
 const fetchReports = async ({
@@ -67,7 +82,7 @@ const processReport = async (
 
     const response = await axiosInstance.put(
       `/api/admin/reports/${reportId}`,
-      requestBody // 요청 바디 추가
+      requestBody
     );
 
     return response.data;
@@ -90,9 +105,11 @@ const undoReportAction = async (reportId: number) => {
 };
 
 
-export const adminAPI = {
+export const reportApi = {
+  reportUser,
   fetchReports,
   fetchReportDetails,
   processReport,
   undoReportAction,
 };
+

@@ -4,12 +4,22 @@ import check from "../../../assets/icons/checked1.svg";
 import { reportReasons as initialReportReasons } from "../../../constants";
 import RoomActionButtons from "../RoomActionButtons";
 import { useReportStore } from "../../../stores/reportModalStore";
+import { reportApi } from "../../../api/report";
 
-export default function ReportModal() {
+export default function ReportModal({
+  targetNickname,
+  targetUserId,
+  targetType = "CHAT",
+  roomId,
+}: {
+  targetNickname: string,
+  targetUserId: number;
+  targetType?: "PROFILE" | "CHAT";
+  roomId?: number;
+}) {
   const [reportReasons, setReportReasons] = useState(initialReportReasons);
   const [hasCompleted, setHasCompleted] = useState(false);
   const [description, setDescription] = useState("");
-
   const {isReportModalOpen, setIsReportModalOpen} = useReportStore()
   const handleCheckboxChange = (selectedKey: string | boolean | number) => {
     setReportReasons((prev) =>
@@ -20,19 +30,22 @@ export default function ReportModal() {
     );
     setHasCompleted(true);
   };
-
-  const handleConfirm = () => {
+      
+  const onReportUser = async()=> {
     const selectedReason = reportReasons.find((item) => item.isChecked);
     if (!selectedReason) return;
+    await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType || "CHAT", targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
     setIsReportModalOpen(false);
-  };
+  }
 
-  if(isReportModalOpen) return createPortal(
+
+  if(isReportModalOpen)
+    return createPortal(
     <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 bg-black01 z-50 bg-opacity-70 flex justify-center items-center">
       <div className="flex flex-col gap-[10px] bg-white w-[265px] h-auto rounded-[10px] px-[30px] py-[18px]">
         <p className="font-bold text-[16px] text-black01">신고하기</p>
         <p className="text-[14px] text-gray01 h-[23px] border-b border-gray03">
-          기도차
+          {targetNickname}
         </p>
         <p className="font-bold text-black01 text-[14px]">옵션</p>
         <div className="flex flex-col gap-2 text-gray01">
@@ -73,7 +86,7 @@ export default function ReportModal() {
               setDescription("");
               setIsReportModalOpen(false);
             }}
-            confirmAction={handleConfirm}
+            confirmAction={onReportUser}
             cancelColor="bg-gray03 text-white"
             confirmColor="bg-blue01 text-white"
             confirmText="신고"

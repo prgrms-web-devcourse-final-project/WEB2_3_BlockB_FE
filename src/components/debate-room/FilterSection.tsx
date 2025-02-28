@@ -14,6 +14,8 @@ type FilterSectionProps = {
   filters: Array<FilterProps<string> | FilterProps<string[]>>;
 };
 
+// TODO: props로 넘겨받는 setState 그대로 사용하는 것 리팩토링 => onChange로 변경
+
 const FilterSection = ({ filters }: FilterSectionProps) => {
   return (
     <div className="mb-6">

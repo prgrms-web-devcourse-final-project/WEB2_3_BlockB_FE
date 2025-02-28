@@ -60,3 +60,5 @@ interface Report {
   reportedAt: string | null
   aslignedUserId: number | null
 };
+
+type TargetType = "CHAT" | "PROFILE"
