@@ -7,10 +7,12 @@ import { useReportStore } from "../../../stores/reportModalStore";
 import { reportApi } from "../../../api/report";
 
 export default function ReportModal({
+  targetNickname,
   targetUserId,
   targetType = "CHAT",
   roomId,
 }: {
+  targetNickname: string,
   targetUserId: number;
   targetType?: "PROFILE" | "CHAT";
   roomId?: number;
@@ -37,12 +39,13 @@ export default function ReportModal({
   }
 
 
-  if(isReportModalOpen) return createPortal(
+  if(isReportModalOpen)
+    return createPortal(
     <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 bg-black01 z-50 bg-opacity-70 flex justify-center items-center">
       <div className="flex flex-col gap-[10px] bg-white w-[265px] h-auto rounded-[10px] px-[30px] py-[18px]">
         <p className="font-bold text-[16px] text-black01">신고하기</p>
         <p className="text-[14px] text-gray01 h-[23px] border-b border-gray03">
-          기도차
+          {targetNickname}
         </p>
         <p className="font-bold text-black01 text-[14px]">옵션</p>
         <div className="flex flex-col gap-2 text-gray01">

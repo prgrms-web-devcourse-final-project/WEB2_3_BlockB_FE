@@ -3,7 +3,7 @@ import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
 import { userApi } from "../../api/user";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import ReportModal from "../debate-zone/ongoing-debate/ReportModal";
 import { useReportStore } from "../../stores/reportModalStore";
 
@@ -122,6 +122,7 @@ function ProfileSimpleInfo({
 }) {
     const [isCurrentPageMine, setIsCurrentPageMine] = useState(false);
     const { userId } = useParams();
+    const navigate = useNavigate()
 
     useEffect(() => {
         const checkCurrentPageIsMine = async () => {
@@ -141,14 +142,16 @@ function ProfileSimpleInfo({
     // 신고모달 열기
     const {setIsReportModalOpen} = useReportStore()
 
-    const reportData = useRef<{ targetUserId: number; targetType: "PROFILE" | "CHAT" }>({
+    const reportData = useRef<{ targetNickname: string, targetUserId: number; targetType: "PROFILE" | "CHAT" }>({
+      targetNickname: profile.nickname,
       targetUserId: profileId,
       targetType: "PROFILE",
     });
 
     return (
-        <Link to={`/user-page/${profileId}`} className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
+        <div onClick={()=> navigate(`/user-page/${profileId}`)} className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
             <ReportModal
+              targetNickname={reportData.current.targetNickname}
               targetUserId={reportData.current.targetUserId}
               targetType={reportData.current.targetType}
             />
@@ -167,16 +170,16 @@ function ProfileSimpleInfo({
             <div className="flex items-center">
                 {isCurrentPageMine && !isFollowerTabed && (
                     <button
-                        onClick={() => deleteFollowing(profileId)}
+                        onClick={(e) => {e.stopPropagation(); deleteFollowing(profileId)}}
                         className="rounded-[5px] bg-gray02 w-12 h-5 justify-center flex mr-2"
                     >
                         삭제
                     </button>
                 )}
-                <button onClick={()=> setIsReportModalOpen(true)} className="w-1 h-3">
+                <button onClick={(e)=> {e.stopPropagation(); setIsReportModalOpen(true) }} className="w-1 h-3">
                     <img src={kebab} alt="신고 버튼" />
                 </button>
             </div>
-        </Link>
+        </div>
     );
 }
