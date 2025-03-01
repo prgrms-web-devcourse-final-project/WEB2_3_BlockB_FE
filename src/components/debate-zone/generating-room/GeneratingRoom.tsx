@@ -44,7 +44,6 @@ export default function GeneratingRoom() {
 
   // 개설 경로 파악 : 뉴스이면 fromNews
   useEffect(()=> {
-    console.log(searchParams.get("id"))
     if (!!searchParams.get("id")) {
       setGeneratingType("fromNews");
   }

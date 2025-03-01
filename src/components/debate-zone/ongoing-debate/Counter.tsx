@@ -16,11 +16,12 @@ export default function Counter({
   const [count, setCount] = useState(initialCount);
   const [displayCount, setDisplayCount] = useState<string[]>([]);
 
+  
   useEffect(() => {
     const paddedCount = count.toString().padStart(boxNumber, "0");
     setDisplayCount(paddedCount.split(""));
-  }, [count, boxNumber]);
-
+  }, [initialCount, boxNumber]);
+  
   useEffect(() => {
     if (label === "TIMER") {
       const interval = setInterval(() => {

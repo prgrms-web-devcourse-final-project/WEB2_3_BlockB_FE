@@ -22,7 +22,9 @@ export default function OngoingDebate() {
   const timerRef = useRef(roomSettings.time!)
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
   
-  
+  useEffect(()=> {
+    console.log("턴 카운트",turnCount, timerRef.current)
+  },[])
   return (
     <>
       {isLoading ? (
