@@ -37,7 +37,10 @@ export default function ReportModal({
   const onReportUser = async()=> {
     const selectedReason = reportReasons.find((item) => item.isChecked);
     if (!selectedReason) return;
-    await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType || "CHAT", targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
+
+    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType || "CHAT", targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
+    // if (targetType === "CHAT")
+
     setIsReportModalOpen(false);
   }
 
