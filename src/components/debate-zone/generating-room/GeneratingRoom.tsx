@@ -9,15 +9,13 @@ import CheckBoxGroups from "./CheckBoxGroups";
 import ProgressIndicator from "./ProgressIndicator";
 import RoomInputCard from "./RoomInputCard";
 import { debateRoomApi } from "../../../api/debatezone";
-import { Continent, NewsData, Category, NewsType, SpeakCount, Time } from "../../../types/debateRoomType";
-
 
 export default function GeneratingRoom() {
   const [generatingType, setGeneratingType] = useState<
     "fromNews" | "fromDebateList"
   >("fromNews")
   const [hasCompleted, setHasCompleted] = useState<boolean>(false);
-  const { setRoomState } = useRoomStore();
+  const { setRoomState, roomSettings } = useRoomStore();
   const onClickCreateBtn = () => {
     // setRoomState("waiting");
      postInitialRoomInfo()
@@ -40,12 +38,10 @@ export default function GeneratingRoom() {
 
   
 
-  // 웹소켓을 받고 /debate/{roomId}로
-
   const postInitialRoomInfo = async () => {
     const data: NewsData = {
       newsId: 0,
-      title: "제목테스트",
+      title: roomSettings.title!,
       news: {
         createdAt: "2025-03-01T08:01:25.334Z",
         updatedAt: "2025-03-01T08:01:25.334Z",
@@ -54,18 +50,18 @@ export default function GeneratingRoom() {
         content: "AS",
         link: "string",
         imgUrl: "string",
-        newsType: NewsType.JOONGANG, 
-        continent: Continent.AS, 
+        newsType: "HANI", 
+        continent: "AS", 
         deliveryTime: "2025-03-01T08:01:25.334Z"
       },
-      description: "string",
-      memberNumber: "T1",  // 올바른 값인지 확인
-      continent: Continent.AS,
-      category: Category.PO,
-      time: Time.T3,
-      speakCount: SpeakCount.THREE,
-      resultEnabled: true,
-      endTime: "2025-03-01T08:01:25.334Z"
+      description: roomSettings.description!,
+      memberNumber: roomSettings.memberNumber!, 
+      continent: roomSettings.continent!,
+      category: roomSettings.category!,
+      time: timeMap[roomSettings.time!],
+      speakCount: speakCountMap[roomSettings.speakCount!],      
+      resultEnabled: roomSettings.hasVote!,
+      endTime: null,
     }; 
 
     const roomInfoWebsocket = await debateRoomApi.generateDebateRoom(data);

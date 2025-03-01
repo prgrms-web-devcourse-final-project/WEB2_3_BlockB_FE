@@ -31,11 +31,11 @@ export default function CheckBoxGroups({
   }[] = [
     { key: "continent", label: "대륙", list: continentChecklist },
     { key: "category", label: "카테고리", list: categoryChecklist },
-    { key: "participant", label: "참가인원", list: participantChecklist },
+    { key: "memberNumber", label: "참가인원", list: participantChecklist },
     { key: "stance", label: "입장", list: stanceChecklist },
     { key: "hasVote", label: "승패여부", list: hasVoteChecklist },
     { key: "time", label: "발언시간", list: timeChecklist },
-    { key: "turn", label: "발언횟수", list: turnChecklist },
+    { key: "speakCount", label: "발언횟수", list: turnChecklist },
   ];
 
   // 선택한 항목 관리
@@ -45,9 +45,9 @@ export default function CheckBoxGroups({
 
   useEffect(() => {
     const time = roomSettings.time ? +roomSettings.time : 0;
-    const turn = roomSettings.turn ? +roomSettings.turn : 0;
+    const turn = roomSettings.speakCount ? +roomSettings.speakCount : 0;
     setCaculatedTime(time * turn);
-  }, [roomSettings.time, roomSettings.turn]);
+  }, [roomSettings.time, roomSettings.speakCount]);
 
   const handleCheck = (groupKey: keyof RoomSettings, key: string) => {
     const selectedItem = checklistGroups

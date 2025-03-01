@@ -1,4 +1,3 @@
-import { DebaterType } from "../types/debateRoomType";
 import { axiosInstance } from "./axios";
 
 const getTopDebaters = async (
