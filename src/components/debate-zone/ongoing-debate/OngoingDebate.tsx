@@ -18,11 +18,11 @@ export default function OngoingDebate() {
   }, []);
 
   const { roomSettings, setRoomState } = useRoomStore();
-  const [turnCount] = useState(roomSettings.turn!);
+  const [turnCount] = useState(roomSettings.speakCount!);
   const timerRef = useRef(roomSettings.time!)
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
   
-
+  
   return (
     <>
       {isLoading ? (

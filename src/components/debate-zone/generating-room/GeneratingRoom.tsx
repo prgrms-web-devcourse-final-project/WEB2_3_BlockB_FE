@@ -69,9 +69,6 @@ export default function GeneratingRoom() {
     setHasCompleted(allChecked);
   }, [checkedStates]);
 
-  useEffect(()=>{
-    if(hasCompleted)console.log("완료됐습니다", hasCompleted)
-  }, [hasCompleted])
 
   useEffect(() => {
     // 전체 컴포넌트 슬라이드업 + 페이드 인
