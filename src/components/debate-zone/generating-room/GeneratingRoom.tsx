@@ -62,9 +62,9 @@ export default function GeneratingRoom() {
   }, []);
 
   return (
-    <div className="flex justify-center md:min-h-screen">
+    <div className="flex justify-center item-center md:min-h-screen">
       <div
-        className="generatingRoomContainer flex flex-col justify-between items-center md:bg-white md:w-[658px] md:h-[666px] h-auto rounded-[10px] md:px-[40px] md:py-[40px] md:border md:border-white md:bg-opacity-20 md:shadow-[0_4px_20px_rgba(251,251,251,1)] md:mt-[30px] md:mb-[90px] font-pretendard p-[10px]"
+        className="generatingRoomContainer flex flex-col justify-between items-center gap-[10px]  md:w-[658px] h-auto rounded-[10px] md:px-10 px-3 md:py-10 py-5 md:mb-20 mb-10 md:border md:border-white md:bg-white md:bg-opacity-20 md:shadow-[0_4px_20px_rgba(251,251,251,1)] font-pretendard "
       >
         <ProgressIndicator checkedStates={checkedStates} />
         <div className="w-full flex flex-col md:gap-4 gap-2">
@@ -92,7 +92,7 @@ export default function GeneratingRoom() {
           generatingType={generatingType}
           setCheckedStates={setCheckedStates}
         />
-        <div className="w-full flex justify-end md:mt-2 mt-10">
+        <div className="w-full flex justify-end">
           <RoomActionButtons
             cancelAction={() => {
               navigate(-1);

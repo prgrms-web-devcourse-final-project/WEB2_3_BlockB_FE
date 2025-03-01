@@ -6,7 +6,6 @@ import three from "../../assets/icons/3rd.svg";
 import Win from "../../assets/icons/win.svg";
 import Draw from "../../assets/icons/duse.svg";
 import Lose from "../../assets/icons/lose.svg";
-import { DebaterType } from "../../types/debateType";
 import TopDebateListSkeleton from "../common/skeleton/debate/TopDebateListSkeleton";
 
 interface TopDebateListProps {

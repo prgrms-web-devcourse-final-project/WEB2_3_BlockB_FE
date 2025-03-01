@@ -144,12 +144,12 @@ switch (dates.getDay()) {
 }
 
 export const reportReasons: ChecklistItem[] = [
-  { dbKey: "obscenity", key: "음란성/선정성", isChecked: false },
-  { dbKey: "spam", key: "스팸/광고", isChecked: false },
-  { dbKey: "cuss", key: "욕설/인신공격", isChecked: false },
-  { dbKey: "flooding", key: "도배", isChecked: false },
-  { dbKey: "leakage", key: "개인정보 노출", isChecked: false },
-  { dbKey: "dodge", key: "사유 없는 탈주", isChecked: false },
+  { dbKey: "OBSCENITY", key: "음란성/선정성", isChecked: false },
+  { dbKey: "SPAM", key: "스팸/광고", isChecked: false },
+  { dbKey: "CUSS", key: "욕설/인신공격", isChecked: false },
+  { dbKey: "FLOODING", key: "도배", isChecked: false },
+  { dbKey: "LEAKAGE", key: "개인정보 노출", isChecked: false },
+  { dbKey: "DODGE", key: "사유 없는 탈주", isChecked: false },
 ];
 
 // 관리자 페이지

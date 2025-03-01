@@ -11,6 +11,8 @@ import {
 
 import { useRoomStore } from "../../../stores/roomStateStore";
 import CheckBoxGroup from "./CheckBoxGroup";
+import { timeFormatter } from "../../../utils/timeFormatter";
+
 
 export default function CheckBoxGroups({
   generatingType,
@@ -84,9 +86,9 @@ export default function CheckBoxGroups({
         }
         return null;
       })}
-      <p className="flex justify-end text-[10px] mt-[2px] text-white">
+      <p className="flex justify-end md:text-[14px] text-[12px] mt-[2px] text-white">
         <span className="mr-[10px]">총 소요시간 :</span>
-        <span>{caculatedTime} 초</span>
+        <span>{timeFormatter(caculatedTime)}</span>
       </p>
     </section>
   );

@@ -1,5 +1,4 @@
 import { axiosInstance } from "./axios";
-import { DebaterType } from "../types/debateType";
 
 const getTopDebaters = async (
   searchTerm: string = ""

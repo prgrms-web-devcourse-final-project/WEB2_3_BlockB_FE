@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import search from "../assets/icons/search.svg";
-import { DebaterType } from "../types/debateType";
 import DebateList from "../components/debaters/DebateList";
 import TopDebateList from "../components/debaters/TopDebateList";
 import useDebounce from "../hooks/useDebounce";
