@@ -1,3 +1,4 @@
+
 export const continentChecklist: ChecklistItem[] = [
   { dbKey: "AS", key: "아시아/호주", isChecked: false },
   { dbKey: "AM", key: "미국/중남미", isChecked: false },
@@ -20,13 +21,13 @@ export const categoryChecklist: ChecklistItem[] = [
 ];
 
 export const participantChecklist: ChecklistItem[] = [
-  { dbKey: 1, key: "1:1", isChecked: false },
-  { dbKey: 3, key: "3:3", isChecked: false },
+  { dbKey: "T1", key: "1:1", isChecked: false },
+  { dbKey: "T2", key: "3:3", isChecked: false },
 ];
 
 export const stanceChecklist: ChecklistItem[] = [
-  { dbKey: "pro", key: "찬성", isChecked: false },
-  { dbKey: "con", key: "반대", isChecked: false },
+  { dbKey: "PRO", key: "찬성", isChecked: false },
+  { dbKey: "CON", key: "반대", isChecked: false },
 ];
 
 export const hasVoteChecklist: ChecklistItem[] = [
@@ -144,12 +145,12 @@ switch (dates.getDay()) {
 }
 
 export const reportReasons: ChecklistItem[] = [
-  { dbKey: "obscenity", key: "음란성/선정성", isChecked: false },
-  { dbKey: "spam", key: "스팸/광고", isChecked: false },
-  { dbKey: "cuss", key: "욕설/인신공격", isChecked: false },
-  { dbKey: "flooding", key: "도배", isChecked: false },
-  { dbKey: "leakage", key: "개인정보 노출", isChecked: false },
-  { dbKey: "dodge", key: "사유 없는 탈주", isChecked: false },
+  { dbKey: "OBSCENITY", key: "음란성/선정성", isChecked: false },
+  { dbKey: "SPAM", key: "스팸/광고", isChecked: false },
+  { dbKey: "CUSS", key: "욕설/인신공격", isChecked: false },
+  { dbKey: "FLOODING", key: "도배", isChecked: false },
+  { dbKey: "LEAKAGE", key: "개인정보 노출", isChecked: false },
+  { dbKey: "DODGE", key: "사유 없는 탈주", isChecked: false },
 ];
 
 // 관리자 페이지

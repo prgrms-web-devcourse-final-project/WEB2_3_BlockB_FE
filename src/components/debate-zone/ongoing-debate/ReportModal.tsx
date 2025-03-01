@@ -17,24 +17,30 @@ export default function ReportModal({
   targetType?: "PROFILE" | "CHAT";
   roomId?: number;
 }) {
+
   const [reportReasons, setReportReasons] = useState(initialReportReasons);
   const [hasCompleted, setHasCompleted] = useState(false);
   const [description, setDescription] = useState("");
   const {isReportModalOpen, setIsReportModalOpen} = useReportStore()
+
   const handleCheckboxChange = (selectedKey: string | boolean | number) => {
-    setReportReasons((prev) =>
-      prev.map((item) => ({
+    setReportReasons((prev) => {
+      const updated = prev.map((item) => ({
         ...item,
         isChecked: item.dbKey === selectedKey,
-      }))
-    );
+      }));
+      return updated;
+    });
     setHasCompleted(true);
   };
-      
+  
   const onReportUser = async()=> {
     const selectedReason = reportReasons.find((item) => item.isChecked);
     if (!selectedReason) return;
-    await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType || "CHAT", targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
+
+    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType || "CHAT", targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
+    // if (targetType === "CHAT")
+
     setIsReportModalOpen(false);
   }
 

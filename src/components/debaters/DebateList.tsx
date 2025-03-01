@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Win from "../../assets/icons/win.svg";
 import Draw from "../../assets/icons/duse.svg";
 import Lose from "../../assets/icons/lose.svg";
-import { DebaterType } from "../../types/debateType";
 import DebateListSkeleton from "../common/skeleton/debate/DebateListSkeleton";
 
 interface DebateListProps {
