@@ -17,7 +17,7 @@ export default function GeneratingRoom() {
   const [hasCompleted, setHasCompleted] = useState<boolean>(false);
   const { setRoomState, roomSettings } = useRoomStore();
   const onClickCreateBtn = () => {
-    // setRoomState("waiting");
+    setRoomState("waiting");
      postInitialRoomInfo()
     }
   const navigate = useNavigate();

@@ -42,8 +42,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/user-page/:userId" element={<UserPage />} />
           <Route path="/profile-update" element={<ProfileUpdate />} />
-          <Route path="/debate-zone/:debateId" element={<DebateZone />} />
-          <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
+          <Route path="/debate-zone" element={<DebateZone />} />
+          <Route path="/observing-zone" element={<ObservingZone />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
