@@ -8,14 +8,20 @@ import RoomActionButtons from "./../RoomActionButtons";
 import CheckBoxGroups from "./CheckBoxGroups";
 import ProgressIndicator from "./ProgressIndicator";
 import RoomInputCard from "./RoomInputCard";
+import { debateRoomApi } from "../../../api/debatezone";
+import { Continent, NewsData, Category, NewsType, SpeakCount, Time } from "../../../types/debateRoomType";
+
 
 export default function GeneratingRoom() {
   const [generatingType, setGeneratingType] = useState<
     "fromNews" | "fromDebateList"
-  >("fromDebateList");
+  >("fromNews")
   const [hasCompleted, setHasCompleted] = useState<boolean>(false);
   const { setRoomState } = useRoomStore();
-  const onClickCreateBtn = () => setRoomState("waiting");
+  const onClickCreateBtn = () => {
+    // setRoomState("waiting");
+     postInitialRoomInfo()
+    }
   const navigate = useNavigate();
   const newLink =
     "https://www.yna.co.kr/view/AKR20250213094800004?section=politics/all&site=topnews01"; //임시링크
@@ -31,6 +37,44 @@ export default function GeneratingRoom() {
     time: false,
     turn: false,
   });
+
+  
+
+  // 웹소켓을 받고 /debate/{roomId}로
+
+  const postInitialRoomInfo = async () => {
+    const data: NewsData = {
+      newsId: 0,
+      title: "제목테스트",
+      news: {
+        createdAt: "2025-03-01T08:01:25.334Z",
+        updatedAt: "2025-03-01T08:01:25.334Z",
+        id: 0,
+        title: "string",
+        content: "AS",
+        link: "string",
+        imgUrl: "string",
+        newsType: NewsType.JOONGANG, 
+        continent: Continent.AS, 
+        deliveryTime: "2025-03-01T08:01:25.334Z"
+      },
+      description: "string",
+      memberNumber: "T1",  // 올바른 값인지 확인
+      continent: Continent.AS,
+      category: Category.PO,
+      time: Time.T3,
+      speakCount: SpeakCount.THREE,
+      resultEnabled: true,
+      endTime: "2025-03-01T08:01:25.334Z"
+    }; 
+
+    const roomInfoWebsocket = await debateRoomApi.generateDebateRoom(data);
+    console.log("웹소켓 아이디 response", roomInfoWebsocket.data);
+    const socket = new WebSocket(`ws://13.125.142.253:8080/topic/debate/${roomInfoWebsocket.data}`);
+    socket.onopen = () => console.log("웹소켓 연결 성공!");
+    socket.onerror = (error) => console.log("연결 실패:", error);
+};
+
 
   useEffect(() => {
     const allChecked = Object.values(checkedStates).every((val) => val);
@@ -79,12 +123,12 @@ export default function GeneratingRoom() {
             setCheckedStates={setCheckedStates}
           />
           {generatingType == "fromNews" && (
-            <figure className="w-full flex justify-end items-center gap-2">
+            <a href={newLink} className="w-full flex justify-end items-center gap-2">
               <img src={link} alt="연관된 뉴스 링크" />
               <figcaption className="text-gray02 text-[10px] leading-0">
                 {newLink}
               </figcaption>
-            </figure>
+            </a>
           )}
         </div>
 

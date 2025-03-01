@@ -1,4 +1,4 @@
-type RoomType = {
+export type RoomType = {
   continent: "string";
   category: "string";
   participants: "string";
@@ -7,13 +7,13 @@ type RoomType = {
   time: number;
 } | null;
 
-type ChecklistItem = {
+export type ChecklistItem = {
   dbKey: string | number | boolean; // DB 저장용 고유 key
   key: string; // 화면에 표시될 이름
   isChecked: boolean;
 };
 
-interface RoomSettings {
+export interface RoomSettings {
   continent: string | null;
   category: string | null;
   participant: string | null;
@@ -25,13 +25,13 @@ interface RoomSettings {
   description: string | null;
 }
 
-type VoteInfo = {
+export type VoteInfo = {
   label: string;
   img: string;
 };
 
 // 토론방 타입 정의
-interface DebateRoomType {
+export interface DebateRoomType {
   id: number;
   title: string;
   categoryType: string;
@@ -41,7 +41,7 @@ interface DebateRoomType {
 }
 
 // 디베이터
-type DebaterType = {
+export type DebaterType = {
   userId: number;
   nickname: string;
   profile: string;
@@ -51,11 +51,10 @@ type DebaterType = {
   wins: number;
   draws: number;
   losses: number;
-}
-
+};
 
 // 토론방 생성시 타입
-enum NewsType {
+export enum NewsType {
   JOONGANG = "JOONGANG",
   HANI = "HANI",
   HANKYUNG = "HANKYUNG",
@@ -63,7 +62,7 @@ enum NewsType {
   SEGYE = "SEGYE",
 }
 
-const NewsTypeNames: Record<NewsType, string> = {
+export const NewsTypeNames: Record<NewsType, string> = {
   [NewsType.JOONGANG]: "중앙일보",
   [NewsType.HANI]: "한겨레신문",
   [NewsType.HANKYUNG]: "한국경제",
@@ -71,10 +70,7 @@ const NewsTypeNames: Record<NewsType, string> = {
   [NewsType.SEGYE]: "세계일보",
 };
 
-// const getNewsTypeName = (type: NewsType): string => NewsTypeNames[type];
-// console.log(getNewsTypeName(NewsType.JOONGANG)); // "중앙일보"
-
-enum Continent {
+export enum Continent {
   AS = "AS",
   AM = "AM",
   EU = "EU",
@@ -84,7 +80,7 @@ enum Continent {
   KR = "KR",
 }
 
-const ContinentNames: Record<Continent, string> = {
+export const ContinentNames: Record<Continent, string> = {
   [Continent.AS]: "아시아/호주",
   [Continent.AM]: "미국 / 중남미",
   [Continent.EU]: "유럽",
@@ -94,7 +90,7 @@ const ContinentNames: Record<Continent, string> = {
   [Continent.KR]: "국내",
 };
 
-enum Category {
+export enum Category {
   PO = "PO",
   EC = "EC",
   SO = "SO",
@@ -106,7 +102,7 @@ enum Category {
   ETC = "ETC",
 }
 
-const CategoryNames: Record<Category, string> = {
+export const CategoryNames: Record<Category, string> = {
   [Category.PO]: "정치",
   [Category.EC]: "경제",
   [Category.SO]: "사회",
@@ -118,9 +114,13 @@ const CategoryNames: Record<Category, string> = {
   [Category.ETC]: "기타",
 };
 
-enum Time {"T1", "T2", "T3"}
+export enum Time {
+  T1 = "T1",
+  T2 = "T2",
+  T3 = "T3",
+}
 
-enum SpeakCount {
+export enum SpeakCount {
   THREE = 3,
   FOUR = 4,
   FIVE = 5,
@@ -131,9 +131,9 @@ enum SpeakCount {
   TEN = 10,
 }
 
-const getSpeakCountValue = (count: SpeakCount): number => count;
+export const getSpeakCountValue = (count: SpeakCount): number => count;
 
-interface NewsLinkDetail {
+export interface NewsLinkDetail {
   createdAt: string;
   updatedAt: string;
   id: number;
@@ -141,19 +141,18 @@ interface NewsLinkDetail {
   content: string;
   link: string;
   imgUrl: string;
-  newsType: NewsType; 
+  newsType: NewsType;
   continent: Continent;
   deliveryTime: string;
 }
 
-
-interface NewsData {
+export interface NewsData {
   newsId: number;
   title: string;
   news: NewsLinkDetail;
   description: string;
   memberNumber: string; // "T1" | "T2" | "T3"
-  continent: Continent; 
+  continent: Continent;
   category: Category;
   time: Time;
   speakCount: SpeakCount;
@@ -161,7 +160,7 @@ interface NewsData {
   endTime: string;
 }
 
-enum RoomStatusType {
-  "ClOSED",
-  "DEBATE",
+export enum RoomStatusType {
+  CLOSED = "CLOSED",
+  DEBATE = "DEBATE",
 }

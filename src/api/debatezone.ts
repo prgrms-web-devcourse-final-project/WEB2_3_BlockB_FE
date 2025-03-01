@@ -23,3 +23,7 @@ const generateDebateRoom = async (initialRoomInfo: NewsData) => {
         console.error("❌ 토론방 생성에 실패했습니다", error);
     }
 };
+
+export const debateRoomApi = {
+    generateDebateRoom
+}
