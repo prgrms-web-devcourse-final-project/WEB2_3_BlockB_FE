@@ -18,9 +18,10 @@ export default function Counter({
 
   
   useEffect(() => {
-    const paddedCount = count.toString().padStart(boxNumber, "0");
+    const paddedCount = (initialCount ?? 0).toString().padStart(boxNumber, "0");
     setDisplayCount(paddedCount.split(""));
-  }, [initialCount, boxNumber]);
+  }, [initialCount, boxNumber, count]);
+  
   
   useEffect(() => {
     if (label === "TIMER") {
