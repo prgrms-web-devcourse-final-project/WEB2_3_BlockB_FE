@@ -45,7 +45,7 @@ function App() {
           <Route path="/debate-zone" element={<DebateZone />} />
           <Route path="/observing-zone" element={<ObservingZone />} />
         </Route>
-
+        
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

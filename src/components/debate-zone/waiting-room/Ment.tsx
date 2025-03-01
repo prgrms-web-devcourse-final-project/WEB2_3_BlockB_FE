@@ -6,7 +6,6 @@ export default function Ment() {
 
   useInterval(() => {
     setDots((prev) => (prev.length === 3 ? "" : prev + "."));
-    console.log(dots);
   }, 500);
 
   return (

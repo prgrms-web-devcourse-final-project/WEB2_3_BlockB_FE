@@ -22,7 +22,7 @@ export const categoryChecklist: ChecklistItem[] = [
 
 export const participantChecklist: ChecklistItem[] = [
   { dbKey: "T1", key: "1:1", isChecked: false },
-  { dbKey: "T3", key: "3:3", isChecked: false },
+  { dbKey: "T2", key: "3:3", isChecked: false },
 ];
 
 export const stanceChecklist: ChecklistItem[] = [

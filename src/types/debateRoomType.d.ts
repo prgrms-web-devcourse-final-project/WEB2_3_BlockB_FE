@@ -23,6 +23,7 @@ type RoomSettings = {
   hasVote: boolean | null;
   time: number | null;
   speakCount: number | null;
+  link?: string | null
 };
 
 type VoteInfo = {
@@ -99,7 +100,7 @@ const CategoryNames: Record<Category, string> = {
   ETC: "기타",
 };
 
-type Time = "T1" | "T2" | "T3";
+type Time = "T3" | "T4" | "T5" | "T6" | "T9" | "T12" | "T15"
 
 type SpeakCount =
   | "THREE"
@@ -111,27 +112,27 @@ type SpeakCount =
   | "NINE"
   | "TEN";
 
-type MemberNumber = "T1" | "T2" | "T3";
+type MemberNumber = "T1" | "T2";
 
 type RoomStatusType = "CLOSED" | "DEBATE";
 
 type NewsLinkDetail = {
-  createdAt: string;
-  updatedAt: string;
-  id: number;
+  createdAt?: string;
+  updatedAt?: string;
+  id?: number;
   title: string;
-  content: string;
+  content?: string;
   link: string;
-  imgUrl: string;
-  newsType: NewsSource;
+  imgUrl?: string;
+  newsType?: NewsSource;
   continent: Continent;
-  deliveryTime: string;
+  deliveryTime?: string;
 };
 
-type NewsData = {
+type RoomInfoRequest = {
   newsId: number;
   title: string;
-  news: NewsLinkDetail;
+  news?: NewsLinkDetail;
   description: string;
   memberNumber: MemberNumber; 
   continent: Continent;
@@ -139,17 +140,6 @@ type NewsData = {
   time: Time;
   speakCount: SpeakCount;
   resultEnabled: boolean;
-  endTime: string | null
+  endTime?: string | null
 };
 
-const timeMap: Record<number, Time> = { 1: "T1", 2: "T2", 3: "T3" };
-const speakCountMap: Record<number, SpeakCount> = {
-  3: "THREE",
-  4: "FOUR",
-  5: "FIVE",
-  6: "SIX",
-  7: "SEVEN",
-  8: "EIGHT",
-  9: "NINE",
-  10: "TEN",
-};

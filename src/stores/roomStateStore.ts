@@ -32,6 +32,7 @@ export const useRoomStore = create<RoomStateStore>((set) => ({
     hasVote: null,
     time: null,
     speakCount: null,
+    link: null
   },
   setRoomSettings: (key: string, value: string | number | boolean) =>
     set((state) => ({

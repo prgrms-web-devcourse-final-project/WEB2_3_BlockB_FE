@@ -22,12 +22,14 @@ export default function RoomActionButtons({
       >
         취소
       </button>
+
       {/* 확인 버튼 */}
       <button
         onClick={confirmAction}
-        className={`h-[30px] px-[10px] rounded-lg flex items-center justify-center leading-normal ${confirmColor} ${
-          hasCompleted &&
-          "shadow-[0px_1px_5px_0px_rgba(56,111,217,1.00)] border border-game-blue01"
+        className={`h-[30px] px-[10px] rounded-lg flex items-center justify-center leading-normal transition-all duration-300 ${
+          hasCompleted
+            ? `${confirmColor} shadow-[0px_1px_5px_0px_rgba(56,111,217,1.00)] border border-game-blue01 scale-105`
+            : "bg-gray03 text-gray01"
         } hover:bg-opacity-50`}
       >
         {confirmText}
