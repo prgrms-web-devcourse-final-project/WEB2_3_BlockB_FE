@@ -59,8 +59,8 @@ export default function UserPage() {
     return <MyPageSkeleton />;
   }
   return (
-    <div className="flex justify-center px-[10px]">
-      <div className="w-[960px] md:h-[790px] mt-20 max-md:mt-10 font-pretendard">
+    <div className="flex justify-center px-3 sm:px-[40px]">
+      <div className="w-full md:h-[790px] mt-20 max-md:mt-10 font-pretendard">
         {/* 프로필 정보 */}
         <div className="flex max-md:flex-col max-md:items-center">
           <img
@@ -68,7 +68,7 @@ export default function UserPage() {
             alt="프로필 이미지"
             className="md:mr-10 w-[200px] h-[200px] rounded-[65px] max-lg:w-44 max-lg:h-44 max-md:w-32 max-md:h-32 max-md:rounded-3xl max-md:mb-7"
           />
-          <div className="w-[550px] max-lg:w-[480px] max-md:w-80 flex flex-col justify-between">
+          <div className="max-lg:w-[480px] max-md:w-80 flex flex-col justify-between">
             <div>
               <div className="flex justify-between font-bold text-[20px] max-md:text-[14px] max-md:w-80">
                 {user?.nickname}
