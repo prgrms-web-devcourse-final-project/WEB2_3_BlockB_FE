@@ -4,11 +4,28 @@ import logo from "../assets/icons/logo.svg";
 import naver from "../assets/icons/naver.svg";
 import Footer from "../components/common/Footer";
 
-export default function Login() {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const VITE_GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const VITE_KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
+const VITE_NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
+const VITE_REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
-  const handleLogin = (provider: string) => {
-    window.location.href = `${backendUrl}/oauth2/authorization/${provider}`;
+export default function Login() {
+  const handleLogin = (provider: "google" | "kakao" | "naver") => {
+    let loginUrl = "";
+
+    switch (provider) {
+      case "google":
+        loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${VITE_GOOGLE_CLIENT_ID}&redirect_uri=${VITE_REDIRECT_URI}/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile`;
+        break;
+      case "kakao":
+        loginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${VITE_KAKAO_CLIENT_ID}&redirect_uri=${VITE_REDIRECT_URI}/kakao&response_type=code&scope=profile_nickname,profile_image`;
+        break;
+      case "naver":
+        loginUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${VITE_NAVER_CLIENT_ID}&redirect_uri=${VITE_REDIRECT_URI}/naver&response_type=code`;
+        break;
+    }
+
+    window.location.href = loginUrl;
   };
 
   return (
