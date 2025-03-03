@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import first from "../../assets/icons/1st.svg";
 import second from "../../assets/icons/2nd.svg";
 import three from "../../assets/icons/3rd.svg";
 import Win from "../../assets/icons/win.svg";
 import Draw from "../../assets/icons/duse.svg";
 import Lose from "../../assets/icons/lose.svg";
-import { DebaterType } from "../../types/debateType";
 import TopDebateListSkeleton from "../common/skeleton/debate/TopDebateListSkeleton";
 
 interface TopDebateListProps {
@@ -14,7 +13,6 @@ interface TopDebateListProps {
 }
 
 export default function TopDebateList({ topDebaters }: TopDebateListProps) {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -30,14 +28,14 @@ export default function TopDebateList({ topDebaters }: TopDebateListProps) {
       </h2>
       <div
         className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"
-        onClick={() => navigate("/my-page")}
       >
         {topDebaters.map((debater, index) => {
           const rankIcons = [first, second, three];
           const rankIcon = rankIcons[index] || null;
 
           return (
-            <div
+            <Link
+              to={`/user-page/${debater.userId}`}
               key={debater.userId}
               className="bg-white p-4 rounded-lg border border-gray-200 shadow-xl text-center"
             >
@@ -80,7 +78,7 @@ export default function TopDebateList({ topDebaters }: TopDebateListProps) {
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

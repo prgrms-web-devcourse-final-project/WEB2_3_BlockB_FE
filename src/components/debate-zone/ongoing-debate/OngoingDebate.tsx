@@ -18,11 +18,13 @@ export default function OngoingDebate() {
   }, []);
 
   const { roomSettings, setRoomState } = useRoomStore();
-  const [turnCount] = useState(roomSettings.turn!);
+  const [turnCount] = useState(roomSettings.speakCount!);
   const timerRef = useRef(roomSettings.time!)
   const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
   
-
+  useEffect(()=> {
+    console.log("턴 카운트",turnCount, timerRef.current)
+  },[])
   return (
     <>
       {isLoading ? (
@@ -34,12 +36,12 @@ export default function OngoingDebate() {
       ) : (
         <section
           className="flex justify-between md:min-h-screen h-screen items-center
-        md:gap-[20px]"
+        md:gap-[20px] md:px-10"
         >
           {isExitModalOpen && (
             <ExitModal setIsExitModalOpen={setIsExitModalOpen} />
           )}
-          <div className="h-[728.4px] pt-[110px] md:block hidden">
+          <div className="h-[728.4px] md:pt-[160px] lg:pt-[116px]  md:block hidden">
             <ParticipantBox
               label="PROS"
               labelAlignment="start"

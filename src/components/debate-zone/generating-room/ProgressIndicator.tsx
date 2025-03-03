@@ -38,7 +38,7 @@ export default function ProgressIndicator({
       desPrefix: "카테고리",
     },
     {
-      key: "participant",
+      key: "memberNumber",
       origin: progress.participant,
       complete: progress.participantChecked,
       desPrefix: "참가인원",
@@ -62,7 +62,7 @@ export default function ProgressIndicator({
       desPrefix: "발언 시간",
     },
     {
-      key: "turn",
+      key: "speakCount",
       origin: progress.turn,
       complete: progress.turnChecked,
       desPrefix: "발언 횟수",

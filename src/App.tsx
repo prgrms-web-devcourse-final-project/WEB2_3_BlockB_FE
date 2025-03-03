@@ -29,7 +29,18 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/oauth/callback" element={<OAuthCallback />} />
+          <Route
+            path="/login/oauth2/callback/google"
+            element={<OAuthCallback />}
+          />
+          <Route
+            path="/login/oauth2/callback/naver"
+            element={<OAuthCallback />}
+          />
+          <Route
+            path="/login/oauth2/callback/kakao"
+            element={<OAuthCallback />}
+          />
         </Route>
 
         {/* 로그인한 사용자만 접근 가능 */}
@@ -42,8 +53,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/user-page/:userId" element={<UserPage />} />
           <Route path="/profile-update" element={<ProfileUpdate />} />
-          <Route path="/debate-zone/:debateId" element={<DebateZone />} />
-          <Route path="/observing-zone/:debateId" element={<ObservingZone />} />
+          <Route path="/debate-zone" element={<DebateZone />} />
+          <Route path="/observing-zone" element={<ObservingZone />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

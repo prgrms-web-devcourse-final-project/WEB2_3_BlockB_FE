@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { editOptions, findFilterValue, processedFilters, unprocessedFilters } from "../../constants";
 import FilterButton from "./FilterButton";
-import { adminAPI } from "../../api/admin";
+import { reportApi } from "../../api/report";
 
 export default function Modal({
   onCheck,
@@ -32,7 +32,7 @@ export default function Modal({
   useEffect(() => {
     const loadReportDetails = async () => {
       if (!reportId) return;
-      const reportDetailResponse = await adminAPI.fetchReportDetails(reportId);
+      const reportDetailResponse = await reportApi.fetchReportDetails(reportId);
       setReportDetails(reportDetailResponse.data);
     };
     loadReportDetails();
@@ -52,7 +52,7 @@ export default function Modal({
   const [reason, setReason] = useState("WARNING");
   const [reportContent, setReportContent] = useState("")
   const onClickProcessBtn = async () => {
-    await adminAPI.processReport(reportId!, reason , reportContent, 2); // TODO: assignedUserId 동적으로 추가
+    await reportApi.processReport(reportId!, reason , reportContent, 2); // TODO: assignedUserId 동적으로 추가
     if(modalType === "process") setProcessModalOpen!(false)
     if(modalType === "edit") setEditModalOpen!(false)
     
@@ -60,7 +60,7 @@ export default function Modal({
 
   // 신고 복구하기
   const onClickRecoverBtn = async () => {
-    await adminAPI.undoReportAction(reportId!)
+    await reportApi.undoReportAction(reportId!)
     setRecoverModalOpen!(false)
   }
   

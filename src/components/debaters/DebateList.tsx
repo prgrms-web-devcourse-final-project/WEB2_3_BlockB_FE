@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Win from "../../assets/icons/win.svg";
 import Draw from "../../assets/icons/duse.svg";
 import Lose from "../../assets/icons/lose.svg";
-import { DebaterType } from "../../types/debateType";
 import DebateListSkeleton from "../common/skeleton/debate/DebateListSkeleton";
 
 interface DebateListProps {
@@ -11,7 +10,6 @@ interface DebateListProps {
 }
 
 export default function DebateList({ debaters }: DebateListProps) {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,10 +21,9 @@ export default function DebateList({ debaters }: DebateListProps) {
   return (
     <div>
       {debaters.map((debater) => (
-        <div
+        <Link to={`/user-page/${debater.userId}`}
           key={debater.userId}
           className="border-b py-3 md:px-4 sm:px-0 w-full md:hidden"
-          onClick={() => navigate("/my-page")}
         >
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center gap-3 sm:gap-4 w-full md:w-1/3">
@@ -85,13 +82,13 @@ export default function DebateList({ debaters }: DebateListProps) {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
       {debaters.map((debater) => (
-        <div
+        <Link
+          to={`/user-page/${debater.userId}`}
           key={debater.userId}
           className="hidden md:flex items-center justify-between border-b py-3"
-          onClick={() => navigate("/my-page")}
         >
           <div className="flex items-center gap-4 w-1/3">
             <img
@@ -124,7 +121,7 @@ export default function DebateList({ debaters }: DebateListProps) {
               <span className="text-lg font-semibold">{debater.losses}</span>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

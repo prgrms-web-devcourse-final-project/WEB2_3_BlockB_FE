@@ -1,5 +1,5 @@
 import politics from "../../assets/icons/politics.svg";
-import { continentKR } from "../../constants";
+import { categoryKR, continentKR } from "../../constants";
 
 export default function CommonSimpleInfo({
   type,
@@ -11,9 +11,9 @@ export default function CommonSimpleInfo({
   return (
     <div className="flex justify-between w-full mb-[30px] max-md:flex-col">
       <div className="flex text-[16px] md:items-center max-md:flex-col">
-        <div className="w-[68px] h-7 mr-[18px] bg-blue01 text-white flex items-center justify-center rounded-[10px]">
+        <div className="w-[100px] h-7 mr-[18px] bg-blue01 text-white flex items-center justify-center rounded-[10px]">
           <span className="mr-1">
-            {"continent" in data ? continentKR[data.continent] : data.category}
+            {"continent" in data ? continentKR[data.continent] : categoryKR[data.category]}
           </span>
           {type === "debate" && <img src={politics} alt="정치 아이콘" />}
         </div>

@@ -31,7 +31,7 @@ export default function ObservingZone() {
   return (
     <div className="bg-[#070707] min-h-screen overflow-hidden">
       <Header status={headerStatus} />
-      <ReportModal />
+      <ReportModal  />
       {observingState === "waiting" && <ObserverWaitingRoom />}
       {observingState === "ongoing" && <ObserverOngoingRoom />}
       {observingState === "won-by-default" && <WinByDefault />}

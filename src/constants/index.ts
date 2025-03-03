@@ -1,29 +1,33 @@
+
 export const continentChecklist: ChecklistItem[] = [
-  { dbKey: "africa", key: "아프리카", isChecked: false },
-  { dbKey: "south_america", key: "남미", isChecked: false },
-  { dbKey: "asia", key: "아시아", isChecked: false },
-  { dbKey: "europe", key: "유럽", isChecked: false },
-  { dbKey: "oceania", key: "오세아니아", isChecked: false },
+  { dbKey: "AS", key: "아시아/호주", isChecked: false },
+  { dbKey: "AM", key: "미국/중남미", isChecked: false },
+  { dbKey: "EU", key: "유럽", isChecked: false },
+  { dbKey: "CN", key: "중국", isChecked: false },
+  { dbKey: "JP", key: "일본", isChecked: false },
+  { dbKey: "AF", key: "아프리카/중동", isChecked: false },
+  { dbKey: "KR", key: "국내", isChecked: false },
 ];
 
 export const categoryChecklist: ChecklistItem[] = [
-  { dbKey: "politics", key: "정치", isChecked: false },
-  { dbKey: "economy", key: "경제", isChecked: false },
-  { dbKey: "society", key: "사회", isChecked: false },
-  { dbKey: "culture", key: "문화/생활", isChecked: false },
-  { dbKey: "entertainment", key: "연예", isChecked: false },
-  { dbKey: "it_science", key: "IT/과학", isChecked: false },
-  { dbKey: "column", key: "칼럼", isChecked: false },
+  { dbKey: "PO", key: "정치", isChecked: false },
+  { dbKey: "EC", key: "경제", isChecked: false },
+  { dbKey: "SO", key: "사회", isChecked: false },
+  { dbKey: "CU", key: "문화/생활", isChecked: false },
+  { dbKey: "EN", key: "연예", isChecked: false },
+  { dbKey: "IT", key: "IT/과학", isChecked: false },
+  { dbKey: "CO", key: "칼럼", isChecked: false },
+  { dbKey: "ETC", key: "기타", isChecked: false },
 ];
 
 export const participantChecklist: ChecklistItem[] = [
-  { dbKey: 1, key: "1:1", isChecked: false },
-  { dbKey: 3, key: "3:3", isChecked: false },
+  { dbKey: "T1", key: "1:1", isChecked: false },
+  { dbKey: "T2", key: "3:3", isChecked: false },
 ];
 
 export const stanceChecklist: ChecklistItem[] = [
-  { dbKey: "pro", key: "찬성", isChecked: false },
-  { dbKey: "con", key: "반대", isChecked: false },
+  { dbKey: "PRO", key: "찬성", isChecked: false },
+  { dbKey: "CON", key: "반대", isChecked: false },
 ];
 
 export const hasVoteChecklist: ChecklistItem[] = [
@@ -141,12 +145,12 @@ switch (dates.getDay()) {
 }
 
 export const reportReasons: ChecklistItem[] = [
-  { dbKey: "obscenity", key: "음란성/선정성", isChecked: false },
-  { dbKey: "spam", key: "스팸/광고", isChecked: false },
-  { dbKey: "cuss", key: "욕설/인신공격", isChecked: false },
-  { dbKey: "flooding", key: "도배", isChecked: false },
-  { dbKey: "leakage", key: "개인정보 노출", isChecked: false },
-  { dbKey: "dodge", key: "사유 없는 탈주", isChecked: false },
+  { dbKey: "OBSCENITY", key: "음란성/선정성", isChecked: false },
+  { dbKey: "SPAM", key: "스팸/광고", isChecked: false },
+  { dbKey: "CUSS", key: "욕설/인신공격", isChecked: false },
+  { dbKey: "FLOODING", key: "도배", isChecked: false },
+  { dbKey: "LEAKAGE", key: "개인정보 노출", isChecked: false },
+  { dbKey: "DODGE", key: "사유 없는 탈주", isChecked: false },
 ];
 
 // 관리자 페이지
@@ -211,10 +215,23 @@ export const editOptions = [
 
 // TODO: 백엔드가 어떤 분류로 주는지 재확인
 export const continentKR:Record<string, string> = {
-  "CN": "중국",
-  "AS": "호주",
-  "JP": "일본",
+  "AS": "아시아/호주",
+  "AM": "미국/중남미",
   "EU": "유럽",
-  "AM": "미국",
-  "AF": "아프리카"
+  "CN": "중국",
+  "JP": "일본",
+  "AF": "아프리카/중동",
+  "KR": "국내"
+}
+
+export const categoryKR:Record<string, string> = {
+  "PO": "정치",
+  "EC": "경제",
+  "SO": "사회",
+  "CU": "문화",
+  "EN": "엔터",
+  "SP": "스포츠",
+  "IT": "IT/과학",
+  "CO": "칼럼",
+  "ETC": "기타",
 }

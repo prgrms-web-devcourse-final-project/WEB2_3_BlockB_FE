@@ -10,6 +10,8 @@ import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
 
+// TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
+
 export default function Header({ status }: { status: HeaderStatusType }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   if (status === "debate-ing") {
     return null;
   }
-
+  
   return (
     <>
       <div className="fixed top-0 w-full z-50">
@@ -87,7 +89,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   alt="알림"
                 />
               </button>
-              <Link to={`/user-page/${userId}`}>
+              <button onClick={()=> navigate(`/user-page/${userId}`)}>
                 <img
                   className="md:w-[35px] w-[16px] md:h-[35px] h-[16px] rounded-full"
                   src={
@@ -96,7 +98,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   }
                   alt="프로필 사진"
                 />
-              </Link>
+              </button>
               {isNotificationOpen && (
                 <NotificationList
                   status={status}
