@@ -6,17 +6,6 @@ import RoomActionButtons from "../RoomActionButtons";
 import { reportApi } from "../../../api/report";
 import { useReportModalStore } from "../../../stores/reportModalStore";
 
-// {
-//   targetNickname,
-//   targetUserId,
-//   targetType = "CHAT",
-//   roomId,
-// }: {
-//   targetNickname: string,
-//   targetUserId: number;
-//   targetType?: "PROFILE" | "CHAT";
-//   roomId?: number;
-// }
 export default function ReportModal() {
 
   const [reportReasons, setReportReasons] = useState(initialReportReasons);
@@ -39,7 +28,7 @@ export default function ReportModal() {
     const selectedReason = reportReasons.find((item) => item.isChecked);
     if (!selectedReason || !targetUserId) return;
 
-    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType || "CHAT", targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
+    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType, targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
     // if (targetType === "CHAT")
 
     closeModal()
