@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import RoomActionButtons from "./../RoomActionButtons";
+import RoomActionButtons from "../debate-zone/RoomActionButtons";
 
 export default function ExitModal({
   setIsExitModalOpen,

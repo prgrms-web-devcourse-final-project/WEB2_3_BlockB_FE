@@ -6,7 +6,7 @@ import AudienceCard from "../AudienceCard";
 import profile from "../../../assets/icons/profile-white.svg"
 import exit from "../../../assets/icons/exit.svg"
 import Counter from "../ongoing-debate/Counter";
-import ExitModal from "../ongoing-debate/ExitModal";
+import ExitModal from "../../common/ExitModal";
 
 export default function ObserverMobileChatMenu() {
     const [turnCount] = useState(10)

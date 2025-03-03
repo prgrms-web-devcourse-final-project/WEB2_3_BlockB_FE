@@ -6,7 +6,7 @@ import ParticipantBox from "../ParticipantBox";
 import AudienceCard from "../AudienceCard";
 import profile from "../../../assets/icons/profile-white.svg";
 import exit from "../../../assets/icons/exit.svg";
-import ExitModal from "./ExitModal";
+import ExitModal from "../../common/ExitModal";
 
 export default function MobileChatMenu() {
   const { roomSettings } = useRoomStore();

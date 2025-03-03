@@ -13,6 +13,8 @@ import useNewsInfoParams from "../hooks/useNewsInfoParams";
 import Header from "../components/common/Header";
 
 export default function GeneratingRoom() {
+
+    const navigate = useNavigate()
   const containerRef = useRef<HTMLDivElement>(null);
   useSlideUpAnimation(containerRef);
   
@@ -48,47 +50,56 @@ export default function GeneratingRoom() {
   }, [checkedStates]);
 
   const WS_URL = import.meta.env.VITE_WS_URL;
-  const connectWithWebSocket = (roomId: number) => {
+  const connectWithWebSocket = (roomId: string) => {
     const socket = new WebSocket(`${WS_URL}/topic/debate/${roomId}`);
     socket.onopen = () => console.log("웹소켓 연결 성공!");
     socket.onerror = (error) => console.log("웹소켓 연결 실패:", error);
   }
 
-  const onClickCreateBtn = async () => {
+  const makeNewRoom = async () => {
     const initialRoomInfos: RoomInfoRequest = {
-      newsId: Number(newsId),
-      title: roomSettings.title!,
-      description: roomSettings.description!,
-      memberNumber: roomSettings.memberNumber!,
-      continent: roomSettings.continent!,
-      category: roomSettings.category!,
-      time: timeMap[roomSettings.time!],
-      speakCount: speakCountMap[roomSettings.speakCount!],
-      resultEnabled: roomSettings.hasVote!,
-      endTime: "2025-03-01T14:26:54.983Z",
-      ...(generatingType === "fromNews" && {
-        news: {
-          createdAt: "2025-03-01T14:07:46.401Z",
-          updatedAt: "2025-03-01T14:07:46.401Z",
-          id: Number(newsId),
-          title: newsTitle!,
-          content: "내용",
-          link: "string",
-          imgUrl: "string",
-          newsType: "JOONGANG",
-          continent: continent,
-          deliveryTime: "2025-03-01T14:07:46.401Z",
-        },
-      }),
-    };
-  
-    const roomIdResponse = await debateRoomApi.generateDebateRoom(initialRoomInfos);
-    connectWithWebSocket(roomIdResponse.data);
-    navigate(`/debate-zone/${roomIdResponse.data}`);
-  };
+        newsId: Number(newsId),
+        title: roomSettings.title!,
+        description: roomSettings.description!,
+        memberNumber: roomSettings.memberNumber!,
+        continent: roomSettings.continent!,
+        category: roomSettings.category!,
+        time: timeMap[roomSettings.time!],
+        speakCount: speakCountMap[roomSettings.speakCount!],
+        resultEnabled: roomSettings.hasVote!,
+        endTime: "2025-03-01T14:26:54.983Z",
+        ...(generatingType === "fromNews" && {
+          news: {
+            createdAt: "2025-03-01T14:07:46.401Z",
+            updatedAt: "2025-03-01T14:07:46.401Z",
+            id: Number(newsId),
+            title: newsTitle!,
+            content: "내용",
+            link: "string",
+            imgUrl: "string",
+            newsType: "JOONGANG",
+            continent: continent,
+            deliveryTime: "2025-03-01T14:07:46.401Z",
+          },
+        }),
+      };
+    
+      const roomIdResponse : {
+        "status": string,
+        "message": string,
+        "data": string
+      } = await debateRoomApi.generateDebateRoom(initialRoomInfos);
+      console.log(roomIdResponse)
+      return roomIdResponse.data
+  }
   
 
-  const navigate = useNavigate()
+  const onClickCreateBtn = async () => {
+    const roomId = await makeNewRoom();
+    connectWithWebSocket(roomId);
+    navigate(`/debate-zone/${roomId}`);
+  };
+  
   return (
     <div className="bg-[#070707] min-h-screen overflow-hidden">
     <Header status="debate-waiting" />

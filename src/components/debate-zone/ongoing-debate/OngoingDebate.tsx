@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import AudienceCard from "./../AudienceCard";
 import ChatWindow from "./ChatWindow";
 import Counter from "./Counter";
-import ExitModal from "./ExitModal";
+import ExitModal from "../../common/ExitModal";
 import ParticipantBox from "../ParticipantBox";
 import exit from "../../../assets/icons/exit.svg";
 import profile from "../../../assets/icons/profile.svg";

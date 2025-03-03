@@ -1,5 +1,5 @@
 import AudienceList from "./AudienceList";
-import ExitModal from "../ongoing-debate/ExitModal";
+import ExitModal from "../../common/ExitModal";
 import ObserverChatWindow from "./ObserverChatWindow";
 import exit from "../../../assets/icons/exit.svg";
 // import { useObservingStore } from "../../../stores/observingStateStore";

@@ -54,8 +54,8 @@ function App() {
           <Route path="/debate-rooms" element={<DebateRooms />} />
           <Route path="/debaters" element={<Debaters />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/user-page/:userId" element={<UserPage />} />
           <Route path="/profile-update" element={<ProfileUpdate />} />
+          <Route path="/user-page/:userId" element={<UserPage />} />
           <Route path="/debate-zone/new-debate" element={<GeneratingRoom />} />
           <Route path="/debate-zone/:roomId" element={<DebateZone />} />
           <Route path="/observing-zone" element={<ObservingZone />} />

@@ -7,6 +7,7 @@ import NewsTab from "../components/user-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
 import { userApi } from "../api/user";
 import { useUserStore } from "../stores/userStore";
+import usePreventDoubleClick from "../hooks/usePreventDoubleClick";
 
 export default function UserPage() {
   const [tab, setTab] = useState("news");
@@ -41,8 +42,9 @@ export default function UserPage() {
     action === "delete"? await userApi.deleteFollower(targetUserId) : await userApi.insertFollower(targetUserId)
   }
 
+  const handleClickFollowWithPrevent = usePreventDoubleClick<(id: number, action: "delete" | "follow")=>void>(handleFollow, 300);
   const toggleFollow = async () => {
-    isFollowed? handleFollow(Number(userId), "delete") : handleFollow(Number(userId), "follow") 
+    isFollowed? handleClickFollowWithPrevent(Number(userId), "delete") : handleClickFollowWithPrevent(Number(userId), "follow") 
     setFollowing(!isFollowed)
   }
 
