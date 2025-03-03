@@ -8,11 +8,12 @@ import { newsAPI } from "../api/news";
 export default function Main() {
   const [tab, setTeab] = useState(true);
   const [newses, setNewses] = useState<NewsType[]>([]);
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     const fetchNewsTop10 = async () => {
       try {
         const newsTop10Results = await newsAPI.getNewsTop10();
+        await setIsLoading(false);
         setNewses(newsTop10Results.data);
       } catch (error) {
         console.error("Error fetching news:", error);
@@ -92,7 +93,7 @@ export default function Main() {
             </div>
           </div>
 
-          <NewsSimpleInfos datas={newses} tab={tab} />
+          <NewsSimpleInfos datas={newses} tab={tab} isLoading={isLoading} />
 
           <DebateSimpleInfos
             tab={tab}

@@ -61,7 +61,7 @@ export default {
         fadeSlideOut: {
           "0%": { opacity: "1", transform: "translateX(0)" },
           "100%": { opacity: "0", transform: "translateX(20%)" },
-        }
+        },
       },
       animation: {
         "ping-long": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
@@ -69,7 +69,7 @@ export default {
         "slide-up": "slideUp 2s ease-in-out",
         "slide-up-fast": "slideUp 1s ease-in-out",
         "fade-scale": "fadeScale 0.3s ease-out",
-        spin: 'spin 3s linear infinite',
+        spin: "spin 3s linear infinite",
         flip: "flip 0.7s ease-out",
         slideIn: "slideIn 0.3s ease-out forwards",
         slideOut: "slideOut 0.3s ease-in forwards",
