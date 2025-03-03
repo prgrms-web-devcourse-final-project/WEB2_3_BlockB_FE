@@ -235,3 +235,15 @@ export const categoryKR:Record<string, string> = {
   "CO": "칼럼",
   "ETC": "기타",
 }
+
+export const timeMap: Record<number, Time> = {  30: "T3", 40: "T4", 50: "T5", 60: "T6", 90: "T9", 120: "T12", 150: "T15"};
+export const speakCountMap: Record<number, SpeakCount> = {
+  3: "THREE",
+  4: "FOUR",
+  5: "FIVE",
+  6: "SIX",
+  7: "SEVEN",
+  8: "EIGHT",
+  9: "NINE",
+  10: "TEN",
+};
