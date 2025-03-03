@@ -11,7 +11,6 @@ export const axiosInstance = axios.create({
   },
 });
 
-// 요청 인터셉터: accessToken을 자동으로 Authorization 헤더에 추가
 axiosInstance.interceptors.request.use(
   (config) => {
     const { accessToken } = useAuthStore.getState();

@@ -1,6 +1,6 @@
 import "./css/index.css";
 import { Route, Routes } from "react-router";
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Admin from "./pages/Admin";
 import DebateRooms from "./pages/DebateRooms";
 import DebateZone from "./pages/DebateZone";
@@ -21,7 +21,9 @@ import PrivateRoute from "./layouts/PrivateRoute";
 import PublicRoute from "./layouts/PublicRoute";
 
 function App() {
+  const queryClient = new QueryClient();
   return (
+    <QueryClientProvider client={queryClient}> 
     <Routes>
       <Route element={<RootLayout />}>
         {/* 로그인하지 않은 상태에서만 접근 가능 */}
@@ -56,10 +58,10 @@ function App() {
           <Route path="/debate-zone" element={<DebateZone />} />
           <Route path="/observing-zone" element={<ObservingZone />} />
         </Route>
-
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
+    </QueryClientProvider>
   );
 }
 
