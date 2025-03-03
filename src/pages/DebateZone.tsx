@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-
-import GeneratingRoom from "../components/debate-zone/generating-room/GeneratingRoom";
 import Header from "../components/common/Header";
 import OngoingDebate from "../components/debate-zone/ongoing-debate/OngoingDebate";
 import ReplayDebate from "../components/debate-zone/ReplayDebate";
@@ -29,7 +27,6 @@ export default function DebateZone() {
     <div className="bg-[#070707] min-h-screen overflow-hidden">
       <Header status={headerStatus} />
       <ReportModal />
-      {roomState === "generating" && <GeneratingRoom />}
       {roomState === "waiting" && <WaitingRoom />}
       {roomState === "ongoing" && <OngoingDebate />}
       {roomState === "won-by-default" && <WinByDefault />}

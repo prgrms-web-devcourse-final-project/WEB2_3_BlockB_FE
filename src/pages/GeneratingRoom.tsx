@@ -1,27 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import link from "../../../assets/icons/link.svg";
-import { useRoomStore } from "../../../stores/roomStateStore";
-import RoomActionButtons from "./../RoomActionButtons";
-import CheckBoxGroups from "./CheckBoxGroups";
-import ProgressIndicator from "./ProgressIndicator";
-import RoomInputCard from "./RoomInputCard";
-import { debateRoomApi } from "../../../api/debatezone";
-import { speakCountMap, timeMap } from "../../../constants";
-import useSlideUpAnimation from "../../../hooks/useSlideUpAnimation";
-import useNewsInfoParams from "../../../hooks/useNewsInfoParams";
+import link from "../assets/icons/link.svg"
+import { useRoomStore } from "../stores/roomStateStore";
+import RoomActionButtons from "../components/debate-zone/RoomActionButtons";
+import CheckBoxGroups from "../components/debate-zone/generating-room/CheckBoxGroups";
+import ProgressIndicator from "../components/debate-zone/generating-room/ProgressIndicator";
+import { debateRoomApi } from "../api/debatezone";
+import RoomInputCard from "../components/debate-zone/generating-room/RoomInputCard";
+import { speakCountMap, timeMap } from "../constants";
+import useSlideUpAnimation from "../hooks/useSlideUpAnimation";
+import useNewsInfoParams from "../hooks/useNewsInfoParams";
+import Header from "../components/common/Header";
 
 export default function GeneratingRoom() {
   const containerRef = useRef<HTMLDivElement>(null);
   useSlideUpAnimation(containerRef);
   
-  const { setRoomSettings, roomSettings, setRoomState } = useRoomStore();
+  const { setRoomSettings, roomSettings } = useRoomStore();
   
   const { newsId, continent, newsTitle, generatingType, moveToLinkedNews } = useNewsInfoParams();
   useEffect(() => {
     if (generatingType === 'fromNews') {
       setRoomSettings('continent', continent);
       setRoomSettings('link', `/news/${newsId}`);
+      setCheckedStates(prevCheckedStates => ({
+        ...prevCheckedStates,
+        continent: true,
+      }));
     }
   }, [generatingType, continent, newsId, setRoomSettings]);
   
@@ -50,21 +55,9 @@ export default function GeneratingRoom() {
   }
 
   const onClickCreateBtn = async () => {
-    const initialRoomInfos:RoomInfoRequest = {
+    const initialRoomInfos: RoomInfoRequest = {
       newsId: Number(newsId),
       title: roomSettings.title!,
-      news: {
-        createdAt: "2025-03-01T14:07:46.401Z",
-        updatedAt: "2025-03-01T14:07:46.401Z",
-        id: Number(newsId),
-        title: newsTitle!,
-        content: "내용",
-        link: "string",
-        imgUrl: "string",
-        newsType: "JOONGANG",
-        continent: continent,
-        deliveryTime: "2025-03-01T14:07:46.401Z",
-      },
       description: roomSettings.description!,
       memberNumber: roomSettings.memberNumber!,
       continent: roomSettings.continent!,
@@ -72,16 +65,33 @@ export default function GeneratingRoom() {
       time: timeMap[roomSettings.time!],
       speakCount: speakCountMap[roomSettings.speakCount!],
       resultEnabled: roomSettings.hasVote!,
-      endTime: "2025-03-01T14:26:54.983Z"
+      endTime: "2025-03-01T14:26:54.983Z",
+      ...(generatingType === "fromNews" && {
+        news: {
+          createdAt: "2025-03-01T14:07:46.401Z",
+          updatedAt: "2025-03-01T14:07:46.401Z",
+          id: Number(newsId),
+          title: newsTitle!,
+          content: "내용",
+          link: "string",
+          imgUrl: "string",
+          newsType: "JOONGANG",
+          continent: continent,
+          deliveryTime: "2025-03-01T14:07:46.401Z",
+        },
+      }),
     };
-
+  
     const roomIdResponse = await debateRoomApi.generateDebateRoom(initialRoomInfos);
-    connectWithWebSocket(roomIdResponse.data)
-    setRoomState("waiting");
+    connectWithWebSocket(roomIdResponse.data);
+    navigate(`/debate-zone/${roomIdResponse.data}`);
   };
+  
 
   const navigate = useNavigate()
   return (
+    <div className="bg-[#070707] min-h-screen overflow-hidden">
+    <Header status="debate-waiting" />
     <div className="flex justify-center item-center md:min-h-screen">
       <div
         ref={containerRef}
@@ -127,6 +137,7 @@ export default function GeneratingRoom() {
         </div>
       </div>
       
+    </div>
     </div>
   );
 }
