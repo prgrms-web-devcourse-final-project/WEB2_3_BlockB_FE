@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Category from "../components/news/category";
+import Category from "../components/news/Category";
 import bookmark from "../assets/icons/bookmark.svg";
 import bookmarked from "../assets/icons/bookmarked.svg";
 import like from "../assets/icons/like.svg";
