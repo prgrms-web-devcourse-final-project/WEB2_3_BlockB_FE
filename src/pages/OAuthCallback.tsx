@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
 import { useUserStore } from "../stores/userStore";
 import axios from "axios";
-
+import { handleAllowNotification } from "../utils/firebase/notificationPermission";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function OAuthCallback() {
@@ -54,7 +54,7 @@ export default function OAuthCallback() {
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
         setUser({ userId: userId, nickname, profileUrl: imgUrl, role });
-
+        handleAllowNotification(userId);
         navigate("/main", { replace: true });
       })
       .catch((err) => {
