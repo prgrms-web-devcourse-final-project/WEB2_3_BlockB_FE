@@ -6,16 +6,18 @@ import ParticipantBox from "../ParticipantBox";
 import AudienceCard from "../AudienceCard";
 import profile from "../../../assets/icons/profile-white.svg";
 import exit from "../../../assets/icons/exit.svg";
-import ExitModal from "../../common/ExitModal";
+import ExitModal from "../../common/Modal";
+import { useModalStore } from "../../../stores/useModal";
+import { useNavigate } from "react-router";
 
 export default function MobileChatMenu() {
   const { roomSettings } = useRoomStore();
-  const [turnCount] = useState(roomSettings.turn!);
+  const [turnCount] = useState(roomSettings.speakCount!);
   const timerRef = useRef(roomSettings.time!);
 
   const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false);
-  const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -32,10 +34,19 @@ export default function MobileChatMenu() {
     };
   }, [isSidebarOpen]);
 
+  const navigate = useNavigate();
+  const openModal = useModalStore((state) => state.openModal);
+
+  const handleExitClick = () => {
+    openModal('정말로 나가시겠습니까?', () => {
+      navigate('/main');
+    });
+  };
+
   return (
     <div className="md:hidden flex justify-between items-center relative px-2 py-3 h-10">
       {/* 나가기 모달 */}
-      {isExitModalOpen && <ExitModal setIsExitModalOpen={setIsExitModalOpen} />}
+      <ExitModal />
       <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">
         <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
         <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />
@@ -51,7 +62,7 @@ export default function MobileChatMenu() {
     ${isSidebarOpen ? "animate-slideIn" : "animate-slideOut"}`}
         >
           <div className="flex justify-end">
-            <button onClick={() => setIsExitModalOpen(true)}>
+            <button onClick={handleExitClick}>
               <img src={exit} alt="나가기 버튼" />
             </button>
           </div>

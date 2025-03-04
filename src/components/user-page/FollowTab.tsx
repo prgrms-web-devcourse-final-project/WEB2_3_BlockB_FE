@@ -6,6 +6,8 @@ import { userApi } from "../../api/user";
 import { useNavigate, useParams } from "react-router";
 import ReportModal from "../debate-zone/ongoing-debate/ReportModal";
 import { useReportModalStore } from "../../stores/reportModalStore";
+import { useModalStore } from "../../stores/useModal";
+import Modal from "../common/Modal";
 
 
 export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab: string, user: UserInfo | null, isFollowed: boolean, handleFollow: (id: number, action: "delete" | "follow")=>void}) {
@@ -66,6 +68,8 @@ export default function FollowTab({ tab, user, isFollowed, handleFollow }: { tab
         tab === "follow" ? "" : "hidden"
       } flex max-md:justify-center`}
     >
+      <Modal />
+      <ReportModal/>
       <div className="w-full max-md:w-80">
         <div className="flex text-[20px]  mb-[30px] font-pretendard ">
           <button
@@ -130,7 +134,7 @@ function ProfileSimpleInfo({
             setIsCurrentPageMine(currentUserInfoResponse.data.id === Number(userId));
         };
         checkCurrentPageIsMine();
-    }, [isFollowerTabed]);
+    }, [isFollowerTabed, profile]);
 
     // 타입 가드
     const isFollower = (profile: Profile): profile is Follower => {
@@ -140,22 +144,35 @@ function ProfileSimpleInfo({
     const profileId = isFollower(profile) ? profile.followerId : profile.followeeId;
 
     // 신고모달 열기
-    const { openModal } = useReportModalStore();
+    const { openModal: openReportModal } = useReportModalStore();
+    const {openModal: openUnfollowModal} = useModalStore()
 
     const handleOpenReportModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.stopPropagation()
-      openModal({
+      openReportModal({
         targetNickname: profile.nickname,
         targetUserId: profileId,
         targetType: "PROFILE",
         roomId: null,
       });
     };
+
+    const handleOpenUnfollowModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      openUnfollowModal('정말로 삭제하시겠습니까?', () => {
+        deleteFollowing(profileId);
+      });
+    };
+    
+    
+    const onClickProfileCard = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      navigate(`/user-page/${profileId}`)
+    }
   
 
     return (
-        <div onClick={()=> navigate(`/user-page/${profileId}`)} className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
-            <ReportModal/>
+        <div onClick={onClickProfileCard} className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2">
             <div className="flex items-center">
                 <img
                     src={profile.profile}
@@ -171,7 +188,7 @@ function ProfileSimpleInfo({
             <div className="flex items-center">
                 {isCurrentPageMine && !isFollowerTabed && (
                     <button
-                        onClick={(e) => {e.stopPropagation(); deleteFollowing(profileId)}}
+                        onClick={handleOpenUnfollowModal}
                         className="rounded-[5px] bg-gray02 w-12 h-5 justify-center flex mr-2"
                     >
                         삭제

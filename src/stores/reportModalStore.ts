@@ -1,16 +1,16 @@
 import { create } from 'zustand';
 
-interface ModalState {
+interface ReportModalState {
   isOpen: boolean;
   targetNickname: string;
   targetUserId: number | null;
   targetType: 'PROFILE' | 'CHAT';
   roomId: number | null;
-  openModal: (data: Omit<ModalState, 'isOpen' | 'openModal' | 'closeModal'>) => void;
+  openModal: (data: Omit<ReportModalState, 'isOpen' | 'openModal' | 'closeModal'>) => void;
   closeModal: () => void;
 }
 
-export const useReportModalStore = create<ModalState>((set) => ({
+export const useReportModalStore = create<ReportModalState>((set) => ({
   isOpen: false,
   targetNickname: '',
   targetUserId: null,

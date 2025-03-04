@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import AudienceCard from "./../AudienceCard";
 import ChatWindow from "./ChatWindow";
 import Counter from "./Counter";
-import ExitModal from "../../common/ExitModal";
+import ExitModal from "../../common/Modal";
 import ParticipantBox from "../ParticipantBox";
 import exit from "../../../assets/icons/exit.svg";
 import profile from "../../../assets/icons/profile.svg";
 import { useRoomStore } from "../../../stores/roomStateStore";
+import { useNavigate } from "react-router";
+import { useModalStore } from "../../../stores/useModal";
 
 export default function OngoingDebate() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +22,16 @@ export default function OngoingDebate() {
   const { roomSettings, setRoomState } = useRoomStore();
   const [turnCount] = useState(roomSettings.speakCount!);
   const timerRef = useRef(roomSettings.time!)
-  const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+  const openModal = useModalStore((state) => state.openModal);
+
+  const handleExitClick = () => {
+    openModal('정말로 나가시겠습니까?', () => {
+      navigate('/main');
+    });
+  };
+  
   
   useEffect(()=> {
     console.log("턴 카운트",turnCount, timerRef.current)
@@ -38,9 +49,7 @@ export default function OngoingDebate() {
           className="flex justify-between md:min-h-screen h-screen items-center
         md:gap-[20px] md:px-10"
         >
-          {isExitModalOpen && (
-            <ExitModal setIsExitModalOpen={setIsExitModalOpen} />
-          )}
+          <ExitModal />
           <div className="h-[728.4px] md:pt-[160px] lg:pt-[116px]  md:block hidden">
             <ParticipantBox
               label="PROS"
@@ -73,9 +82,7 @@ export default function OngoingDebate() {
               </section>
               <div className="flex justify-end">
                 <button
-                  onClick={() => {
-                    setIsExitModalOpen(true);
-                  }}
+                  onClick={handleExitClick}
                 >
                   <img src={exit} alt="토론방 나가기" />
                 </button>
