@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-query": "^5.66.11",
     "axios": "^1.7.9",
@@ -18,6 +19,7 @@
     "react-dom": "^19.0.0",
     "react-router": "^7.1.5",
     "react-router-dom": "^7.1.5",
+    "sockjs-client": "^1.6.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -26,6 +28,7 @@
     "@types/gsap": "^3.0.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/sockjs-client": "^1.5.4",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.19.0",

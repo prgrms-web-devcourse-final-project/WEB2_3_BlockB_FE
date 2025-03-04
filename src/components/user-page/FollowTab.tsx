@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePagination } from "../../hooks/usePagenation";
 import Pagination from "../common/Pagenation";
 import kebab from "../../assets/icons/kebab-menu-icon.svg";
@@ -143,7 +143,7 @@ function ProfileSimpleInfo({
 
     const profileId = isFollower(profile) ? profile.followerId : profile.followeeId;
 
-    // 신고모달 열기
+    // 모달 열기
     const { openModal: openReportModal } = useReportModalStore();
     const {openModal: openUnfollowModal} = useModalStore()
 

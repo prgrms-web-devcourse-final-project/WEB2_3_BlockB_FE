@@ -28,7 +28,7 @@ export default function ReportModal() {
     const selectedReason = reportReasons.find((item) => item.isChecked);
     if (!selectedReason || !targetUserId) return;
 
-    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType, targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
+    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType, targetRoomId: null, content: description, reportType: selectedReason.dbKey as string})
     // if (targetType === "CHAT")
 
     closeModal()

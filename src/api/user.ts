@@ -13,11 +13,23 @@ const fetchMyProfile = async () => {
 
 // 프로필 수정
 const updateUserProfile = async (userId: number, data: ProfileUpdate) => {
+  const formData = new FormData();
+
+  if (data.file) formData.append("file", data.file);
+
   try {
     const response = await axiosInstance.put(
       `/api/users/mypage/${userId}`,
-      null,
-      { params: data }
+      formData, // Request body
+      {
+        params: {
+          nickname: data.nickname, // Query parameter
+          introduction: data.introduction, // Query parameter
+        },
+        headers: {
+          "Content-Type": "multipart/form-data", // Set the correct content type
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -25,7 +37,6 @@ const updateUserProfile = async (userId: number, data: ProfileUpdate) => {
     throw error;
   }
 };
-
 // 유저 프로필
 const fetchUserProfile = async (userId: number) => {
   try {
