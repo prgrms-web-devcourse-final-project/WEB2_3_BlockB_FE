@@ -56,4 +56,4 @@ type ArchivedDebate = {
   "isParticipant": boolean
 }
 
-type ProfileUpdate = {nickname?: string | null, introduction?: string | null, file?: string | null}
+type ProfileUpdate = {nickname?: string | null, introduction?: string | null, file?: File | string | null}

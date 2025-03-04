@@ -50,6 +50,7 @@ export default function GeneratingRoom() {
   useEffect(() => {
     const allChecked = Object.values(checkedStates).every(Boolean);
     setHasCompleted(allChecked);
+    console.log(checkedStates)
   }, [checkedStates]);
 
   const connectWithWebSocket = (roomId: string) => {
@@ -93,52 +94,36 @@ export default function GeneratingRoom() {
     stompClient.activate();
   };
 
+
+
   const makeNewRoom = async () => {
     const initialRoomInfos: RoomInfoRequest = {
-      newsId: Number(newsId),
       title: roomSettings.title!,
       description: roomSettings.description!,
       memberNumber: roomSettings.memberNumber!,
-      continent: roomSettings.continent!,
       category: roomSettings.category!,
       time: timeMap[roomSettings.time!],
+      continent: roomSettings.continent!,
       speakCount: speakCountMap[roomSettings.speakCount!],
       resultEnabled: roomSettings.hasVote!,
-      endTime: "2025-03-01T14:26:54.983Z",
-      ...(generatingType === "fromNews" && {
-        news: {
-          createdAt: "2025-03-01T14:07:46.401Z",
-          updatedAt: "2025-03-01T14:07:46.401Z",
-          id: Number(newsId),
-          title: newsTitle!,
-          content: "내용",
-          link: "string",
-          imgUrl: "string",
-          newsType: "JOONGANG",
-          continent: continent,
-          deliveryTime: "2025-03-01T14:07:46.401Z",
-        },
-      }),
     };
-
-    const roomIdResponse: {
-      status: string;
-      message: string;
-      data: string;
-    } = await debateRoomApi.generateDebateRoom(initialRoomInfos);
-    console.log("방 생성 응답:", roomIdResponse); 
+  
+    if (generatingType === "fromNews" && newsId) {
+      initialRoomInfos.newsId = Number(newsId);
+      initialRoomInfos.newsUrl = `/news/${newsId}`;
+    }
+  
+    const roomIdResponse = await debateRoomApi.generateDebateRoom(initialRoomInfos);
+    console.log("방 생성 응답:", roomIdResponse);
     return roomIdResponse.data;
   };
+  
 
   const onClickCreateBtn = async () => {
-    try {
       const roomId = await makeNewRoom();
       console.log("방 ID:", roomId); 
       connectWithWebSocket(roomId);
-      navigate(`/debate-zone/${roomId}`);
-    } catch (error) {
-      console.error("방 생성 또는 웹소켓 연결 실패:", error);
-    }
+      navigate(`/debate-zone/${roomId}`);    
   };
 
   return (

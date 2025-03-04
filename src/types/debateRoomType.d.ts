@@ -130,7 +130,8 @@ type NewsLinkDetail = {
 };
 
 type RoomInfoRequest = {
-  newsId: number;
+  newsId?: number;
+  newsUrl?: string,
   title: string;
   news?: NewsLinkDetail;
   description: string;
