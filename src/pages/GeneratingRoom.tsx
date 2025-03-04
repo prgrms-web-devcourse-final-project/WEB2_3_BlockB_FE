@@ -12,7 +12,7 @@ import useSlideUpAnimation from "../hooks/useSlideUpAnimation";
 import useNewsInfoParams from "../hooks/useNewsInfoParams";
 import Header from "../components/common/Header";
 import SockJS from "sockjs-client";
-import { Client, Frame, IMessage } from "@stomp/stompjs";
+// import { Client, Frame, IMessage } from "@stomp/stompjs";
 
 export default function GeneratingRoom() {
   const navigate = useNavigate();
@@ -53,45 +53,59 @@ export default function GeneratingRoom() {
     console.log(checkedStates)
   }, [checkedStates]);
 
+
   const connectWithWebSocket = (roomId: string) => {
     const WS_URL = import.meta.env.VITE_WS_URL;
     console.log("WebSocket URL:", WS_URL); 
 
-    const socket = new SockJS(`${WS_URL}`);
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-      debug: (str) => {
-        console.log("STOMP Debug:", str);
-      },
-      reconnectDelay: 1000, 
-      heartbeatIncoming: 1000,
-      heartbeatOutgoing: 1000,
-      onConnect: (frame: Frame) => {
-        console.log("웹소켓 연결 성공!", frame); 
-        stompClient.subscribe(`/topic/debate/${roomId}`, (message: IMessage) => {
-          console.log("메시지 수신:", message.body); 
-        });
+    const socket = new SockJS(`${WS_URL}/debate/${roomId}`);
+    socket.onopen = () => {
+      console.log(":흰색_확인_표시: SockJS 연결 성공!");
+      socket.send(JSON.stringify({ message: "Hello, SockJS Server!" }));
+    };
+    socket.onmessage = (e) => {
+      console.log(":화살표가_있는_봉투: 메시지 수신:", e.data);
+    };
+    socket.onerror = (err) => {
+      console.error(":x: SockJS 연결 오류:", err);
+    };
+    socket.onclose = () => {
+      console.log(":빨간색_원: SockJS 연결 종료됨");
+    };
+    // const stompClient = new Client({
+    //   webSocketFactory: () => socket,
+    //   debug: (str) => {
+    //     console.log("STOMP Debug:", str);
+    //   },
+    //   reconnectDelay: 1000, 
+    //   heartbeatIncoming: 1000,
+    //   heartbeatOutgoing: 1000,
+    //   onConnect: (frame: Frame) => {
+    //     console.log("웹소켓 연결 성공!", frame); 
+    //     stompClient.subscribe(`/topic/debate/${roomId}`, (message: IMessage) => {
+    //       console.log("메시지 수신:", message.body); 
+    //     });
 
-        stompClient.publish({
-          destination: `/app/debate/${roomId}`,
-          body: JSON.stringify({ message: "Hello, WebSocket!" }),
-        });
-      },
-      onStompError: (frame: Frame) => {
-        console.error("STOMP 오류:", frame);
-      },
-      onDisconnect: (frame: Frame) => {
-        console.log("웹소켓 연결 해제됨", frame);
-      },
-      onWebSocketClose: (event: CloseEvent) => {
-        console.log("WebSocket 연결 종료됨", event);
-      },
-      onWebSocketError: (event: Event) => {
-        console.error("WebSocket 오류:", event);
-      },
-    });
+    //     stompClient.publish({
+    //       destination: `/app/debate/${roomId}`,
+    //       body: JSON.stringify({ message: "Hello, WebSocket!" }),
+    //     });
+    //   },
+    //   onStompError: (frame: Frame) => {
+    //     console.error("STOMP 오류:", frame);
+    //   },
+    //   onDisconnect: (frame: Frame) => {
+    //     console.log("웹소켓 연결 해제됨", frame);
+    //   },
+    //   onWebSocketClose: (event: CloseEvent) => {
+    //     console.log("WebSocket 연결 종료됨", event);
+    //   },
+    //   onWebSocketError: (event: Event) => {
+    //     console.error("WebSocket 오류:", event);
+    //   },
+    // });
 
-    stompClient.activate();
+    // stompClient.activate();
   };
 
 
