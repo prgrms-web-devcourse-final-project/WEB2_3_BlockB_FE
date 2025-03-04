@@ -57,11 +57,14 @@ export default function NewsList({
 
       {hasMore && (
         <div
-          className="w-full h-20 mt-10 border border-black border-solid"
+          className="flex items-center justify-center w-full h-20 mt-10"
           ref={loadMoreRef}
         >
-          <button className="w-full h-full" onClick={loadMore}>
-            더보기
+          <button
+            className="border border-gray04 border-solid rounded-lg w-56 text-[20px] font-jersey bg-gray02 shadow-lg shadow-gray-500/50 transform scale-105  transition-all duration-200 hover:scale-110"
+            onClick={loadMore}
+          >
+            SHOW MORE RESULTS
           </button>
         </div>
       )}
