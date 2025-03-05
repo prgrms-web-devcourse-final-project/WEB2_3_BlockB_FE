@@ -59,11 +59,11 @@ export default function DebateTab({ tab, user }: { tab: string, user: UserInfo |
             종료
           </button>
         </div>
-        <div>
+        {paginatedBody.length > 0 ? <div>
           {paginatedBody.map((debate) => (
             <CommonSimpleInfo type="debate" data={debate} />
           ))}
-        </div>
+        </div> : <div className="h-100 text-gray01">저장된 토론방이 없습니다</div>}
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}

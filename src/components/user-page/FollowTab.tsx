@@ -103,7 +103,7 @@ export default function FollowTab({
             팔로잉 {followees.length || 0}명
           </button>
         </div>
-        <div className="grid  md:grid-cols-2 gap-[20px] ">
+        {paginatedBody.length > 0 ? <div className="grid  md:grid-cols-2 gap-[20px] ">
           {paginatedBody.map((profile, index) => (
             <ProfileSimpleInfo
               key={index}
@@ -112,7 +112,7 @@ export default function FollowTab({
               deleteFollowing={deleteFollowing}
             />
           ))}
-        </div>
+        </div> :<div className="h-100 text-gray01">팔로우 내역이 없습니다</div>}
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
@@ -204,7 +204,7 @@ function ProfileSimpleInfo({
         {isCurrentPageMine && !isFollowerTabed && (
           <button
             onClick={handleOpenUnfollowModal}
-            className="rounded-[5px] bg-gray02 w-12 h-5 justify-center flex mr-2"
+            className="rounded-[5px] bg-gray02 text-gray01 w-12 h-6 justify-center flex mr-2"
           >
             삭제
           </button>
