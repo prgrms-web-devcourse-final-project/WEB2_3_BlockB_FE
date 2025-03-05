@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkNickname, signup } from "../api/signup";
+import { useAuthStore } from "../stores/authStore";
 import logo from "../assets/icons/logo.svg";
 import Footer from "../components/common/Footer";
 import loading from "../assets/icons/loading.svg";
+import useDebounce from "../hooks/useDebounce";
 
 export default function Signup() {
   const [isNicknameUniqueable, setIsNicknameUniqueable] =
@@ -14,9 +16,12 @@ export default function Signup() {
   const [nicknameError, setNicknameError] = useState<string | null>(null);
   const [showSuccessIcon, setShowSuccessIcon] = useState<boolean>(false);
   const navigate = useNavigate();
+  const setIsNewUser = useAuthStore((state) => state.setIsNewUser);
+
+  const debouncedNickname = useDebounce(inputNickname, 500);
 
   useEffect(() => {
-    if (inputNickname.trim() === "") {
+    if (debouncedNickname.trim() === "") {
       setIsNicknameUniqueable(false);
       setNicknameError(null);
       setShowSuccessIcon(false);
@@ -24,7 +29,7 @@ export default function Signup() {
     }
     const checkNicknameAvailability = async () => {
       setIsCheckingNickname(true);
-      const isAvailable = await checkNickname(inputNickname);
+      const isAvailable = await checkNickname(debouncedNickname);
       setIsCheckingNickname(false);
       if (isAvailable) {
         setIsNicknameUniqueable(true);
@@ -33,13 +38,12 @@ export default function Signup() {
       } else {
         setIsNicknameUniqueable(false);
         setShowSuccessIcon(false);
-        setNicknameError("중복된 닉네임입니다. 다른 닉네임으로 변경해주세요.");
+        setNicknameError("중복된 닉네임입니다. 다른 닉네임을 입력해주세요.");
       }
     };
 
-    const debounceTimeout = setTimeout(checkNicknameAvailability, 500);
-    return () => clearTimeout(debounceTimeout);
-  }, [inputNickname]);
+    checkNicknameAvailability();
+  }, [debouncedNickname]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +51,7 @@ export default function Signup() {
       const success = await signup(inputNickname, userDescription);
 
       if (success) {
+        setIsNewUser(false);
         navigate("/main");
       } else {
         alert("회원가입 중 오류가 발생했습니다.");
