@@ -5,7 +5,17 @@ import connection from "../../assets/icons/connection.svg";
 import like from "../../assets/icons/like.svg";
 import TopButton from "../common/TopButton";
 
-export default function NewsList({ newsData }: { newsData: NewsType[] }) {
+export default function NewsList({
+  newsData,
+  loadMore,
+  hasMore,
+  loadMoreRef,
+}: {
+  newsData: NewsType[];
+  loadMore: () => void;
+  hasMore: boolean;
+  loadMoreRef: React.RefObject<HTMLDivElement>;
+}) {
   const navigate = useNavigate();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +52,22 @@ export default function NewsList({ newsData }: { newsData: NewsType[] }) {
           </div>
         ))}
       </div>
+
       <TopButton scrollContainerRef={scrollContainerRef} />
+
+      {hasMore && (
+        <div
+          className="flex items-center justify-center w-full h-20 mt-10"
+          ref={loadMoreRef}
+        >
+          <button
+            className="border border-gray04 border-solid rounded-lg w-56 text-[20px] font-jersey bg-gray02 shadow-lg shadow-gray-500/50 transform scale-105  transition-all duration-200 hover:scale-110"
+            onClick={loadMore}
+          >
+            SHOW MORE RESULTS
+          </button>
+        </div>
+      )}
     </div>
   );
 }

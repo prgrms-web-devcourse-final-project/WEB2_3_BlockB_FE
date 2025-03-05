@@ -1,5 +1,6 @@
 import "./css/index.css";
 import { Route, Routes } from "react-router";
+import useTokenRefresh from "./hooks/useTokenRefresh";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Admin from "./pages/Admin";
 import DebateRooms from "./pages/DebateRooms";
@@ -22,29 +23,31 @@ import PublicRoute from "./layouts/PublicRoute";
 import GeneratingRoom from "./pages/GeneratingRoom";
 
 function App() {
+  useTokenRefresh();
+
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}> 
-    <Routes>
-      <Route element={<RootLayout />}>
-        {/* 로그인하지 않은 상태에서만 접근 가능 */}
-        <Route element={<PublicRoute />}>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/login/oauth2/callback/google"
-            element={<OAuthCallback />}
-          />
-          <Route
-            path="/login/oauth2/callback/naver"
-            element={<OAuthCallback />}
-          />
-          <Route
-            path="/login/oauth2/callback/kakao"
-            element={<OAuthCallback />}
-          />
-        </Route>
+      <QueryClientProvider client={queryClient}> 
+      <Routes>
+        <Route element={<RootLayout />}>
+          {/* 로그인하지 않은 상태에서만 접근 가능 */}
+          <Route element={<PublicRoute />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login/oauth2/callback/google"
+              element={<OAuthCallback />}
+            />
+            <Route
+              path="/login/oauth2/callback/naver"
+              element={<OAuthCallback />}
+            />
+            <Route
+              path="/login/oauth2/callback/kakao"
+              element={<OAuthCallback />}
+            />
+          </Route>
+          <Route path="/signup/:userId" element={<Signup />} />
 
         {/* 로그인한 사용자만 접근 가능 */}
         <Route element={<PrivateRoute />}>

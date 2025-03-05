@@ -1,28 +1,31 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import CategorySkeleton from "../common/skeleton/news/CatecorySkeleton";
 
-const Category = () => {
-  const navigate = useNavigate();
+const Category = ({
+  continentCodeChange,
+}: {
+  continentCodeChange: (code: string) => void;
+}) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [code, setCode] = useState("all");
 
   const categories = [
-    { name: "전체보기", path: "/news/?category=all" },
-    { name: "한국", path: "/news" },
-    { name: "중국", path: "/news" },
-    { name: "일본", path: "/news" },
-    { name: "유럽", path: "/news" },
-    { name: "아시아/호주", path: "/news" },
-    { name: "미국/중남미", path: "/news" },
-    { name: "아프리카/중동", path: "/news" },
+    { name: "전체보기", code: "all" },
+    { name: "한국", code: `KR` },
+    { name: "중국", code: `CN` },
+    { name: "일본", code: `JP` },
+    { name: "유럽", code: `EU` },
+    { name: "아시아/호주", code: `AS` },
+    { name: "미국/중남미", code: `AM` },
+    { name: "아프리카/중동", code: `AF` },
   ];
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 2000);
   }, []);
 
-  const handleNavigate = (path: string) => {
-    navigate(path);
+  const continentCode = (code: string) => {
+    continentCodeChange(code);
   };
 
   if (isLoading) return <CategorySkeleton />;
@@ -38,8 +41,13 @@ const Category = () => {
         {categories.map((category, index) => (
           <div
             key={index}
-            className="p-2 font-bold text-gray-500 transition-colors font-pretendard hover:cursor-pointer hover:text-blue03"
-            onClick={() => handleNavigate(category.path)}
+            className={`${
+              code === category.code ? "text-blue03" : "text-gray-500"
+            } px-4 py-2 font-bold  transition-colors bg-gray-100 rounded-md cursor-pointer font-pretendard hover:text-blue03`}
+            onClick={() => {
+              continentCode(category.code);
+              setCode(category.code);
+            }}
           >
             {category.name}
           </div>
@@ -52,8 +60,13 @@ const Category = () => {
           {categories.map((category, index) => (
             <div
               key={index}
-              className="px-4 py-2 font-bold text-gray-500 transition-colors bg-gray-100 rounded-md cursor-pointer font-pretendard hover:text-blue03"
-              onClick={() => handleNavigate(category.path)}
+              className={`${
+                code === category.code ? "text-blue03" : "text-gray-500"
+              } px-4 py-2 font-bold  transition-colors bg-gray-100 rounded-md cursor-pointer font-pretendard hover:text-blue03`}
+              onClick={() => {
+                continentCode(category.code);
+                setCode(category.code);
+              }}
             >
               {category.name}
             </div>

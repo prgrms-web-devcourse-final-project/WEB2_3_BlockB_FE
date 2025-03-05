@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import Category from "../components/news/category";
+import Category from "../components/news/Category";
 import bookmark from "../assets/icons/bookmark.svg";
 import bookmarked from "../assets/icons/bookmarked.svg";
-import connection from "../assets/icons/connection.svg";
 import like from "../assets/icons/like.svg";
 import liked from "../assets/icons/liked.svg";
 import speechBubble from "../assets/icons/speechBubble.svg";
@@ -26,6 +25,15 @@ export default function NewsDetail() {
   };
   const postNewsBookmark = async () => {
     await newsAPI.postNewsBookmark(Number(newsId), 4);
+    await fetchNewsDetail();
+  };
+
+  const deleteNewsLike = async () => {
+    await newsAPI.deleteNewsLike(Number(newsId), 4);
+    await fetchNewsDetail();
+  };
+  const deleteNewsBookmark = async () => {
+    await newsAPI.deleteNewsBookmark(Number(newsId), 4);
     await fetchNewsDetail();
   };
   useEffect(() => {
@@ -64,8 +72,11 @@ export default function NewsDetail() {
                   <button
                     className="flex items-center space-x-2"
                     onClick={() => {
-                      if (newsInfo?.liked) return;
-                      postNewsLike();
+                      if (newsInfo?.liked) {
+                        deleteNewsLike();
+                      } else {
+                        postNewsLike();
+                      }
                     }}
                   >
                     <img
@@ -80,8 +91,11 @@ export default function NewsDetail() {
                   <button
                     className="flex items-center space-x-2"
                     onClick={() => {
-                      if (newsInfo?.marked) return;
-                      postNewsBookmark();
+                      if (newsInfo?.marked) {
+                        deleteNewsBookmark();
+                      } else {
+                        postNewsBookmark();
+                      }
                     }}
                   >
                     <img
@@ -92,10 +106,6 @@ export default function NewsDetail() {
                     <span className="w-8 text-base text-center">
                       {newsInfo?.mark}
                     </span>
-                  </button>
-                  <button className="flex items-center space-x-2">
-                    <img src={connection} alt="커넥트" className="w-6 h-6" />
-                    <span className="w-8 text-base text-center">12</span>
                   </button>
                 </div>
 

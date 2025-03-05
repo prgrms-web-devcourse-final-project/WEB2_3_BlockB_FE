@@ -2,79 +2,84 @@ import { useState, useEffect, useRef } from "react";
 import search from "../assets/icons/search.svg";
 import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
 import NewsList from "../components/news/NewsList";
-import Category from "../components/news/category";
+import Category from "../components/news/Category";
 import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearchSkeleton";
 import { newsAPI } from "../api/news";
 
 export default function News() {
-  const [status, setStatus] = useState<1 | 2>(1); // 1: 최신순, 2: 인기순
+  const [currentContinent, setCurrentContinent] = useState("all"); // 대륙 상태 저장
   const [isLoading, setIsLoading] = useState(true);
   const [newsData, setNewsData] = useState<NewsType[]>([]);
   const [text, setText] = useState("");
   const [cursor, setCursor] = useState<number | null>(null);
-  const observerRef = useRef<HTMLDivElement>(null);
   const [currentSearchTerm, setCurrentSearchTerm] = useState("");
   const [currentSort, setCurrentSort] = useState<"LATEST" | "POPULAR">(
     "LATEST"
   );
+  const observerRef = useRef<HTMLDivElement | null>(
+    null
+  ) as React.RefObject<HTMLDivElement>;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
+      fetchAllNews(currentSort, true, currentContinent ?? undefined); // null -> undefined 변환
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const textValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
+  };
+
+  const continentCodeChange = (code: string) => {
+    setCurrentContinent(code);
+    fetchAllNews(currentSort, true, code); // 새로운 대륙에 맞춰 뉴스 데이터 불러오기
   };
 
   const fetchAllNews = async (
     sort?: "LATEST" | "POPULAR",
-    isNewSearch: boolean = false
+    isNewSearch: boolean = false,
+    continent?: string
   ) => {
     try {
       let newsResults;
       const actualSort = sort || currentSort;
 
+      // 더 이상 불러올 데이터가 없으면 요청 중단
+      if (!isNewSearch && cursor === null) return;
+
       if (isNewSearch) {
         setCursor(null);
         setCurrentSearchTerm(text);
         setCurrentSort(actualSort);
+        setCurrentContinent(continent ?? currentContinent);
       }
 
-      if (cursor && !isNewSearch) {
-        newsResults = await newsAPI.getAllNews(
-          actualSort,
-          currentSearchTerm,
-          cursor
-        );
-      } else {
-        newsResults = await newsAPI.getAllNews(
-          actualSort,
-          isNewSearch ? text : currentSearchTerm
-        );
-      }
+      const cursorValue = cursor && !isNewSearch ? cursor : undefined;
+      const searchTerm = isNewSearch ? text : currentSearchTerm;
+
+      newsResults = await newsAPI.getAllNews(
+        actualSort,
+        searchTerm,
+        cursorValue,
+        continent
+      );
 
       if (newsResults.data.content) {
         if (isNewSearch) {
           setNewsData(newsResults.data.content);
         } else {
-          setNewsData((previousNews) => [
-            ...previousNews,
-            ...newsResults.data.content,
-          ]);
+          setNewsData((prevNews) => [...prevNews, ...newsResults.data.content]);
         }
 
-        if (newsResults.data.content.length > 0) {
+        // 👇 데이터가 12개 미만이면 cursor를 null로 설정하고 이후 요청 막기
+        if (newsResults.data.content.length < 12) {
+          setCursor(null);
+        } else {
           setCursor(
             newsResults.data.content[newsResults.data.content.length - 1].id
           );
-        } else {
-          setCursor(null);
         }
       }
-
-      console.log(newsData);
     } catch (error) {
       console.error("Error fetching news:", error);
     } finally {
@@ -83,13 +88,17 @@ export default function News() {
   };
 
   useEffect(() => {
+    fetchAllNews(currentSort, true, currentContinent);
+  }, [currentContinent]);
+
+  useEffect(() => {
+    fetchAllNews(currentSort, true, currentContinent);
+  }, [currentSort]);
+
+  useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-  }, []);
-
-  useEffect(() => {
-    fetchAllNews();
   }, []);
 
   useEffect(() => {
@@ -110,7 +119,7 @@ export default function News() {
       <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0 md:gap-6">
         {/* 카테고리 */}
         <div className="order-1 w-full md:w-1/6 md:ml-3 md:order-1">
-          <Category />
+          <Category continentCodeChange={continentCodeChange} />
         </div>
 
         <div className="order-2 overflow-auto md:w-5/6 md:mr-3 md:order-2">
@@ -122,12 +131,12 @@ export default function News() {
               <div className="flex space-x-6 text-lg font-semibold">
                 <button
                   className={`pb-2 ${
-                    status === 1
+                    currentSort === "LATEST"
                       ? "text-black border-b-2 border-black"
                       : "text-gray-400"
                   }`}
                   onClick={() => {
-                    setStatus(1);
+                    setCurrentSort("LATEST");
                     fetchAllNews("LATEST", true);
                   }}
                 >
@@ -135,12 +144,12 @@ export default function News() {
                 </button>
                 <button
                   className={`pb-2 ${
-                    status === 2
+                    currentSort === "POPULAR"
                       ? "text-black border-b-2 border-black"
                       : "text-gray-400"
                   }`}
                   onClick={() => {
-                    setStatus(2);
+                    setCurrentSort("POPULAR");
                     fetchAllNews("POPULAR", true);
                   }}
                 >
@@ -154,13 +163,17 @@ export default function News() {
                   type="text"
                   className="w-full px-2 py-2 pl-3 pr-10 border rounded-lg focus:outline-none"
                   placeholder="검색..."
-                  onChange={onChange}
+                  onChange={textValueChange}
                   onKeyDown={handleKeyDown}
                 />
                 <button
-                  onClick={() => {
-                    fetchAllNews(status === 1 ? "LATEST" : "POPULAR", true);
-                  }}
+                  onClick={() =>
+                    fetchAllNews(
+                      currentSort,
+                      true,
+                      currentContinent ?? undefined
+                    )
+                  }
                 >
                   <img
                     src={search}
@@ -173,20 +186,16 @@ export default function News() {
           )}
 
           {/* 뉴스 목록 */}
-          {isLoading ? <NewsSkeleton /> : <NewsList newsData={newsData} />}
-          <div
-            className="w-full h-20 border border-black border-solid"
-            ref={observerRef}
-          >
-            <button
-              className="w-full h-full"
-              onClick={() => {
-                if (cursor) fetchAllNews(currentSort, false);
-              }}
-            >
-              더보기
-            </button>
-          </div>
+          {isLoading ? (
+            <NewsSkeleton />
+          ) : (
+            <NewsList
+              newsData={newsData}
+              loadMore={() => fetchAllNews(currentSort, false)}
+              hasMore={cursor !== null}
+              loadMoreRef={observerRef}
+            />
+          )}
         </div>
       </div>
     </div>
