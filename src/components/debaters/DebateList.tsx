@@ -19,7 +19,7 @@ export default function DebateList({ debaters }: DebateListProps) {
   if (isLoading) return <DebateListSkeleton />;
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {debaters.map((debater) => (
         <Link to={`/user-page/${debater.userId}`}
           key={debater.userId}
@@ -33,14 +33,9 @@ export default function DebateList({ debaters }: DebateListProps) {
                   alt="profile"
                   className="rounded-full w-12 h-12 mr-6"
                 />
-                <div className="flex flex-col  md:max-w-100 sm:max-w-80 max-w-60">
-                  <p className="font-semibold md:text-sm text-[12px]">
-                      {debater.nickname}
-                  </p>
-                  {debater.introduction && <p className="text-gray-500 text-[14px] sm:text-sm w-10 break-word white-space">
-                      {debater.introduction}
-                  </p>}
-                </div>
+                <p className="font-semibold md:text-sm text-[12px]">
+                    {debater.nickname}
+                </p>
               </div>
               <div className="flex justify-between items-center md:text-[16px] text-[14px]">
                 <p className="rounded-lg font-medium">
