@@ -10,11 +10,47 @@ const RootLayout = () => {
   const [footerStatus, setFooterStatus] = useState<FooterStatusType>("default");
   const { pathname } = useLocation();
   const [hideHeaderFooter, setHideHeaderFooter] = useState(false);
-  useEffect(() => {
-    // 특정 페이지에서는 헤더 & 푸터 숨기기
-    const noHeaderFooterPages = ["/debate-zone", "/observing-zone", "/login"];
 
-    if (noHeaderFooterPages.some((path) => pathname.startsWith(path))) {
+  useEffect(() => {
+    // 존재하는 유효한 경로 목록 (App.tsx에서 설정한 경로)
+    const validRoutes = [
+      "/",
+      "/main",
+      "/news",
+      "/news/:newsId",
+      "/debate-rooms",
+      "/debaters",
+      "/admin",
+      "/user-page/:userId",
+      "/profile-update",
+      "/debate-zone",
+      "/observing-zone",
+      "/login",
+      "/signup/:userId",
+      "/oauth/callback",
+    ];
+
+    // 특정 페이지에서는 헤더 & 푸터 숨기기
+    const noHeaderFooterPages = [
+      "/debate-zone",
+      "/observing-zone",
+      "/login",
+      "/signup",
+      "/oauth/callback",
+    ];
+
+    // 현재 pathname이 존재하는 경로인지 확인
+    const isValidRoute = validRoutes.some((route) =>
+      new RegExp(`^${route.replace(/:\w+/g, "[^/]+")}$`).test(pathname)
+    );
+
+    // 404 페이지 여부 감지
+    const isNotFoundPage = !isValidRoute;
+
+    if (
+      noHeaderFooterPages.some((path) => pathname.startsWith(path)) ||
+      isNotFoundPage
+    ) {
       setHideHeaderFooter(true);
     } else {
       setHideHeaderFooter(false);
@@ -24,9 +60,6 @@ const RootLayout = () => {
     if (pathname === "/") {
       setHeaderStatus("landing");
       setFooterStatus("landing");
-      // } else if (["/login", "/signup", "/oauth/callback"].includes(pathname)) {
-      //   setHeaderStatus("auth");
-      //   setFooterStatus("auth");
     } else {
       setHeaderStatus("default");
       setFooterStatus("default");

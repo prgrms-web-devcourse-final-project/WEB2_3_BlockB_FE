@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import logoWhite from "../../assets/icons/logo-white.png";
 import logo from "../../assets/icons/logo.svg";
 import notificationWhite from "../../assets/icons/notification-white.svg";
@@ -9,7 +9,7 @@ import profile from "../../assets/icons/profile.svg";
 import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
-
+import { useAuthStore } from "../../stores/authStore";
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
 
 export default function Header({ status }: { status: HeaderStatusType }) {
@@ -17,10 +17,10 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { userId, profileUrl } = useUserStore();
+  const { logout } = useAuthStore();
   if (status === "debate-ing") {
     return null;
   }
-  
   return (
     <>
       <div className="fixed top-0 w-full z-50">
@@ -75,7 +75,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                 {status === "admin" ? <Link to={"/admin"}>Admin</Link> : ""}
               </div>
             </div>
-            <div className="flex w-[87px] max-md:w-9 h-[30px] justify-between items-center">
+            <div className="flex items-center md:space-x-4 space-x-1">
               <button
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
               >
@@ -89,7 +89,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   alt="알림"
                 />
               </button>
-              <button onClick={()=> navigate(`/user-page/${userId}`)}>
+              <button onClick={() => navigate(`/user-page/${userId}`)}>
                 <img
                   className="md:w-[35px] w-[16px] md:h-[35px] h-[16px] rounded-full"
                   src={
@@ -99,6 +99,16 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   alt="프로필 사진"
                 />
               </button>
+              <button
+                className="font-pretendard font-bold text-[10px] md:text-[18px] text-black hover:text-red-700"
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+              >
+                로그아웃
+              </button>
+
               {isNotificationOpen && (
                 <NotificationList
                   status={status}
