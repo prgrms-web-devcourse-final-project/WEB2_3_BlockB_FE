@@ -11,6 +11,7 @@ interface AuthState {
     refreshToken: string,
     isNewUser?: boolean
   ) => void;
+  setIsNewUser: (isNewUser: boolean) => void;
   logout: () => void;
 }
 
@@ -23,10 +24,12 @@ export const useAuthStore = create(
       setTokens: (accessToken, refreshToken, isNewUser = false) => {
         set({ accessToken, refreshToken, isNewUser });
       },
+      setIsNewUser: (isNewUser) => {
+        set({ isNewUser });
+      },
       logout: () => {
         useUserStore.getState().clearUser();
         set({ accessToken: null, refreshToken: null, isNewUser: false });
-        window.location.href = "/";
       },
     }),
     { name: "auth-store" }
