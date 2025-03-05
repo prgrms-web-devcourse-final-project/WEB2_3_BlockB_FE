@@ -33,7 +33,7 @@ export default function NewsList({
               alt="뉴스 이미지"
               className="object-cover w-full h-48 rounded-lg"
             />
-            <h3 className="mt-3 text-lg font-extrabold">{news.title}</h3>
+            <h3 className="mt-3 text-lg font-extrabold h-[56px]">{news.title}</h3>
             <div className="flex justify-between mt-2 text-sm text-gray-500">
               <p>{news.newsType}</p>
               <p>{new Date(news.deliveryTime).toLocaleString()}</p>
@@ -45,8 +45,6 @@ export default function NewsList({
                 <span className="w-6 h-4">{news.like}</span>
                 <img src={bookmark} alt="북마크" className="w-5 h-5" />
                 <span className="w-6 h-4">{news.bookmark}</span>
-                <img src={connection} alt="커넥트" className="w-5 h-5" />
-                <span className="w-6 h-4">12</span>
               </div>
             </div>
           </div>
