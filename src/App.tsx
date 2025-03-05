@@ -1,6 +1,6 @@
 import "./css/index.css";
 import { Route, Routes } from "react-router";
-
+import useTokenRefresh from "./hooks/useTokenRefresh";
 import Admin from "./pages/Admin";
 import DebateRooms from "./pages/DebateRooms";
 import DebateZone from "./pages/DebateZone";
@@ -21,45 +21,49 @@ import PrivateRoute from "./layouts/PrivateRoute";
 import PublicRoute from "./layouts/PublicRoute";
 
 function App() {
+  useTokenRefresh();
+
   return (
-    <Routes>
-      <Route element={<RootLayout />}>
-        {/* 로그인하지 않은 상태에서만 접근 가능 */}
-        <Route element={<PublicRoute />}>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/login/oauth2/callback/google"
-            element={<OAuthCallback />}
-          />
-          <Route
-            path="/login/oauth2/callback/naver"
-            element={<OAuthCallback />}
-          />
-          <Route
-            path="/login/oauth2/callback/kakao"
-            element={<OAuthCallback />}
-          />
-        </Route>
+    <>
+      <Routes>
+        <Route element={<RootLayout />}>
+          {/* 로그인하지 않은 상태에서만 접근 가능 */}
+          <Route element={<PublicRoute />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login/oauth2/callback/google"
+              element={<OAuthCallback />}
+            />
+            <Route
+              path="/login/oauth2/callback/naver"
+              element={<OAuthCallback />}
+            />
+            <Route
+              path="/login/oauth2/callback/kakao"
+              element={<OAuthCallback />}
+            />
+          </Route>
+          <Route path="/signup/:userId" element={<Signup />} />
 
-        {/* 로그인한 사용자만 접근 가능 */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/main" element={<Main />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:newsId" element={<NewsDetail />} />
-          <Route path="/debate-rooms" element={<DebateRooms />} />
-          <Route path="/debaters" element={<Debaters />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/user-page/:userId" element={<UserPage />} />
-          <Route path="/profile-update" element={<ProfileUpdate />} />
-          <Route path="/debate-zone" element={<DebateZone />} />
-          <Route path="/observing-zone" element={<ObservingZone />} />
-        </Route>
+          {/* 로그인한 사용자만 접근 가능 */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/main" element={<Main />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:newsId" element={<NewsDetail />} />
+            <Route path="/debate-rooms" element={<DebateRooms />} />
+            <Route path="/debaters" element={<Debaters />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/user-page/:userId" element={<UserPage />} />
+            <Route path="/profile-update" element={<ProfileUpdate />} />
+            <Route path="/debate-zone" element={<DebateZone />} />
+            <Route path="/observing-zone" element={<ObservingZone />} />
+          </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
