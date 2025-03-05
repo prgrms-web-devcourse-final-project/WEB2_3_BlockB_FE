@@ -35,6 +35,9 @@ importers:
       react-router-dom:
         specifier: ^7.1.5
         version: 7.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react-use-websocket:
+        specifier: ^4.13.0
+        version: 4.13.0
       sockjs-client:
         specifier: ^1.6.1
         version: 1.6.1
@@ -1490,6 +1493,9 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
+
+  react-use-websocket@4.13.0:
+    resolution: {integrity: sha512-anMuVoV//g2N76Wxqvqjjo1X48r9Np3y1/gMl7arX84tAPXdy5R7sB5lO5hvCzQRYjqXwV8XMAiEBOUbyrZFrw==}
 
   react@19.0.0:
     resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
@@ -3027,6 +3033,8 @@ snapshots:
       turbo-stream: 2.4.0
     optionalDependencies:
       react-dom: 19.0.0(react@19.0.0)
+
+  react-use-websocket@4.13.0: {}
 
   react@19.0.0: {}
 

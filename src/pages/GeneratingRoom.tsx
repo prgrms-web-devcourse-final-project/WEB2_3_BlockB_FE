@@ -11,7 +11,8 @@ import { speakCountMap, timeMap } from "../constants";
 import useSlideUpAnimation from "../hooks/useSlideUpAnimation";
 import useNewsInfoParams from "../hooks/useNewsInfoParams";
 import Header from "../components/common/Header";
-import SockJS from "sockjs-client";
+// import SockJS from "sockjs-client";
+import useWebSocket from "react-use-websocket";
 
 // import { Client, Frame, IMessage } from "@stomp/stompjs";
 
@@ -55,6 +56,7 @@ export default function GeneratingRoom() {
   }, [checkedStates]);
 
 
+
   const makeNewRoom = async () => {
     const initialRoomInfos: RoomInfoRequest = {
       title: roomSettings.title!,
@@ -79,27 +81,10 @@ export default function GeneratingRoom() {
   
 
   const onClickCreateBtn = async () => {
-      const roomId = await makeNewRoom();
-      console.log("방 ID:", roomId); 
-      const socket = new SockJS(`http://13.125.142.253:8080/debate`)
-      socket.onopen = () => {
-        console.log("SockJS 연결 성공!");
-        socket.send(JSON.stringify({ message: "Hello, SockJS Server!" }));
-      };
-      socket.onmessage = (e) => {
-        console.log("메시지 수신:", e.data);
-      };
-      socket.onerror = (err) => {
-        console.error(":x: SockJS 연결 오류:", err);
-      };
-      socket.onclose = () => {
-        console.log("SockJS 연결 종료됨");
-      };
-      navigate(`/debate-zone/${roomId}`);    
+    const newRoomId = await makeNewRoom();
+    navigate(`/debate-zone/${newRoomId}`);
   };
-
   
-
   return (
     <div className="bg-[#070707] min-h-screen overflow-hidden">
       <Header status="debate-waiting" />
@@ -151,6 +136,19 @@ export default function GeneratingRoom() {
           </div>
         </div>
       </div>
+      {/* websocket test */}
+      {/* <div className="bg-white ">
+        <div className="text-black01">
+          마지막 수신 메시지: {lastJsonMessage && lastJsonMessage.message}
+        </div>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="border"
+        />
+        <button onClick={sendMessage}>메시지 보내기</button>
+     </div> */}
     </div>
   );
 }
