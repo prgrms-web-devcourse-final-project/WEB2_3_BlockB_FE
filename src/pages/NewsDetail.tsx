@@ -6,7 +6,7 @@ import like from "../assets/icons/like.svg";
 import liked from "../assets/icons/liked.svg";
 import speechBubble from "../assets/icons/speechBubble.svg";
 import NewsDetailSkeleton from "../components/common/skeleton/news/NewsDetailSkeleton";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { newsAPI } from "../api/news";
 
 export default function NewsDetail() {
@@ -40,6 +40,8 @@ export default function NewsDetail() {
     setTimeout(() => setIsLoading(false), 2000);
     fetchNewsDetail();
   }, []);
+
+  const navigate = useNavigate()
 
   return (
     <div className="w-full h-screen overflow-hidden font-pretendard">
@@ -108,7 +110,7 @@ export default function NewsDetail() {
                 </div>
 
                 {/* 토론방 */}
-                <button className="flex items-center justify-center w-full px-4 py-2 text-white rounded-md md:w-auto bg-blue-950">
+                <button onClick={()=> navigate(`/debate-zone/new-debate?id=${newsId}`)} className="flex items-center justify-center w-full px-4 py-2 text-white rounded-md md:w-auto bg-blue-950">
                   토론방 개설
                   <span className="ml-2">
                     <img

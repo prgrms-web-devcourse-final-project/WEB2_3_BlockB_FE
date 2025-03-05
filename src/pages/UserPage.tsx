@@ -7,6 +7,7 @@ import NewsTab from "../components/user-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
 import { userApi } from "../api/user";
 import { useUserStore } from "../stores/userStore";
+import usePreventDoubleClick from "../hooks/usePreventDoubleClick";
 
 export default function UserPage() {
   const [tab, setTab] = useState("news");
@@ -41,8 +42,9 @@ export default function UserPage() {
     action === "delete"? await userApi.deleteFollower(targetUserId) : await userApi.insertFollower(targetUserId)
   }
 
+  const handleClickFollowWithPrevent = usePreventDoubleClick<(id: number, action: "delete" | "follow")=>void>(handleFollow, 300);
   const toggleFollow = async () => {
-    isFollowed? handleFollow(Number(userId), "delete") : handleFollow(Number(userId), "follow") 
+    isFollowed? handleClickFollowWithPrevent(Number(userId), "delete") : handleClickFollowWithPrevent(Number(userId), "follow") 
     setFollowing(!isFollowed)
   }
 
@@ -59,7 +61,7 @@ export default function UserPage() {
     return <MyPageSkeleton />;
   }
   return (
-    <div className="flex justify-center px-3 sm:px-[40px]">
+    <div className="flex justify-center px-3 sm:px-[40px] mb-10">
       <div className="w-full md:h-[790px] mt-20 max-md:mt-10 font-pretendard">
         {/* 프로필 정보 */}
         <div className="flex max-md:flex-col max-md:items-center">

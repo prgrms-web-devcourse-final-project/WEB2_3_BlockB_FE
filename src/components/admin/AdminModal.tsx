@@ -3,7 +3,7 @@ import { editOptions, findFilterValue, processedFilters, unprocessedFilters } fr
 import FilterButton from "./FilterButton";
 import { reportApi } from "../../api/report";
 
-export default function Modal({
+export default function AdminModal({
   onCheck,
   setRecoverModalOpen,
   setProcessModalOpen,

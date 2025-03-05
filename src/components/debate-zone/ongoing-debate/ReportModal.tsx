@@ -3,25 +3,15 @@ import { createPortal } from "react-dom";
 import check from "../../../assets/icons/checked1.svg";
 import { reportReasons as initialReportReasons } from "../../../constants";
 import RoomActionButtons from "../RoomActionButtons";
-import { useReportStore } from "../../../stores/reportModalStore";
 import { reportApi } from "../../../api/report";
+import { useReportModalStore } from "../../../stores/reportModalStore";
 
-export default function ReportModal({
-  targetNickname,
-  targetUserId,
-  targetType = "CHAT",
-  roomId,
-}: {
-  targetNickname: string,
-  targetUserId: number;
-  targetType?: "PROFILE" | "CHAT";
-  roomId?: number;
-}) {
+export default function ReportModal() {
 
   const [reportReasons, setReportReasons] = useState(initialReportReasons);
   const [hasCompleted, setHasCompleted] = useState(false);
   const [description, setDescription] = useState("");
-  const {isReportModalOpen, setIsReportModalOpen} = useReportStore()
+  const { closeModal, isOpen, targetNickname, targetUserId, targetType, roomId } = useReportModalStore()
 
   const handleCheckboxChange = (selectedKey: string | boolean | number) => {
     setReportReasons((prev) => {
@@ -36,16 +26,16 @@ export default function ReportModal({
   
   const onReportUser = async()=> {
     const selectedReason = reportReasons.find((item) => item.isChecked);
-    if (!selectedReason) return;
+    if (!selectedReason || !targetUserId) return;
 
-    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType || "CHAT", targetRoomId: roomId || null, content: description, reportType: selectedReason.dbKey as string})
+    if (targetType === "PROFILE") await reportApi.reportUser({targetUserId: targetUserId, targetType: targetType, targetRoomId: null, content: description, reportType: selectedReason.dbKey as string})
     // if (targetType === "CHAT")
 
-    setIsReportModalOpen(false);
+    closeModal()
   }
 
 
-  if(isReportModalOpen)
+  if(isOpen)
     return createPortal(
     <div onClick={(e) => e.stopPropagation()} className="fixed inset-0 bg-black01 z-50 bg-opacity-70 flex justify-center items-center">
       <div className="flex flex-col gap-[10px] bg-white w-[265px] h-auto rounded-[10px] px-[30px] py-[18px]">
@@ -90,7 +80,7 @@ export default function ReportModal({
               setReportReasons(initialReportReasons);
               setHasCompleted(false);
               setDescription("");
-              setIsReportModalOpen(false);
+              closeModal()
             }}
             confirmAction={onReportUser}
             cancelColor="bg-gray03 text-white"

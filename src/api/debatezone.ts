@@ -12,7 +12,7 @@ const generateDebateRoom = async (initialRoomInfo: RoomInfoRequest) => {
 };
 
 // ✅ 토론방 대기실 참관자용 토론 정보 가져오기
-const fetchWaitingRoomInfo = async (roomId: number) => {
+const fetchWaitingRoomInfo = async (roomId: string) => {
     try {
         const response = await axiosInstance.get(`/api/debates/observer/waitroom/${roomId}`);
         console.log(response.data);
@@ -23,7 +23,7 @@ const fetchWaitingRoomInfo = async (roomId: number) => {
 };
 
 // ✅ 토론중 토론방 정보 가져오기
-const fetchOngoingRoomInfo = async (roomId: number) => {
+const fetchOngoingRoomInfo = async (roomId: string) => {
     try {
         const response = await axiosInstance.get(`/api/debates/${roomId}`);
         console.log(response.data);
@@ -34,7 +34,7 @@ const fetchOngoingRoomInfo = async (roomId: number) => {
 };
 
 // ✅ 토론중 토론방 참관자용 정보 가져오기
-const fetchObserverOngoingRoomInfo = async (roomId: number) => {
+const fetchObserverOngoingRoomInfo = async (roomId: string) => {
     try {
         const response = await axiosInstance.get(`/api/debates/observer/${roomId}`);
         console.log(response.data);
@@ -45,7 +45,7 @@ const fetchObserverOngoingRoomInfo = async (roomId: number) => {
 };
 
 // ✅ 토론방 채팅 신고 - 참여자용 (유저 신고와 별도)
-const reportInRoomByDebater = async (roomId: number) => {
+const reportInRoomByDebater = async (roomId: string) => {
     try {
         const response = await axiosInstance.post(`/api/debates/reports/${roomId}`);
         console.log(response.data);
@@ -56,7 +56,7 @@ const reportInRoomByDebater = async (roomId: number) => {
 };
 
 // ✅ 토론방 채팅 신고 - 참관자용 (유저 신고와 별도)
-const reportInRoomByObserver = async (roomId: number) => {
+const reportInRoomByObserver = async (roomId: string) => {
     try {
         const response = await axiosInstance.post(`/api/observer/reports/${roomId}`); 
         console.log(response.data);
@@ -67,7 +67,7 @@ const reportInRoomByObserver = async (roomId: number) => {
 };
 
 // ✅ 토론 후 투표하기
-const sendDebateVote = async (roomId: number) => {
+const sendDebateVote = async (roomId: string) => {
     try {
         const response = await axiosInstance.put(`/api/debates/vote/${roomId}`);
         console.log(response.data);
@@ -78,7 +78,7 @@ const sendDebateVote = async (roomId: number) => {
 };
 
 // ✅ 투표 조회
-const fetchDebateVoteResult = async (roomId: number) => { 
+const fetchDebateVoteResult = async (roomId: string) => { 
     try {
         const response = await axiosInstance.get(`/api/debates/vote/${roomId}`);
         console.log(response.data);
