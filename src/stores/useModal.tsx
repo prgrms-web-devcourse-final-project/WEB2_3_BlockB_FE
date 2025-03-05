@@ -3,17 +3,22 @@ import { create } from 'zustand';
 interface ModalState {
   isOpen: boolean;
   message: string;
-  onConfirm: () => void;
-  openModal: (message: string, onConfirm: () => void) => void;
+  onConfirm?: () => void;
+  openModal: (message: string, onConfirm?: () => void, btnType?: "ONE" | "TWO") => void;
   closeModal: () => void;
+  btnType?: "ONE" | "TWO";
 }
-
-
 
 export const useModalStore = create<ModalState>((set) => ({
   isOpen: false,
   message: '',
-  onConfirm: () => {},
-  openModal: (message, onConfirm) => set({ isOpen: true, message, onConfirm }),
-  closeModal: () => set({ isOpen: false, message: '', onConfirm: () => {} }),
+  onConfirm: undefined,
+  btnType: "TWO",
+  openModal: (message, onConfirm, btnType = "TWO") => set({ 
+    isOpen: true, 
+    message, 
+    onConfirm: onConfirm ? onConfirm : () => set({ isOpen: false, message: '', onConfirm: undefined, btnType: "TWO" }), 
+    btnType 
+  }),
+  closeModal: () => set({ isOpen: false, message: '', onConfirm: undefined, btnType: "TWO" }),
 }));
