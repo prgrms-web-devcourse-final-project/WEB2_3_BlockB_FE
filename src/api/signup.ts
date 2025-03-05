@@ -1,19 +1,23 @@
 import axios from "axios";
 import { useAuthStore } from "../stores/authStore";
 
-const accessToken = useAuthStore.getState().accessToken;
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const checkNickname = async (nickname: string): Promise<boolean> => {
   try {
+    const accessToken = useAuthStore.getState().accessToken;
+    if (!accessToken) {
+      return false;
+    }
+
     const response = await axios.post(
-      `${VITE_BACKEND_URL}/api/auth/nickname-confirm?nickname=${encodeURIComponent(
-        nickname
-      )}`,
-      null,
+      `${VITE_BACKEND_URL}/api/auth/nickname-confirm`,
+      { nickname },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           Accept: "application/json",
+          "Content-Type": "application/json",
         },
       }
     );
@@ -32,19 +36,19 @@ export const signup = async (
   introduction: string
 ): Promise<boolean> => {
   try {
+    const accessToken = useAuthStore.getState().accessToken;
     if (!accessToken) {
       return false;
     }
 
     const response = await axios.post(
-      `${VITE_BACKEND_URL}/api/auth/signup?nickname=${encodeURIComponent(
-        nickname
-      )}&introduction=${encodeURIComponent(introduction)}`,
-      null,
+      `${VITE_BACKEND_URL}/api/auth/signup`,
+      { nickname, introduction },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           Accept: "application/json",
+          "Content-Type": "application/json",
         },
       }
     );
