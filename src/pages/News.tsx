@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import search from "../assets/icons/search.svg";
 import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
 import NewsList from "../components/news/NewsList";
-import Category from "../components/news/Category";
 import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearchSkeleton";
 import { newsAPI } from "../api/news";
+import Category from "../components/news/Category";
+
 
 export default function News() {
   const [currentContinent, setCurrentContinent] = useState("all"); // 대륙 상태 저장
