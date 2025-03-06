@@ -55,7 +55,7 @@ export default function UserPage() {
       followersResponse.data.map((follower:Follower)=>{return follower.followerId === currentUserId ? setFollowing(true) : setFollowing(false)})
     }
     loadFollowerList()
-  },[isFollowed])
+  },[isFollowed, userId])
 
   if (isLoading) {
     return <MyPageSkeleton />;
