@@ -143,3 +143,27 @@ type RoomInfoRequest = {
   endTime?: string | null
 };
 
+
+
+type Participant = {
+  id: number;
+  nickname: string;
+  position: 'PRO' | 'CON';
+  winNumber: number;
+  defeatNumber: number;
+  drawNumber: number;
+}
+
+type DebateRoomInfo = {
+  roomId: string;
+  title: string;
+  description: string;
+  memberNumberType: number;
+  categoryType: string;
+  continentType: string;
+  newsUrl: string;
+  status: string;
+  timeType: number;
+  speakCountType: number;
+  participants: Participant[];
+}

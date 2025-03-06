@@ -42,7 +42,7 @@ export default function WaitingRoom() {
 
   useEffect(() => {
     if (!isWaiting) {
-      setCountDown(5);
+      setCountDown(6);
       const interval = setInterval(() => {
         setCountDown((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
