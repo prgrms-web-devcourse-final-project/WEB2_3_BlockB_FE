@@ -8,7 +8,7 @@ const VITE_KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
 const VITE_REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
 export default function Login() {
-  const handleLogin = (provider: "google" | "kakao" | "naver") => {
+  const handleLogin = (provider: "google" | "kakao") => {
     let loginUrl = "";
 
     switch (provider) {
