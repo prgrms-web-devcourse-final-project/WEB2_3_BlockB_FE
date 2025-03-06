@@ -6,6 +6,8 @@ import logo from "../assets/icons/logo.svg";
 import Footer from "../components/common/Footer";
 import loading from "../assets/icons/loading.svg";
 import useDebounce from "../hooks/useDebounce";
+import { useModalStore } from "../stores/useModal";
+import Modal from "../components/common/Modal";
 
 export default function Signup() {
   const [isNicknameUniqueable, setIsNicknameUniqueable] =
@@ -52,7 +54,6 @@ export default function Signup() {
 
       if (success) {
         setIsNewUser(false);
-        navigate("/main");
       } else {
         alert("회원가입 중 오류가 발생했습니다.");
       }
@@ -60,12 +61,19 @@ export default function Signup() {
       console.error(error);
     }
   };
+  
+  const {openModal} = useModalStore()
+
+  const onClickComplete = () => {
+    openModal("회원가입을 완료하시겠습니까?", ()=>{navigate("/main")})
+  }
 
   return (
     <form
       onSubmit={handleSignup}
       className="flex flex-col justify-between min-h-screen bg-gray-50"
     >
+      <Modal />
       <div className="flex items-center justify-center flex-1 px-4">
         <div className="bg-gray-100 p-6 md:p-10 rounded-xl shadow-lg text-center w-full max-w-[400px]">
           <h1 className="text-4xl md:text-6xl lg:text-[76px] font-bold font-unifrakturCook">
@@ -189,6 +197,7 @@ export default function Signup() {
 
           <div className="flex justify-end w-full mt-4 font-pretendard">
             <button
+              onClick={onClickComplete}
               type="submit"
               className={`${
                 isNicknameUniqueable && userDescription.length > 0
