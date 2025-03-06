@@ -20,12 +20,12 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { userId, profileUrl, role } = useUserStore();
   const { logout } = useAuthStore();
-  if (status === "debate-ing") {
-    return null;
-  }
   const {openModal} = useModalStore()
   const onClickLogout = () => {
     openModal("로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?", ()=>{logout(); navigate("/")})
+  }
+  if (status === "debate-ing") {
+    return null;
   }
   return (
     <>

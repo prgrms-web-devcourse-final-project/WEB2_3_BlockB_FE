@@ -4,6 +4,9 @@ import ParticipantBox from "../ParticipantBox";
 import WaitingInfoDrodown from "../InfoDrodown";
 import { useRoomStore } from "../../../stores/roomStateStore";
 import Ment from "./Ment";
+import { useParams } from "react-router";
+import { userApi } from "../../../api/user";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 // import useWebSocket from "react-use-websocket";
 // import { useParams } from "react-router";
 // import { userApi } from "../../../api/user";
@@ -11,42 +14,31 @@ import Ment from "./Ment";
 export default function WaitingRoom() {
   const [isWaiting, setIsWaiting] = useState<boolean>(true);
   const [countDown, setCountDown] = useState(5);
-  // const [userNickname, setUserNickname] = useState<string | null>(null); // 초기값 null
-  const { setRoomState, roomSettings } = useRoomStore();
+  const [userNickname, setUserNickname] = useState<string | null>(null); 
+  const { setRoomState, roomSettings, setRoomSettings } = useRoomStore();
+  const {sendMessage} = useDebateWebSocket()
 
-  // const { roomId } = useParams<{ roomId: string }>();
+  const { roomId } = useParams<{ roomId: string }>();
+  const stanceFromState = "PRO" // TODO: 임시 속성으로 나중에 바꾸어야 합니다
+  useEffect(() => {
+    const fetchUserNickname = async () => {
+      const userResponse = await userApi.fetchMyProfile();
+      setUserNickname(userResponse.data.nickname);
+    };
 
-  // useEffect(() => {
-  //   const fetchUserNickname = async () => {
-  //     const userResponse = await userApi.fetchMyProfile();
-  //     setUserNickname(userResponse.data.nickname);
-  //   };
+    fetchUserNickname();
+    setRoomSettings("stance", stanceFromState || roomSettings.stance);
+    const newMessage = {
+      event: "JOIN",
+      userName: userNickname,
+      position: roomSettings.stance,
+      message: `${userNickname}님이 입장하셨습니다`,
+      timestamp: new Date().toISOString(),
+    };
+    sendMessage(JSON.stringify(newMessage));
+  }, [roomId]);
 
-  //   fetchUserNickname();
-  // }, [roomId]);
 
-  // const WS_URL = import.meta.env.VITE_WS_URL;
-  // const websocketSendUrl = `${WS_URL}/debate/${roomId}`;
-
-  // const { sendMessage } = useWebSocket(websocketSendUrl, {
-  //   onOpen: () => {
-  //     if (!userNickname) return; 
-
-  //     console.log("웹소켓이 열렸습니다! send!");
-  //     sendMessage(
-  //       JSON.stringify({
-  //         event: "JOIN",
-  //         userName: userNickname,
-  //         position: roomSettings.stance,
-  //         message: `${userNickname} 님이 입장하였습니다.ddd test`,
-  //         timestamp: new Date(),
-  //       })
-  //     );
-  //   },
-  //   onClose: (event) => console.log("🔴 WebSocket 연결 닫힘:", event),
-  //   onError: (error) => console.log("❌ WebSocket 에러:", error),
-  //   shouldReconnect: () => true, 
-  // }, userNickname !== null);
 
   useEffect(() => {
     if (!isWaiting) {

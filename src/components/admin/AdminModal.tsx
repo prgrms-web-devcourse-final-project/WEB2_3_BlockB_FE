@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { editOptions, findFilterValue, processedFilters, unprocessedFilters } from "../../constants";
+import { editOptions, findFilterValue, processedFilters } from "../../constants";
 import FilterButton from "./FilterButton";
 import { reportApi } from "../../api/report";
 import { userApi } from "../../api/user";

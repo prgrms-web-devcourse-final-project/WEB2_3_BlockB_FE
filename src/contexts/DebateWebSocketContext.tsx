@@ -4,16 +4,16 @@ import { useParams } from "react-router";
 
 
 type WebSocketCommunicationType = {
-  event: "JOIN" | "MESSAGE" | "EXIT";
+  event: "JOIN" | "CHAT" | "EXIT";
   userName: string;
-  position: "PRO" | "CONS" | "NOPOSITION";
+  position: "PRO" | "CON" | "NO_POSITION";
   message: string;
   timestamp: string;
 };
 
 interface WebSocketContextType {
   messages: WebSocketCommunicationType[];
-  sendMessage: (message: WebSocketCommunicationType) => void;
+  sendMessage: (message: string) => void;
   stompClient: Client | null;
 }
 
@@ -26,11 +26,11 @@ export const DebateWebSocketProvider = ({ children }: { children: React.ReactNod
   const { roomId } = useParams<{ roomId: string }>();
 
   // 메시지 보내기 함수
-  const sendMessage = (message: WebSocketCommunicationType) => {
+  const sendMessage = (message: string) => {
     if (stompClient && roomId) {
       stompClient.publish({
-        destination: `/app/a/${roomId}`, 
-        body: JSON.stringify(message),  
+        destination: `/app/debate/${roomId}`, 
+        body: message,  
       });
     }
   };
@@ -49,8 +49,12 @@ export const DebateWebSocketProvider = ({ children }: { children: React.ReactNod
     client.onConnect = () => {
       client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
         // 메시지의 본문을 처리할 때 JSON.parse로 변환
+        console.log("subscribe 전달 받음",message)
         const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
-        setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+        if(parsedMessage.message.length > 0){
+          setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+        }
+
       });
     };
 
@@ -60,7 +64,7 @@ export const DebateWebSocketProvider = ({ children }: { children: React.ReactNod
     return () => {
       client.deactivate();
     };
-  }, [roomId]);  // roomId가 바뀔 때마다 WebSocket 연결
+  }, [roomId]); 
 
   return (
     <DebateWebSocketContext.Provider value={{ messages, sendMessage, stompClient }}>
