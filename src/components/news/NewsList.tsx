@@ -37,7 +37,9 @@ export default function NewsList({
               <p>{news.newsType}</p>
               <p>{new Date(news.deliveryTime).toLocaleString()}</p>
             </div>
-            <p className="mt-2 text-sm text-gray-700 h-[220px]">{news.content}</p>
+            <p className="mt-2 text-sm text-gray-700 h-[220px]">
+              {news.content}
+            </p>
             <div className="flex items-center justify-end mt-3 text-sm text-gray-500">
               <div className="flex space-x-3">
                 <img src={like} alt="좋아요" className="w-5 h-5" />
