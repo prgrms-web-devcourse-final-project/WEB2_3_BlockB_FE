@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import bookmark from "../../assets/icons/bookmark.svg";
-import connection from "../../assets/icons/connection.svg";
 import like from "../../assets/icons/like.svg";
 import TopButton from "../common/TopButton";
 
@@ -33,7 +32,7 @@ export default function NewsList({
               alt="뉴스 이미지"
               className="object-cover w-full h-48 rounded-lg"
             />
-            <h3 className="mt-3 text-lg font-extrabold h-[56px]">{news.title}</h3>
+            <h3 className="mt-3 text-lg font-extrabold lg:h-[56px] h-[74px]">{news.title}</h3>
             <div className="flex justify-between mt-2 text-sm text-gray-500">
               <p>{news.newsType}</p>
               <p>{new Date(news.deliveryTime).toLocaleString()}</p>

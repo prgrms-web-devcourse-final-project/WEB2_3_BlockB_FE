@@ -19,6 +19,8 @@ export default function OngoingDebate() {
     }, 3000);
   }, []);
 
+  
+
   const { roomSettings, setRoomState } = useRoomStore();
   const [turnCount] = useState(roomSettings.speakCount!);
   const timerRef = useRef(roomSettings.time!)
@@ -31,11 +33,14 @@ export default function OngoingDebate() {
       navigate('/main');
     });
   };
+
+  
   
   
   useEffect(()=> {
     console.log("턴 카운트",turnCount, timerRef.current)
   },[])
+
   return (
     <>
       {isLoading ? (

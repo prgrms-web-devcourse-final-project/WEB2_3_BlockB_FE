@@ -11,10 +11,7 @@ import { speakCountMap, timeMap } from "../constants";
 import useSlideUpAnimation from "../hooks/useSlideUpAnimation";
 import useNewsInfoParams from "../hooks/useNewsInfoParams";
 import Header from "../components/common/Header";
-// import SockJS from "sockjs-client";
-import useWebSocket from "react-use-websocket";
 
-// import { Client, Frame, IMessage } from "@stomp/stompjs";
 
 export default function GeneratingRoom() {
   const navigate = useNavigate();
@@ -23,18 +20,18 @@ export default function GeneratingRoom() {
 
   const { setRoomSettings, roomSettings } = useRoomStore();
 
-  const { newsId, continent, newsTitle, generatingType, moveToLinkedNews } =
+  const { newsId, newsContinent, newsTitle, generatingType, moveToLinkedNews } =
     useNewsInfoParams();
   useEffect(() => {
     if (generatingType === "fromNews") {
-      setRoomSettings("continent", continent);
+      setRoomSettings("continent", newsContinent);
       setRoomSettings("link", `/news/${newsId}`);
       setCheckedStates((prevCheckedStates) => ({
         ...prevCheckedStates,
         continent: true,
       }));
     }
-  }, [generatingType, continent, newsId, setRoomSettings]);
+  }, [generatingType, newsContinent, newsId]);
 
   const [checkedStates, setCheckedStates] = useState<Record<string, boolean>>({
     title: false,
@@ -108,10 +105,10 @@ export default function GeneratingRoom() {
             {generatingType == "fromNews" && (
               <button
                 onClick={moveToLinkedNews}
-                className="w-full flex justify-end items-center gap-2"
+                className="w-full h-5 flex justify-end items-center gap-2 animate-flip mb-2"
               >
                 <img src={link} alt="연관된 뉴스 링크" />
-                <figcaption className="text-gray02 text-[10px] leading-0">
+                <figcaption className="text-gray03 text-[12px] leading-0">
                   {newsTitle}
                 </figcaption>
               </button>
