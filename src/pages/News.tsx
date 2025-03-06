@@ -2,12 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import search from "../assets/icons/search.svg";
 import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
 import NewsList from "../components/news/NewsList";
-import Category from "../components/news/Category";
 import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearchSkeleton";
 import { newsAPI } from "../api/news";
+import Category from "../components/news/Category";
+import { useSearchParams } from "react-router";
 
 export default function News() {
-  const [currentContinent, setCurrentContinent] = useState("all"); // 대륙 상태 저장
+  const [serchParams] = useSearchParams();
+  const continentCode = serchParams.get("continent");
+
   const [isLoading, setIsLoading] = useState(true);
   const [newsData, setNewsData] = useState<NewsType[]>([]);
   const [text, setText] = useState("");
@@ -22,17 +25,12 @@ export default function News() {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      fetchAllNews(currentSort, true, currentContinent ?? undefined); // null -> undefined 변환
+      fetchAllNews(currentSort, true, continentCode ?? undefined); // null -> undefined 변환
     }
   };
 
   const textValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
-  };
-
-  const continentCodeChange = (code: string) => {
-    setCurrentContinent(code);
-    fetchAllNews(currentSort, true, code); // 새로운 대륙에 맞춰 뉴스 데이터 불러오기
   };
 
   const fetchAllNews = async (
@@ -51,7 +49,6 @@ export default function News() {
         setCursor(null);
         setCurrentSearchTerm(text);
         setCurrentSort(actualSort);
-        setCurrentContinent(continent ?? currentContinent);
       }
 
       const cursorValue = cursor && !isNewSearch ? cursor : undefined;
@@ -88,11 +85,11 @@ export default function News() {
   };
 
   useEffect(() => {
-    fetchAllNews(currentSort, true, currentContinent);
-  }, [currentContinent]);
+    fetchAllNews(currentSort, true, continentCode!);
+  }, [continentCode]);
 
   useEffect(() => {
-    fetchAllNews(currentSort, true, currentContinent);
+    fetchAllNews(currentSort, true, continentCode!);
   }, [currentSort]);
 
   useEffect(() => {
@@ -119,7 +116,7 @@ export default function News() {
       <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0 md:gap-6">
         {/* 카테고리 */}
         <div className="order-1 w-full md:w-1/6 md:ml-3 md:order-1">
-          <Category continentCodeChange={continentCodeChange} />
+          <Category />
         </div>
 
         <div className="order-2 overflow-auto md:w-5/6 md:mr-3 md:order-2">
@@ -168,11 +165,7 @@ export default function News() {
                 />
                 <button
                   onClick={() =>
-                    fetchAllNews(
-                      currentSort,
-                      true,
-                      currentContinent ?? undefined
-                    )
+                    fetchAllNews(currentSort, true, continentCode ?? undefined)
                   }
                 >
                   <img

@@ -19,72 +19,69 @@ export default function DebateList({ debaters }: DebateListProps) {
   if (isLoading) return <DebateListSkeleton />;
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {debaters.map((debater) => (
         <Link to={`/user-page/${debater.userId}`}
           key={debater.userId}
-          className="border-b py-3 md:px-4 sm:px-0 w-full md:hidden"
-        >
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center gap-3 sm:gap-4 w-full md:w-1/3">
-              <img
-                src={debater.profile}
-                alt="profile"
-                className="rounded-full w-12 h-12"
-              />
-              <div className="w-full">
-                <div className="flex justify-between items-center">
-                  <p className="font-semibold text-sm sm:text-base">
+          className="border-b py-3 md:px-4 sm:px-0 w-full"
+        > 
+          <div className="flex md:flex-row flex-col justify-between">
+            <div className="flex justify-between md:w-2/3 w-full">
+              <div className="flex items-center">
+                <img
+                  src={debater.profile}
+                  alt="profile"
+                  className="rounded-full w-12 h-12 mr-6"
+                />
+                <p className="font-semibold md:text-sm text-[12px]">
                     {debater.nickname}
-                  </p>
-                  <p className="px-3 py-1 rounded-lg font-medium text-[8px] sm:text-sm">
-                    {debater.totalFollowers} followers ·{" "}
-                    {debater.totalFollowees} following
-                  </p>
+                </p>
+              </div>
+              <div className="flex justify-between items-center md:text-[16px] text-[14px]">
+                <p className="rounded-lg font-medium">
+                  {debater.totalFollowers} followers ·{" "}
+                  {debater.totalFollowees} following
+                </p>
+              </div>
+            </div>
+            <div className="md:w-auto w-full flex justify-end md:text-[16px] text-[14px]">
+              <div className="flex gap-3 sm:gap-6">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <img
+                    src={Win}
+                    alt="승리 아이콘"
+                    className="md:w-6 md:h-6 w-4 h-4 "
+                  />
+                  <span className="font-semibold">
+                    {debater.wins}
+                  </span>
                 </div>
-                <div className="flex justify-between items-center mt-1">
-                  <p className="text-gray-500 text-[10px] sm:text-sm">
-                    {debater.introduction}
-                  </p>
-                  <div className="flex gap-3 sm:gap-6">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <img
-                        src={Win}
-                        alt="승리 아이콘"
-                        className="w-3 sm:w-6 h-3 sm:h-6"
-                      />
-                      <span className="text-[10px] sm:text-lg font-semibold">
-                        {debater.wins}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <img
-                        src={Draw}
-                        alt="무승부 아이콘"
-                        className="w-3 sm:w-6 h-3 sm:h-6"
-                      />
-                      <span className="text-[10px] sm:text-lg font-semibold">
-                        {debater.draws}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <img
-                        src={Lose}
-                        alt="패배 아이콘"
-                        className="w-3 sm:w-6 h-3 sm:h-6"
-                      />
-                      <span className="text-[10px] sm:text-lg font-semibold">
-                        {debater.losses}
-                      </span>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <img
+                    src={Draw}
+                    alt="무승부 아이콘"
+                    className="md:w-6 md:h-6 w-4 h-4"
+                  />
+                  <span className="font-semibold">
+                    {debater.draws}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <img
+                    src={Lose}
+                    alt="패배 아이콘"
+                    className="md:w-6 md:h-6 w-4 h-4"
+                  />
+                  <span className="font-semibold">
+                    {debater.losses}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </Link>
       ))}
-      {debaters.map((debater) => (
+      {/* {debaters.map((debater) => (
         <Link
           to={`/user-page/${debater.userId}`}
           key={debater.userId}
@@ -122,7 +119,7 @@ export default function DebateList({ debaters }: DebateListProps) {
             </div>
           </div>
         </Link>
-      ))}
+      ))} */}
     </div>
   );
 }

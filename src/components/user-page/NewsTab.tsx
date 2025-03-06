@@ -66,9 +66,9 @@ export default function NewsTab({ tab, user }: { tab: string, user: UserInfo | n
           </button>
         </div>
         <div>
-          {paginatedBody.map((news, index) => (
+          {paginatedBody.length > 0 ? paginatedBody.map((news, index) => (
             <CommonSimpleInfo key={index} type="news" data={news} />
-          ))}
+          )) : <div className="h-100 text-gray01">저장된 뉴스가 없습니다</div>}
         </div>
         <Pagination
           totalPages={totalPages}

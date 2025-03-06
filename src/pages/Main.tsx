@@ -85,7 +85,7 @@ export default function Main() {
                 Focus
               </span>
               <Link
-                to={tab ? "/news" : "/debate-rooms"}
+                to={tab ? "/news?continent=all" : "/debate-rooms"}
                 className="w-[112px] h-[34px] text-[20px] max-lg:text-[16px] max-md:text-[12px] max-md:w-[66px] max-md:h-[18px] bg-gray03 rounded-[10px] text-white justify-center items-center flex"
               >
                 view more

@@ -6,10 +6,12 @@ import like from "../assets/icons/like.svg";
 import liked from "../assets/icons/liked.svg";
 import speechBubble from "../assets/icons/speechBubble.svg";
 import NewsDetailSkeleton from "../components/common/skeleton/news/NewsDetailSkeleton";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { newsAPI } from "../api/news";
+import { useUserStore } from "../stores/userStore";
 
 export default function NewsDetail() {
+  const userId = useUserStore((state) => state.userId);
   const [isLoading, setIsLoading] = useState(true);
   let { newsId } = useParams();
   const [newsInfo, setNewsInfo] = useState<NewsDetailType>();
@@ -20,26 +22,28 @@ export default function NewsDetail() {
   };
 
   const postNewsLike = async () => {
-    await newsAPI.postNewsLike(Number(newsId), 4);
+    await newsAPI.postNewsLike(Number(newsId), userId!);
     await fetchNewsDetail();
   };
   const postNewsBookmark = async () => {
-    await newsAPI.postNewsBookmark(Number(newsId), 4);
+    await newsAPI.postNewsBookmark(Number(newsId), userId!);
     await fetchNewsDetail();
   };
 
   const deleteNewsLike = async () => {
-    await newsAPI.deleteNewsLike(Number(newsId), 4);
+    await newsAPI.deleteNewsLike(Number(newsId), userId!);
     await fetchNewsDetail();
   };
   const deleteNewsBookmark = async () => {
-    await newsAPI.deleteNewsBookmark(Number(newsId), 4);
+    await newsAPI.deleteNewsBookmark(Number(newsId), userId!);
     await fetchNewsDetail();
   };
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 2000);
     fetchNewsDetail();
   }, []);
+
+  const navigate = useNavigate();
 
   return (
     <div className="w-full h-screen overflow-hidden font-pretendard">
@@ -108,7 +112,12 @@ export default function NewsDetail() {
                 </div>
 
                 {/* 토론방 */}
-                <button className="flex items-center justify-center w-full px-4 py-2 text-white rounded-md md:w-auto bg-blue-950">
+                <button
+                  onClick={() =>
+                    navigate(`/debate-zone/new-debate?id=${newsId}`)
+                  }
+                  className="flex items-center justify-center w-full px-4 py-2 text-white rounded-md md:w-auto bg-blue-950"
+                >
                   토론방 개설
                   <span className="ml-2">
                     <img

@@ -4,7 +4,7 @@ export default function RoomActionButtons({
   cancelColor,
   confirmColor,
   confirmText,
-  hasCompleted,
+  hasCompleted=false,
 }: {
   cancelAction: () => void;
   confirmAction: () => void;

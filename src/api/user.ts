@@ -12,12 +12,23 @@ const fetchMyProfile = async () => {
 };
 
 // 프로필 수정
-const updateUserProfile = async (userId: number, data: ProfileUpdate) => {
+const updateUserProfile = async (userId: number, data: Partial<ProfileUpdate>) => {
+  const formData = new FormData();
+
+  // 변경된 값만 추가
+  if (data.file) formData.append("file", data.file);
+  if (data.nickname) formData.append("nickname", data.nickname);
+  if (data.introduction) formData.append("introduction", data.introduction);
+
   try {
     const response = await axiosInstance.put(
       `/api/users/mypage/${userId}`,
-      null,
-      { params: data }
+      formData, // Request body
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
     return response.data;
   } catch (error) {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import search from "../assets/icons/search-black.svg";
 import ReportTable from "../components/admin/ReportTable";
-import Modal from "../components/admin/Modal";
+import Modal from "../components/admin/AdminModal";
 import Pagination from "../components/common/Pagenation";
 import { usePagination } from "../hooks/usePagenation";
 import {

@@ -6,6 +6,7 @@ const reportUser = async ( {targetUserId, targetType="CHAT", targetRoomId = null
   try {
     const myUserResponse = await userApi.fetchMyProfile();
     const userId = myUserResponse.data.id; // 신고자 아이디
+    console.log("userId", userId)
     const requestBody = {
       userId,
       targetUserId,
@@ -14,9 +15,10 @@ const reportUser = async ( {targetUserId, targetType="CHAT", targetRoomId = null
       content,
       reportType
     }
+    console.log(requestBody)
 
     const response = await axiosInstance.post(
-      "/api/report",
+      "/api/report", 
       requestBody 
     );
 

@@ -1,7 +1,6 @@
 import { create } from "zustand";
 
 type RoomState =
-  | "generating"
   | "waiting"
   | "ongoing"
   | "won-by-default"
@@ -20,7 +19,7 @@ interface RoomStateStore {
 }
 
 export const useRoomStore = create<RoomStateStore>((set) => ({
-  roomState: "generating",
+  roomState: "waiting",
   setRoomState: (state) => set({ roomState: state }),
   roomSettings: {
     title: null,

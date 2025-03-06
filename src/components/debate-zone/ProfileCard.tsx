@@ -4,7 +4,7 @@ import flag from "../../assets/icons/flag.svg";
 import lose from "../../assets/icons/lose.svg";
 import profile from "../../assets/icons/profile-white.svg";
 import win from "../../assets/icons/win.svg";
-import { useReportStore } from "../../stores/reportModalStore";
+import { useReportModalStore } from "../../stores/reportModalStore";
 
 export default function ProfileCard({
   color,
@@ -13,7 +13,17 @@ export default function ProfileCard({
   color?: string;
   hasReportBtn?: boolean;
 }) {
-  const {setIsReportModalOpen} = useReportStore()
+    const { openModal } = useReportModalStore();
+
+    const handleOpenReportModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation()
+      openModal({
+        targetNickname: "김예빈 어드민 계정",
+        targetUserId: 2,
+        targetType: "CHAT",
+        roomId: null,
+      });
+    };
   return (
     <div
       className={`flex items-center lg:w-[280px] w-[145px] h-[34px] justify-between h-auto lg:px-[10px] lg:py-[8px] p-1 bg-neutral-50/50 lg:rounded-lg rounded-[5px] text-white animate-flip ${
@@ -53,7 +63,7 @@ export default function ProfileCard({
       </div>
       {hasReportBtn && (
         <div className="relative">
-          <button onClick={() => setIsReportModalOpen(true)}>
+          <button onClick={handleOpenReportModal}>
             <img
               src={color === "blue" ? flagWhite : flag}
               alt="신고하기 모달 열기"

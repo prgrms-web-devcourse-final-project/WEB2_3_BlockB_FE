@@ -4,6 +4,8 @@ import { useAuthStore } from "../stores/authStore";
 import { useUserStore } from "../stores/userStore";
 import axios from "axios";
 import { handleAllowNotification } from "../utils/firebase/notificationPermission";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function OAuthCallback() {
@@ -82,5 +84,9 @@ export default function OAuthCallback() {
       });
   }, [location.search]);
 
-  return <div>로그인 중...</div>; //로딩 스피너로 변경할 예정
+  return (
+    <div>
+      <LoadingSpinner />
+    </div>
+  );
 }

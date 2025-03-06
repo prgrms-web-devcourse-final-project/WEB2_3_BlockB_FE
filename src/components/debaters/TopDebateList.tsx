@@ -53,30 +53,25 @@ export default function TopDebateList({ topDebaters }: TopDebateListProps) {
                   />
                 )}
               </div>
-
-              <p className="font-semibold text-[14px] mt-2">
-                {debater.nickname}
-              </p>
-              <p className="text-gray-500 text-sm">{debater.introduction}</p>
-              <p className="bg-gray-100 inline-block px-4 py-1 rounded-lg font-medium mt-6 mb-10">
+              <div className="flex flex-col h-10">
+                <p className="font-semibold text-[14px] mt-2">
+                  {debater.nickname}
+                </p>
+                <p className="text-gray-500 text-sm">{debater.introduction}</p>
+              </div>
+              <p className="bg-gray-100 inline-block px-4 py-1 rounded-lg font-medium mt-6 mb-10 h-[56px]">
                 {debater.totalFollowers} followers · {debater.totalFollowees}{" "}
                 following
               </p>
               <div className="flex w-full justify-between items-center mt-3">
-                <div className="flex items-center gap-x-[22px]">
                   <img src={Win} alt="승리 아이콘" className="w-6 h-6" />
                   <span className="text-lg font-semibold">{debater.wins}</span>
-                </div>
-                <div className="flex items-center gap-x-[22px]">
                   <img src={Draw} alt="무승부 아이콘" className="w-6 h-6" />
                   <span className="text-lg font-semibold">{debater.draws}</span>
-                </div>
-                <div className="flex items-center gap-x-[22px]">
                   <img src={Lose} alt="패배 아이콘" className="w-6 h-6" />
                   <span className="text-lg font-semibold">
                     {debater.losses}
                   </span>
-                </div>
               </div>
             </Link>
           );
