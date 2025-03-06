@@ -31,7 +31,6 @@ export default function OAuthCallback() {
     let provider = "";
     if (location.pathname.includes("google")) provider = "google";
     else if (location.pathname.includes("kakao")) provider = "kakao";
-    else if (location.pathname.includes("naver")) provider = "naver";
 
     if (!provider) {
       navigate("/", { replace: true });
@@ -83,5 +82,9 @@ export default function OAuthCallback() {
       });
   }, [location.search]);
 
-  return <div><LoadingSpinner /></div>; 
+  return (
+    <div>
+      <LoadingSpinner />
+    </div>
+  );
 }
