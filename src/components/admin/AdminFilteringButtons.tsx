@@ -14,37 +14,30 @@ export default function AdminFilteringButtons({
   selectedResultFilter: string;
   setSelectedResultFilter: (result: string) => void;
 }) {
+
+  const isUnprocessed = tab === "미처리";
+  const filters = isUnprocessed ? unprocessedFilters : processedFilters;
+  const selectedFilter = isUnprocessed ? selectedReasonFilter : selectedResultFilter;
+  const setSelectedFilter = isUnprocessed ? setSelectedReasonFilter : setSelectedResultFilter;
+  const containerWidth = isUnprocessed ? "w-[814px]" : "w-[375px]";
+  const labelText = isUnprocessed ? "신고 사유" : "처리 옵션";
+
   return (
     <div className="flex items-center">
       <p className="text-[14px] md:text-[16px] h-5 text-gray01 mr-6 whitespace-nowrap">
-        {tab === "미처리" ? "신고 사유" : "처리 옵션"}
+        {labelText}
       </p>
-      <div
-        className={`${
-          tab === "미처리" ? "w-[814px]" : "w-[375px]"
-        } h-[40px] flex justify-between text-[14px] overflow-x-auto`}
-      >
-        {tab === "미처리"
-          ? unprocessedFilters.map((filter) => (
-              <FilterButton
-                key={filter.value}
-                label={filter.label}
-                value={filter.value}
-                selected={selectedReasonFilter === filter.value}
-                setFilter={setSelectedReasonFilter}
-                width={filter.width}
-              />
-            ))
-          : processedFilters.map((filter) => (
-              <FilterButton
-                key={filter.value}
-                label={filter.label}
-                value={filter.value}
-                selected={selectedResultFilter === filter.value}
-                setFilter={setSelectedResultFilter}
-                width={filter.width}
-              />
-            ))}
+      <div className={`${containerWidth} h-[40px] flex justify-between text-[14px] overflow-x-auto`}>
+        {filters.map((filter) => (
+          <FilterButton
+            key={filter.value}
+            label={filter.label}
+            value={filter.value}
+            selected={selectedFilter === filter.value}
+            setFilter={setSelectedFilter}
+            width={filter.width}
+          />
+        ))}
       </div>
     </div>
   );

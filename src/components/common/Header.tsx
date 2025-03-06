@@ -10,20 +10,27 @@ import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
 import { useAuthStore } from "../../stores/authStore";
+import Modal from "./Modal";
+import { useModalStore } from "../../stores/useModal";
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
 
 export default function Header({ status }: { status: HeaderStatusType }) {
   // 'debate-ing' 상태일 때 헤더를 렌더링하지 않음
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const { userId, profileUrl } = useUserStore();
+  const { userId, profileUrl, role } = useUserStore();
   const { logout } = useAuthStore();
   if (status === "debate-ing") {
     return null;
   }
+  const {openModal} = useModalStore()
+  const onClickLogout = () => {
+    openModal("로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?", ()=>{logout(); navigate("/")})
+  }
   return (
     <>
       <div className="fixed top-0 w-full z-50">
+        <Modal />
         {status === "landing" ? (
           <div className="w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] justify-between items-center bg-black01 text-white">
             <img
@@ -51,8 +58,8 @@ export default function Header({ status }: { status: HeaderStatusType }) {
           >
             <div
               className={`${
-                status === "admin"
-                  ? "w-[550px] max-md:w-[250px]"
+                role === "ROLE_ADMIN"
+                  ? "w-[550px] max-md:w-[270px]"
                   : "w-[440px] max-md:w-[220px]"
               } flex h-[53px] justify-between items-center`}
             >
@@ -64,7 +71,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
               </Link>
               <div
                 className={`${
-                  status === "admin"
+                  role === "ROLE_ADMIN"
                     ? "w-[460px] max-md:w-[220px]"
                     : "w-[360px] max-md:w-[180px]"
                 } flex h-[29px] justify-between text-[24px] max-md:text-[12px] items-center font-sofiaSans text-black01`}
@@ -72,7 +79,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                 <Link to={"/news"}>News</Link>
                 <Link to={"/debate-rooms"}>Debate Rooms</Link>
                 <Link to={"/debaters"}>Debaters</Link>
-                {status === "admin" ? <Link to={"/admin"}>Admin</Link> : ""}
+                {role === "ROLE_ADMIN" ? <Link to={"/admin"}>Admin</Link> : ""}
               </div>
             </div>
             <div className="flex items-center md:space-x-4 space-x-1">
@@ -101,10 +108,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
               </button>
               <button
                 className="font-pretendard font-bold text-[10px] md:text-[18px] text-black hover:text-red-700"
-                onClick={() => {
-                  logout();
-                  navigate("/");
-                }}
+                onClick={onClickLogout}
               >
                 로그아웃
               </button>
