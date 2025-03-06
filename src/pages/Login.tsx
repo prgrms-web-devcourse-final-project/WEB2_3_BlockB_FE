@@ -1,16 +1,14 @@
 import google from "../assets/icons/google.svg";
 import kakao from "../assets/icons/kakao.svg";
 import logo from "../assets/icons/logo.svg";
-import naver from "../assets/icons/naver.svg";
 import Footer from "../components/common/Footer";
 
 const VITE_GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const VITE_KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
-const VITE_NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
 const VITE_REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
 export default function Login() {
-  const handleLogin = (provider: "google" | "kakao" | "naver") => {
+  const handleLogin = (provider: "google" | "kakao") => {
     let loginUrl = "";
 
     switch (provider) {
@@ -19,9 +17,6 @@ export default function Login() {
         break;
       case "kakao":
         loginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${VITE_KAKAO_CLIENT_ID}&redirect_uri=${VITE_REDIRECT_URI}/kakao&response_type=code&scope=profile_nickname,profile_image`;
-        break;
-      case "naver":
-        loginUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${VITE_NAVER_CLIENT_ID}&redirect_uri=${VITE_REDIRECT_URI}/naver&response_type=code`;
         break;
     }
 
@@ -72,20 +67,6 @@ export default function Login() {
               />
               <span className="w-full text-center text-sm md:text-base">
                 카카오 로그인 하기
-              </span>
-            </button>
-
-            <button
-              onClick={() => handleLogin("naver")}
-              className="relative flex items-center w-full py-2 md:py-3 font-medium text-white bg-green-500 rounded-md"
-            >
-              <img
-                src={naver}
-                alt="Naver Logo"
-                className="absolute w-5 h-5 md:w-6 md:h-6 left-4"
-              />
-              <span className="w-full text-center text-sm md:text-base">
-                네이버 로그인 하기
               </span>
             </button>
           </div>
