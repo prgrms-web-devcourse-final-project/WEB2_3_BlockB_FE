@@ -32,12 +32,14 @@ export default function NewsList({
               alt="뉴스 이미지"
               className="object-cover w-full h-48 rounded-lg"
             />
-            <h3 className="mt-3 text-lg font-extrabold lg:h-[56px] h-[74px]">{news.title}</h3>
+            <h3 className="mt-3 text-lg font-extrabold lg:h-[74px] h-[102px]">
+              {news.title}
+            </h3>
             <div className="flex justify-between mt-2 text-sm text-gray-500">
               <p>{news.newsType}</p>
               <p>{new Date(news.deliveryTime).toLocaleString()}</p>
             </div>
-            <p className="mt-2 text-sm text-gray-700 h-[220px]">
+            <p className="mt-2 text-sm text-gray-700 h-[300px] lg:h-[150px]">
               {news.content}
             </p>
             <div className="flex items-center justify-end mt-3 text-sm text-gray-500">
