@@ -17,7 +17,7 @@ export default function NewsDetail() {
   const [newsInfo, setNewsInfo] = useState<NewsDetailType>();
 
   const fetchNewsDetail = async () => {
-    const newsDetail = await newsAPI.getNewsDetail(Number(newsId), 4);
+    const newsDetail = await newsAPI.getNewsDetail(Number(newsId), userId!);
     setNewsInfo(newsDetail.data);
   };
 

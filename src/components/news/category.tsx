@@ -49,7 +49,9 @@ const Category = () => {
                   ? "text-blue03"
                   : "text-gray-500"
               } px-4 py-2 font-bold  transition-colors bg-gray-100 rounded-md cursor-pointer font-pretendard hover:text-blue03`}
-              onClick={() => {}}
+              onClick={() => {
+                navigate(`/news?continent=${category.code}`);
+              }}
             >
               {category.name}
             </div>
