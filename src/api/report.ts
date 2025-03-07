@@ -73,13 +73,13 @@ const processReport = async (
   reportId: number,
   result: string,
   reportContent: string,
-  asignedUserId: number
+  assignedUserId: number
 ) => {
   try {
     const requestBody = {
       result,
       reportContent,
-      asignedUserId,
+      assignedUserId,
     };
 
     const response = await axiosInstance.put(

@@ -2,24 +2,20 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { Client, Message } from "@stomp/stompjs";
 import { useParams } from "react-router";
 
-
-type WebSocketCommunicationType = {
-  event: "JOIN" | "CHAT" | "EXIT";
-  userName: string;
-  position: "PRO" | "CON" | "NO_POSITION";
-  message: string;
-  timestamp: string;
-};
-
 interface WebSocketContextType {
   messages: WebSocketCommunicationType[];
   sendMessage: (message: string) => void;
   stompClient: Client | null;
 }
 
-const DebateWebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
+const DebateWebSockContext = createContext<WebSocketContextType | undefined>(undefined);
 
-export const DebateWebSocketProvider = ({ children }: { children: React.ReactNode }) => {
+interface DebateWebSocketProviderProps {
+  userName: string;
+  position: string;
+}
+
+export const DebateWebSocketProvider = ({ children, userName, position }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
   const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
 
@@ -29,32 +25,34 @@ export const DebateWebSocketProvider = ({ children }: { children: React.ReactNod
   const sendMessage = (message: string) => {
     if (stompClient && roomId) {
       stompClient.publish({
-        destination: `/app/debate/${roomId}`, 
-        body: message,  
+        destination: `/app/observer/${roomId}`,
+        body: message,
       });
     }
   };
 
   useEffect(() => {
-    if (!roomId) return; // roomId가 없으면 WebSocket 연결하지 않음
+    if (!roomId || !userName || !position) return; // 필수 값이 없으면 WebSocket 연결하지 않음
 
     const WS_URL = import.meta.env.VITE_WS_URL;
     const client = new Client({
-      brokerURL: `${WS_URL}/debate/${roomId}`,
-      connectHeaders: {},
+      brokerURL: `${WS_URL}/observer/${roomId}`,
+      connectHeaders: {
+        userName,
+        position,
+        roomId,
+      },
       debug: (msg) => console.log("[STOMP DEBUG]:", msg),
       reconnectDelay: 5000, // 5초 후 자동 재연결
     });
 
     client.onConnect = () => {
-      client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
-        // 메시지의 본문을 처리할 때 JSON.parse로 변환
-        console.log("subscribe 전달 받음",message)
+      client.subscribe(`/topic/observer/${roomId}`, (message: Message) => {
+        console.log("subscribe 전달 받음", message);
         const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
-        if(parsedMessage.message.length > 0){
+        if (parsedMessage.message.length > 0) {
           setMessages((prevMessages) => [...prevMessages, parsedMessage]);
         }
-
       });
     };
 
@@ -64,17 +62,17 @@ export const DebateWebSocketProvider = ({ children }: { children: React.ReactNod
     return () => {
       client.deactivate();
     };
-  }, [roomId]); 
+  }, [roomId, userName, position]);
 
   return (
-    <DebateWebSocketContext.Provider value={{ messages, sendMessage, stompClient }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage, stompClient }}>
       {children}
-    </DebateWebSocketContext.Provider>
+    </DebateWebSockContext.Provider>
   );
 };
 
 export const useDebateWebSocket = () => {
-  const context = useContext(DebateWebSocketContext);
+  const context = useContext(DebateWebSockContext);
   if (!context) {
     throw new Error("useDebateWebSocket must be used within a DebateWebSocketProvider");
   }
