@@ -15,7 +15,7 @@ export default function AudienceListBox({setIsWaiting} : {setIsWaiting: (isWatin
             onClick={() => {
             setIsWaiting(false);
             }}
-            className="text-white font-bold"
+            className="text-white font-bold z-50"
         >
             대기 완료
         </button>

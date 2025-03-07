@@ -120,7 +120,7 @@ export default function AdminModal({
             <p className="ml-4"><span>{reportDetails?.reportType}</span>-<span>{reportDetails?.content}</span></p>
             <div className="flex flex-col sm:flex-row whitespace-nowrap items-start sm:items-center">
               <p>처리 옵션</p>
-              <div className="flex w-full overflow-x-auto ml-0 sm:ml-8 ">
+              <div className="flex w-full overflow-x-auto ml-0 sm:ml-8 pl-1 py-1">
                 {editOptions.map((editOption) => (
                   <FilterButton
                     key={editOption.value}
