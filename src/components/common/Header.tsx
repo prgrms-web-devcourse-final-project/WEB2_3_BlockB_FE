@@ -14,6 +14,7 @@ import { notificationAPI } from "../../api/notificaion";
 
 import Modal from "./Modal";
 import { useModalStore } from "../../stores/useModal";
+import useGetNotifications from "../../hooks/useGetNotifications";
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
 
 export default function Header({ status }: { status: HeaderStatusType }) {
@@ -23,6 +24,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const { userId, profileUrl, role } = useUserStore();
   const { logout } = useAuthStore();
   const [notifications, setNotifications] = useState<NotificationDataType>();
+  const { data } = useGetNotifications(userId!);
   if (status === "debate-ing") {
     return null;
   }
@@ -36,7 +38,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   };
   useEffect(() => {
     fetchNotificationData();
-  }, []);
+  }, [data]);
 
   const { openModal } = useModalStore();
   const onClickLogout = () => {
@@ -47,7 +49,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   };
   return (
     <>
-      <div className="fixed top-0 w-full z-50">
+      <div className="fixed top-0 z-50 w-full">
         <Modal />
         {status === "landing" ? (
           <div className="w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] justify-between items-center bg-black01 text-white">
@@ -100,7 +102,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                 {role === "ROLE_ADMIN" ? <Link to={"/admin"}>Admin</Link> : ""}
               </div>
             </div>
-            <div className="flex items-center space-x-1 md:space-x-4">
+            <div className="flex items-center gap-1 space-x-1 md:space-x-4">
               <button
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
               >
@@ -115,7 +117,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                     alt="알림"
                   />
                   {notifications?.unreadCount! > 0 && (
-                    <span className="absolute top-0 right-0  bg-red-500 text-white text-[10px] font-bold px-1 rounded-full">
+                    <span className="absolute top-[-3px] right-[-10px]  bg-red-500 text-white text-[10px] font-bold px-1 rounded-full">
                       {notifications?.unreadCount}
                     </span>
                   )}
