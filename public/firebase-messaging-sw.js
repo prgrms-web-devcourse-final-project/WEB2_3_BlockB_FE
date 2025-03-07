@@ -6,13 +6,16 @@ importScripts(
 );
 
 self.addEventListener("install", function (e) {
+  console.log("[Service Worker] 설치됨");
   self.skipWaiting();
 });
 
 self.addEventListener("activate", function (e) {
-  console.log("fcm service worker가 실행되었습니다.");
+  console.log("[Service Worker] 활성화됨");
+  self.clients.claim();
 });
 
+//  Firebase 초기화
 const firebaseConfig = {
   apiKey: "AIzaSyCgxbNXJeLHiAgZ2l2BGEjkPfH-fO0-ov4",
   authDomain: "earthtalk-f8dcd.firebaseapp.com",
@@ -24,9 +27,9 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const messaging = firebase.messaging();
 
+//  백그라운드 푸시 메시지 처리
 messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.title;
   const notificationOptions = {
@@ -34,4 +37,21 @@ messaging.onBackgroundMessage((payload) => {
     // icon: payload.icon
   };
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+//  알림 클릭 이벤트 추가
+self.addEventListener("notificationclick", (event) => {
+  console.log("[Service Worker] 알림 클릭됨:", event.notification);
+  event.notification.close();
+
+  const urlToOpen = event.notification.data?.url || "/";
+
+  event.waitUntil(
+    self.clients.matchAll({ type: "window" }).then((clientList) => {
+      if (clientList.length > 0) {
+        return clientList[0].focus();
+      }
+      return self.clients.openWindow(urlToOpen);
+    })
+  );
 });
