@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import logoWhite from "../../assets/icons/logo-white.png";
 import logo from "../../assets/icons/logo.svg";
 import notificationWhite from "../../assets/icons/notification-white.svg";
@@ -10,8 +10,11 @@ import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
 import { useAuthStore } from "../../stores/authStore";
+import { notificationAPI } from "../../api/notificaion";
+
 import Modal from "./Modal";
 import { useModalStore } from "../../stores/useModal";
+import useGetNotifications from "../../hooks/useGetNotifications";
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
 
 export default function Header({ status }: { status: HeaderStatusType }) {
@@ -20,16 +23,33 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { userId, profileUrl, role } = useUserStore();
   const { logout } = useAuthStore();
-  const {openModal} = useModalStore()
-  const onClickLogout = () => {
-    openModal("로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?", ()=>{logout(); navigate("/")})
-  }
+  const [notifications, setNotifications] = useState<NotificationDataType>();
+  const { data } = useGetNotifications(userId!);
   if (status === "debate-ing") {
     return null;
   }
+  const fetchNotificationData = async () => {
+    const notificationInfos = await notificationAPI.getNotifications(
+      userId!,
+      1
+    );
+    console.log(notificationInfos.data);
+    setNotifications(notificationInfos.data);
+  };
+  useEffect(() => {
+    fetchNotificationData();
+  }, [data]);
+
+  const { openModal } = useModalStore();
+  const onClickLogout = () => {
+    openModal("로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?", () => {
+      logout();
+      navigate("/");
+    });
+  };
   return (
     <>
-      <div className="fixed top-0 w-full z-50">
+      <div className="fixed top-0 z-50 w-full">
         <Modal />
         {status === "landing" ? (
           <div className="w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] justify-between items-center bg-black01 text-white">
@@ -82,19 +102,26 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                 {role === "ROLE_ADMIN" ? <Link to={"/admin"}>Admin</Link> : ""}
               </div>
             </div>
-            <div className="flex items-center space-x-1 md:space-x-4">
+            <div className="flex items-center gap-1 space-x-1 md:space-x-4">
               <button
                 onClick={() => setIsNotificationOpen(!isNotificationOpen)}
               >
-                <img
-                  className="max-md:w-[11px] max-md:h-[14px]"
-                  src={
-                    status === "debate-waiting"
-                      ? notificationWhite
-                      : notification
-                  }
-                  alt="알림"
-                />
+                <div className="relative">
+                  <img
+                    className="max-md:w-[11px] max-md:h-[14px]"
+                    src={
+                      status === "debate-waiting"
+                        ? notificationWhite
+                        : notification
+                    }
+                    alt="알림"
+                  />
+                  {notifications?.unreadCount! > 0 && (
+                    <span className="absolute top-[-3px] right-[-10px]  bg-red-500 text-white text-[10px] font-bold px-1 rounded-full">
+                      {notifications?.unreadCount}
+                    </span>
+                  )}
+                </div>
               </button>
               <button onClick={() => navigate(`/user-page/${userId}`)}>
                 <img
@@ -117,6 +144,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                 <NotificationList
                   status={status}
                   onClose={() => setIsNotificationOpen(false)}
+                  fetchNotificationData={fetchNotificationData}
                 />
               )}
             </div>

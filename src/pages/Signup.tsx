@@ -61,12 +61,14 @@ export default function Signup() {
       console.error(error);
     }
   };
-  
-  const {openModal} = useModalStore()
+
+  const { openModal } = useModalStore();
 
   const onClickComplete = () => {
-    openModal("회원가입을 완료하시겠습니까?", ()=>{navigate("/main")})
-  }
+    openModal("회원가입을 완료하시겠습니까?", () => {
+      navigate("/main");
+    });
+  };
 
   return (
     <form
@@ -92,10 +94,10 @@ export default function Signup() {
             <input
               type="text"
               className="w-full bg-transparent text-black font-semibold placeholder-gray-500 outline-none"
-              placeholder="닉네임을 입력해주세요"
+              placeholder="10글자 이내로 닉네임을 입력해주세요"
               value={inputNickname}
               onChange={(e) => {
-                if (e.target.value.length <= 7) {
+                if (e.target.value.length <= 10) {
                   setInputNickname(e.target.value);
                 }
               }}
@@ -154,10 +156,10 @@ export default function Signup() {
             <input
               type="text"
               className="w-full bg-transparent text-black font-semibold placeholder-gray-500 outline-none"
-              placeholder="한 줄 소개를 입력해주세요"
+              placeholder="20글자 이내로 한 줄 소개를 입력해주세요"
               value={userDescription}
               onChange={(e) => {
-                if (e.target.value.length <= 15) {
+                if (e.target.value.length <= 20) {
                   setUserDescription(e.target.value);
                 }
               }}

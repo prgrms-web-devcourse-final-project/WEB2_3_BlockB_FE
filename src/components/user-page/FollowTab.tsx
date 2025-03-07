@@ -24,7 +24,6 @@ export default function FollowTab({
   const [followers, setFollowers] = useState<Follower[]>([]);
   const [followees, setFollowees] = useState<Followee[]>([]);
 
-
   // 팔로워 리스트를 불러오는 함수
   const loadFollowers = async () => {
     if (!user) return;
@@ -103,16 +102,20 @@ export default function FollowTab({
             팔로잉 {followees.length || 0}명
           </button>
         </div>
-        {paginatedBody.length > 0 ? <div className="grid  md:grid-cols-2 gap-[20px] ">
-          {paginatedBody.map((profile, index) => (
-            <ProfileSimpleInfo
-              key={index}
-              profile={profile}
-              isFollowerTabed={isFollowerTabed}
-              deleteFollowing={deleteFollowing}
-            />
-          ))}
-        </div> :<div className="h-100 text-gray01">팔로우 내역이 없습니다</div>}
+        {paginatedBody.length > 0 ? (
+          <div className="grid  md:grid-cols-2 gap-[20px] ">
+            {paginatedBody.map((profile, index) => (
+              <ProfileSimpleInfo
+                key={index}
+                profile={profile}
+                isFollowerTabed={isFollowerTabed}
+                deleteFollowing={deleteFollowing}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="h-100 text-gray01">팔로우 내역이 없습니다</div>
+        )}
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
@@ -151,7 +154,9 @@ function ProfileSimpleInfo({
     return (profile as Follower).followerId !== undefined;
   };
 
-  const profileId = isFollower(profile) ? profile.followerId : profile.followeeId;
+  const profileId = isFollower(profile)
+    ? profile.followerId
+    : profile.followeeId;
 
   // 모달 열기
   const { openModal: openReportModal } = useReportModalStore();
@@ -178,7 +183,9 @@ function ProfileSimpleInfo({
     });
   };
 
-  const onClickProfileCard = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const onClickProfileCard = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     navigate(`/user-page/${profileId}`);
   };
@@ -186,7 +193,10 @@ function ProfileSimpleInfo({
   return (
     <div
       onClick={onClickProfileCard}
-      className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2"
+      className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2
+      transform scale-100 transition-all duration-200 
+      hover:scale-105 hover:bg-gray-100 
+      active:scale-95 active:bg-white active:text-black01"
     >
       <div className="flex items-center">
         <img
