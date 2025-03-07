@@ -27,6 +27,7 @@ export async function handleAllowNotification(userId: number) {
         console.warn("FCM 토큰을 가져올 수 없습니다.");
       }
     } else {
+      localStorage.removeItem("fcmToken");
       console.warn("알림 권한이 허용되지 않았습니다.");
     }
   } catch (error) {
