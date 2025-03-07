@@ -41,7 +41,7 @@ export default function Debaters() {
         />
       </div>
 
-      {debaters.length === 0 ? (
+      {debaters.length === 0 && searchTerm.trim() !== "" ? (
         <SearchResultNone searchTerm={searchTerm} />
       ) : searchTerm ? (
         <DebateList debaters={debaters} />

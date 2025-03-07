@@ -21,6 +21,7 @@ import OAuthCallback from "./pages/OAuthCallback";
 import PrivateRoute from "./layouts/PrivateRoute";
 import PublicRoute from "./layouts/PublicRoute";
 import GeneratingRoom from "./pages/GeneratingRoom";
+import AdminRoute from "./layouts/AdminRoute";
 
 function App() {
   useTokenRefresh();
@@ -39,10 +40,6 @@ function App() {
               element={<OAuthCallback />}
             />
             <Route
-              path="/login/oauth2/callback/naver"
-              element={<OAuthCallback />}
-            />
-            <Route
               path="/login/oauth2/callback/kakao"
               element={<OAuthCallback />}
             />
@@ -56,7 +53,6 @@ function App() {
             <Route path="/news/:newsId" element={<NewsDetail />} />
             <Route path="/debate-rooms" element={<DebateRooms />} />
             <Route path="/debaters" element={<Debaters />} />
-            <Route path="/admin" element={<Admin />} />
             <Route path="/profile-update" element={<ProfileUpdate />} />
             <Route path="/user-page/:userId" element={<UserPage />} />
             <Route
@@ -66,9 +62,15 @@ function App() {
             <Route path="/debate-zone/:roomId" element={<DebateZone />} />
             <Route path="/observing-zone" element={<ObservingZone />} />
           </Route>
+
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
+
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      ;
     </QueryClientProvider>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { editOptions, findFilterValue, processedFilters, unprocessedFilters } from "../../constants";
 import FilterButton from "./FilterButton";
 import { reportApi } from "../../api/report";
+import { userApi } from "../../api/user";
 
 export default function AdminModal({
   onCheck,
@@ -46,13 +47,12 @@ export default function AdminModal({
   }, [modalType, reportDetails]); 
   
 
-  // TODO: 현재 어드민 user 정보 가져오기 -- feat-profile-page branch와 병합 후 추가
-
   // 신고 처리하기/수정하기
   const [reason, setReason] = useState("WARNING");
   const [reportContent, setReportContent] = useState("")
   const onClickProcessBtn = async () => {
-    await reportApi.processReport(reportId!, reason , reportContent, 2); // TODO: assignedUserId 동적으로 추가
+    const userInfo = await userApi.fetchMyProfile()
+    await reportApi.processReport(reportId!, reason , reportContent, userInfo.data.id); 
     if(modalType === "process") setProcessModalOpen!(false)
     if(modalType === "edit") setEditModalOpen!(false)
     
@@ -63,7 +63,8 @@ export default function AdminModal({
     await reportApi.undoReportAction(reportId!)
     setRecoverModalOpen!(false)
   }
-  
+  // TODO: 모달 개별로 컴포넌트 화 
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-bold font-pretendard p-5">
       <div className="w-full max-w-[858px] sm:w-[90%] max-h-[90vh] overflow-y-auto bg-white px-4 sm:px-6 md:px-8 py-5 flex flex-col justify-between rounded-lg">

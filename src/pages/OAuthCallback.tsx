@@ -7,7 +7,7 @@ import { handleAllowNotification } from "../utils/firebase/notificationPermissio
 import LoadingSpinner from "../components/common/LoadingSpinner";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
+// TODO: to backend request - 회원가입 여부에 대한 column 반환
 export default function OAuthCallback() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ export default function OAuthCallback() {
     let provider = "";
     if (location.pathname.includes("google")) provider = "google";
     else if (location.pathname.includes("kakao")) provider = "kakao";
-    else if (location.pathname.includes("naver")) provider = "naver";
 
     if (!provider) {
       navigate("/", { replace: true });

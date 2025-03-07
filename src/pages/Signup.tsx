@@ -6,6 +6,8 @@ import logo from "../assets/icons/logo.svg";
 import Footer from "../components/common/Footer";
 import loading from "../assets/icons/loading.svg";
 import useDebounce from "../hooks/useDebounce";
+import { useModalStore } from "../stores/useModal";
+import Modal from "../components/common/Modal";
 
 export default function Signup() {
   const [isNicknameUniqueable, setIsNicknameUniqueable] =
@@ -52,7 +54,6 @@ export default function Signup() {
 
       if (success) {
         setIsNewUser(false);
-        navigate("/main");
       } else {
         alert("회원가입 중 오류가 발생했습니다.");
       }
@@ -61,11 +62,20 @@ export default function Signup() {
     }
   };
 
+  const { openModal } = useModalStore();
+
+  const onClickComplete = () => {
+    openModal("회원가입을 완료하시겠습니까?", () => {
+      navigate("/main");
+    });
+  };
+
   return (
     <form
       onSubmit={handleSignup}
       className="flex flex-col justify-between min-h-screen bg-gray-50"
     >
+      <Modal />
       <div className="flex items-center justify-center flex-1 px-4">
         <div className="bg-gray-100 p-6 md:p-10 rounded-xl shadow-lg text-center w-full max-w-[400px]">
           <h1 className="text-4xl md:text-6xl lg:text-[76px] font-bold font-unifrakturCook">
@@ -84,10 +94,10 @@ export default function Signup() {
             <input
               type="text"
               className="w-full bg-transparent text-black font-semibold placeholder-gray-500 outline-none"
-              placeholder="닉네임을 입력해주세요"
+              placeholder="10글자 이내로 닉네임을 입력해주세요"
               value={inputNickname}
               onChange={(e) => {
-                if (e.target.value.length <= 7) {
+                if (e.target.value.length <= 10) {
                   setInputNickname(e.target.value);
                 }
               }}
@@ -146,10 +156,10 @@ export default function Signup() {
             <input
               type="text"
               className="w-full bg-transparent text-black font-semibold placeholder-gray-500 outline-none"
-              placeholder="한 줄 소개를 입력해주세요"
+              placeholder="20글자 이내로 한 줄 소개를 입력해주세요"
               value={userDescription}
               onChange={(e) => {
-                if (e.target.value.length <= 15) {
+                if (e.target.value.length <= 20) {
                   setUserDescription(e.target.value);
                 }
               }}
@@ -189,6 +199,7 @@ export default function Signup() {
 
           <div className="flex justify-end w-full mt-4 font-pretendard">
             <button
+              onClick={onClickComplete}
               type="submit"
               className={`${
                 isNicknameUniqueable && userDescription.length > 0
