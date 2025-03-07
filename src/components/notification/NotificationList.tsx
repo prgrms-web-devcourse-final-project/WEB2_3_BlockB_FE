@@ -69,7 +69,6 @@ export default function NotificationList({
       setNotifications(
         data.pages.flatMap((page) => page.data.notifications.content)
       ); // 모든 페이지의 데이터를 합쳐서 새로운 배열로 저장
-      fetchNotificationData();
     }
   }, [data]);
 
