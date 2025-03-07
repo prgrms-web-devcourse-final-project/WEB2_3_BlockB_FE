@@ -64,6 +64,7 @@ function App() {
           <Route path="/observing-zone" element={<ObservingZone />} />
         </Route>
         <Route path="*" element={<NotFound />} />
+        <Route path="/not-found" element={<NotFound />} />
       </Route>
     </Routes>
     </QueryClientProvider>

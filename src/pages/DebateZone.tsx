@@ -20,16 +20,16 @@ export default function DebateZone() {
   const currentUserName = useRef("")
   const navigate = useNavigate()
 
-  const checkRoomIdIsExist = async() => {
-    if(roomId) {
-      try {
-        await debateRoomApi.fetchOngoingRoomInfo(roomId)
-      } catch (error) {
-      console.error(error)
-      navigate("*")
-      }
-    }
+  const checkRoomIdIsExist = async () => {
+    if (roomId) {
+      const response = await debateRoomApi.fetchOngoingRoomInfo(roomId);
+        if (!response || !response.data) {
+          console.warn("잘못된 룸 아이디로 접근하셨습니다, 리디렉션 중...");
+          navigate("/not-found");
+        }
+    };
   }
+      
 
   const fetchUserNickname = async() => {
     const userInfoResponse = await userApi.fetchMyProfile();
