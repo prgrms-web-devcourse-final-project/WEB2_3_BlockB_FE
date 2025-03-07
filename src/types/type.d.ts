@@ -35,6 +35,8 @@ interface NewsDetailType {
   marked: boolean;
 }
 
+type ActionType = "REPORT" | "CHAT" | "DEBATE" | "FOLLOW";
+
 interface NotificationType {
   id: number;
   notificationType: ActionType;
@@ -45,4 +47,34 @@ interface NotificationType {
   updatedAt: string;
 }
 
-type ActionType = "REPORT" | "CHAT" | "DEBATE" | "FOLLOW";
+interface NotificationDataType {
+  unreadCount: number;
+  notifications: {
+    content: NotificationType[];
+    pageable: {
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      offset: number;
+      unpaged: boolean;
+      paged: boolean;
+    };
+    totalElements: number;
+    totalPages: number;
+    last: boolean;
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    empty: boolean;
+  };
+}
