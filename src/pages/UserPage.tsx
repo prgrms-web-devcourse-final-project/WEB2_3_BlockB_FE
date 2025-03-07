@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import avatar from "../assets/icons/avatar.svg";
 import DebateTab from "../components/user-page/DebateTab";
 import FollowTab from "../components/user-page/FollowTab";
@@ -8,16 +8,28 @@ import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton"
 import { userApi } from "../api/user";
 import { useUserStore } from "../stores/userStore";
 import usePreventDoubleClick from "../hooks/usePreventDoubleClick";
+import { useAuthStore } from "../stores/authStore";
+import { useModalStore } from "../stores/useModal";
+import logoutSVG from "../assets/icons/logout.svg";
+import logoutHover from "../assets/icons/logoutHover.svg";
 
 export default function UserPage() {
   const [tab, setTab] = useState("news");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserInfo | null>(null);
-  const [isFollowed, setFollowing] = useState(false)
-
-  const { userId } = useParams()
-  const {userId: currentUserId} = useUserStore()
-
+  const [isFollowed, setFollowing] = useState(false);
+  const navigate = useNavigate();
+  const { userId } = useParams();
+  const { userId: currentUserId } = useUserStore();
+  const [isHovered, setIsHovered] = useState(false);
+  const { logout } = useAuthStore();
+  const { openModal } = useModalStore();
+  const onClickLogout = () => {
+    openModal("로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?", () => {
+      logout();
+      navigate("/");
+    });
+  };
   useEffect(() => {
     const loadProfileData = async () => {
       try {
@@ -31,32 +43,43 @@ export default function UserPage() {
     loadProfileData();
   }, [userId]);
 
+  useEffect(() => {
+    if (user) setIsLoading(false);
+    console.log(user);
+  }, [user]);
 
-  useEffect(()=>{
-    if(user) setIsLoading(false);
-    console.log(user)
-  },[user])
+  const handleFollow = async (
+    targetUserId: number,
+    action: "delete" | "follow"
+  ) => {
+    if (!currentUserId) return;
+    action === "delete"
+      ? await userApi.deleteFollower(targetUserId)
+      : await userApi.insertFollower(targetUserId);
+  };
 
-  const handleFollow = async (targetUserId: number, action: "delete" | "follow") => {
-    if(!currentUserId) return
-    action === "delete"? await userApi.deleteFollower(targetUserId) : await userApi.insertFollower(targetUserId)
-  }
-
-  const handleClickFollowWithPrevent = usePreventDoubleClick<(id: number, action: "delete" | "follow")=>void>(handleFollow, 300);
+  const handleClickFollowWithPrevent = usePreventDoubleClick<
+    (id: number, action: "delete" | "follow") => void
+  >(handleFollow, 300);
   const toggleFollow = async () => {
-    isFollowed? handleClickFollowWithPrevent(Number(userId), "delete") : handleClickFollowWithPrevent(Number(userId), "follow") 
-    setFollowing(!isFollowed)
-  }
+    isFollowed
+      ? handleClickFollowWithPrevent(Number(userId), "delete")
+      : handleClickFollowWithPrevent(Number(userId), "follow");
+    setFollowing(!isFollowed);
+  };
 
   // 해당 프로필 페이지의 유저를 현재 유저가 팔로우 했는지 안했는지 가져오는 함수
-  useEffect(()=> {
+  useEffect(() => {
     const loadFollowerList = async () => {
-      const followersResponse = await userApi.fetchFollowers(Number(userId))
-      followersResponse.data.map((follower:Follower)=>{return follower.followerId === currentUserId ? setFollowing(true) : setFollowing(false)})
-    }
-    loadFollowerList()
-  },[isFollowed])
-
+      const followersResponse = await userApi.fetchFollowers(Number(userId));
+      followersResponse.data.map((follower: Follower) => {
+        return follower.followerId === currentUserId
+          ? setFollowing(true)
+          : setFollowing(false);
+      });
+    };
+    loadFollowerList();
+  }, [isFollowed]);
   if (isLoading) {
     return <MyPageSkeleton />;
   }
@@ -74,14 +97,25 @@ export default function UserPage() {
             <div>
               <div className="flex justify-between font-bold text-[20px] max-md:text-[14px] max-md:w-80">
                 {user?.nickname}
-                {currentUserId === Number(userId) ? <Link
-                  to="/profile-update"
-                  className="text-white bg-blue01 w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg"
-                >
-                  프로필 편집
-                </Link>
-                : 
-                <button onClick={toggleFollow} className={`${isFollowed? "bg-gray01": "bg-blue01"} text-white w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg`}>{isFollowed? "팔로우 취소" : "팔로우"}</button>}
+                {currentUserId === Number(userId) ? (
+                  <div>
+                    <Link
+                      to="/profile-update"
+                      className="text-white bg-blue01 w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg"
+                    >
+                      프로필 편집
+                    </Link>
+                  </div>
+                ) : (
+                  <button
+                    onClick={toggleFollow}
+                    className={`${
+                      isFollowed ? "bg-gray01" : "bg-blue01"
+                    } text-white w-24 h-9 md:text-[16px] text-[14px] rounded-[10px] flex justify-center items-center max-md:text-[12px] max-md:w-16 max-md:h-7 max-md:rounded-lg`}
+                  >
+                    {isFollowed ? "팔로우 취소" : "팔로우"}
+                  </button>
+                )}
               </div>
               <div className="text-gray01 text-[14px] max-md:text-[10px]">
                 {user?.introduction || "아직 소개가 없습니다"}
@@ -90,7 +124,11 @@ export default function UserPage() {
 
             {/* 승리, 무승부, 패배 정보 */}
             <div className="flex w-[550px] max-lg:w-[480px] max-md:w-80 justify-between max-md:mt-6">
-              {[{label:"승리", count: user?.winNumber}, {label: "무승부", count: user?.drawNumber},{label:"패배", count: user?.defeatNumber}].map((item, index) => {
+              {[
+                { label: "승리", count: user?.winNumber },
+                { label: "무승부", count: user?.drawNumber },
+                { label: "패배", count: user?.defeatNumber },
+              ].map((item, index) => {
                 const stats = ["W", "D", "L"];
                 return (
                   <div
@@ -114,15 +152,14 @@ export default function UserPage() {
             </div>
           </div>
         </div>
-
         {/* 탭 버튼 */}
-        <div className="flex max-md:justify-center">
-          <div className="mt-[52px] mb-4 w-80 flex justify-between max-md:mt-7">
+        <div className="flex justify-between items-center w-full mt-[52px] max-md:mt-[32px] mb-4 max-md:w-80 max-md:mx-auto">
+          <div className="flex space-x-3">
             {["news", "debate", "follow"].map((item) => (
               <button
                 key={item}
                 onClick={() => setTab(item)}
-                className={`w-[92px] h-10 rounded-[10px] text-white ${
+                className={`w-[92px] h-10 max-md:w-[60px] rounded-[10px] text-white ${
                   tab === item ? "bg-blue01" : "bg-gray03"
                 }`}
               >
@@ -134,6 +171,21 @@ export default function UserPage() {
               </button>
             ))}
           </div>
+
+          {currentUserId === Number(userId) && (
+            <button
+              className="font-pretendard font-bold md:text-[18px] text-black hover:text-red-700"
+              onClick={onClickLogout}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <img
+                src={isHovered ? logoutHover : logoutSVG}
+                alt="로그아웃"
+                className="w-[22px] h-[22px]"
+              />
+            </button>
+          )}
         </div>
 
         <div className="flex justify-center">
@@ -141,8 +193,13 @@ export default function UserPage() {
         </div>
 
         <NewsTab tab={tab} user={user} />
-        <DebateTab tab={tab} user={user}/>
-        <FollowTab tab={tab} user={user} isFollowed={isFollowed} handleFollow={handleFollow} />
+        <DebateTab tab={tab} user={user} />
+        <FollowTab
+          tab={tab}
+          user={user}
+          isFollowed={isFollowed}
+          handleFollow={handleFollow}
+        />
       </div>
     </div>
   );

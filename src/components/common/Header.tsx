@@ -9,9 +9,7 @@ import profile from "../../assets/icons/profile.svg";
 import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
-import { useAuthStore } from "../../stores/authStore";
 import Modal from "./Modal";
-import { useModalStore } from "../../stores/useModal";
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
 
 export default function Header({ status }: { status: HeaderStatusType }) {
@@ -19,13 +17,8 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { userId, profileUrl, role } = useUserStore();
-  const { logout } = useAuthStore();
   if (status === "debate-ing") {
     return null;
-  }
-  const {openModal} = useModalStore()
-  const onClickLogout = () => {
-    openModal("로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?", ()=>{logout(); navigate("/")})
   }
   return (
     <>
@@ -106,13 +99,6 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   alt="프로필 사진"
                 />
               </button>
-              <button
-                className="font-pretendard font-bold text-[10px] md:text-[18px] text-black hover:text-red-700"
-                onClick={onClickLogout}
-              >
-                로그아웃
-              </button>
-
               {isNotificationOpen && (
                 <NotificationList
                   status={status}
