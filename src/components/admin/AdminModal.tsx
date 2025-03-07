@@ -3,6 +3,7 @@ import { editOptions, findFilterValue, processedFilters } from "../../constants"
 import FilterButton from "./FilterButton";
 import { reportApi } from "../../api/report";
 import { userApi } from "../../api/user";
+import { Link } from "react-router";
 
 export default function AdminModal({
   onCheck,
@@ -80,23 +81,23 @@ export default function AdminModal({
             <p>신고 날짜: <span>{reportDetails?.createdAt}</span></p>
             <p>
               신고 위치:
-              <a
-                href="http://"
+              <Link
+                to={`/user-page/${reportDetails?.targetUserId}`} //TODO: 토론 아카이빙 라우팅 파지고 토론 기능 구현 완료 시 주소 변경
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline ml-1"
               >
                 토론방 링크
-              </a>
+              </Link>
               |
-              <a
-                href="http://"
+              <Link
+                to={`/user-page/${reportDetails?.targetUserId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline ml-1"
               >
                 유저 링크
-              </a>
+              </Link>
             </p>
           </div>
         ) : (
