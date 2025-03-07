@@ -4,27 +4,18 @@ import debateScreenshot from "../assets/images/debate screenshot.svg";
 import newsTop10Screenshot from "../assets/images/news top10 screenshot.svg";
 import debateTop10Screenshot from "../assets/images/debate top 10 screenshot.svg";
 import observingZoneScreenshot from "../assets/images/observingzone screenshot.svg";
-import { useNavigate } from "react-router-dom";
 import LandingWaveAnimation from "../components/langding/LandingWaveAnimation";
+import LandingLetter from "../components/langding/LandingLetter";
 export default function Landing() {
-  const navigate = useNavigate();
-
   return (
-    <div className="h-auto py-20 text-white bg-black01">
+    <div className="h-auto sm:py-20 py-3 text-white bg-black01">
       <div className="flex sm:pl-16 max-sm:flex-col">
         <div className="flex max-md:justify-center">
-          <div className="font-sofiaSans h-[673] flex flex-col justify-center">
-            <p className="font-bold text-[60px] w-[460px] max-xl:text-[50px] max-lg:text-[40px] max-xl:w-[380px] max-lg:w-80  max-md:text-[30px] max-md:w-64 ">
-              Sharing Thoughts Not Just Words
-            </p>
-            <p className="text-[40px] text-gray02 max-xl:text-[30px] max-md:text-[20px]">
-              Think Deep, Speak Clear
-            </p>
-          </div>
+        <LandingLetter />
         </div>
         <LandingWaveAnimation />
       </div>
-      <div className="flex flex-col items-center  text-[20px] ">
+      <div className="flex flex-col items-center text-[20px] sm:mt-2 mt-10">
         <div className="relative flex w-11 h-9">
           <img src={mouse} alt="마우스 아이콘" className="absoulte w-9 h-9" />
           <img

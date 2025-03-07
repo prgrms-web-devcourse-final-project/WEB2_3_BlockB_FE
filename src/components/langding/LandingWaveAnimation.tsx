@@ -8,10 +8,18 @@ export default function LandingWaveAnimation() {
 
   useEffect(() => {
     if (animationRef.current) {
+      const divs = animationRef.current.querySelectorAll("div");
+
       gsap.fromTo(
-        animationRef.current,
+        divs,
         { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: "power2.out",
+          stagger: 0.065,
+        }
       );
     }
   }, []);
