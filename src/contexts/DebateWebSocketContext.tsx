@@ -10,11 +10,6 @@ interface WebSocketContextType {
 
 const DebateWebSockContext = createContext<WebSocketContextType | undefined>(undefined);
 
-interface DebateWebSocketProviderProps {
-  userName: string;
-  position: string;
-}
-
 export const DebateWebSocketProvider = ({ children, userName, position }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
   const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
@@ -32,7 +27,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
   };
 
   useEffect(() => {
-    if (!roomId || !userName || !position) return; // 필수 값이 없으면 WebSocket 연결하지 않음
+    if (!roomId) return;
 
     const WS_URL = import.meta.env.VITE_WS_URL;
     const client = new Client({

@@ -61,7 +61,7 @@ function App() {
           <Route path="/user-page/:userId" element={<UserPage />} />
           <Route path="/debate-zone/new-debate" element={<GeneratingRoom />} />
           <Route path="/debate-zone/:roomId" element={<DebateZone />} />
-          <Route path="/observing-zone" element={<ObservingZone />} />
+          <Route path="/observing-zone/:roomId" element={<ObservingZone />} />
         </Route>
         <Route path="*" element={<NotFound />} />
         <Route path="/not-found" element={<NotFound />} />

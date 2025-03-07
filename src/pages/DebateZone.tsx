@@ -9,27 +9,16 @@ import WinByDefault from "../components/debate-zone/WinByDefault";
 import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
 import { useRoomStore } from "../stores/roomStateStore";
 import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
-import { useNavigate, useParams } from "react-router";
-import { debateRoomApi } from "../api/debatezone";
+import { useParams } from "react-router";
+
 import { userApi } from "../api/user";
+import { checkRoomIdIsExist } from "../utils/checkRoomIdIsExist";
 
 export default function DebateZone() {
   const {roomId} = useParams()
   const { roomState } = useRoomStore();
   const [headerStatus, setHeaderStatus] = useState<"debate-waiting" | "debate-ing">("debate-waiting");
   const currentUserName = useRef("")
-  const navigate = useNavigate()
-
-  const checkRoomIdIsExist = async () => {
-    if (roomId) {
-      const response = await debateRoomApi.fetchOngoingRoomInfo(roomId);
-        if (!response || !response.data) {
-          console.warn("잘못된 룸 아이디로 접근하셨습니다, 리디렉션 중...");
-          navigate("/not-found");
-        }
-    };
-  }
-      
 
   const fetchUserNickname = async() => {
     const userInfoResponse = await userApi.fetchMyProfile();
@@ -46,7 +35,9 @@ export default function DebateZone() {
   }, [roomState]);
 
   useEffect(()=>{
-    checkRoomIdIsExist()
+    if (roomId) {
+      checkRoomIdIsExist(roomId)
+    }
     fetchUserNickname()
   },[roomId])
 

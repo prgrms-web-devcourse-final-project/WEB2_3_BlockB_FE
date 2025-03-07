@@ -177,3 +177,8 @@ type WebSocketCommunicationType = {
   timestamp: string;
 };
 
+interface DebateWebSocketProviderProps {
+  userName: string | null;
+  position: string | null;
+}
+
