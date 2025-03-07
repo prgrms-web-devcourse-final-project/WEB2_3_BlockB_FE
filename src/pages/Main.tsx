@@ -13,8 +13,8 @@ export default function Main() {
     const fetchNewsTop10 = async () => {
       try {
         const newsTop10Results = await newsAPI.getNewsTop10();
-        await setIsLoading(false);
         setNewses(newsTop10Results.data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching news:", error);
       }
