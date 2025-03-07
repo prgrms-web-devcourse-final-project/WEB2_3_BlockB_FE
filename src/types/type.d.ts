@@ -34,3 +34,15 @@ interface NewsDetailType {
   mark: number;
   marked: boolean;
 }
+
+interface NotificationType {
+  id: number;
+  notificationType: ActionType;
+  typeId: number;
+  content: string;
+  statusType: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+type ActionType = "REPORT" | "CHAT" | "DEBATE" | "FOLLOW";
