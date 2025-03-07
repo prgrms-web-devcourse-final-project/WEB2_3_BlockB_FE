@@ -17,7 +17,6 @@ const getNotifications = async (userId: number, page: number) => {
     const response = await axiosInstance.get(
       `/api/notifications/${userId}?page=${page}`
     );
-
     return response.data;
   } catch (error) {
     throw error;
