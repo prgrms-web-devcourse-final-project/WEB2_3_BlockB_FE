@@ -167,3 +167,13 @@ type DebateRoomInfo = {
   speakCountType: number;
   participants: Participant[];
 }
+
+// WebSocket Context Type
+type WebSocketCommunicationType = {
+  event: "JOIN" | "CHAT" | "EXIT";
+  userName: string;
+  position: "PRO" | "CON" | "NO_POSITION";
+  message: string;
+  timestamp: string;
+};
+
