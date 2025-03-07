@@ -22,7 +22,7 @@ import PrivateRoute from "./layouts/PrivateRoute";
 import PublicRoute from "./layouts/PublicRoute";
 import GeneratingRoom from "./pages/GeneratingRoom";
 import AdminRoute from "./layouts/AdminRoute";
-
+import "./utils/firebase/foregroundMessage";
 function App() {
   useTokenRefresh();
 
@@ -70,7 +70,6 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      ;
     </QueryClientProvider>
   );
 }
