@@ -4,14 +4,15 @@ import edit from "../../assets/icons/edit.svg";
 import ProfileUpdateSkeleton from "../common/skeleton/mypage/ProfileUpdateSkeleton";
 import { userApi } from "../../api/user";
 import ProfileUpdateInputBox from "./ProfileUpdateInputBox";
+import { useUserStore } from "../../stores/userStore";
 
 export default function ProfileUpdate() {
+  const { userId, setUser } = useUserStore();
   const [isLoading, setIsLoading] = useState(true);
   const [newNickname, setNewNickname] = useState("");
   const [newIntroduction, setNewIntroduction] = useState("");
   const [newProfileImg, setNewProfileImg] = useState("");
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
-  const [userId, setUserId] = useState<number | null>(null);
 
   // 기존 데이터 저장
   const [originalNickname, setOriginalNickname] = useState("");
@@ -24,7 +25,6 @@ export default function ProfileUpdate() {
   useEffect(() => {
     const loadOriginalProfile = async () => {
       const profileResponse = await userApi.fetchMyProfile();
-      setUserId(profileResponse.data.id);
       setNewNickname(profileResponse.data.nickname);
       setNewIntroduction(profileResponse.data.introduction || "");
       setNewProfileImg(profileResponse.data.profileUrl);
@@ -63,10 +63,24 @@ export default function ProfileUpdate() {
     if (selectedImgFile) updatedData.file = selectedImgFile;
 
     // 변경된 값이 하나도 없으면 API 호출하지 않음
-    if (Object.keys(updatedData).length === 0) navigate(`/user-page/${userId}`);
-
+    if (Object.keys(updatedData).length === 0) {
+      navigate(`/user-page/${userId}`);
+      return;
+    }
     try {
-      await userApi.updateUserProfile(userId, updatedData);
+      const response = await userApi.updateUserProfile(userId, updatedData);
+      const updatedRole =
+        response.data?.data?.role ?? useUserStore.getState().role;
+
+      setUser({
+        userId,
+        nickname: newNickname,
+        profileUrl: selectedImgFile
+          ? URL.createObjectURL(selectedImgFile)
+          : newProfileImg,
+        role: updatedRole,
+      });
+
       navigate(`/user-page/${userId}`);
     } catch (error) {
       console.error("프로필 업데이트 실패:", error);

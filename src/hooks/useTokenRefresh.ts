@@ -1,21 +1,16 @@
 import { useEffect } from "react";
 import { axiosInstance } from "../api/axios";
 import { useAuthStore } from "../stores/authStore";
-import { useUserStore } from "../stores/userStore";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const useTokenRefresh = () => {
   useEffect(() => {
     const interval = setInterval(async () => {
-      const { refreshToken, setTokens, logout } = useAuthStore.getState();
-      const { role } = useUserStore.getState();
+      const { refreshToken, setTokens, logout, fetchUserInfo } =
+        useAuthStore.getState();
 
-      if (
-        !refreshToken ||
-        role === "ROLE_BANNED" ||
-        role === "ROLE_SUSPENDED"
-      ) {
+      if (!refreshToken) {
         logout();
         return;
       }
@@ -36,12 +31,13 @@ const useTokenRefresh = () => {
           const { accessToken, refreshToken: newRefreshToken } =
             response.data.data;
           setTokens(accessToken, newRefreshToken);
+          await fetchUserInfo(accessToken);
         }
       } catch (error) {
         console.error(error);
         logout();
       }
-    }, 30 * 60 * 500);
+    }, 30 * 60 * 500); // 30분마다 실행
 
     return () => clearInterval(interval);
   }, []);
