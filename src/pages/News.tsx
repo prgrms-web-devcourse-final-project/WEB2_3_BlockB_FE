@@ -184,7 +184,7 @@ export default function News() {
           ) : (
             <NewsList
               newsData={newsData}
-              loadMore={() => fetchAllNews(currentSort, false)}
+              loadMore={() => fetchAllNews(currentSort, false, continentCode!)}
               hasMore={cursor !== null}
               loadMoreRef={observerRef}
             />
