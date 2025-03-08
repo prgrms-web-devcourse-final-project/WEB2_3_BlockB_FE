@@ -9,7 +9,7 @@ export default function CommonSimpleInfo({
   data: MyNews | ArchivedDebate;
 }) {
   return (
-    <div className="flex justify-between w-full mb-[30px] max-md:flex-col">
+    <div className="flex justify-between w-full py-4 px-2 max-md:flex-col rounded-[10px] hover:bg-gray02 transform transition duration-200 hover:scale-[1.02]">
       <div className="flex text-[16px] md:items-center max-md:flex-col">
         <div className="w-[100px] h-7 mr-[18px] bg-blue01 text-white flex items-center justify-center rounded-[10px]">
           <span className="mr-1">

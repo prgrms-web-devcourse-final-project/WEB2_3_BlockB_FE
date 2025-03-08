@@ -37,7 +37,7 @@ export default function TopDebateList({ topDebaters }: TopDebateListProps) {
             <Link
               to={`/user-page/${debater.userId}`}
               key={debater.userId}
-              className="bg-white p-4 rounded-lg border border-gray-200 shadow-xl text-center"
+              className="bg-white p-4 rounded-lg border border-gray-200 shadow-xl text-center hover:bg-gray02 transform transition duration-200 hover:scale-[1.04]"
             >
               <div className="relative inline-block">
                 <img

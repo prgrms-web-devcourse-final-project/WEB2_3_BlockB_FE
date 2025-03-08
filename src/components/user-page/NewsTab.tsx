@@ -18,21 +18,12 @@ export default function NewsTab({ tab, user }: { tab: string, user: UserInfo | n
     loadNews()
   },[tab, user, filter])
 
-  // useEffect(()=>{
-  //   console.log("mynews", mynews)
-  //   console.log("paginatedBody", paginatedBody)
-  // },[mynews])
-  
-
   const {
     paginatedData: paginatedBody,
     currentPage: currentPage,
     totalPages: totalPages,
     handlePageChange: handlePageChange,
   } = usePagination(mynews, itemsPerPage);
-
-  
-
 
   return (
     <div

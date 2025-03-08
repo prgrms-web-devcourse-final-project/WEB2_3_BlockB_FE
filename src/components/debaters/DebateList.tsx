@@ -23,7 +23,7 @@ export default function DebateList({ debaters }: DebateListProps) {
       {debaters.map((debater) => (
         <Link to={`/user-page/${debater.userId}`}
           key={debater.userId}
-          className="border-b py-3 md:px-4 sm:px-0 w-full"
+          className="border-b py-3 md:px-4 sm:px-0 w-full rounded-[5px]  hover:bg-gray02 transform transition duration-200 hover:scale-[1.02]"
         > 
           <div className="flex md:flex-row flex-col justify-between">
             <div className="flex justify-between md:w-2/3 w-full">
