@@ -91,9 +91,9 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                     : "w-[360px] max-md:w-[180px]"
                 } flex h-[29px] justify-between text-[24px] max-md:text-[12px] items-center font-sofiaSans text-black01`}
               >
-                <Link to={"/news?continent=all"} className="hover:text-gray03 active:text-blue01 transfrom transition duration-200 hover:scale-[1.02]">News</Link>
-                <Link to={"/debate-rooms"} className="hover:text-gray03 active:text-blue01 transfrom transition duration-200 hover:scale-[1.02]">Debate Rooms</Link>
-                <Link to={"/debaters"} className="hover:text-gray03 active:text-blue01 transfrom transition duration-200 hover:scale-[1.02]">Debaters</Link>
+                <Link to={"/news?continent=all"} className="hover:text-gray03 transfrom transition ">News</Link>
+                <Link to={"/debate-rooms"} className="hover:text-gray03 transfrom transition ">Debate Rooms</Link>
+                <Link to={"/debaters"} className="hover:text-gray03 transfrom transition ">Debaters</Link>
                 {role === "ROLE_ADMIN" ? <Link to={"/admin"}>Admin</Link> : ""}
               </div>
             </div>

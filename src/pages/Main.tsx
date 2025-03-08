@@ -49,7 +49,7 @@ export default function Main() {
                 className={`${
                   tab
                     ? "  bg-blue03 text-white "
-                    : " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
+                    : " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] transform duration-200 hover:bg-gray02"
                 } w-[317px] h-[49px] max-md:w-40 max-md:h-5 justify-center flex rounded-t-[50px]`}
               >
                 news top 10
@@ -60,7 +60,7 @@ export default function Main() {
                 }}
                 className={`${
                   tab
-                    ? " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
+                    ? " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] transform duration-200 hover:bg-gray02"
                     : " bg-blue03 text-white "
                 } w-[317px] h-[49px]  max-md:w-40 max-md:h-5 justify-center flex rounded-t-[50px]`}
               >
@@ -86,7 +86,7 @@ export default function Main() {
               </span>
               <Link
                 to={tab ? "/news?continent=all" : "/debate-rooms"}
-                className="w-[112px] h-[34px] text-[20px] max-lg:text-[16px] max-md:text-[12px] max-md:w-[66px] max-md:h-[18px] bg-gray03 rounded-[10px] text-white justify-center items-center flex"
+                className="w-[112px] h-[34px] text-[20px] max-lg:text-[16px] max-md:text-[12px] max-md:w-[66px] max-md:h-[18px] bg-gray03 rounded-[10px] text-white justify-center items-center flex transition transform duration-200 hover:scale-[1.04 hover:bg-blue01"
               >
                 view more
               </Link>
