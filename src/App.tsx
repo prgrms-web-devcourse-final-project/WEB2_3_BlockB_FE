@@ -71,7 +71,6 @@ function App() {
           <Route path="/not-found" element={<NotFound />} />
       </Route>
       </Routes>
-      ;
     </QueryClientProvider>
   );
 }

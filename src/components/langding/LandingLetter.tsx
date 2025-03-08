@@ -13,8 +13,8 @@ export default function LandingLetter() {
       {
         opacity: 1,
         x: 0,
-        duration: 0.5, 
-        delay: 0.7, // 0.7초 후 시작
+        duration: 0.4, 
+        delay: 0.71, 
         ease: "power2.out",
       }
     );
