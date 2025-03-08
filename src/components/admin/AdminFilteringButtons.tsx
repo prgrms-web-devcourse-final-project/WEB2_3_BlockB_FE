@@ -24,10 +24,10 @@ export default function AdminFilteringButtons({
 
   return (
     <div className="flex items-center">
-      <p className="text-[14px] md:text-[16px] h-5 text-gray01 mr-6 whitespace-nowrap">
+      <p className="text-[14px] md:text-[16px] h-5 text-gray01 mr-6 whitespace-nowrap bg-transparent">
         {labelText}
       </p>
-      <div className={`${containerWidth} h-[40px] flex justify-between text-[14px] overflow-x-auto`}>
+      <div className={`${containerWidth} h-[48px] flex justify-between text-[14px] overflow-x-auto py-2 pl-1`}>
         {filters.map((filter) => (
           <FilterButton
             key={filter.value}

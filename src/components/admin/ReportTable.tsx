@@ -30,6 +30,12 @@ export default function ReportTable({
         </tr>
       </thead>
       <tbody>
+        {(unBodys.length === 0 && bodys.length === 0) && 
+        <tr>
+          <td colSpan={headers.length + unHeaders.length} className="text-center h-20">
+            신고 내역이 없습니다
+          </td>
+        </tr>}
         {unBodys.map((body, index) => (
           <tr
             className="h-[75px] font-medium"

@@ -60,7 +60,7 @@ function App() {
               element={<GeneratingRoom />}
             />
             <Route path="/debate-zone/:roomId" element={<DebateZone />} />
-            <Route path="/observing-zone" element={<ObservingZone />} />
+            <Route path="/observing-zone/:roomId" element={<ObservingZone />} />
           </Route>
 
           <Route element={<AdminRoute />}>
@@ -68,7 +68,8 @@ function App() {
           </Route>
 
           <Route path="*" element={<NotFound />} />
-        </Route>
+          <Route path="/not-found" element={<NotFound />} />
+      </Route>
       </Routes>
     </QueryClientProvider>
   );

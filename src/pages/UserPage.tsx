@@ -71,15 +71,12 @@ export default function UserPage() {
   // 해당 프로필 페이지의 유저를 현재 유저가 팔로우 했는지 안했는지 가져오는 함수
   useEffect(() => {
     const loadFollowerList = async () => {
-      const followersResponse = await userApi.fetchFollowers(Number(userId));
-      followersResponse.data.map((follower: Follower) => {
-        return follower.followerId === currentUserId
-          ? setFollowing(true)
-          : setFollowing(false);
-      });
-    };
-    loadFollowerList();
-  }, [isFollowed]);
+      const followersResponse = await userApi.fetchFollowers(Number(userId))
+      followersResponse.data.map((follower:Follower)=>{return follower.followerId === currentUserId ? setFollowing(true) : setFollowing(false)})
+    }
+    loadFollowerList()
+  },[userId])
+
   if (isLoading) {
     return <MyPageSkeleton />;
   }

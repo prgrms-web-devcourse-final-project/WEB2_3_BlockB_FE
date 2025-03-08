@@ -143,3 +143,42 @@ type RoomInfoRequest = {
   endTime?: string | null
 };
 
+
+
+type Participant = {
+  id: number;
+  nickname: string;
+  position: 'PRO' | 'CON';
+  winNumber: number;
+  defeatNumber: number;
+  drawNumber: number;
+}
+
+type DebateRoomInfo = {
+  roomId: string;
+  title: string;
+  description: string;
+  memberNumberType: number;
+  categoryType: string;
+  continentType: string;
+  newsUrl: string;
+  status: string;
+  timeType: number;
+  speakCountType: number;
+  participants: Participant[];
+}
+
+// WebSocket Context Type
+type WebSocketCommunicationType = {
+  event: "JOIN" | "CHAT" | "EXIT";
+  userName: string;
+  position: "PRO" | "CON" | "NO_POSITION";
+  message: string;
+  timestamp: string;
+};
+
+interface DebateWebSocketProviderProps {
+  userName: string | null;
+  position: string | null;
+}
+

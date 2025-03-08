@@ -21,7 +21,7 @@ export default function NotFound() {
         잘못된 경로로 들어왔습니다
       </p>
       <Link
-        to="/debate-rooms"
+        to="/news"
         className="text-white font-extrabold text-[16px] font-pretendard"
       >
         웹사이트로 돌아가서

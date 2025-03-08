@@ -49,7 +49,7 @@ export default function Admin() {
       const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByReason.data.content, "미처리");
       setUnprocessedBody(reportsFilteredByStatus);
     }
-    setLoading(false)
+    // setLoading(false)
   };
 
   // 처리 완료된 신고 내역
