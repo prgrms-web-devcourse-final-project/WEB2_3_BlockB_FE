@@ -75,8 +75,10 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
           // } 
           // TODO: 유저 정보 pro con 나눠지면 추가
           if (parsedMessage.event === "TURN") {
+            console.log("현재턴은", parsedMessage.turn, ", 내 포지션은", position)
             parsedMessage.turn === position?.toLocaleUpperCase() ? setIsMyTurn(true) : setIsMyTurn(false)
           }
+          
         },
       );
     };
