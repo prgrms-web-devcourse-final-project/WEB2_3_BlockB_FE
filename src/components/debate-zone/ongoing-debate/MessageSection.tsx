@@ -67,7 +67,7 @@ export default function MessageSection() {
         <div ref={messageEndRef} />
       </div>
       {/* 입력창 */}
-      <div
+      <form
         className={`md:h-[50px] h-[30px] flex justify-between items-center bg-white bg-opacity-30 border p-2 mx-[10px] my-[10px] rounded-md ${
           !isMyTurn ? "bg-gray-300" : ""
         }`}
@@ -99,7 +99,7 @@ export default function MessageSection() {
             className="md:w-[23px] md:h-[23px] w-[17px] h-[17px]"
           />
         </button>
-      </div>
+      </form>
     </div>
   );
 }
