@@ -11,7 +11,7 @@ export default function ReportModal() {
   const [reportReasons, setReportReasons] = useState(initialReportReasons);
   const [hasCompleted, setHasCompleted] = useState(false);
   const [description, setDescription] = useState("");
-  const { closeModal, isOpen, targetNickname, targetUserId, targetType, roomId } = useReportModalStore()
+  const { closeModal, isOpen, targetNickname, targetUserId, targetType } = useReportModalStore()
 
   const handleCheckboxChange = (selectedKey: string | boolean | number) => {
     setReportReasons((prev) => {
@@ -33,7 +33,6 @@ export default function ReportModal() {
 
     closeModal()
   }
-
 
   if(isOpen)
     return createPortal(

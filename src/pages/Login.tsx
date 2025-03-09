@@ -1,7 +1,9 @@
+import { useRef } from "react";
 import google from "../assets/icons/google.svg";
 import kakao from "../assets/icons/kakao.svg";
 import logo from "../assets/icons/logo.svg";
 import Footer from "../components/common/Footer";
+import useSlideUpAnimation from "../hooks/useSlideUpAnimation";
 
 const VITE_GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const VITE_KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
@@ -22,12 +24,14 @@ export default function Login() {
 
     window.location.href = loginUrl;
   };
+  const containerRef = useRef<HTMLDivElement>(null);
+  useSlideUpAnimation(containerRef);
 
   return (
     <div className="flex flex-col justify-between min-h-screen bg-gray-50">
       {/* 중앙 로그인 박스 */}
       <div className="flex items-center justify-center flex-1 px-4">
-        <div className="bg-gray-100 p-6 md:p-10 rounded-xl shadow-lg text-center w-full max-w-[400px]">
+        <div ref={containerRef} className="bg-gray-100 p-6 md:p-10 rounded-xl shadow-lg text-center w-full max-w-[400px]">
           {/* 로고 */}
           <h1 className="text-4xl md:text-6xl lg:text-[76px] font-bold font-unifrakturCook">
             EarthTalk

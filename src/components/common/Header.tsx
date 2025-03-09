@@ -56,7 +56,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
           className={`w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] shadow-md justify-between items-center  
             ${
               status === "debate-waiting"
-                ? "text-white bg-black"
+                ? "text-white bg-black shadow-lg"
                 : "bg-white border-b border-gray03"
             }`}
         >

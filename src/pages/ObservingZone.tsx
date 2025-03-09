@@ -9,7 +9,7 @@ import WinByDefault from "../components/debate-zone/WinByDefault";
 import { useObservingStore } from "../stores/observingStateStore";
 import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
 import { ObserverWebSocketContextProvider } from "../contexts/ObserverWebSocketContext";
-import { checkRoomIdIsExist } from "../utils/checkRoomIdIsExist";
+import { useCheckRoomId } from "../hooks/useCheckRoomId";
 import { useParams } from "react-router";
 import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
 import { userApi } from "../api/user";
@@ -43,11 +43,10 @@ export default function ObservingZone() {
   }
 
   useEffect(()=>{
-    if (roomId) {
-      checkRoomIdIsExist(roomId)
-    }
     fetchUserNickname()
   },[roomId])
+
+    useCheckRoomId(roomId)
 
   return (
     <DebateWebSocketProvider userName={currentUserName.current} position={position.current}>

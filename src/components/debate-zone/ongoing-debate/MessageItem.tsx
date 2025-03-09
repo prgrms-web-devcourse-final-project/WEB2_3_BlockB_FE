@@ -1,12 +1,14 @@
 export default function MessageItem({
   key,
   message,
+  nickname,
   profile,
   isOppenent = false, // 상대방 편 메시지 여부
   isMine = true, // 내 메시지 여부(우측 정렬 중 내 메시지)
 }: {
   key: number;
   message: string;
+  nickname: string;
   profile: string;
   isOppenent?: boolean;
   isMine?: boolean;
@@ -30,7 +32,7 @@ export default function MessageItem({
         }`}
       >
         <div className={`text-white text-${isOppenent ? "left" : "right"}`}>
-          nickname
+          {nickname}
         </div>
         <div
           className={`${

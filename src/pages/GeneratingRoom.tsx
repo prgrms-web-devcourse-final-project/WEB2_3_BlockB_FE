@@ -49,10 +49,7 @@ export default function GeneratingRoom() {
   useEffect(() => {
     const allChecked = Object.values(checkedStates).every(Boolean);
     setHasCompleted(allChecked);
-    console.log(checkedStates)
   }, [checkedStates]);
-
-
 
   const makeNewRoom = async () => {
     const initialRoomInfos: RoomInfoRequest = {
@@ -70,13 +67,11 @@ export default function GeneratingRoom() {
       initialRoomInfos.newsId = Number(newsId);
       initialRoomInfos.newsUrl = `/news/${newsId}`;
     }
-    console.log("방 정보 request body",initialRoomInfos)
+    console.log("초기 방 세팅", initialRoomInfos)
     const roomIdResponse = await debateRoomApi.generateDebateRoom(initialRoomInfos);
-    console.log("방 생성 응답:", roomIdResponse);
     return roomIdResponse.data;
   };
   
-
   const onClickCreateBtn = async () => {
     const newRoomId = await makeNewRoom();
     navigate(`/debate-zone/${newRoomId}`);

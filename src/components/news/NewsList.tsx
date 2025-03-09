@@ -24,7 +24,7 @@ export default function NewsList({
         {newsData.map((news, index) => (
           <div
             key={index}
-            className="rounded-lg cursor-pointer"
+            className="cursor-pointer rounded-[10px] transform transition duration-200 hover:scale-[1.002]"
             onClick={() => navigate(`/news/${news.id}`)}
           >
             <img
@@ -39,7 +39,7 @@ export default function NewsList({
               <p>{news.newsType}</p>
               <p>{new Date(news.deliveryTime).toLocaleString()}</p>
             </div>
-            <p className="mt-2 text-sm text-gray-700 h-[300px] lg:h-[150px]">
+            <p className="mt-2 text-sm text-gray-700 md:h-[180px] sm:h-[200px] h-[160px] overflow-hidden break-words pb-2">
               {news.content}
             </p>
             <div className="flex items-center justify-end mt-3 text-sm text-gray-500">

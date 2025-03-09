@@ -36,23 +36,23 @@ export default function DebateSimpleInfo({ index }: { index: number }) {
   }
   return (
     <div className="flex max-lg:justify-center">
-      <div className="w-full max-lg:w-[768px] max-md:w-80  h-[77px]  flex text-black01] font-extrabold justify-between items-center rounded-[10px] hover:bg-blue04 ">
+      <div className="w-full max-lg:w-[768px] max-md:w-80  h-[77px]  flex text-black01] justify-between items-center rounded-[10px] md:px-3 px-2 hover:bg-gray02 transform transition duration-200 hover:scale-[1.02]">
         <div className="flex h-[43px] items-center  ">
-          <p className="max-md:text-[14px]">{order}</p>
+          <p className="max-md:text-[14px] font-bold">{order}</p>
           <img
             src={column}
             alt="컬럼 아이콘"
             className="mx-[19px] max-md:hidden"
           />
-          <p className="font-pretendard max-md:text-[12px] max-md:mx-2">
+          <p className="font-pretendard max-md:text-[12px] max-md:mx-2 font-bold">
             인공지능이 인간의 일자리를 대체할 것인가, 보완할 것인가?
           </p>
         </div>
-        <div className="flex font-pretendard h-[27px] text-[18px] max-md:text-[10px] w-44 justify-between max-md:w-28">
+        <div className="flex md:gap-4 gap-2 font-pretendard h-[27px] text-[18px] max-md:text-[10px] w-44 justify-between max-md:w-28">
           {["15분", "15번", "1 : 1"].map((item, index) => {
             return (
               <p
-                className="flex rounded-[10px] bg-[#D9D9D9] justify-center items-center w-[52px] max-md:w-8 h-8 max-md:h-4"
+                className="flex font-semibold rounded-[10px] bg-[#D9D9D9] justify-center items-center w-[52px] max-md:w-8 h-8 max-md:h-4"
                 key={index}
               >
                 {item}
