@@ -39,6 +39,8 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   if (status === "debate-ing") {
     return null;
   }
+
+  const menuFocusClass = "hover:text-gray03 focus:text-black01 active:text-black01 transform transition"
   
   return (
     <>
@@ -89,10 +91,26 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                     : "w-[360px] max-md:w-[180px]"
                 } flex h-[29px] justify-between text-[24px] max-md:text-[12px] items-center font-sofiaSans text-black01`}
               >
-                <Link to={"/news?continent=all"} className="hover:text-gray03 transfrom transition ">News</Link>
-                <Link to={"/debate-rooms"} className="hover:text-gray03 transfrom transition ">Debate Rooms</Link>
-                <Link to={"/debaters"} className="hover:text-gray03 transfrom transition ">Debaters</Link>
-                {role === "ROLE_ADMIN" ? <Link to={"/admin"}>Admin</Link> : ""}
+                <Link 
+                  to={"/news?continent=all"} 
+                  className={menuFocusClass}
+                >
+                  News
+                </Link>
+                <Link 
+                  to={"/debate-rooms"} 
+                  className={menuFocusClass}
+                >
+                  Debate Rooms
+                </Link>
+                <Link 
+                  to={"/debaters"} 
+                  className={menuFocusClass}
+                >
+                  Debaters
+                </Link>
+
+                {role === "ROLE_ADMIN" ? <Link to={"/admin"} className={menuFocusClass}>Admin</Link> : ""}
               </div>
             </div>
             <div className="flex items-center gap-1 space-x-1 md:space-x-4">
