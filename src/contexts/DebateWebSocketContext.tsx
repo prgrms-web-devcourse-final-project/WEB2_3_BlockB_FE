@@ -77,6 +77,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
           if (parsedMessage.event === "TURN") {
             console.log("현재턴은", parsedMessage.turn, ", 내 포지션은", position?.toLocaleUpperCase())
             parsedMessage.turn === position?.toLocaleUpperCase() ? setIsMyTurn(true) : setIsMyTurn(false)
+            setMessages((prevMessages) => [...prevMessages, parsedMessage]);
           }
           if (parsedMessage.event === "STATUS") {
             parsedMessage.status === "DEBATE" && setRoomState("ongoing")
@@ -86,7 +87,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
           if (parsedMessage.event === "NOTIFICATION") {
             parsedMessage.message === "잠시 후 토론이 시작됩니다... " && setIsWaitingRecruitment(false)
           }
-                    // if (parsedMessage.event === "user_joined") {
+          // if (parsedMessage.event === "user_joined") {
           //   getParticipantsList()
           // } 
           // TODO: 유저 정보 pro con 나눠지면 추가
