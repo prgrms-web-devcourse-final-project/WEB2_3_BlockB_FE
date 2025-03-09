@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+
 export default function LandingServieDescription() {
     useEffect(() => {
         const sections = document.querySelectorAll('.service-section');

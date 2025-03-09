@@ -27,7 +27,9 @@ export default function Landing() {
         <p>our services</p>
       </div>
       {/* 서비스 설명 부분 */}
-      <LandingServieDescription />
+      <div className="mb-[130px]">
+        <LandingServieDescription />  
+      </div>
     </div>
   );
 }
