@@ -7,7 +7,7 @@ import { useRoomStore } from "../../../stores/roomStateStore";
 import { userApi } from "../../../api/user";
 
 export default function MessageSection() {
-  const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [currentMessage, setCurrentMessage] = useState<string>(""); 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   // Context에서 WebSocket 관련 상태와 함수 가져오기
@@ -78,19 +78,20 @@ export default function MessageSection() {
           value={currentMessage}
           onChange={(e) => setCurrentMessage(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && isMyTurn) {
+            // 메시지 전송 불가 상태일 때 Enter 눌렀을 경우
+            if (!isMyTurn && e.key === "Enter") {
+              e.preventDefault(); // Enter 키 누르지 않게 막기
+            } else if (e.key === "Enter") {
               e.preventDefault();
               handleSendMessage();
             }
           }}
-          disabled={!isMyTurn}
           className={`appearance-none border-none outline-none focus:ring-0 bg-transparent w-full placeholder:text-gray02 placeholder:font-light text-white font-bold md:text-[16px] text-[14px] ${
             !isMyTurn ? "text-gray-500" : ""
           }`}
         />
         <button
           onClick={handleSendMessage}
-          disabled={!isMyTurn}
           className={!isMyTurn ? "opacity-50 cursor-not-allowed" : ""}
         >
           <img
