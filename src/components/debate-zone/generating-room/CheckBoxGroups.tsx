@@ -65,6 +65,7 @@ export default function CheckBoxGroups({
       }));
 
       setRoomSettings(groupKey, selectedItem.dbKey);
+      console.log("그룹키", selectedItem.dbKey)
     }
   };
 

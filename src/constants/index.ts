@@ -13,11 +13,11 @@ export const categoryChecklist: ChecklistItem[] = [
   { dbKey: "PO", key: "정치", isChecked: false },
   { dbKey: "EC", key: "경제", isChecked: false },
   { dbKey: "SO", key: "사회", isChecked: false },
-  { dbKey: "CU", key: "문화/생활", isChecked: false },
+  { dbKey: "CU", key: "문화", isChecked: false },
   { dbKey: "EN", key: "연예", isChecked: false },
   { dbKey: "IT", key: "IT/과학", isChecked: false },
+  { dbKey: "SP", key: "스포츠", isChecked: false },
   { dbKey: "CO", key: "칼럼", isChecked: false },
-  { dbKey: "ETC", key: "기타", isChecked: false },
 ];
 
 export const participantChecklist: ChecklistItem[] = [
@@ -26,8 +26,8 @@ export const participantChecklist: ChecklistItem[] = [
 ];
 
 export const stanceChecklist: ChecklistItem[] = [
-  { dbKey: "PRO", key: "찬성", isChecked: false },
-  { dbKey: "CON", key: "반대", isChecked: false },
+  { dbKey: "pro", key: "찬성", isChecked: false },
+  { dbKey: "con", key: "반대", isChecked: false },
 ];
 
 export const hasVoteChecklist: ChecklistItem[] = [

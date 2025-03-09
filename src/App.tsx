@@ -22,6 +22,7 @@ import PrivateRoute from "./layouts/PrivateRoute";
 import PublicRoute from "./layouts/PublicRoute";
 import GeneratingRoom from "./pages/GeneratingRoom";
 import AdminRoute from "./layouts/AdminRoute";
+import DebateRoomGate from "./pages/DebateRoomGate";
 
 function App() {
   useTokenRefresh();
@@ -69,6 +70,9 @@ function App() {
 
           <Route path="*" element={<NotFound />} />
           <Route path="/not-found" element={<NotFound />} />
+
+          {/* 임시 테스트용 -- 특정 룸에 특정 입장으로 들어갈 수 있음*/}
+          <Route path="/debate-gate" element={<DebateRoomGate />} />
       </Route>
       </Routes>
     </QueryClientProvider>

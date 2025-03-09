@@ -16,22 +16,22 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
 
   const { roomId } = useParams<{ roomId: string }>();
 
-  // 메시지 보내기 함수
+
   const sendMessage = (message: string) => {
     if (stompClient && roomId) {
       stompClient.publish({
-        destination: `/app/observer/${roomId}`,
+        destination: `/app/debate/${roomId}`,
         body: message,
       });
     }
   };
 
   useEffect(() => {
-    if (!roomId) return;
+    if (!roomId || !userName) return;
 
     const WS_URL = import.meta.env.VITE_WS_URL;
     const client = new Client({
-      brokerURL: `${WS_URL}/observer/${roomId}`,
+      brokerURL: `${WS_URL}/debate/${roomId}`,
       connectHeaders: {
         userName,
         position,
@@ -42,15 +42,19 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
     });
 
     client.onConnect = () => {
-      client.subscribe(`/topic/observer/${roomId}`, (message: Message) => {
-        console.log("subscribe 전달 받음", message);
-        const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
-        if (parsedMessage.message.length > 0) {
-          setMessages((prevMessages) => [...prevMessages, parsedMessage]);
-        }
-      });
+      console.log("유저의 이름",userName)
+      client.subscribe(
+        `/topic/debate/${roomId}`,
+        (message: Message) => {
+          console.log("subscribe 전달 받음", message);
+          const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
+          if (!!parsedMessage.message && parsedMessage.message.length > 0) {
+            setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+          }
+        },
+      );
     };
-
+    
     client.activate();
     setStompClient(client);
 

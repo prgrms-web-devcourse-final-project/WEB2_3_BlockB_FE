@@ -9,10 +9,8 @@ import profile from "../../assets/icons/profile.svg";
 import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
-import { useAuthStore } from "../../stores/authStore";
 import { notificationAPI } from "../../api/notificaion";
 import Modal from "./Modal";
-import { useModalStore } from "../../stores/useModal";
 import useGetNotifications from "../../hooks/useGetNotifications";
 
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
@@ -31,7 +29,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
       userId!,
       1
     );
-    console.log(notificationInfos.data);
+    // console.log(notificationInfos.data);
     setNotifications(notificationInfos.data);
   };
   useEffect(() => {
@@ -67,7 +65,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
             className={`w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] shadow-md justify-between items-center  
             ${
               status === "debate-waiting"
-                ? "text-white bg-black"
+                ? "text-white bg-black shadow-lg"
                 : "bg-white border-b border-gray03"
             }`}
           >

@@ -112,14 +112,14 @@ export default function News() {
   }, [currentSort]);
 
   return (
-    <div className="w-full h-screen overflow-hidden font-pretendard">
-      <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0 md:gap-6">
+    <div className="w-full h-screen overflow-y-hidden font-pretendard">
+      <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0">
         {/* 카테고리 */}
         <div className="order-1 w-full md:w-1/6 md:ml-3 md:order-1">
           <Category />
         </div>
 
-        <div className="order-2 overflow-auto md:w-5/6 md:mr-3 md:order-2">
+        <div className="order-2 overflow-auto md:w-5/6 md:mr-3 md:ml-6 md:order-2">
           {/* 필터 & 검색 바 */}
           {isLoading ? (
             <FilterSearchSkeleton />

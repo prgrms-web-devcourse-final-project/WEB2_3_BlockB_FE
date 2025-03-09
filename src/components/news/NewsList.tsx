@@ -24,7 +24,7 @@ export default function NewsList({
         {newsData.map((news, index) => (
           <div
             key={index}
-            className="rounded-lg cursor-pointer"
+            className="cursor-pointer rounded-[10px] transform transition duration-200 hover:scale-[1.002]"
             onClick={() => navigate(`/news/${news.id}`)}
           >
             <img
