@@ -1,6 +1,10 @@
 import link from "../../assets/icons/link.svg";
 import info from "../../assets/icons/info-btn.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { debateRoomApi } from "../../api/debatezone";
+import { useParams } from "react-router";
+import { timeFormatter } from "../../utils/timeFormatter";
+import { getKeyFromDbKey } from "../../constants";
 
 export default function InfoDrodown() {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
@@ -16,7 +20,18 @@ export default function InfoDrodown() {
   //     setConsNum(1);
   //   }
   // }, [roomSettings]);
+  const [debateRoomInfo, setDebateRoomInfo] = useState<DebateRoomInfo | null>(null)
 
+  const {roomId} = useParams()
+  useEffect(()=> {
+    const loadDebateInfo = async () => {
+      if (roomId) {
+        const debateRoomInfoResponse = await debateRoomApi.fetchOngoingRoomInfo(roomId)
+        setDebateRoomInfo(debateRoomInfoResponse.data)
+     }
+    }
+    loadDebateInfo()
+  },[])
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}
@@ -36,7 +51,7 @@ export default function InfoDrodown() {
                 토론 주제
               </span>
               <span className="md:text-white text-gray01">
-                AI는 인간의 노동을 대체하는가
+                {debateRoomInfo?.title}
               </span>
             </h1>
             <h2 className="inline-flex justify-start">
@@ -44,26 +59,27 @@ export default function InfoDrodown() {
                 방 설명
               </span>
               <span className="md:text-white text-gray01">
-                비속어 / 욕설 / 분란 곧장 신고 조치합니다.
+                {debateRoomInfo?.description}
               </span>
             </h2>
           </div>
           {/* 토론방 정보 */}
           <div className="flex justify-start flex-wrap gap-[10px] text-black01 font-bold">
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 border border-gray03 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>아프리카</p>
+              <p>{getKeyFromDbKey(debateRoomInfo?.continentType!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>정치</p>
+              <p>{getKeyFromDbKey(debateRoomInfo?.categoryType!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>1분 30초</p>
+              <p>{timeFormatter(debateRoomInfo?.speakCountType! * debateRoomInfo?.timeType!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>3:3</p>
+              <p>{debateRoomInfo?.memberNumberType} : {debateRoomInfo?.memberNumberType}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>승패 결정</p>
+              {/* TODO:이에 대한 api 응답값 현재 부재. 백엔드 업데이트 시 추가 예정 */}
             </div>
           </div>
           {/* 링크 */}

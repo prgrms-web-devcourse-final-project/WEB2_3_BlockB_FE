@@ -18,10 +18,6 @@ export default function NewsDetailSkeleton() {
             <div className="w-6 h-6 bg-gray03 rounded-full"></div>
             <div className="w-6 h-4 bg-gray03 rounded"></div>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-gray03 rounded-full"></div>
-            <div className="w-6 h-4 bg-gray03 rounded"></div>
-          </div>
         </div>
 
         {/* 토론방 버튼 스켈레톤 */}

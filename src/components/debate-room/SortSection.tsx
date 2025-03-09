@@ -1,4 +1,4 @@
-import sortIcon from "../assets/icons/sort.svg";
+import sortIcon from "../../assets/icons/sort.svg";
 
 type SortSectionProps = {
   sortOptions: string[];

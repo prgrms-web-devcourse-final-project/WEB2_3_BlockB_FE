@@ -14,6 +14,6 @@ interface ObservingStateStore {
 }
 
 export const useObservingStore = create<ObservingStateStore>((set) => ({
-  observingState: "voting",
+  observingState: "waiting",
   setObservingState: (state) => set({ observingState: state }),
 }));

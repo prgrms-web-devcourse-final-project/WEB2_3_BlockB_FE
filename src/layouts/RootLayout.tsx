@@ -74,7 +74,7 @@ const RootLayout = () => {
       {!hideHeaderFooter && <Footer status={footerStatus} />}
       <TopButton />
     </div>
-  );
-};
+  )
+}
 
 export default RootLayout;

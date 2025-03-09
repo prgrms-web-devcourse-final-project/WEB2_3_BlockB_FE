@@ -9,6 +9,8 @@ import AudienceListBox from "./AudienceListBox";
 export default function ObserverWaitingRoom() {
   const [isWaiting, setIsWaiting] = useState<boolean>(true);
   const { setObservingState } = useObservingStore();
+
+
   if (isWaiting)
     return (
       <section className="px-[40px] flex flex-col gap-[250px] relative min-h-screen">

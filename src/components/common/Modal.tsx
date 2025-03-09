@@ -15,9 +15,8 @@ export default function Modal() {
           <RoomActionButtons
             cancelAction={closeModal}
             confirmAction={() => {
-              onConfirm();
-              closeModal();
-            }}
+              if (onConfirm) onConfirm();
+              closeModal();}}
             cancelColor="bg-gray03 text-white"
             confirmColor="bg-blue01 text-white"
             confirmText="확인"
