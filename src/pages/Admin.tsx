@@ -49,7 +49,7 @@ export default function Admin() {
       const reportsFilteredByStatus = filterProcessStatus(reportsFilteredByReason.data.content, "미처리");
       setUnprocessedBody(reportsFilteredByStatus);
     }
-    // setLoading(false)
+    setLoading(false)
   };
 
   // 처리 완료된 신고 내역
@@ -109,7 +109,7 @@ export default function Admin() {
 
   return (
     <>
-      {isLoading && <LoadingSpinner /> }
+      {isLoading && <LoadingSpinner isLoading={isLoading}/> }
       <div className="flex justify-center mb-10">
         <div className="w-full max-w-[980px] h-auto mt-[50px] pt-7 pl-7 pr-7">
           <p className="text-[24px] font-bold md:text-[32px]">신고 목록</p>

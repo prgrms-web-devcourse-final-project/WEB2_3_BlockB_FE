@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
 import { useUserStore } from "../stores/userStore";
@@ -16,6 +16,7 @@ export default function OAuthCallback() {
   const { setUser } = useUserStore();
   const { openModal } = useModalStore();
   const hasProcessed = useRef(false);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (hasProcessed.current) return;
@@ -86,11 +87,12 @@ export default function OAuthCallback() {
         openModal(errorMessage);
         navigate("/", { replace: true });
       });
+      setIsLoading(false)
   }, [location.search]);
 
   return (
     <div>
-      <LoadingSpinner />
+      <LoadingSpinner isLoading={isLoading} />
     </div>
   );
 }
