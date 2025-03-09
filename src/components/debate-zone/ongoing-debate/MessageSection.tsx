@@ -34,7 +34,6 @@ export default function MessageSection() {
 
   // 메시지 전송 함수
   const handleSendMessage = () => {
-    if (isMyTurn) return
     if (currentMessage.trim()) {
       const newMessage = {
         event: "MESSAGE",
@@ -59,7 +58,7 @@ export default function MessageSection() {
           <MessageItem
             key={index}
             message={msg.message}
-            nickname={msg.userName!} 
+            nickname={msg.userName! || "공지"} 
             profile={profile}
             isMine={msg.userName === userNickname}
             isOppenent={roomSettings.stance !== msg.position || false}
@@ -92,6 +91,7 @@ export default function MessageSection() {
         />
         <button
           onClick={handleSendMessage}
+          disabled={!isMyTurn}
           className={!isMyTurn ? "opacity-50 cursor-not-allowed" : ""}
         >
           <img
