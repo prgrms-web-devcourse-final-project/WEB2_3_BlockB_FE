@@ -38,7 +38,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
         roomId,
       },
       debug: (msg) => console.log("[STOMP DEBUG]:", msg),
-      reconnectDelay: 5000, // 5초 후 자동 재연결
+      reconnectDelay: 5000, 
     });
 
     client.onConnect = () => {
@@ -46,8 +46,9 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
       client.subscribe(
         `/topic/debate/${roomId}`,
         (message: Message) => {
-          console.log("subscribe 전달 받음", message);
+          console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
           const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
+          console.log("✅ subscribe 전달 받음 => 메시지 변형", parsedMessage);
           if (!!parsedMessage.message && parsedMessage.message.length > 0) {
             setMessages((prevMessages) => [...prevMessages, parsedMessage]);
           }

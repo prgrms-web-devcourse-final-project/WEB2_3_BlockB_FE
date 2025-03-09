@@ -4,41 +4,12 @@ import ParticipantBox from "../ParticipantBox";
 import WaitingInfoDrodown from "../InfoDrodown";
 import { useRoomStore } from "../../../stores/roomStateStore";
 import Ment from "./Ment";
-// import { useParams } from "react-router";
-// import { userApi } from "../../../api/user";
-// import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
-// import useWebSocket from "react-use-websocket";
-// import { useParams } from "react-router";
-// import { userApi } from "../../../api/user";
+
 
 export default function WaitingRoom() {
   const [isWaiting, setIsWaiting] = useState<boolean>(true);
   const [countDown, setCountDown] = useState(5);
-  // const [userNickname, setUserNickname] = useState<string | null>(null); 
   const { setRoomState } = useRoomStore();
-  // const {sendJoin} = useDebateWebSocket()
-
-  // const { roomId } = useParams<{ roomId: string }>();
-  // const stanceFromState = "pro" // TODO: 임시 속성으로 나중에 바꾸어야 합니다
-  // useEffect(() => {
-  //   const fetchUserNickname = async () => {
-  //     const userResponse = await userApi.fetchMyProfile();
-  //     setUserNickname(userResponse.data.nickname);
-  //   };
-
-  //   fetchUserNickname();
-  //   setRoomSettings("stance", stanceFromState || roomSettings.stance);
-  //   const newMessage = {
-  //     event: "JOIN",
-  //     // userName: userNickname,
-  //     // position: roomSettings.stance || "PRO", // TODO:임시지정
-  //     // message: `${userNickname}님이 입장하셨습니다`,
-  //     timestamp: new Date().toISOString(),
-  //   };
-  //   sendJoin(JSON.stringify(newMessage));
-  // }, [roomId]);
-
-
 
   useEffect(() => {
     if (!isWaiting) {
