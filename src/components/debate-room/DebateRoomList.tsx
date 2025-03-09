@@ -1,34 +1,60 @@
-import { useEffect, useState } from "react";
 import DebateRoomSkeleton from "../common/skeleton/debate/DebateRoomSkeleton";
 import categoryIcons from "../../assets/icons/category/categoryIcon";
+import { timeMap, speakCountMap } from "../../constants";
+import { useNavigate } from "react-router-dom";
+const formatTotalSpeakingTime = (timeKey: string, speakKey: string): string => {
+  const speakingTimeSeconds =
+    +Object.keys(timeMap).find((k) => timeMap[+k] === timeKey)! || 0;
+  const speakingCount =
+    +Object.keys(speakCountMap).find((k) => speakCountMap[+k] === speakKey)! ||
+    0;
 
-const mockFetchDebateRooms = () =>
-  new Promise<DebateRoomType[]>((resolve) => {
-    setTimeout(() => {
-      resolve(
-        Array.from({ length: 20 }, (_, i) => ({
-          id: i + 1,
-          title: "인공지능이 인간의 일자리를 대체할 것인가?",
-          categoryType: "정치",
-          memberNumberType: i % 2 === 0 ? 3 : 1,
-          speakingTimeSeconds: 300,
-          speakingCount: Math.floor(Math.random() * 3) + 1,
-        }))
-      );
-    }, 2000); // 2초 후 데이터 로드
-  });
+  const totalSeconds = speakingTimeSeconds * speakingCount;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
 
-export default function DebateRoomList() {
-  const [debateRooms, setDebateRooms] = useState<DebateRoomType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  return `${minutes > 0 ? `${minutes}분` : ""}${
+    seconds > 0 ? ` ${seconds}초` : ""
+  }`.trim();
+};
 
-  useEffect(() => {
-    mockFetchDebateRooms().then((data) => {
-      setDebateRooms(data);
-      setIsLoading(false);
-    });
-  }, []);
+type DebateRoomListProps = {
+  debateRooms: DebateRoomInfo[];
+  isLoading: boolean;
+};
 
+export type DebateRoomInfo = {
+  proUsersCount: number;
+  conUsersCount: number;
+  roomId: string;
+  title: string;
+  description: string;
+  categoryType: string;
+  continentType: string;
+  member: number; // "T1" → 1, "T2" → 3 변환
+  speakingTimeSeconds: number; // 발언 시간 (초)
+  speakingCount: string; // 찬/반 발언 횟수
+  time: string; // 발언 시간
+};
+
+// 카테고리 변환 매핑
+const categoryMapping: { [key: string]: string } = {
+  PO: "정치",
+  EC: "경제",
+  SO: "사회",
+  CU: "문화",
+  EN: "연예",
+  SP: "스포츠",
+  IT: "IT",
+  CO: "칼럼",
+  ETC: "기타",
+};
+
+export default function DebateRoomList({
+  debateRooms,
+  isLoading,
+}: DebateRoomListProps) {
+  const navigate = useNavigate();
   return (
     <>
       {isLoading ? (
@@ -50,64 +76,77 @@ export default function DebateRoomList() {
             </tr>
           </thead>
           <tbody>
-            {debateRooms.map((room) => (
-              <tr
-                key={room.id}
-                className="border-b text-center whitespace-nowrap"
-              >
-                <td className="p-3 flex items-center justify-center gap-2">
-                  <span className="px-2 py-1 bg-gray-300 text-gray01 rounded flex items-center gap-2">
-                    {room.categoryType}
-                    {categoryIcons[room.categoryType]?.gray && (
-                      <img
-                        src={categoryIcons[room.categoryType].gray}
-                        alt={`${room.categoryType} 아이콘`}
-                        className="w-5 h-5"
-                      />
-                    )}
-                  </span>
-                </td>
-                <td className="p-3 rounded-lg shadow-inner">{room.title}</td>
-                <td className="p-3 rounded-lg shadow-inner">
-                  <span className="px-3 py-1 border rounded-lg shadow-inner">
-                    {room.speakingCount} | {room.speakingCount}
-                  </span>
-                </td>
-                <td className="p-3 rounded-lg shadow-inner">
-                  <span className="px-3 py-1 border rounded-lg shadow-inner">
-                    {room.speakingTimeSeconds / 60}분
-                  </span>
-                </td>
-                <td className="p-3 rounded-lg shadow-inner">
-                  <span className="px-3 py-1 border rounded-lg shadow-inner">
-                    {room.memberNumberType} : {room.memberNumberType}
-                  </span>
-                </td>
-                <td className="p-3 flex space-x-2 justify-center">
-                  <button
-                    className={`px-3 py-1 text-white rounded-md ${
-                      room.speakingCount === 3
-                        ? "bg-gray-500 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-[#0044aa]"
-                    }`}
-                  >
-                    찬성
-                  </button>
-                  <button
-                    className={`px-3 py-1 text-white rounded-md ${
-                      room.speakingCount === 3
-                        ? "bg-gray-500 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-[#0044aa]"
-                    }`}
-                  >
-                    반대
-                  </button>
-                  <button className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]">
-                    참관
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {debateRooms.map((room) => {
+              const categoryName = categoryMapping[room.categoryType] || "기타";
+              return (
+                <tr
+                  key={room.roomId}
+                  className="border-b text-center whitespace-nowrap"
+                >
+                  <td className="p-3 flex items-center justify-center gap-2">
+                    <span className="px-2 py-1 bg-gray-300 text-gray01 rounded flex items-center gap-2">
+                      {categoryName}
+                      {categoryIcons[categoryName]?.gray && (
+                        <img
+                          src={categoryIcons[categoryName].gray}
+                          alt={`${categoryName} 아이콘`}
+                          className="w-5 h-5"
+                        />
+                      )}
+                    </span>
+                  </td>
+                  <td className="p-3 rounded-lg">{room.title}</td>
+                  <td className="p-3 rounded-lg">
+                    <span className="px-3 py-1 border rounded-lg">
+                      {room.proUsersCount} | {room.conUsersCount}
+                    </span>
+                  </td>
+                  <td className="p-3 rounded-lg">
+                    <span className="px-3 py-1 border rounded-lg">
+                      {formatTotalSpeakingTime(room.time, room.speakingCount)}
+                    </span>
+                  </td>
+                  <td className="p-3 rounded-lg">
+                    <span className="px-3 py-1 border rounded-lg">
+                      {room.member} : {room.member}
+                    </span>
+                  </td>
+                  <td className="p-3 flex space-x-2 justify-center">
+                    <button
+                      className={`px-3 py-1 text-white rounded-md ${
+                        room.proUsersCount === room.member
+                          ? "bg-gray-500 cursor-not-allowed"
+                          : "bg-blue-500 hover:bg-[#0044aa]"
+                      }`}
+                      onClick={() =>
+                        navigate(`/debate-zone/${room.roomId}`, {
+                          state: { stance: "pro" },
+                        })
+                      }
+                    >
+                      찬성
+                    </button>
+                    <button
+                      className={`px-3 py-1 text-white rounded-md ${
+                        room.conUsersCount === room.member
+                          ? "bg-gray-500 cursor-not-allowed"
+                          : "bg-blue-500 hover:bg-[#0044aa]"
+                      }`}
+                      onClick={() =>
+                        navigate(`/debate-zone/${room.roomId}`, {
+                          state: { stance: "con" },
+                        })
+                      }
+                    >
+                      반대
+                    </button>
+                    <button className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]">
+                      참관
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}
@@ -117,59 +156,75 @@ export default function DebateRoomList() {
         {isLoading ? (
           <DebateRoomSkeleton />
         ) : (
-          debateRooms.map((room) => (
-            <div key={room.id} className=" p-4 border-b-[2px]  border-gray02 ">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="font-semibold">{room.title}</span>
-              </div>
+          debateRooms.map((room) => {
+            const categoryName = categoryMapping[room.categoryType] || "기타";
+            return (
+              <div
+                key={room.roomId}
+                className="p-4 border-b-[2px] border-gray02"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-semibold">{room.title}</span>
+                </div>
 
-              <div className="flex justify-between items-center text-center text-gray-700 mb-3">
-                <span className="px-2 py-1 bg-gray-300 text-gray01 rounded flex items-center gap-2">
-                  {room.categoryType}
-                  {categoryIcons[room.categoryType]?.gray && (
-                    <img
-                      src={categoryIcons[room.categoryType].gray}
-                      alt={`${room.categoryType} 아이콘`}
-                      className="w-5 h-5"
-                    />
-                  )}
-                </span>
-                <span className="px-3 py-1 border rounded-lg shadow-inner">
-                  {room.speakingCount} | {room.speakingCount}
-                </span>
-                <span className="px-3 py-1 border rounded-lg shadow-inner">
-                  {room.speakingTimeSeconds / 60}분
-                </span>
-                <span className="px-3 py-1 border rounded-lg shadow-inner">
-                  {room.memberNumberType} : {room.memberNumberType}
-                </span>
-              </div>
+                <div className="flex justify-between items-center text-center text-gray-700 mb-3">
+                  <span className="px-2 py-1 bg-gray-300 text-gray01 rounded flex items-center gap-2">
+                    {categoryName}
+                    {categoryIcons[categoryName]?.gray && (
+                      <img
+                        src={categoryIcons[categoryName].gray}
+                        alt={`${categoryName} 아이콘`}
+                        className="w-5 h-5"
+                      />
+                    )}
+                  </span>
+                  <span className="px-3 py-1 border rounded-lg">
+                    {room.proUsersCount} | {room.conUsersCount}
+                  </span>
+                  <span className="px-3 py-1 border rounded-lg">
+                    {formatTotalSpeakingTime(room.time, room.speakingCount)}
+                  </span>
+                  <span className="px-3 py-1 border rounded-lg">
+                    {room.member} : {room.member}
+                  </span>
+                </div>
 
-              <div className="flex space-x-2 justify-end">
-                <button
-                  className={`px-3 py-1 text-white rounded-md ${
-                    room.speakingCount === 3
-                      ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-[#0044aa]"
-                  }`}
-                >
-                  찬성
-                </button>
-                <button
-                  className={`px-3 py-1 text-white rounded-md ${
-                    room.speakingCount === 3
-                      ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-[#0044aa]"
-                  }`}
-                >
-                  반대
-                </button>
-                <button className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]">
-                  참관
-                </button>
+                <div className="flex space-x-2 justify-end">
+                  <button
+                    className={`px-3 py-1 text-white rounded-md ${
+                      room.proUsersCount === room.member
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-blue-500 hover:bg-[#0044aa]"
+                    }`}
+                    onClick={() =>
+                      navigate(`/debate-zone/${room.roomId}`, {
+                        state: { stance: "pro" },
+                      })
+                    }
+                  >
+                    찬성
+                  </button>
+                  <button
+                    className={`px-3 py-1 text-white rounded-md ${
+                      room.conUsersCount === room.member
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-blue-500 hover:bg-[#0044aa]"
+                    }`}
+                    onClick={() =>
+                      navigate(`/debate-zone/${room.roomId}`, {
+                        state: { stance: "con" },
+                      })
+                    }
+                  >
+                    반대
+                  </button>
+                  <button className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]">
+                    참관
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </>

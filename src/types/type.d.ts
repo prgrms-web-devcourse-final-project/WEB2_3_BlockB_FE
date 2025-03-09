@@ -1,9 +1,4 @@
-type HeaderStatusType =
-  | "default"
-  | "debate-waiting"
-  | "debate-ing"
-  | "admin"
-  | "landing";
+type HeaderStatusType = "default" | "debate-waiting" | "debate-ing" | "admin";
 
 type FooterStatusType = "default" | "landing";
 

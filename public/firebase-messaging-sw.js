@@ -5,17 +5,17 @@ importScripts(
   "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"
 );
 
-self.addEventListener("install", function (e) {
+self.addEventListener("install", (event) => {
   console.log("[Service Worker] 설치됨");
   self.skipWaiting();
 });
 
-self.addEventListener("activate", function (e) {
+self.addEventListener("activate", (event) => {
   console.log("[Service Worker] 활성화됨");
   self.clients.claim();
 });
 
-//  Firebase 초기화
+// Firebase 초기화
 const firebaseConfig = {
   apiKey: "AIzaSyCgxbNXJeLHiAgZ2l2BGEjkPfH-fO0-ov4",
   authDomain: "earthtalk-f8dcd.firebaseapp.com",
@@ -29,19 +29,28 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-//  백그라운드 푸시 메시지 처리
+// 백그라운드 푸시 메시지 처리
 messaging.onBackgroundMessage((payload) => {
-  const notificationTitle = payload.title;
+  console.log("[Service Worker] 백그라운드 알림 수신:", payload);
+
+  // notification이 없으면 data에서 가져오기
+  const notificationTitle =
+    payload.notification?.title || payload.data?.title || "새로운 알림";
+  const notificationBody =
+    payload.notification?.body ||
+    payload.data?.body ||
+    "알림 내용을 확인하세요.";
+
   const notificationOptions = {
-    body: payload.body,
-    // icon: payload.icon
+    body: notificationBody,
+    data: { url: payload.data?.url || "/" }, // 클릭 시 이동할 URL 저장
   };
+
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-//  알림 클릭 이벤트 추가
+// 알림 클릭 이벤트 처리
 self.addEventListener("notificationclick", (event) => {
-  console.log("[Service Worker] 알림 클릭됨:", event.notification);
   event.notification.close();
 
   const urlToOpen = event.notification.data?.url || "/";
