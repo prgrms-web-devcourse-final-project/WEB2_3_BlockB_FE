@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import logo from '../../assets/icons/logo.svg'; // 로고 이미지 경로를 프로젝트에 맞게 조정하세요
+import logo from '../../assets/icons/logo.svg'; 
 
 interface LoadingBarProps {
   isLoading: boolean;
