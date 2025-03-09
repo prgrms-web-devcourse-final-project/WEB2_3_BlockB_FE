@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Client, Message } from "@stomp/stompjs";
 import { useNavigate, useParams } from "react-router";
+import { useRoomStore } from "../stores/roomStateStore";
 // import { debateRoomApi } from "../api/debatezone";
 
 interface WebSocketContextType {
   messages: WebSocketCommunicationType[];
   sendMessage: (message: string) => void;
+  isWaitingRecruitment: boolean
   isMyTurn: boolean
   stompClient: Client | null;
 }
@@ -13,12 +15,14 @@ interface WebSocketContextType {
 const DebateWebSockContext = createContext<WebSocketContextType | undefined>(undefined);
 
 export const DebateWebSocketProvider = ({ children, userName, position }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
+  const [isWaitingRecruitment, setIsWaitingRecruitment] = useState<boolean>(true);
   const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const [isMyTurn, setIsMyTurn] = useState(Boolean)
   
   // const [myTeamList, setMyTeamList] = useState([])
   // const [opponentTeamList, setOppentTeamList] = useState([])
+  const {setRoomState} = useRoomStore()
 
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate()
@@ -70,14 +74,22 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
           if (parsedMessage.event ==="MESSAGE") {
               setMessages((prevMessages) => [...prevMessages, parsedMessage]);
           }
-          // if (parsedMessage.event === "user_joined") {
+          if (parsedMessage.event === "TURN") {
+            console.log("현재턴은", parsedMessage.turn, ", 내 포지션은", position?.toLocaleUpperCase())
+            parsedMessage.turn === position?.toLocaleUpperCase() ? setIsMyTurn(true) : setIsMyTurn(false)
+          }
+          if (parsedMessage.event === "STATUS") {
+            parsedMessage.status === "DEBATE" && setRoomState("ongoing")
+            parsedMessage.status === "VOTING" && setRoomState("voting")
+            parsedMessage.status === "CLOSED" && setRoomState("result")
+          }
+          if (parsedMessage.event === "NOTIFICATION") {
+            parsedMessage.message === "잠시 후 토론이 시작됩니다... " && setIsWaitingRecruitment(false)
+          }
+                    // if (parsedMessage.event === "user_joined") {
           //   getParticipantsList()
           // } 
           // TODO: 유저 정보 pro con 나눠지면 추가
-          if (parsedMessage.event === "TURN") {
-            console.log("현재턴은", parsedMessage.turn, ", 내 포지션은", position)
-            parsedMessage.turn === position?.toLocaleUpperCase() ? setIsMyTurn(true) : setIsMyTurn(false)
-          }
           
         },
       );
@@ -92,7 +104,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage, isMyTurn, stompClient }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage,  isWaitingRecruitment, isMyTurn, stompClient }}>
       {children}
     </DebateWebSockContext.Provider>
   );

@@ -247,3 +247,10 @@ export const speakCountMap: Record<number, SpeakCount> = {
   9: "NINE",
   10: "TEN",
 };
+
+export const roomStatusMap: Record<string, string> = {
+  "waiting" : "WAITING",
+  "ongoing": "DEBATE",
+  "voting": "VOTING",
+  "result": "CLOSED",
+}

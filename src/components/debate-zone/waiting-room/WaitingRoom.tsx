@@ -2,31 +2,24 @@ import { useEffect, useState } from "react";
 import MatchingInterface from "./MatchingInterface";
 import ParticipantBox from "../ParticipantBox";
 import WaitingInfoDrodown from "../InfoDrodown";
-import { useRoomStore } from "../../../stores/roomStateStore";
 import Ment from "./Ment";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 
 export default function WaitingRoom() {
-  const [isWaiting, setIsWaiting] = useState<boolean>(true);
-  const [countDown, setCountDown] = useState(5);
-  const { setRoomState } = useRoomStore();
+  // const [isWaitingRecruitment, setIsWaitingRecruitment] = useState<boolean>(true);
+  const {isWaitingRecruitment} = useDebateWebSocket()
+  const [countDown, setCountDown] = useState(20);
 
   useEffect(() => {
-    if (!isWaiting) {
-      setCountDown(6);
+    if (!isWaitingRecruitment) {
       const interval = setInterval(() => {
         setCountDown((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
 
       return () => clearInterval(interval);
     }
-  }, [isWaiting]);
-
-  useEffect(() => {
-    if (countDown === 0 && !isWaiting) {
-      setRoomState("ongoing");
-    }
-  }, [countDown, isWaiting]);
+  }, [isWaitingRecruitment]);
 
   return (
     <section className="md:px-[40px] px-[20px] flex flex-col gap-[250px] relative">
@@ -34,9 +27,9 @@ export default function WaitingRoom() {
         <WaitingInfoDrodown />
         <ParticipantBox label="OPONENTS" labelAlignment="end" />
       </div>
-      <MatchingInterface isWaiting={isWaiting} />
+      <MatchingInterface isWaiting={isWaitingRecruitment} />
 
-      {isWaiting ? (
+      {isWaitingRecruitment ? (
         <Ment />
       ) : (
         <div className="text-white md:text-2xl sm:text-[16px] text-[14px] font-bold w-full text-center">
@@ -44,12 +37,12 @@ export default function WaitingRoom() {
           <p>{countDown}</p>
         </div>
       )}
-      <button
+      {/* <button
         className="z-50 bg-gray02 text-black01"
-        onClick={() => setIsWaiting(!isWaiting)}
+        onClick={() => setIsWaitingRecruitment(!isWaitingRecruitment)}
       >
         임시 대기완료 이동 버튼
-      </button>
+      </button> */}
     </section>
   );
 }

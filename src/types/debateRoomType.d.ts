@@ -171,7 +171,7 @@ type DebateRoomInfo = {
 // WebSocket Context Type
 type WebSocketCommunicationType = {
   event: "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left",
-  status?: "DEBATING" | "VOTING" | "CLOSED", // TODO: 백엔드가 DEBATING으로 주는지 DEBATE로 주는지 확인 => 명세서에 두가지 버전 모두 존재
+  status?: "DEBATE" | "VOTING" | "CLOSED", // TODO: 백엔드가 DEBATING으로 주는지 DEBATE로 주는지 확인 => 명세서에 두가지 버전 모두 존재
   userName?: string;
   turn: "PRO" | "CON",
   position?: "PRO" | "CON" | "NO_POSITION";
