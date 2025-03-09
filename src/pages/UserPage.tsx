@@ -12,6 +12,7 @@ import { useAuthStore } from "../stores/authStore";
 import { useModalStore } from "../stores/useModal";
 import logoutSVG from "../assets/icons/logout.svg";
 import logoutHover from "../assets/icons/logoutHover.svg";
+import useThrottle from "../hooks/useThrottle";
 
 export default function UserPage() {
   const [tab, setTab] = useState("news");
@@ -48,24 +49,18 @@ export default function UserPage() {
     console.log(user);
   }, [user]);
 
-  const handleFollow = async (
-    targetUserId: number,
-    action: "delete" | "follow"
-  ) => {
-    if (!currentUserId) return;
+
+  const handleFollow = async (targetUserId: number, action: "delete" | "follow") => {
     action === "delete"
       ? await userApi.deleteFollower(targetUserId)
       : await userApi.insertFollower(targetUserId);
+      setFollowing(action === "follow");
   };
 
-  const handleClickFollowWithPrevent = usePreventDoubleClick<
-    (id: number, action: "delete" | "follow") => void
-  >(handleFollow, 300);
-  const toggleFollow = async () => {
-    isFollowed
-      ? handleClickFollowWithPrevent(Number(userId), "delete")
-      : handleClickFollowWithPrevent(Number(userId), "follow");
-    setFollowing(!isFollowed);
+  const throttledFollow = useThrottle(handleFollow, 1000)
+
+  const toggleFollow = () => {
+    throttledFollow(userId, isFollowed ? "delete" : "follow");
   };
 
   // 해당 프로필 페이지의 유저를 현재 유저가 팔로우 했는지 안했는지 가져오는 함수
