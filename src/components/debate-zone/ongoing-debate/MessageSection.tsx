@@ -34,6 +34,7 @@ export default function MessageSection() {
 
   // 메시지 전송 함수
   const handleSendMessage = () => {
+    if (isMyTurn) return
     if (currentMessage.trim()) {
       const newMessage = {
         event: "MESSAGE",
@@ -78,9 +79,8 @@ export default function MessageSection() {
           value={currentMessage}
           onChange={(e) => setCurrentMessage(e.target.value)}
           onKeyDown={(e) => {
-            // 메시지 전송 불가 상태일 때 Enter 눌렀을 경우
             if (!isMyTurn && e.key === "Enter") {
-              e.preventDefault(); // Enter 키 누르지 않게 막기
+              e.preventDefault(); 
             } else if (e.key === "Enter") {
               e.preventDefault();
               handleSendMessage();
