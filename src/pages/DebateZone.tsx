@@ -15,9 +15,10 @@ import { useCheckRoomId } from "../hooks/useCheckRoomId";
 
 export default function DebateZone() {
   const { roomId } = useParams();
-  const { roomState, roomSettings } = useRoomStore();
+  const { roomState, roomSettings, setRoomSettings } = useRoomStore();
   const [headerStatus, setHeaderStatus] = useState<"debate-waiting" | "debate-ing">("debate-waiting");
   const [userName, setUserName] = useState(""); 
+
 
   const location = useLocation();
   const stance = location.state?.stance; 
@@ -29,7 +30,7 @@ export default function DebateZone() {
     } else {
       setHeaderStatus("debate-waiting");
     }
-  }, [roomState]);
+  }, [roomState, roomId]);
 
   // 현재 유저의 정보 가져오기
   useEffect(() => {
@@ -42,10 +43,12 @@ export default function DebateZone() {
       }
     };
     fetchUserNickname();
+    if (stance) {
+      setRoomSettings("stance",stance)
+    }
   }, []);
 
   useCheckRoomId(roomId);
-
 
   return (
     <DebateWebSocketProvider userName={userName} position={stance || roomSettings.stance}> {/* ✅ 개설 후 참여시 stance, 개설자 참여시 roomSetting으로 전달 */}

@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Client, Message } from "@stomp/stompjs";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+// import { debateRoomApi } from "../api/debatezone";
 
 interface WebSocketContextType {
   messages: WebSocketCommunicationType[];
   sendMessage: (message: string) => void;
+  isMyTurn: boolean
   stompClient: Client | null;
 }
 
@@ -13,9 +15,13 @@ const DebateWebSockContext = createContext<WebSocketContextType | undefined>(und
 export const DebateWebSocketProvider = ({ children, userName, position }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
   const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
+  const [isMyTurn, setIsMyTurn] = useState(Boolean)
+  
+  // const [myTeamList, setMyTeamList] = useState([])
+  // const [opponentTeamList, setOppentTeamList] = useState([])
 
   const { roomId } = useParams<{ roomId: string }>();
-
+  const navigate = useNavigate()
 
   const sendMessage = (message: string) => {
     if (stompClient && roomId) {
@@ -25,6 +31,13 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
       });
     }
   };
+
+  // const getParticipantsList = async () => {
+  //   if (roomId) {
+  //     const currentRoomInfoResponse = await debateRoomApi.fetchOngoingRoomInfo(roomId)
+  //     setMyTeamList(currentRoomInfoResponse.data.participant)
+  //   }
+  // }
 
   useEffect(() => {
     if (!roomId || !userName) return;
@@ -49,8 +62,20 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
           console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
           const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
           console.log("✅ subscribe 전달 받음 => 메시지 변형", parsedMessage);
-          if (!!parsedMessage.message && parsedMessage.message.length > 0) {
-            setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+          if (parsedMessage.event === "error") {
+            if (parsedMessage.kickedUserName === userName) {
+              navigate("/debate-rooms")
+            }
+          }
+          if (parsedMessage.event ==="MESSAGE") {
+              setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+          }
+          // if (parsedMessage.event === "user_joined") {
+          //   getParticipantsList()
+          // } 
+          // TODO: 유저 정보 pro con 나눠지면 추가
+          if (parsedMessage.event === "TURN") {
+            parsedMessage.turn === position?.toLocaleUpperCase() ? setIsMyTurn(true) : setIsMyTurn(false)
           }
         },
       );
@@ -65,7 +90,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage, stompClient }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage, isMyTurn, stompClient }}>
       {children}
     </DebateWebSockContext.Provider>
   );
