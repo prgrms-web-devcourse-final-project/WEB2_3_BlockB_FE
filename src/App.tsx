@@ -30,10 +30,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
+        <Route path="/" element={<Landing />} />
         <Route element={<RootLayout />}>
           {/* 로그인하지 않은 상태에서만 접근 가능 */}
           <Route element={<PublicRoute />}>
-            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/login/oauth2/callback/google"
