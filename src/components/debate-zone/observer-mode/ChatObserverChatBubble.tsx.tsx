@@ -21,7 +21,7 @@ export default function ChatObserverChatBubble({
         <img
           src={profileUrl}
           alt={`${username}님의 프로필 사진`}
-          className="rounded-full w-[28px] h-[28px] bg-white mt-[7px]"
+          className="rounded-full w-[28px] h-[28px] mt-[7px]"
         />
         <div className="md:max-w-[320px] sm:max-w-[500px] max-w-[330px] ">
           <p className={`font-bold ${isMine ? "text-right" : ""}`}>

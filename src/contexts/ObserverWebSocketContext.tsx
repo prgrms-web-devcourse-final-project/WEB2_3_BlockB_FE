@@ -42,7 +42,6 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
       reconnectDelay: 5000, // 5초 후 자동 재연결
     });
 
-    // ✅ STOMP 클라이언트가 연결되었을 때 실행
     client.onConnect = () => {
       console.log("observer쪽 userName", userName)
       console.log("🍎 WebSocket Connected to:", `/topic/observer/${roomId}`);
@@ -64,7 +63,7 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
     return () => {
       client.deactivate();
     };
-  }, [roomId]);
+  }, [roomId, userName]);
 
   return (
     <ObserverWebSocketContext.Provider value={{ observerMessages, sendObserverMessages, stompClient }}>
