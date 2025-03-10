@@ -25,7 +25,7 @@ export default function MatchingInterface({
             <img
               src={participant.profileUrl || profile}
               alt="프로필이미지"
-              className="md:w-[70px] md:h-[70px] w-[50px] h-[50px]"
+              className="rounded-full md:w-[70px] md:h-[70px] w-[50px] h-[50px]"
             />
           </figure>
         ))}
