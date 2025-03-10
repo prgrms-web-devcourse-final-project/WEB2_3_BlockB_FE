@@ -10,7 +10,7 @@ import { useObservingStore } from "../stores/observingStateStore";
 import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
 import { ObserverWebSocketContextProvider } from "../contexts/ObserverWebSocketContext";
 import { useCheckRoomId } from "../hooks/useCheckRoomId";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
 import { userApi } from "../api/user";
 
@@ -34,12 +34,13 @@ export default function ObservingZone() {
     }
   }, [observingState]);
 
-  const currentUserName = useRef(null)
-  const position = useRef("PRO") // TODO: 임시값. 포지션 동적으로 변경
+  const [userName, setUserName] = useState(""); 
+  const location = useLocation();
+  const stance = location.state?.stance; 
 
   const fetchUserNickname = async() => {
     const userInfoResponse = await userApi.fetchMyProfile();
-    currentUserName.current = userInfoResponse.data.nickname
+    setUserName(userInfoResponse.data.nickname)
   }
 
   useEffect(()=>{
@@ -49,8 +50,8 @@ export default function ObservingZone() {
     useCheckRoomId(roomId)
 
   return (
-    <DebateWebSocketProvider userName={currentUserName.current} position={position.current}>
-      <ObserverWebSocketContextProvider userName={currentUserName.current} position={position.current}>
+    <DebateWebSocketProvider userName={userName} position="observer">
+      <ObserverWebSocketContextProvider userName={userName}>
       <div className="bg-[#070707] min-h-screen overflow-hidden">
         <Header status={headerStatus} />
         <ReportModal  />
