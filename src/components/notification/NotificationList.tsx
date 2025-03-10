@@ -19,7 +19,7 @@ export default function NotificationList({
 }) {
   const { userId } = useUserStore();
   const [deleteNotificationId, setDeleteNotificationId] = useState<number>(0);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState<DeleteModalType>(null);
   const {
     data,
     isLoading,
@@ -33,11 +33,11 @@ export default function NotificationList({
   const { ref, inView } = useInView();
 
   const openDeleteModal = (notificationId: number) => {
-    setDeleteModal(!deleteModal);
+    setDeleteModal("delete");
     setDeleteNotificationId(notificationId);
   };
   const closeDeleteModal = () => {
-    setDeleteModal(!deleteModal);
+    setDeleteModal(null);
   };
   const fetchNotifications = async () => {
     const notificationInfos = await notificationAPI.getNotifications(
@@ -132,7 +132,12 @@ export default function NotificationList({
             {localStorage.getItem("fcmToken") && (
               <div className="flex gap-2">
                 {[
-                  { content: "모두 삭제", function: allNotificationsDelete },
+                  {
+                    content: "모두 삭제",
+                    function: () => {
+                      setDeleteModal("allDelete");
+                    },
+                  },
                   { content: "모두 읽기", function: allNotificationsRead },
                 ].map((item, index) => (
                   <button
@@ -217,7 +222,12 @@ export default function NotificationList({
                 <button
                   className="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
                   onClick={() => {
-                    notificationDelete(deleteNotificationId);
+                    if (deleteModal === "delete") {
+                      notificationDelete(deleteNotificationId);
+                    }
+                    if (deleteModal === "allDelete") {
+                      allNotificationsDelete();
+                    }
                     closeDeleteModal();
                   }}
                 >
