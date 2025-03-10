@@ -1,37 +1,18 @@
 import link from "../../assets/icons/link.svg";
 import info from "../../assets/icons/info-btn.svg";
 import { useEffect, useState } from "react";
-import { debateRoomApi } from "../../api/debatezone";
-import { useParams } from "react-router";
 import { timeFormatter } from "../../utils/timeFormatter";
 import { getKeyFromDbKey } from "../../constants";
+import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
 
 export default function InfoDrodown() {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
-  // const { roomSettings } = useRoomStore(); 쓸지 안 쓸지 미정
-  // {getKeyFromDbKey(roomSettings.participant!)}  일단 정보 가져오는 것은 constants에 저장된 이 함수로 형식을 변환하면 됨
-  // const [prosNum, setProsNum] = useState<number>(0);
-  // const [consNum, setConsNum] = useState<number>(0);
-  // 찬성 반대 숫자 초기 세팅, 이것도 roomStore를 쓰면 사용하게 됨
-  // useEffect(() => {
-  //   if (roomSettings.stance === "pro") {
-  //     setProsNum(1);
-  //   } else {
-  //     setConsNum(1);
-  //   }
-  // }, [roomSettings]);
-  const [debateRoomInfo, setDebateRoomInfo] = useState<DebateRoomInfo | null>(null)
+  const {roomInfoDetails} = useDebateWebSocket()
 
-  const {roomId} = useParams()
-  useEffect(()=> {
-    const loadDebateInfo = async () => {
-      if (roomId) {
-        const debateRoomInfoResponse = await debateRoomApi.fetchOngoingRoomInfo(roomId)
-        setDebateRoomInfo(debateRoomInfoResponse.data)
-     }
-    }
-    loadDebateInfo()
-  },[])
+  useEffect(() => {
+    console.log("토론방 상세 정보")
+  },[infoOpen, roomInfoDetails])
+  
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}
@@ -51,7 +32,7 @@ export default function InfoDrodown() {
                 토론 주제
               </span>
               <span className="md:text-white text-gray01">
-                {debateRoomInfo?.title}
+                {roomInfoDetails?.title}
               </span>
             </h1>
             <h2 className="inline-flex justify-start">
@@ -59,37 +40,39 @@ export default function InfoDrodown() {
                 방 설명
               </span>
               <span className="md:text-white text-gray01">
-                {debateRoomInfo?.description}
+                {roomInfoDetails?.description}
               </span>
             </h2>
           </div>
           {/* 토론방 정보 */}
           <div className="flex justify-start flex-wrap gap-[10px] text-black01 font-bold">
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 border border-gray03 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>{getKeyFromDbKey(debateRoomInfo?.continentType!)}</p>
+              <p>{getKeyFromDbKey(roomInfoDetails?.continentType!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{getKeyFromDbKey(debateRoomInfo?.categoryType!)}</p>
+              <p>{getKeyFromDbKey(roomInfoDetails?.categoryType!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{timeFormatter(debateRoomInfo?.speakCountType! * debateRoomInfo?.timeType!)}</p>
+              <p>{timeFormatter(roomInfoDetails?.speakCountType! * roomInfoDetails?.timeType! * 2)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{debateRoomInfo?.memberNumberType} : {debateRoomInfo?.memberNumberType}</p>
+              <p>{roomInfoDetails?.memberNumberType} : {roomInfoDetails?.memberNumberType}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>승패 결정</p>
+              <p>{getKeyFromDbKey(roomInfoDetails?.resultEnabled!)}</p>
               {/* TODO:이에 대한 api 응답값 현재 부재. 백엔드 업데이트 시 추가 예정 */}
             </div>
           </div>
           {/* 링크 */}
           <div>
-            <figure className="flex items-center w-full gap-2">
+            {roomInfoDetails?.newsUrl && 
+              <figure className="flex items-center w-full gap-2">
               <img src={link} alt="연관된 뉴스 링크" />
               <figcaption className="md:text-gray02 text-gray03  md:text-[10px] text-[8px] leading-0">
-                https://www.yna.co.kr/view/AKR20250213094800004?section=politics/all&site=topnews01
+                {roomInfoDetails?.newsUrl}
               </figcaption>
             </figure>
+           }
           </div>
         </div>
       )}

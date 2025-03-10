@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
-
 import gsap from "gsap";
 
 export default function ResultGraph({
   isWatingResult,
-  prosPercentage,
-  consPercentage,
-  noVotePercentage,
+  prosPercentage = 0,
+  consPercentage = 0,
+  noVotePercentage = 0,
 }: {
   isWatingResult: boolean;
   prosPercentage?: number;
@@ -19,24 +18,29 @@ export default function ResultGraph({
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      if (isWatingResult) {
-        gsap.to([prosRef.current, consRef.current, noVoteRef.current], {
-          x: "5%",
-          duration: 0.8,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
-      } else {
-        gsap.to([prosRef.current, consRef.current, noVoteRef.current], {
-          x: "0%",
-          duration: 0.3,
-        });
+      if (!isWatingResult) {
+        gsap.fromTo(
+          prosRef.current,
+          { width: "0%" },
+          { width: `${prosPercentage}%`, duration: 1.5, ease: "power3.out" }
+        );
+
+        gsap.fromTo(
+          consRef.current,
+          { width: "0%" },
+          { width: `${consPercentage}%`, duration: 1.5, ease: "power3.out", delay: 0.2 }
+        );
+
+        gsap.fromTo(
+          noVoteRef.current,
+          { width: "0%" },
+          { width: `${noVotePercentage}%`, duration: 1.5, ease: "power3.out", delay: 0.4 }
+        );
       }
     });
 
-    return () => ctx.revert(); // cleanup 함수
-  }, [isWatingResult]);
+    return () => ctx.revert();
+  }, [isWatingResult, prosPercentage, consPercentage, noVotePercentage]);
 
   return (
     <div className="w-full max-w-md mx-auto flex flex-col gap-[20px] font-pretendard px-[20px]">
@@ -47,7 +51,6 @@ export default function ResultGraph({
           <div
             ref={prosRef}
             className="bg-blue-500 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2"
-            style={{ width: `${prosPercentage}%` }}
           >
             {prosPercentage}%
           </div>
@@ -60,7 +63,6 @@ export default function ResultGraph({
           <div
             ref={consRef}
             className="bg-red-500 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2"
-            style={{ width: `${consPercentage}%` }}
           >
             {consPercentage}%
           </div>
@@ -73,7 +75,6 @@ export default function ResultGraph({
           <div
             ref={noVoteRef}
             className="bg-blue-300 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2"
-            style={{ width: `${noVotePercentage}%` }}
           >
             {noVotePercentage}%
           </div>

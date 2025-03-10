@@ -26,9 +26,12 @@ type RoomSettings = {
   link?: string | null
 };
 
+type VoteSelection = "PRO" | "CON" | "NO_POSITION"
+
 type VoteInfo = {
   label: string;
   img: string;
+  value: VoteSelection
 };
 
 type DebaterType = {
@@ -148,10 +151,10 @@ type RoomInfoRequest = {
 type Participant = {
   id: number;
   nickname: string;
-  position: 'PRO' | 'CON';
   winNumber: number;
   defeatNumber: number;
   drawNumber: number;
+  profileUrl: string
 }
 
 type DebateRoomInfo = {
@@ -165,23 +168,32 @@ type DebateRoomInfo = {
   status: string;
   timeType: number;
   speakCountType: number;
-  participants: Participant[];
+  resultEnabled: boolean;
+  proUsers: Participant[];
+  conUsers: Participant[]
 }
 
 // WebSocket Context Type
 type WebSocketCommunicationType = {
   event: "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left",
-  status?: "DEBATE" | "VOTING" | "CLOSED", // TODO: 백엔드가 DEBATING으로 주는지 DEBATE로 주는지 확인 => 명세서에 두가지 버전 모두 존재
+  status?: "DEBATE" | "VOTING" | "CLOSED", 
   userName?: string;
   turn: "PRO" | "CON",
-  position?: "PRO" | "CON" | "NO_POSITION";
+  position?: "pro" | "con" | "no_position";
   message: string;
   timestamp?: string;
-  kickedUserName?: string;
+  kickedUserName?: string; // 인원 초과시 강퇴에 해당함
+  imageUrl?: string;
 };
 
 interface DebateWebSocketProviderProps {
   userName: string | null;
-  position: string | null;
+  position?: string | null;
 }
 
+
+type VoteResult = {
+  agreeNumber: number,
+  disagreeNumber: number,
+  neutralNumber: number
+}

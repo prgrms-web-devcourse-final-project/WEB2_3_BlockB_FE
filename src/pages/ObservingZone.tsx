@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/common/Header";
 import ObserverOngoingRoom from "./../components/debate-zone/observer-mode/ObserverOngoingRoom";
 import ObserverWaitingRoom from "../components/debate-zone/observer-mode/ObserverWaitingRoom";
@@ -10,7 +10,6 @@ import { useObservingStore } from "../stores/observingStateStore";
 import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
 import { ObserverWebSocketContextProvider } from "../contexts/ObserverWebSocketContext";
 import { useCheckRoomId } from "../hooks/useCheckRoomId";
-import { useParams } from "react-router";
 import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
 import { userApi } from "../api/user";
 
@@ -19,8 +18,6 @@ export default function ObservingZone() {
   const [headerStatus, setHeaderStatus] = useState<
     "debate-waiting" | "debate-ing"
   >("debate-waiting");
-
-  const {roomId} = useParams()
 
   useEffect(() => {
     if (
@@ -34,23 +31,22 @@ export default function ObservingZone() {
     }
   }, [observingState]);
 
-  const currentUserName = useRef(null)
-  const position = useRef("PRO") // TODO: 임시값. 포지션 동적으로 변경
+  const [userName, setUserName] = useState(""); 
 
   const fetchUserNickname = async() => {
     const userInfoResponse = await userApi.fetchMyProfile();
-    currentUserName.current = userInfoResponse.data.nickname
+    setUserName(userInfoResponse.data.nickname)
   }
 
   useEffect(()=>{
     fetchUserNickname()
-  },[roomId])
+  },[])
 
-    useCheckRoomId(roomId)
+  useCheckRoomId()
 
   return (
-    <DebateWebSocketProvider userName={currentUserName.current} position={position.current}>
-      <ObserverWebSocketContextProvider userName={currentUserName.current} position={position.current}>
+    <DebateWebSocketProvider userName={userName} initialPosition="observer">
+      <ObserverWebSocketContextProvider userName={userName}>
       <div className="bg-[#070707] min-h-screen overflow-hidden">
         <Header status={headerStatus} />
         <ReportModal  />

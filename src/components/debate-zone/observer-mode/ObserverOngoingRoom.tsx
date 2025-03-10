@@ -14,7 +14,6 @@ import { useModalStore } from "../../../stores/useModal";
 
 export default function ObserverOngoingRoom() {
 
-  // const { setObservingState } = useObservingStore();
   const [isDebateTabed, setIsDebateTabed] = useState<boolean>(true)
   
   const navigate = useNavigate();

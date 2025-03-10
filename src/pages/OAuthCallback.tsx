@@ -5,7 +5,7 @@ import { useUserStore } from "../stores/userStore";
 import { useModalStore } from "../stores/useModal";
 import axios from "axios";
 import { handleAllowNotification } from "../utils/firebase/notificationPermission";
-import LoadingSpinner from "../components/common/LoadingSpinner";
+import LoadingSpinner from "../components/common/LoadingBar";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 

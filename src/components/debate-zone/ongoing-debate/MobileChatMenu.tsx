@@ -3,12 +3,11 @@ import { useRoomStore } from "../../../stores/roomStateStore";
 import Counter from "./Counter";
 import hamburger from "../../../assets/icons/hamburger.svg";
 import ParticipantBox from "../ParticipantBox";
-import AudienceCard from "../AudienceCard";
-import profile from "../../../assets/icons/profile-white.svg";
 import exit from "../../../assets/icons/exit.svg";
 import ExitModal from "../../common/Modal";
 import { useModalStore } from "../../../stores/useModal";
 import { useNavigate } from "react-router";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function MobileChatMenu() {
   const { roomSettings } = useRoomStore();
@@ -43,6 +42,8 @@ export default function MobileChatMenu() {
     });
   };
 
+  const {roomInfoDetails} = useDebateWebSocket()
+
   return (
     <div className="md:hidden flex justify-between items-center relative px-2 py-3 h-10">
       {/* 나가기 모달 */}
@@ -66,9 +67,10 @@ export default function MobileChatMenu() {
               <img src={exit} alt="나가기 버튼" />
             </button>
           </div>
-          <ParticipantBox label="PROS" labelAlignment="left" hasReportBtn={true} />
-          <ParticipantBox label="CONS" labelAlignment="left" hasReportBtn={true} />
-          <div className="flex flex-col gap-4 text-white">
+          <ParticipantBox label="PROS" labelAlignment="left" hasReportBtn={true} participants={roomInfoDetails.proUsers} />
+          <ParticipantBox label="CONS" labelAlignment="left" hasReportBtn={true} participants={roomInfoDetails.conUsers}/>
+          {/* AudienceList는 이번 업데이트에서 제공하지 않습니다. */}
+          {/* <div className="flex flex-col gap-4 text-white">
             <p className="font-jersey text-[16px]">Audience</p>
             <div className="flex flex-col gap-1 pl-2">
               <AudienceCard profile={profile} nickname="imaria0218" />
@@ -77,7 +79,7 @@ export default function MobileChatMenu() {
               <AudienceCard profile={profile} nickname="imaria0218" />
               <AudienceCard profile={profile} nickname="imaria0218" />
             </div>
-          </div>
+          </div> */}
         </section>
       )}
     </div>

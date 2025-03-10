@@ -15,7 +15,7 @@ import { useCheckRoomId } from "../hooks/useCheckRoomId";
 
 export default function DebateZone() {
   const { roomId } = useParams();
-  const { roomState, roomSettings, setRoomSettings } = useRoomStore();
+  const { roomState, roomSettings, setRoomSettings} = useRoomStore();
   const [headerStatus, setHeaderStatus] = useState<"debate-waiting" | "debate-ing">("debate-waiting");
   const [userName, setUserName] = useState(""); 
 
@@ -48,10 +48,10 @@ export default function DebateZone() {
     }
   }, []);
 
-  useCheckRoomId(roomId);
+  useCheckRoomId();
 
   return (
-    <DebateWebSocketProvider userName={userName} position={stance || roomSettings.stance}> {/* ✅ 개설 후 참여시 stance, 개설자 참여시 roomSetting으로 전달 */}
+    <DebateWebSocketProvider userName={userName} initialPosition={stance || roomSettings.stance}> {/* ✅ 개설 후 참여시 stance, 개설자 참여시 roomSetting으로 전달 */}
       <div className="bg-[#070707] min-h-screen overflow-hidden">
         <Header status={headerStatus} />
         <ReportModal />

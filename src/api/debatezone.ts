@@ -1,4 +1,5 @@
 import { axiosInstance } from "./axios";
+import { userApi } from "./user";
 
 // ✅ 토론방 생성
 const generateDebateRoom = async (initialRoomInfo: RoomInfoRequest) => {
@@ -67,15 +68,25 @@ const reportInRoomByObserver = async (roomId: string) => {
 };
 
 // ✅ 토론 후 투표하기
-const sendDebateVote = async (roomId: string) => {
+const sendDebateVote = async (roomId: string, stance: string) => {
+    const userInfoResponse = await userApi.fetchMyProfile();
+    const requestBody = {
+        vote: stance,
+        userId: userInfoResponse.data.id,
+    };
+
+    console.log("📝 요청 본문:", requestBody); // ✅ 디버깅용 로그 추가
+    console.log("📡 요청 URL:", `/api/debates/vote/${roomId}`);
+
     try {
-        const response = await axiosInstance.put(`/api/debates/vote/${roomId}`);
-        console.log(response.data);
+        const response = await axiosInstance.put(`/api/debates/vote/${roomId}`, requestBody);
+        console.log("✅ 투표 성공! 응답 데이터:", response.data);
         return response.data;
     } catch (error) {
-        console.error("❌ 토론 투표에 실패했습니다", error);
+        console.error("❌ 토론 투표 요청 실패", error);
     }
 };
+
 
 // ✅ 투표 조회
 const fetchDebateVoteResult = async (roomId: string) => { 

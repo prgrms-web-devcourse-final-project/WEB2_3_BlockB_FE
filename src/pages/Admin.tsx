@@ -12,7 +12,7 @@ import { reportApi } from "../api/report";
 import useDebounce from "../hooks/useDebounce";
 import AdminTab from "../components/admin/AdminTab";
 import AdminFilteringButtons from "../components/admin/AdminFilteringButtons";
-import LoadingSpinner from "../components/common/LoadingSpinner";
+import LoadingSpinner from "../components/common/LoadingBar";
 
 export default function Admin() {
   const [isLoading, setLoading] = useState<boolean>(true)

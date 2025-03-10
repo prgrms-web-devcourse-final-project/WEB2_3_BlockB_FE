@@ -104,7 +104,7 @@ export default function DebateRooms() {
 
     client.onConnect = (frame: Frame) => {
       console.log("STOMP 웹소켓 연결 성공:", frame);
-
+      
       client.subscribe("/topic/filteredStatus", (message: IMessage) => {
         try {
           const parsedData = JSON.parse(message.body);
