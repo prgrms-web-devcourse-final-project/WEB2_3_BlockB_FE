@@ -31,6 +31,7 @@ export default function ObserverChatWindow({ isDebateTabed }: { isDebateTabed: b
         timestamp: new Date().toISOString(),
       };
       sendObserverMessages(JSON.stringify(newMessage));
+      console.log("현재 채팅창에 입력되어 있는 메시지",currentMessage)
       setCurrentMessage("");
     }
 

@@ -9,8 +9,7 @@ import { userApi } from "../../../api/user";
 export default function MessageSection() {
   const [currentMessage, setCurrentMessage] = useState<string>(""); 
   const messageEndRef = useRef<HTMLDivElement | null>(null);
-
-  // Context에서 WebSocket 관련 상태와 함수 가져오기
+  
   const { messages, sendMessage, isMyTurn, position } = useDebateWebSocket();
 
   // 메시지가 업데이트될 때마다 스크롤을 맨 아래로
@@ -34,7 +33,6 @@ export default function MessageSection() {
     fetchUserNickname();
   }, []);
 
-  // 메시지 전송 함수
   const handleSendMessage = () => {
     if (currentMessage.trim()) {
       const newMessage = {

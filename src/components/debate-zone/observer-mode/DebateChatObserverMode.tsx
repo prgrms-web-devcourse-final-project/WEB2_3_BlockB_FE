@@ -1,9 +1,18 @@
+import { useEffect, useRef } from "react";
 import profile from "../../../assets/icons/profile-white.svg";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 import MessageItem from "../ongoing-debate/MessageItem";
 export default function DebateChatObserverMode({isDebateTabed}: {isDebateTabed: boolean}) {
 
   const {messages} = useDebateWebSocket()
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+      if (messageEndRef.current) {
+        messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+  }, [messages]);
+
   return (
     <section
     className={`w-full md:border md:border-white 
@@ -20,6 +29,7 @@ export default function DebateChatObserverMode({isDebateTabed}: {isDebateTabed: 
       isOppenent={msg.position ==="pro" || msg.event === "NOTIFICATION"}
       />
     ))}
+    <div ref={messageEndRef} />
   </section>
   )
 }
