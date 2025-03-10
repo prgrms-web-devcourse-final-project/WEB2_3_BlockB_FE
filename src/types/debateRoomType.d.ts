@@ -151,7 +151,6 @@ type RoomInfoRequest = {
 type Participant = {
   id: number;
   nickname: string;
-  position: 'PRO' | 'CON';
   winNumber: number;
   defeatNumber: number;
   drawNumber: number;
@@ -170,7 +169,8 @@ type DebateRoomInfo = {
   timeType: number;
   speakCountType: number;
   resultEnabled: boolean;
-  participants: Participant[];
+  proUsers: Participant[];
+  conUsers: Participant[]
 }
 
 // WebSocket Context Type

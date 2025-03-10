@@ -71,20 +71,20 @@ export default function ReplayDebate({
         </section>
         : <section className="flex flex-col justify-center">
             <p className="text-center text-game_blue01">이미 투표권을 행사하셨습니다</p>
-            <div className="w-full flex justify-between mt-[60px] md:text-[16px] text-[14px]">
-          <button
-            onClick={()=> moveState("result")}
-            className="font-pretendard text-white border-b  "
-          >
-            결과 기다리기
-          </button>
-          <button
-            onClick={() => navigate("/main")}
-            className="font-pretendard text-white border-b "
-          >
-            홈으로
-          </button>
-        </div>
+            <div className="w-full flex md:flex-col md:gap-3 justify-between mt-[60px] md:text-[16px] text-[14px]">
+              <button
+                onClick={()=> moveState("result")}
+                className="font-pretendard text-white border-b border-gray02"
+              >
+                결과 기다리기
+              </button>
+              <button
+                onClick={() => navigate("/main")}
+                className="font-pretendard text-white border-b border-gray02"
+              >
+                홈으로
+              </button>
+            </div>
           </section>}
       </div>
     </div>

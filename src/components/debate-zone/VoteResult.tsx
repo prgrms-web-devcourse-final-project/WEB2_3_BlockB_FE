@@ -25,7 +25,7 @@ export default function VoteResult({
             VOTE RESULT
           </h2>
           <ResultGraph
-            isWatingResult={isCountingVotes}
+            isWatingResult={true}
             prosPercentage={voteResult.agreeNumber}
             consPercentage={voteResult.disagreeNumber}
             noVotePercentage={voteResult.neutralNumber}

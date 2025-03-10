@@ -36,7 +36,7 @@ export default function ResultGraph({
     });
 
     return () => ctx.revert(); // cleanup 함수
-  }, [isWatingResult]);
+  }, []);
 
   return (
     <div className="w-full max-w-md mx-auto flex flex-col gap-[20px] font-pretendard px-[20px]">

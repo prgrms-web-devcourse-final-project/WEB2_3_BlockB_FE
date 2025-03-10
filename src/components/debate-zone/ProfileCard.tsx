@@ -45,7 +45,7 @@ export default function ProfileCard({
     >
       <div className="flex lg:gap-[21px] gap-1 items-center">
         <figure className="rounded-full">
-          <img src={profile} alt="" className="lg:w-[54px] lg:h-[54px] w-[25px] h-[25px]" />
+          <img src={ participant.profileUrl || profile} alt="" className="lg:w-[54px] lg:h-[54px] w-[25px] h-[25px] rounded-full" />
         </figure>
         <div className="flex flex-col gap-[2px]">
           <p className="leading-0">{participant.nickname}</p>
