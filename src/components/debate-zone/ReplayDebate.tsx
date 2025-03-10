@@ -25,6 +25,8 @@ export default function ReplayDebate({
   fetchUserNickname();
   }, []);
 
+  //  TODO: Observer일 경우 찬반으로 나눠서 보여줘야 함
+
 
   const voteList: VoteInfo[] = [
     { label: "찬성", img: agree },
