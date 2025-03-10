@@ -1,22 +1,32 @@
+import { useParams } from "react-router";
+import { debateRoomApi } from "../../api/debatezone";
 import { useObservingStore } from "../../stores/observingStateStore";
 import { useRoomStore } from "../../stores/roomStateStore";
 
 export default function VoteButton({
   voteInfo,
-  isObserver = false,
 }: {
   voteInfo: VoteInfo;
-  isObserver?: boolean;
 }) {
   const { setRoomState } = useRoomStore();
   const { setObservingState } = useObservingStore();
-  const goToVoteResult = () => {
-    if (isObserver) setObservingState("result");
+  const {roomId} = useParams()
+  const voteToOnePosition = async (stance: string) => {
+    if (!roomId) return
+    await debateRoomApi.sendDebateVote(roomId, stance)
+  }
+
+  const onVote = () => {
+    if ((voteInfo.value === "PRO" || "CON") && !!voteInfo.value) {
+      voteToOnePosition(voteInfo.value)
+    }
+    setObservingState("result");
     setRoomState("result");
-  };
+  }
+
   return (
     <button
-      onClick={goToVoteResult}
+      onClick={onVote}
       className="md:w-[220px] w-[137px] md:h-[70px] h-[38px]  flex justify-between items-center px-[20px] py-[10px]"
       style={{
         background:

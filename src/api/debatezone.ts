@@ -1,4 +1,5 @@
 import { axiosInstance } from "./axios";
+import { userApi } from "./user";
 
 // ✅ 토론방 생성
 const generateDebateRoom = async (initialRoomInfo: RoomInfoRequest) => {
@@ -67,9 +68,14 @@ const reportInRoomByObserver = async (roomId: string) => {
 };
 
 // ✅ 토론 후 투표하기
-const sendDebateVote = async (roomId: string) => {
+const sendDebateVote = async (roomId: string, stance: string) => {
+    const userInfoResponse = await userApi.fetchMyProfile()
+    const requestBody = {
+        vote : stance,
+        userId : userInfoResponse.data.id,
+    }
     try {
-        const response = await axiosInstance.put(`/api/debates/vote/${roomId}`);
+        const response = await axiosInstance.put(`/api/debates/vote/${roomId}`, requestBody);
         console.log(response.data);
         return response.data;
     } catch (error) {

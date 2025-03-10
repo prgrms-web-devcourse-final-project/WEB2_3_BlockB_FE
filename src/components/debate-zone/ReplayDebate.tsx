@@ -27,12 +27,12 @@ export default function ReplayDebate({
 
   //  TODO: Observer일 경우 찬반으로 나눠서 보여줘야 함
 
-
   const voteList: VoteInfo[] = [
-    { label: "찬성", img: agree },
-    { label: "반대", img: disagree },
+    { label: "찬성", img: agree, value: "PRO" },
+    { label: "반대", img: disagree, value: "CON"},
     { label: "기권", img: giveup },
   ];
+
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
@@ -60,7 +60,6 @@ export default function ReplayDebate({
               <VoteButton
                 key={index}
                 voteInfo={voteInfo}
-                isObserver={isObserver}
               />
             ))}
           </div>
