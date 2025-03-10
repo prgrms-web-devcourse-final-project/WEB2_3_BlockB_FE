@@ -43,7 +43,7 @@ export default function NotificationItem({
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center justify-between">
       <div
         className={`flex justify-between items-center  py-2 rounded-md transition duration-200 
         ${isDisabled ? "opacity-50" : "text-gray-700 hover:bg-gray-200"}

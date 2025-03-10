@@ -7,7 +7,6 @@ import NewsTab from "../components/user-page/NewsTab";
 import MyPageSkeleton from "../components/common/skeleton/mypage/MyPageSkeleton";
 import { userApi } from "../api/user";
 import { useUserStore } from "../stores/userStore";
-import usePreventDoubleClick from "../hooks/usePreventDoubleClick";
 import { useAuthStore } from "../stores/authStore";
 import { useModalStore } from "../stores/useModal";
 import logoutSVG from "../assets/icons/logout.svg";
@@ -26,10 +25,18 @@ export default function UserPage() {
   const { logout } = useAuthStore();
   const { openModal } = useModalStore();
   const onClickLogout = () => {
-    openModal("로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?", () => {
-      logout();
-      navigate("/");
-    });
+    openModal(
+      "로그아웃 시 이용이 제한됩니다.\n로그아웃 하시겠습니까?",
+      async () => {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (let registration of registrations) {
+          await registration.unregister();
+          console.log("기존 Service Worker 제거 완료");
+        }
+        logout();
+        navigate("/");
+      }
+    );
   };
   useEffect(() => {
     const loadProfileData = async () => {
@@ -49,15 +56,17 @@ export default function UserPage() {
     console.log(user);
   }, [user]);
 
-
-  const handleFollow = async (targetUserId: number, action: "delete" | "follow") => {
+  const handleFollow = async (
+    targetUserId: number,
+    action: "delete" | "follow"
+  ) => {
     action === "delete"
       ? await userApi.deleteFollower(targetUserId)
       : await userApi.insertFollower(targetUserId);
-      setFollowing(action === "follow");
+    setFollowing(action === "follow");
   };
 
-  const throttledFollow = useThrottle(handleFollow, 1000)
+  const throttledFollow = useThrottle(handleFollow, 1000);
 
   const toggleFollow = () => {
     throttledFollow(userId, isFollowed ? "delete" : "follow");
@@ -66,11 +75,15 @@ export default function UserPage() {
   // 해당 프로필 페이지의 유저를 현재 유저가 팔로우 했는지 안했는지 가져오는 함수
   useEffect(() => {
     const loadFollowerList = async () => {
-      const followersResponse = await userApi.fetchFollowers(Number(userId))
-      followersResponse.data.map((follower:Follower)=>{return follower.followerId === currentUserId ? setFollowing(true) : setFollowing(false)})
-    }
-    loadFollowerList()
-  },[userId])
+      const followersResponse = await userApi.fetchFollowers(Number(userId));
+      followersResponse.data.map((follower: Follower) => {
+        return follower.followerId === currentUserId
+          ? setFollowing(true)
+          : setFollowing(false);
+      });
+    };
+    loadFollowerList();
+  }, [userId]);
 
   if (isLoading) {
     return <MyPageSkeleton />;
