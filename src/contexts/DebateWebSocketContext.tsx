@@ -3,6 +3,7 @@ import { Client, Message } from "@stomp/stompjs";
 import { useNavigate, useParams } from "react-router";
 import { useRoomStore } from "../stores/roomStateStore";
 import { debateRoomApi } from "../api/debatezone";
+import { useObservingStore } from "../stores/observingStateStore";
 
 interface WebSocketContextType {
   messages: WebSocketCommunicationType[];
@@ -29,6 +30,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   const [position, setPosition] = useState<string | null>(initialPosition); 
 
   const { setRoomState } = useRoomStore();
+  const { setObservingState } = useObservingStore()
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
 
@@ -93,14 +95,17 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         if (parsedMessage.event === "STATUS") {
           if (parsedMessage.status === "DEBATE") {
             setRoomState("ongoing");
+            setObservingState("ongoing")
             setMessages((prevMessages) => [...prevMessages, parsedMessage]);
             position === "pro" && setIsMyTurn(true);
           }
           if (parsedMessage.status === "VOTING") {
             setRoomState("voting");
+            setObservingState("voting")
           }
           if (parsedMessage.status === "CLOSED") {
             setRoomState("result");
+            setObservingState("result")
           }
         }
 
@@ -120,6 +125,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     return () => {
       client.deactivate();
       setRoomState("waiting"); // ✅ 컴포넌트 언마운트 시 상태 초기화
+      setObservingState("waiting")
     };
   }, [roomId, userName, position]);
 
