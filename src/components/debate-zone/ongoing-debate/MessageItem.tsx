@@ -6,7 +6,7 @@ export default function MessageItem({
   isOppenent = false, // 상대방 편 메시지 여부
   isMine = true, // 내 메시지 여부(우측 정렬 중 내 메시지)
 }: {
-  key: number;
+  key: string;
   message: string;
   nickname: string;
   profile: string;

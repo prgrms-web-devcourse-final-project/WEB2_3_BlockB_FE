@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import logo from '../../assets/icons/logo.svg'; 
+import logoWhite from "../../assets/icons/logo-white.png"
 
 interface LoadingBarProps {
   isLoading: boolean;
+  color?: string;
+  speed?: number;
 }
 
-const LoadingBar: React.FC<LoadingBarProps> = ({ isLoading }) => {
+const LoadingBar: React.FC<LoadingBarProps> = ({ isLoading, color, speed }) => {
   const [progress, setProgress] = useState(0);
   const isLoadingRef = useRef(isLoading);
 
@@ -26,7 +29,7 @@ const LoadingBar: React.FC<LoadingBarProps> = ({ isLoading }) => {
           }
           return prev + 1;
         });
-      }, 6); // 50ms마다 1%씩 증가
+      }, speed || 7); // 70ms마다 1%씩 증가
     } else if (!isLoading && progress < 100) {
       // 로딩이 완료되면 진행률을 100%로 설정
       setProgress(100);
@@ -46,7 +49,7 @@ const LoadingBar: React.FC<LoadingBarProps> = ({ isLoading }) => {
       <div className="w-1/2">
         {/* 로고 이미지 */}
         <div className="flex justify-center mb-4">
-          <img src={logo} alt="로고" className="w-16 h-16" />
+          <img src={color ==="white" ? logoWhite : logo} alt="로고" className="w-16 h-16" />
         </div>
         {/* 진행률 바 */}
         <div className="relative w-full h-2 bg-gray-200 rounded-full">

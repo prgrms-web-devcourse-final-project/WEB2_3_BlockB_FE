@@ -1,5 +1,6 @@
 import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
 import { useVote } from "../../hooks/useVote";
+import LoadingBar from "../common/LoadingBar";
 import ParticipantBox from "./ParticipantBox";
 
 export default function VoteRoom({ isObserver = false }: { isObserver?: boolean }) {
@@ -7,7 +8,9 @@ export default function VoteRoom({ isObserver = false }: { isObserver?: boolean 
   const btnClass =
     "white-space md:w-[46px] w-[42px] md:h-[30px] h-[20px] px-2 md:py-[4px] bg-white text-black01 font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
 
-  const {roomInfoDetails } = useDebateWebSocket()
+  const {roomInfoDetails, isWaitngVote } = useDebateWebSocket()
+
+  if (isWaitngVote) return <LoadingBar isLoading={isWaitngVote} color="white" speed={30}/>
   return (
     <div className="flex flex-col justify-center items-center gap-[30px] min-h-screen">
       <div>
@@ -26,7 +29,7 @@ export default function VoteRoom({ isObserver = false }: { isObserver?: boolean 
           </div>
           <p className="text-white font-bold md:text-[30px] text-[18px] font-jersey">vs</p>
           <div className="flex flex-col items-center gap-[26px]">
-            <ParticipantBox label="CONS" color="blue" labelAlignment="center" participants={roomInfoDetails.conUsers}/>
+            <ParticipantBox label="CONS" labelAlignment="center" participants={roomInfoDetails.conUsers}/>
             <button onClick={() => onVoteWithStageChanged("CON", "result")} className={btnClass}>
               투표
             </button>

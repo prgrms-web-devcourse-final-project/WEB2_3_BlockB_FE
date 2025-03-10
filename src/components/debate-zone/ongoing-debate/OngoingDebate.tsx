@@ -61,7 +61,7 @@ export default function OngoingDebate() {
 
           <ChatWindow />
 
-          <div className="md:block hidden md:flex md:flex-col md:justify-start">
+          <div className="md:block hidden md:flex md:flex-col md:justify-start h-[700px]">
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
               <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
               <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />

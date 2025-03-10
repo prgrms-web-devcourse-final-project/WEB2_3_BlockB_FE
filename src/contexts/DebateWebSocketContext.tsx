@@ -17,6 +17,7 @@ type DebateWebSockContextType = {
   isResultEnabled: boolean;
   isCountingVotes: boolean;
   roomInfoDetails: DebateRoomInfo;
+  isWaitngVote: boolean,
   hasVoted: boolean;
   setHasVoted: (hasVoted: boolean) => void;
   voteResult: VoteResult
@@ -50,8 +51,8 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   })
   const [isResultEnabled, setResultEnabled] = useState<boolean>(false)
   const [voteResult, setVoteResult] = useState<VoteResult>({agreeNumber: 0, disagreeNumber: 0, neutralNumber: 0})
-
   const [position, setPosition] = useState<string | null>(initialPosition); 
+  const [isWaitngVote, setIsWaitingVote] = useState(true)
 
   const { setRoomState } = useRoomStore();
   const { setObservingState } = useObservingStore()
@@ -143,8 +144,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
             position === "pro" && setIsMyTurn(true);
           }
           if (parsedMessage.status === "VOTING") {
-            setRoomState("voting");
-            setObservingState("voting")
+            setIsWaitingVote(false)
           }
           if (parsedMessage.status === "CLOSED") {    
             stompClient?.deactivate();
@@ -158,6 +158,10 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         if (parsedMessage.event === "NOTIFICATION") {
          if (parsedMessage.message === "잠시 후 토론이 시작됩니다... ") {
            setIsWaitingRecruitment(false);
+         }
+         if (parsedMessage.message === "잠시 후 투표가 시작됩니다.") {
+          setRoomState("voting");
+          setObservingState("voting")
          }
          if (parsedMessage.message === "투표가 종료되었습니다. 투표 결과 집계중..."){
           setRoomState("result");
@@ -185,7 +189,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, hasVoted, setHasVoted, voteResult }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
       {children}
     </DebateWebSockContext.Provider>
   );

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useObservingStore } from "../../stores/observingStateStore";
 import { useRoomStore } from "../../stores/roomStateStore";
 import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
+import LoadingBar from "../common/LoadingBar";
 
 export default function VoteResult({
   isObserver = false,
@@ -14,6 +15,8 @@ export default function VoteResult({
   const navigate = useNavigate();
   const {roomInfoDetails, isCountingVotes, voteResult} = useDebateWebSocket()
 
+
+  if(isCountingVotes) return <LoadingBar isLoading={isCountingVotes} color="white" speed={0.5}/>
   return (
     <div className="flex items-center justify-center min-h-screen px-[10px]">
       <section className="flex flex-col justify-between w-[643px]">

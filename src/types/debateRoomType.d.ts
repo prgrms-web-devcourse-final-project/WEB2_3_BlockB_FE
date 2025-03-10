@@ -179,10 +179,10 @@ type WebSocketCommunicationType = {
   status?: "DEBATE" | "VOTING" | "CLOSED", 
   userName?: string;
   turn: "PRO" | "CON",
-  position?: "PRO" | "CON" | "NO_POSITION";
+  position?: "pro" | "con" | "no_position";
   message: string;
   timestamp?: string;
-  kickedUserName?: string;
+  kickedUserName?: string; // 인원 초과시 강퇴에 해당함
   imageUrl?: string;
 };
 

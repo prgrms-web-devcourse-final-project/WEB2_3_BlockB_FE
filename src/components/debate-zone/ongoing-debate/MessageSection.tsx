@@ -59,7 +59,7 @@ export default function MessageSection() {
       <div className="flex-grow overflow-y-auto flex flex-col gap-[20px] md:m-3 m-2 rounded-sm">
         {messages.map((msg, index) => (
           <MessageItem
-            key={index}
+            key={`${index}${msg.timestamp}`}
             message={msg.message}
             nickname={msg.userName! || "공지"} 
             profile={ msg.imageUrl || profile}
