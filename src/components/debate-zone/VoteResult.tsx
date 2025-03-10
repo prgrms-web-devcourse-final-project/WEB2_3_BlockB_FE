@@ -16,7 +16,7 @@ export default function VoteResult({
   const {roomInfoDetails, isCountingVotes, voteResult} = useDebateWebSocket()
 
 
-  if(isCountingVotes) return <LoadingBar isLoading={isCountingVotes} color="white" speed={0.5}/>
+  if(isCountingVotes) return <LoadingBar isLoading={isCountingVotes} color="white" speed={30}/>
   return (
     <div className="flex items-center justify-center min-h-screen px-[10px]">
       <section className="flex flex-col justify-between w-[643px]">
