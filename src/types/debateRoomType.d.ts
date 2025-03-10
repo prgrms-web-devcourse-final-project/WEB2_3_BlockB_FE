@@ -180,6 +180,7 @@ type WebSocketCommunicationType = {
   message: string;
   timestamp?: string;
   kickedUserName?: string;
+  imageUrl?: string;
 };
 
 interface DebateWebSocketProviderProps {

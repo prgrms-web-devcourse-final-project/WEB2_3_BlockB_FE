@@ -4,28 +4,27 @@ import agree from "../../assets/icons/agree.svg";
 import disagree from "../../assets/icons/disagree.svg";
 import giveup from "../../assets/icons/giveup.svg";
 import profile from "../../assets/icons/profile-white.svg";
+import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
+import { useEffect, useState } from "react";
+import { userApi } from "../../api/user";
 
 export default function ReplayDebate({
   isObserver = false,
 }: {
   isObserver?: boolean;
 }) {
-  const messages = [
-    { id: 1, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
-    { id: 2, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
-    { id: 3, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
-    { id: 4, message: "예시 텍스트 입니다", isMine: false, isOppenent: false },
-    { id: 5, message: "예시 텍스트 입니다", isMine: false, isOppenent: false },
-    { id: 6, message: "예시 텍스트 입니다", isMine: false, isOppenent: false },
-    { id: 7, message: "예시 텍스트 입니다", isMine: false, isOppenent: true },
-    { id: 8, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
-    { id: 9, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
-    { id: 10, message: "조금 긴 예시 텍스트 입니다", isMine: false, isOppenent: false },
-    { id: 11, message: "조금 많이 긴 예시 텍스트 입니다", isMine: true, isOppenent: true },
-    { id: 12, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
-    { id: 13, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
-    { id: 14, message: "예시 텍스트 입니다", isMine: true, isOppenent: false },
-  ];
+
+  const { messages, position} = useDebateWebSocket()
+  const [userNickname, setUserNickname] = useState<string | null>(null);
+  useEffect(() => {
+        const fetchUserNickname = async () => {
+          const userResponse = await userApi.fetchMyProfile();
+          setUserNickname(userResponse.data.nickname);
+  };
+    
+  fetchUserNickname();
+  }, []);
+
 
   const voteList: VoteInfo[] = [
     { label: "찬성", img: agree },
@@ -41,13 +40,14 @@ export default function ReplayDebate({
       <div className="flex md:flex-row flex-col justify-between md:gap-[200px] gap-5 h-9/10">
         {/* 채팅창 */}
         <section className="md:max-w-[500px] md:min-w-[370px] max-w-[700px] min-w-[320px] w-full md:h-[500px] h-[300px] flex flex-grow md:bg-neutral-50/30 rounded-lg md:shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] md:border md:border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse">
-          {messages.map((msg) => (
+          {messages.map((msg, index) => (
             <MessageItem
-              key={msg.id}
+              key={index}
               message={msg.message}
-              profile={profile}
-              isMine={msg.isMine}
-              isOppenent={msg.isOppenent}
+              nickname={msg.userName! || "공지"} 
+              profile={ msg.imageUrl || profile}
+              isMine={msg.userName === userNickname}
+              isOppenent={position !== msg.position || false}
             />
           ))}
         </section>

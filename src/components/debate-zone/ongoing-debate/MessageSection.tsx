@@ -11,7 +11,7 @@ export default function MessageSection() {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   // Context에서 WebSocket 관련 상태와 함수 가져오기
-  const { messages, sendMessage, isMyTurn } = useDebateWebSocket();
+  const { messages, sendMessage, isMyTurn, position } = useDebateWebSocket();
 
   // 메시지가 업데이트될 때마다 스크롤을 맨 아래로
   useEffect(() => {
@@ -22,11 +22,13 @@ export default function MessageSection() {
 
   const { roomSettings } = useRoomStore();
   const [userNickname, setUserNickname] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchUserNickname = async () => {
       const userResponse = await userApi.fetchMyProfile();
       setUserNickname(userResponse.data.nickname);
+      setImageUrl(userResponse.data.profileUrl)
     };
 
     fetchUserNickname();
@@ -38,6 +40,7 @@ export default function MessageSection() {
       const newMessage = {
         event: "MESSAGE",
         userName: userNickname,
+        imageUrl: imageUrl,
         position: roomSettings.stance,
         message: currentMessage,
         timestamp: new Date().toISOString(),
@@ -53,15 +56,15 @@ export default function MessageSection() {
       className="w-full flex-1 flex flex-col max-h-[calc(100vh-40px)] overflow-hidden"
     >
       {/* 메시지 로그 영역 */}
-      <div className="flex-grow overflow-y-auto gap-[10px] md:m-3 m-2 rounded-sm">
+      <div className="flex-grow overflow-y-auto gap-[20px] md:m-3 m-2 rounded-sm">
         {messages.map((msg, index) => (
           <MessageItem
             key={index}
             message={msg.message}
             nickname={msg.userName! || "공지"} 
-            profile={profile}
+            profile={ msg.imageUrl || profile}
             isMine={msg.userName === userNickname}
-            isOppenent={roomSettings.stance !== msg.position || false}
+            isOppenent={position !== msg.position || false}
           />
         ))}
         <div ref={messageEndRef} />

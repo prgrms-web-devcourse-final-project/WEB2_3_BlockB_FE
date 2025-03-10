@@ -23,7 +23,7 @@ export default function MessageItem({
       <figure
         className={`rounded-full ${isOppenent ? "order-first" : "order-last"}`}
       >
-        <img src={profile} className="bg-cover md:w-[35px] md:h-[35px] w-[30px] h-[30px]" />
+        <img src={profile} className="rounded-full bg-cover md:w-[35px] md:h-[35px] w-[30px] h-[30px]" />
       </figure>
 
       <div
