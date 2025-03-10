@@ -12,7 +12,7 @@ interface WebSocketContextType {
 // ✅ Context 생성
 const ObserverWebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
 
-export const ObserverWebSocketContextProvider = ({ children, userName, position }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
+export const ObserverWebSocketContextProvider = ({ children, userName }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
   const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const { roomId } = useParams<{ roomId: string }>();
@@ -35,7 +35,6 @@ export const ObserverWebSocketContextProvider = ({ children, userName, position 
       brokerURL: `${WS_URL}/observer/${roomId}`,
       connectHeaders: {
         userName,
-        position,
         roomId,
       },
       debug: (msg) => console.log("[STOMP DEBUG]:", msg),
