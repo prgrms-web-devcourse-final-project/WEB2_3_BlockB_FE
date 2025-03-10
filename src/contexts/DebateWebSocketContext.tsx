@@ -2,13 +2,16 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { Client, Message } from "@stomp/stompjs";
 import { useNavigate, useParams } from "react-router";
 import { useRoomStore } from "../stores/roomStateStore";
+import { debateRoomApi } from "../api/debatezone";
 // import { debateRoomApi } from "../api/debatezone";
 
 interface WebSocketContextType {
   messages: WebSocketCommunicationType[];
   sendMessage: (message: string) => void;
-  isWaitingRecruitment: boolean
-  isMyTurn: boolean
+  isWaitingRecruitment: boolean;
+  myTeamList: Participant[];
+  opponentTeamList: Participant[];
+  isMyTurn: boolean;
   stompClient: Client | null;
 }
 
@@ -20,8 +23,9 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const [isMyTurn, setIsMyTurn] = useState(Boolean)
   
-  // const [myTeamList, setMyTeamList] = useState([])
-  // const [opponentTeamList, setOppentTeamList] = useState([])
+  const [myTeamList, setMyTeamList] = useState([])
+  const [opponentTeamList, setOppentTeamList] = useState([])
+
   const {setRoomState} = useRoomStore()
 
   const { roomId } = useParams<{ roomId: string }>();
@@ -36,12 +40,14 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
     }
   };
 
-  // const getParticipantsList = async () => {
-  //   if (roomId) {
-  //     const currentRoomInfoResponse = await debateRoomApi.fetchOngoingRoomInfo(roomId)
-  //     setMyTeamList(currentRoomInfoResponse.data.participant)
-  //   }
-  // }
+  const getParticipantsList = async () => {
+    if (roomId) {
+      const currentRoomInfoResponse = await debateRoomApi.fetchOngoingRoomInfo(roomId)
+      const formattedPosition = position?.toLocaleUpperCase()
+      setMyTeamList(currentRoomInfoResponse.data.participants.filter((participant: Participant) => participant.position === formattedPosition))
+      setOppentTeamList(currentRoomInfoResponse.data.participants.filter((participant: Participant) => participant.position !== formattedPosition))
+    }
+  }
 
   useEffect(() => {
     if (!roomId || !userName) return;
@@ -80,18 +86,23 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
             setMessages((prevMessages) => [...prevMessages, parsedMessage]);
           }
           if (parsedMessage.event === "STATUS") {
-            parsedMessage.status === "DEBATE" && setRoomState("ongoing")
-            parsedMessage.status === "VOTING" && setRoomState("voting")
-            parsedMessage.status === "CLOSED" && setRoomState("result")
-          }
+            if (parsedMessage.status === "DEBATE") {
+              setRoomState("ongoing");
+              setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+            }
+            if (parsedMessage.status === "VOTING") {
+              setRoomState("voting");
+            }
+            if (parsedMessage.status === "CLOSED") {
+              setRoomState("result");
+            }
+          } 
           if (parsedMessage.event === "NOTIFICATION") {
             parsedMessage.message === "잠시 후 토론이 시작됩니다... " && setIsWaitingRecruitment(false)
           }
-          // if (parsedMessage.event === "user_joined") {
-          //   getParticipantsList()
-          // } 
-          // TODO: 유저 정보 pro con 나눠지면 추가
-          
+          if (parsedMessage.event === "user_joined") {
+            getParticipantsList()
+          } 
         },
       );
     };
@@ -101,11 +112,12 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
 
     return () => {
       client.deactivate();
+      setRoomState("waiting"); // ✅ 컴포넌트 언마운트 시 상태 초기화
     };
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage,  isWaitingRecruitment, isMyTurn, stompClient }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, stompClient }}>
       {children}
     </DebateWebSockContext.Provider>
   );
