@@ -39,14 +39,13 @@ export default function ObserverMobileChatMenu() {
       });
     };
   
-    const {leftTurn, debateCountDown} = useDebateWebSocket()
   return (
     <div className="md:hidden flex h-[40px] justify-between items-center relative p-2">
         {/* 나가기 모달 */}
         <ExitModal />
         <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">
-            <Counter label="TURN" boxNumber={2} value={leftTurn} />
-            <Counter label="TIMER" boxNumber={3} value={debateCountDown} />
+            <Counter label="TURN" boxNumber={2} />
+            <Counter label="TIMER" boxNumber={3} />
         </div>
         <button onClick={()=>setIsSideBarOpen(!isSidebarOpen)}>
             <img src={hambuger} alt="사이드 바 버튼" />

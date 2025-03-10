@@ -58,8 +58,8 @@ export default function OngoingDebate() {
 
           <div className="md:block hidden md:flex md:flex-col md:justify-start h-[700px]">
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
-              <Counter label="TURN" boxNumber={2} value={leftTurn} />
-              <Counter label="TIMER" boxNumber={3} value={debateCountDown} />
+              <Counter label="TURN" boxNumber={2} />
+              <Counter label="TIMER" boxNumber={3} />
             </div>
             <ParticipantBox
               label="CONS"

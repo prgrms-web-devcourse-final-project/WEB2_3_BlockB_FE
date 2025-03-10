@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import timer from "../../../assets/icons/timer.svg";
 import turn from "../../../assets/icons/turn.svg";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function Counter({
   label,
   boxNumber,
-  value,
 }: {
   label: string;
   boxNumber: number;
-  value: number;
 }) {
   const [displayCount, setDisplayCount] = useState<string[]>([]);
 
+  const {leftTurn, debateCountDown} = useDebateWebSocket()
   useEffect(() => {
-    const paddedCount = (value ?? 0).toString().padStart(boxNumber, "0");
+    const paddedCount = ((label === "TURN" ? leftTurn : debateCountDown) ?? 0).toString().padStart(boxNumber, "0");
     setDisplayCount(paddedCount.split(""));
-  }, [value]);
-  
+  }, [debateCountDown, leftTurn]);
+
   
   return (
     <div className="font-bold font-jersey flex md:flex-col flex-row md:gap-[2px] gap-[10px] items-center">

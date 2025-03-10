@@ -43,8 +43,8 @@ export default function MobileChatMenu() {
       {/* 나가기 모달 */}
       <ExitModal />
       <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">
-        <Counter label="TURN" boxNumber={2} value={leftTurn} />
-        <Counter label="TIMER" boxNumber={3} value={debateCountDown} />
+        <Counter label="TURN" boxNumber={2} />
+        <Counter label="TIMER" boxNumber={3}/>
       </div>
       <button onClick={() => setIsSideBarOpen(!isSidebarOpen)}>
         <img src={hamburger} alt="사이드 바 버튼" />
