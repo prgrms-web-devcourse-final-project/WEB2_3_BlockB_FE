@@ -4,7 +4,7 @@ import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
 import NewsList from "../components/news/NewsList";
 import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearchSkeleton";
 import { newsAPI } from "../api/news";
-import Category from "../components/news/Category";
+import Category from "../components/news/category";
 import { useSearchParams } from "react-router";
 
 export default function News() {
