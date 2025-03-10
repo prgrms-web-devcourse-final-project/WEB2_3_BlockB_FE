@@ -64,7 +64,7 @@ export default function InfoDrodown() {
               <p>{getKeyFromDbKey(debateRoomInfo?.categoryType!)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{timeFormatter(debateRoomInfo?.speakCountType! * debateRoomInfo?.timeType!)}</p>
+              <p>{timeFormatter(debateRoomInfo?.speakCountType! * debateRoomInfo?.timeType! * 2)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>{debateRoomInfo?.memberNumberType} : {debateRoomInfo?.memberNumberType}</p>
