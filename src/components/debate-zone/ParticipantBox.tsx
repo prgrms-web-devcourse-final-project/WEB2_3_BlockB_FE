@@ -29,9 +29,12 @@ export default function ParticipantBox({
       </div>
       <div className="flex flex-col md:gap-[20px] sm:gap-[10px] gap-[6px] lg:text-[16px] text-[12px] text-black01">
         {/* 프로필 카드 */}
-        {participants?.map((participant, index) => 
-          <ProfileCard key={index} color={color} hasReportBtn={hasReportBtn} participant={participant}/>
-        )}
+        {!!participants && participants?.length > 0 ?
+          participants?.map((participant, index) => 
+                  <ProfileCard key={index} color={color} hasReportBtn={hasReportBtn} participant={participant}/>
+          ) : <div className="font-jersey md:text-16px text-14px text-gray03 text-end">NO USER YET</div>
+        }
+
       </div>
     </div>
   );
