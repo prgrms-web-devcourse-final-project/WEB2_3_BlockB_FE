@@ -29,7 +29,7 @@ export default function OngoingDebate() {
   };
   
 
-  const {roomInfoDetails, position, leftTurn, debateCountDown} = useDebateWebSocket()
+  const {roomInfoDetails, position} = useDebateWebSocket()
 
   return (
     <>

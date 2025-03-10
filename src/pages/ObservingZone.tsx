@@ -12,6 +12,8 @@ import { ObserverWebSocketContextProvider } from "../contexts/ObserverWebSocketC
 import { useCheckRoomId } from "../hooks/useCheckRoomId";
 import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
 import { userApi } from "../api/user";
+import { useParams } from "react-router";
+import { debateRoomApi } from "../api/debatezone";
 
 export default function ObservingZone() {
   const { observingState } = useObservingStore();
@@ -32,15 +34,29 @@ export default function ObservingZone() {
   }, [observingState]);
 
   const [userName, setUserName] = useState(""); 
+  const {roomId} = useParams()
+  const {setObservingState} = useObservingStore()
 
   const fetchUserNickname = async() => {
     const userInfoResponse = await userApi.fetchMyProfile();
     setUserName(userInfoResponse.data.nickname)
   }
 
+  const setCurrentRoomState = async () => {
+    if (!roomId) return
+    const {data: currentRoomInfoResponse} = await debateRoomApi.fetchObserverOngoingRoomInfo(roomId)
+    const currentRoomState = currentRoomInfoResponse.status
+    console.log("observer 지금 토론방의 상태는?", currentRoomState)
+    currentRoomState === "WAITING" && setObservingState("waiting")
+    currentRoomState === "DEBATE" && setObservingState("ongoing")
+    currentRoomState === "VOTING" && setObservingState("voting")
+  }
+
   useEffect(()=>{
     fetchUserNickname()
+    setCurrentRoomState()
   },[])
+
 
   useCheckRoomId()
 

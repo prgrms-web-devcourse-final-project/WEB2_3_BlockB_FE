@@ -4,8 +4,8 @@ import { useParams } from "react-router";
 
 // ✅ Context 타입 정의
 interface WebSocketContextType {
-  messages: WebSocketCommunicationType[];
-  sendMessage: (message: string) => void;
+  observerMessages: WebSocketCommunicationType[];
+  sendObserverMessages: (message: string) => void;
   stompClient: Client | null;
 }
 
@@ -13,12 +13,12 @@ interface WebSocketContextType {
 const ObserverWebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
 
 export const ObserverWebSocketContextProvider = ({ children, userName }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
-  const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
+  const [observerMessages, setObserverMessage] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const { roomId } = useParams<{ roomId: string }>();
 
   // ✅ 메시지 보내기 함수
-  const sendMessage = (message: string) => {
+  const sendObserverMessages = (message: string) => {
     if (stompClient && roomId) {
       stompClient.publish({
         destination: `/app/observer/${roomId}`,
@@ -26,6 +26,7 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
       });
     }
   };
+
 
   useEffect(() => {
     if (!roomId || !userName ) return;
@@ -44,19 +45,16 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
     // ✅ STOMP 클라이언트가 연결되었을 때 실행
     client.onConnect = () => {
       console.log("observer쪽 userName", userName)
-      console.log("WebSocket Connected to:", `/topic/observer/${roomId}`);
+      console.log("🍎 WebSocket Connected to:", `/topic/observer/${roomId}`);
+
       client.subscribe(`/topic/observer/${roomId}`, (message: Message) => {
-        try {
           console.log("🍎 observer subscribe 전달 받음 => 메시지 원본", message);
           const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
           console.log("🍎 observer subscribe 전달 받음 => 메시지 변형", parsedMessage);
-
-          if (parsedMessage.message.length > 0) {
-            setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+          if (parsedMessage.event === "MESSAGE" && parsedMessage.message.length > 0) {
+            setObserverMessage((prevMessages) => [...prevMessages, parsedMessage]);
           }
-        } catch (error) {
-          console.error("Error parsing message:", error);
-        }
+
       });
     };
 
@@ -69,7 +67,7 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
   }, [roomId]);
 
   return (
-    <ObserverWebSocketContext.Provider value={{ messages, sendMessage, stompClient }}>
+    <ObserverWebSocketContext.Provider value={{ observerMessages, sendObserverMessages, stompClient }}>
       {children}
     </ObserverWebSocketContext.Provider>
   );

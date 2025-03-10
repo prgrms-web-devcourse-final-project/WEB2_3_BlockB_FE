@@ -176,7 +176,7 @@ type DebateRoomInfo = {
 // WebSocket Context Type
 type WebSocketCommunicationType = {
   event: "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left",
-  status?: "DEBATE" | "VOTING" | "CLOSED", 
+  status?: "WAITING" | "DEBATE" | "VOTING" | "CLOSED", 
   userName?: string;
   turn: "PRO" | "CON",
   position?: "pro" | "con" | "no_position";

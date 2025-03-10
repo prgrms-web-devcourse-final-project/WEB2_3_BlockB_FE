@@ -9,7 +9,6 @@ import Counter from "../ongoing-debate/Counter";
 import ExitModal from "../../common/Modal";
 import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
-import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function ObserverMobileChatMenu() {
     const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false)
