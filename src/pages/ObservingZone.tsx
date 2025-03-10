@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/common/Header";
 import ObserverOngoingRoom from "./../components/debate-zone/observer-mode/ObserverOngoingRoom";
 import ObserverWaitingRoom from "../components/debate-zone/observer-mode/ObserverWaitingRoom";

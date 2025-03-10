@@ -11,13 +11,14 @@ export default function VoteRoom({ isObserver = false }: { isObserver?: boolean 
   const {roomInfoDetails, isWaitngVote } = useDebateWebSocket()
 
   if (isWaitngVote) return <LoadingBar isLoading={isWaitngVote} color="white" speed={30}/>
+  
   return (
     <div className="flex flex-col justify-center items-center gap-[30px] min-h-screen">
       <div>
         <h1 className="text-white font-pretendard font-bold md:text-[24px] text-[18px] text-center break-keep leading-[1.4] max-w-[300px] md:max-w-full">
           토론이 끝났습니다. 승리했다고 생각하시는 입장에 투표해주세요
         </h1>
-        <h2>AI는 인간의 노동을 대체하나 보조하나?</h2>
+        <h2>{roomInfoDetails.title}</h2>
       </div>
       <div className="md:max-w-[700px] max-w-[310px] flex flex-col justify-center">
         <section className="flex items-center md:gap-[26px] sm:gap-[10px] gap-[5px] md:text-[16px] text-[14px]">
