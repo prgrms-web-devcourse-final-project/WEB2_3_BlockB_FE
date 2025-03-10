@@ -50,7 +50,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
   }
 
   useEffect(() => {
-    if (!roomId || !userName) return;
+    if (!roomId || !userName || !position) return;
 
     const WS_URL = import.meta.env.VITE_WS_URL;
     const client = new Client({
@@ -89,6 +89,7 @@ export const DebateWebSocketProvider = ({ children, userName, position }: React.
             if (parsedMessage.status === "DEBATE") {
               setRoomState("ongoing");
               setMessages((prevMessages) => [...prevMessages, parsedMessage]);
+              position === "pro" && setIsMyTurn(true)
             }
             if (parsedMessage.status === "VOTING") {
               setRoomState("voting");

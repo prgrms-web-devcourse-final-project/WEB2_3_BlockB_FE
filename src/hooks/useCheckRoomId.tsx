@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { debateRoomApi } from "../api/debatezone";
 
-export const useCheckRoomId = (roomId?: string) => {
+export const useCheckRoomId = () => {
   const navigate = useNavigate();
+  const {roomId} = useParams()
 
   useEffect(() => {
     const checkRoom = async () => {
       if (!roomId) return;
+      console.log("룸 아이디 확인", roomId)
 
       try {
         const response = await debateRoomApi.fetchOngoingRoomInfo(roomId);

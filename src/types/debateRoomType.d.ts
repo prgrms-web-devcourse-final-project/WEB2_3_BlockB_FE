@@ -182,6 +182,6 @@ type WebSocketCommunicationType = {
 
 interface DebateWebSocketProviderProps {
   userName: string | null;
-  position: string | null;
+  position?: string | null;
 }
 

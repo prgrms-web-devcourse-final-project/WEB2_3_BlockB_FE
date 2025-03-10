@@ -10,7 +10,6 @@ import { useObservingStore } from "../stores/observingStateStore";
 import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
 import { ObserverWebSocketContextProvider } from "../contexts/ObserverWebSocketContext";
 import { useCheckRoomId } from "../hooks/useCheckRoomId";
-import { useLocation, useParams } from "react-router";
 import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
 import { userApi } from "../api/user";
 
@@ -19,8 +18,6 @@ export default function ObservingZone() {
   const [headerStatus, setHeaderStatus] = useState<
     "debate-waiting" | "debate-ing"
   >("debate-waiting");
-
-  const {roomId} = useParams()
 
   useEffect(() => {
     if (
@@ -35,8 +32,6 @@ export default function ObservingZone() {
   }, [observingState]);
 
   const [userName, setUserName] = useState(""); 
-  const location = useLocation();
-  const stance = location.state?.stance; 
 
   const fetchUserNickname = async() => {
     const userInfoResponse = await userApi.fetchMyProfile();
@@ -45,9 +40,9 @@ export default function ObservingZone() {
 
   useEffect(()=>{
     fetchUserNickname()
-  },[roomId])
+  },[])
 
-    useCheckRoomId(roomId)
+  useCheckRoomId()
 
   return (
     <DebateWebSocketProvider userName={userName} position="observer">
