@@ -77,7 +77,6 @@ export default function DebateRooms() {
   const [debateRooms, setDebateRooms] = useState<DebateRoomInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 🔹 필터 초기화 함수
   const resetFilters = () => {
     setSelectedActive(activeFilters[0]);
     setSelectedContinent("");
@@ -109,8 +108,18 @@ export default function DebateRooms() {
         try {
           const parsedData = JSON.parse(message.body);
           console.log("메시지 수신:", parsedData);
-          const transformedData: DebateRoomInfo[] =
-            parsedData.roomSortedByCreatedAt.map((room: any) => {
+
+          let sortedData;
+          if (selectedSort === "최신순") {
+            sortedData = parsedData.roomSortedByCreatedAt;
+          } else if (selectedSort === "임박순") {
+            sortedData = parsedData.roomSortedByUserCount;
+          } else {
+            sortedData = parsedData.observerCurrent;
+          }
+
+          const transformedData: DebateRoomInfo[] = sortedData.map(
+            (room: any) => {
               const meta = room.debateMetaDataRoomResponse;
 
               return {
@@ -125,7 +134,8 @@ export default function DebateRooms() {
                 proUsersCount: room.proUsers.length,
                 conUsersCount: room.conUsers.length,
               };
-            });
+            }
+          );
 
           setDebateRooms(transformedData);
           setIsLoading(false);
@@ -153,7 +163,7 @@ export default function DebateRooms() {
       console.log("STOMP 웹소켓 연결 종료");
       client.deactivate();
     };
-  }, [selectedContinent, selectedCategory, selectedParticipant]);
+  }, [selectedContinent, selectedCategory, selectedParticipant, selectedSort]);
 
   return (
     <div className="w-full max-w-7xl font-pretendard text-[16px] mx-auto p-6">
