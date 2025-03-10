@@ -195,8 +195,8 @@ function ProfileSimpleInfo({
       onClick={onClickProfileCard}
       className="max-md:w-70 max-lg:w-100 h-[90px] border border-solid border-white02 bg-white rounded-[10px] flex gap-2 items-center justify-between px-2 max-md:px-2
       transform scale-100 transition-all duration-200 
-      hover:scale-105 hover:bg-gray-100 
-      active:scale-95 active:bg-white active:text-black01"
+      hover:scale-[1.03] hover:bg-gray-100 
+      active:scale-[0.98] active:bg-white active:text-black01"
     >
       <div className="flex items-center">
         <img
