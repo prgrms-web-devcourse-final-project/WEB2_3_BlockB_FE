@@ -45,7 +45,7 @@ export default function ObservingZone() {
   useCheckRoomId()
 
   return (
-    <DebateWebSocketProvider userName={userName} position="observer">
+    <DebateWebSocketProvider userName={userName} initialPosition="observer">
       <ObserverWebSocketContextProvider userName={userName}>
       <div className="bg-[#070707] min-h-screen overflow-hidden">
         <Header status={headerStatus} />

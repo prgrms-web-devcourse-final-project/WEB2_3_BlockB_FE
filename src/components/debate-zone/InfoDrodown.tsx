@@ -8,18 +8,6 @@ import { getKeyFromDbKey } from "../../constants";
 
 export default function InfoDrodown() {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
-  // const { roomSettings } = useRoomStore(); 쓸지 안 쓸지 미정
-  // {getKeyFromDbKey(roomSettings.participant!)}  일단 정보 가져오는 것은 constants에 저장된 이 함수로 형식을 변환하면 됨
-  // const [prosNum, setProsNum] = useState<number>(0);
-  // const [consNum, setConsNum] = useState<number>(0);
-  // 찬성 반대 숫자 초기 세팅, 이것도 roomStore를 쓰면 사용하게 됨
-  // useEffect(() => {
-  //   if (roomSettings.stance === "pro") {
-  //     setProsNum(1);
-  //   } else {
-  //     setConsNum(1);
-  //   }
-  // }, [roomSettings]);
   const [debateRoomInfo, setDebateRoomInfo] = useState<DebateRoomInfo | null>(null)
 
   const {roomId} = useParams()
@@ -31,7 +19,11 @@ export default function InfoDrodown() {
      }
     }
     loadDebateInfo()
-  },[])
+  },[infoOpen])
+
+  useEffect(() => {
+    console.log("토론방 상세 정보",debateRoomInfo)
+  },[debateRoomInfo, infoOpen])
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}

@@ -51,7 +51,7 @@ export default function DebateZone() {
   useCheckRoomId();
 
   return (
-    <DebateWebSocketProvider userName={userName} position={stance || roomSettings.stance}> {/* ✅ 개설 후 참여시 stance, 개설자 참여시 roomSetting으로 전달 */}
+    <DebateWebSocketProvider userName={userName} initialPosition={stance || roomSettings.stance}> {/* ✅ 개설 후 참여시 stance, 개설자 참여시 roomSetting으로 전달 */}
       <div className="bg-[#070707] min-h-screen overflow-hidden">
         <Header status={headerStatus} />
         <ReportModal />

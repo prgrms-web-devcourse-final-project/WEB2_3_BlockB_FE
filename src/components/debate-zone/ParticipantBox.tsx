@@ -5,11 +5,13 @@ export default function ParticipantBox({
   labelAlignment = "center",
   color,
   hasReportBtn = false,
+  participants
 }: {
   label: string;
   labelAlignment?: string;
   color?: string;
   hasReportBtn?: boolean;
+  participants?: Participant[];
 }) {
   return (
     <div className="lg:w-[280px] w-[145px] font-jersey">
@@ -27,9 +29,9 @@ export default function ParticipantBox({
       </div>
       <div className="flex flex-col md:gap-[20px] sm:gap-[10px] gap-[6px] lg:text-[16px] text-[12px] text-black01">
         {/* 프로필 카드 */}
-        <ProfileCard color={color} hasReportBtn={hasReportBtn} />
-        <ProfileCard color={color} hasReportBtn={hasReportBtn} />
-        <ProfileCard color={color} hasReportBtn={hasReportBtn} />
+        {participants?.map((participant, index) => 
+          <ProfileCard key={index} color={color} hasReportBtn={hasReportBtn} participant={participant}/>
+        )}
       </div>
     </div>
   );

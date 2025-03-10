@@ -21,13 +21,15 @@ export default function WaitingRoom() {
     }
   }, [isWaitingRecruitment]);
 
+  const { myTeamList, opponentTeamList } = useDebateWebSocket()
+
   return (
     <section className="md:px-[40px] px-[20px] flex flex-col gap-[250px] relative">
       <div className="flex justify-between gap-2">
         <WaitingInfoDrodown />
-        <ParticipantBox label="OPONENTS" labelAlignment="end" />
+        <ParticipantBox label="OPONENTS" labelAlignment="end" participants={opponentTeamList} />
       </div>
-      <MatchingInterface isWaiting={isWaitingRecruitment} />
+      <MatchingInterface isWaiting={isWaitingRecruitment} participants={myTeamList} />
 
       {isWaitingRecruitment ? (
         <Ment />
@@ -37,12 +39,6 @@ export default function WaitingRoom() {
           <p>{countDown}</p>
         </div>
       )}
-      {/* <button
-        className="z-50 bg-gray02 text-black01"
-        onClick={() => setIsWaitingRecruitment(!isWaitingRecruitment)}
-      >
-        임시 대기완료 이동 버튼
-      </button> */}
     </section>
   );
 }
