@@ -1,33 +1,18 @@
-import { useParams } from "react-router";
-import { debateRoomApi } from "../../api/debatezone";
-import { useObservingStore } from "../../stores/observingStateStore";
-import { useRoomStore } from "../../stores/roomStateStore";
+import { useVote } from "../../hooks/useVote";
 
 export default function VoteButton({
   voteInfo,
+  isObserver = false,
 }: {
   voteInfo: VoteInfo;
+  isObserver?: boolean;
 }) {
-  const { setRoomState } = useRoomStore();
-  const { setObservingState } = useObservingStore();
-  const {roomId} = useParams()
-  const voteToOnePosition = async (stance: string) => {
-    if (!roomId) return
-    await debateRoomApi.sendDebateVote(roomId, stance)
-  }
-
-  const onVote = () => {
-    if ((voteInfo.value === "PRO" || "CON") && !!voteInfo.value) {
-      voteToOnePosition(voteInfo.value)
-    }
-    setObservingState("result");
-    setRoomState("result");
-  }
+  const { onVoteWithStageChanged } = useVote(isObserver);
 
   return (
     <button
-      onClick={onVote}
-      className="md:w-[220px] w-[137px] md:h-[70px] h-[38px]  flex justify-between items-center px-[20px] py-[10px]"
+      onClick={() => onVoteWithStageChanged(voteInfo.value, "result")}
+      className="md:w-[220px] w-[137px] md:h-[70px] h-[38px] flex justify-between items-center px-[20px] py-[10px]"
       style={{
         background:
           "linear-gradient(90deg, rgba(251.18, 251.18, 251.18, 0) 0%, rgba(149.18, 149.18, 149.18, 0.30) 49%, rgba(251.18, 251.18, 251.18, 0) 100%)",

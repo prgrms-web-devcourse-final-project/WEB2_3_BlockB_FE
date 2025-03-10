@@ -76,12 +76,14 @@ export default function InfoDrodown() {
           </div>
           {/* 링크 */}
           <div>
-            <figure className="flex items-center w-full gap-2">
+            {debateRoomInfo?.newsUrl && 
+              <figure className="flex items-center w-full gap-2">
               <img src={link} alt="연관된 뉴스 링크" />
               <figcaption className="md:text-gray02 text-gray03  md:text-[10px] text-[8px] leading-0">
-                https://www.yna.co.kr/view/AKR20250213094800004?section=politics/all&site=topnews01
+                {debateRoomInfo?.newsUrl}
               </figcaption>
             </figure>
+           }
           </div>
         </div>
       )}

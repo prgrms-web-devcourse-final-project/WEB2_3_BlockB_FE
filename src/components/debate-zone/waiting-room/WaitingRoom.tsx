@@ -7,7 +7,6 @@ import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 
 export default function WaitingRoom() {
-  // const [isWaitingRecruitment, setIsWaitingRecruitment] = useState<boolean>(true);
   const {isWaitingRecruitment} = useDebateWebSocket()
   const [countDown, setCountDown] = useState(20);
 

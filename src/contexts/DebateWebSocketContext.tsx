@@ -51,8 +51,6 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
       setOppentTeamList(currentRoomInfoResponse.data.participants.filter((participant: Participant) => participant.position !== formattedPosition));
     }
   };
-  
-
 
   useEffect(() => {
     if (!roomId || !userName || !position) return;

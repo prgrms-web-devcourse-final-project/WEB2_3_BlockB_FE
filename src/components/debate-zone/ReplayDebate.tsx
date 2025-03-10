@@ -30,7 +30,7 @@ export default function ReplayDebate({
   const voteList: VoteInfo[] = [
     { label: "찬성", img: agree, value: "PRO" },
     { label: "반대", img: disagree, value: "CON"},
-    { label: "기권", img: giveup },
+    { label: "기권", img: giveup, value: "NO_POSITION"},
   ];
 
 

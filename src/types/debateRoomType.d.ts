@@ -26,10 +26,12 @@ type RoomSettings = {
   link?: string | null
 };
 
+type VoteSelection = "PRO" | "CON" | "NO_POSITION"
+
 type VoteInfo = {
   label: string;
   img: string;
-  value?: "PRO" | "CON"
+  value: VoteSelection
 };
 
 type DebaterType = {
