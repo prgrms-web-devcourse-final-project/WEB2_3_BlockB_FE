@@ -166,6 +166,7 @@ type DebateRoomInfo = {
   status: string;
   timeType: number;
   speakCountType: number;
+  resultEnabled: boolean;
   participants: Participant[];
 }
 
