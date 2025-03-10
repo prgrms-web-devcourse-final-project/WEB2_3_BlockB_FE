@@ -27,7 +27,7 @@ export default function ParticipantBox({
           {label}
         </p>
       </div>
-      <div className="flex flex-col items-center md:gap-[20px] sm:gap-[10px] gap-[6px] lg:text-[16px] text-[12px] text-black01">
+      <div className={`flex flex-col items-${labelAlignment} md:gap-[20px] sm:gap-[10px] gap-[6px] lg:text-[16px] text-[12px] text-black01`}>
         {/* 프로필 카드 */}
         {!!participants && participants?.length > 0 ?
           participants?.map((participant, index) => 
