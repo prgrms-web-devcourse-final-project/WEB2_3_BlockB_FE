@@ -43,8 +43,8 @@ interface NotificationType {
   typeId: number;
   content: string;
   statusType: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface NotificationDataType {

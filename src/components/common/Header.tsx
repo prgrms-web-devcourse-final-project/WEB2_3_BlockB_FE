@@ -9,11 +9,9 @@ import profile from "../../assets/icons/profile.svg";
 import NotificationList from "../notification/NotificationList";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
-
-import { notificationAPI } from "../../api/notificaion";
 import Modal from "./Modal";
-
 import useGetNotifications from "../../hooks/useGetNotifications";
+import { useQueryClient } from "@tanstack/react-query";
 
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
 
@@ -23,19 +21,12 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { userId, profileUrl, role } = useUserStore();
 
-  const [notifications, setNotifications] = useState<NotificationDataType>();
-
   const { data } = useGetNotifications(userId!);
-
-  const fetchNotificationData = async () => {
-    if (!userId) return;
-    const notificationInfos = await notificationAPI.getNotifications(userId, 1);
-    setNotifications(notificationInfos.data);
-  };
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (data) {
-      fetchNotificationData();
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
     }
   }, [data]);
 
@@ -112,9 +103,9 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                     }
                     alt="알림"
                   />
-                  {notifications?.unreadCount! > 0 && (
+                  {data?.pages[0].data.unreadCount > 0 && (
                     <span className="absolute top-[-3px] right-[-10px]  bg-red-500 text-white text-[10px] font-bold px-1 rounded-full">
-                      {notifications?.unreadCount}
+                      {data?.pages[0].data.unreadCount}
                     </span>
                   )}
                 </div>
@@ -133,7 +124,6 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                 <NotificationList
                   status={status}
                   onClose={() => setIsNotificationOpen(false)}
-                  fetchNotificationData={fetchNotificationData}
                 />
               )}
             </div>

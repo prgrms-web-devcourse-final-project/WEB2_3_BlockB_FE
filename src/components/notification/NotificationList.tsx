@@ -7,17 +7,17 @@ import { notificationAPI } from "../../api/notificaion";
 import { useUserStore } from "../../stores/userStore";
 import useGetNotifications from "../../hooks/useGetNotifications";
 import { useInView } from "react-intersection-observer";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NotificationList({
   status,
   onClose,
-  fetchNotificationData,
 }: {
   status: HeaderStatusType;
   onClose: () => void;
-  fetchNotificationData: () => void;
 }) {
   const { userId } = useUserStore();
+  const queryClient = useQueryClient();
   const [deleteNotificationId, setDeleteNotificationId] = useState<number>(0);
   const [deleteModal, setDeleteModal] = useState<DeleteModalType>(null);
   const {
@@ -28,7 +28,6 @@ export default function NotificationList({
     hasNextPage,
     isFetchingNextPage,
   } = useGetNotifications(userId!);
-  const [notifications, setNotifications] = useState<NotificationType[]>([]);
 
   const { ref, inView } = useInView();
 
@@ -39,36 +38,24 @@ export default function NotificationList({
   const closeDeleteModal = () => {
     setDeleteModal(null);
   };
-  const fetchNotifications = async () => {
-    const notificationInfos = await notificationAPI.getNotifications(
-      userId!,
-      1
-    );
-    setNotifications(notificationInfos.data.notifications.content);
-  };
 
   const allNotificationsDelete = async () => {
     await notificationAPI.deleteAllNotifications(userId!);
-    setNotifications([]);
-    fetchNotificationData();
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
   const allNotificationsRead = async () => {
     await notificationAPI.putAllNotifications(userId!);
-    fetchNotifications();
-    fetchNotificationData();
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
 
   const notificationDelete = async (notificationId: number) => {
     await notificationAPI.deleteNotifications(notificationId);
-    fetchNotifications();
-    fetchNotificationData();
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
 
   useEffect(() => {
     if (data) {
-      setNotifications(
-        data.pages.flatMap((page) => page.data.notifications.content)
-      ); // 모든 페이지의 데이터를 합쳐서 새로운 배열로 저장
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
     }
   }, [data]);
 
@@ -156,21 +143,21 @@ export default function NotificationList({
         {/* 알림 리스트 */}
         <div className="space-y-2 max-h-[70vh] overflow-y-auto font-pretendard ${textColor}">
           {localStorage.getItem("fcmToken") ? (
-            notifications.length > 0 ? (
+            data!.pages[0].data.notifications.content.length > 0 ? (
               <>
-                {notifications.map((notification, index) => (
-                  <NotificationItem
-                    key={index}
-                    isNew={notification.statusType === "UNREAD"}
-                    message={notification.content}
-                    actionType={notification.notificationType}
-                    typeId={notification.typeId}
-                    id={notification.id}
-                    fetchNotifications={fetchNotifications}
-                    openDeleteModal={openDeleteModal}
-                    fetchNotificationData={fetchNotificationData}
-                  />
-                ))}
+                {data!.pages[0].data.notifications.content.map(
+                  (notification: NotificationType, index: number) => (
+                    <NotificationItem
+                      key={index}
+                      statusType={notification.statusType}
+                      message={notification.content}
+                      actionType={notification.notificationType}
+                      typeId={notification.typeId}
+                      id={notification.id}
+                      openDeleteModal={openDeleteModal}
+                    />
+                  )
+                )}
 
                 <div ref={ref} className="w-full h-10 "></div>
               </>
