@@ -1,11 +1,11 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { notificationAPI } from "../api/notificaion";
 
-const useGetNotifications = (userId: number) => {
+const useGetNotifications = (userId: number | null) => {
   return useInfiniteQuery({
     queryKey: ["notifications", userId],
     queryFn: ({ pageParam = 1 }) => {
-      return notificationAPI.getNotifications(userId, pageParam);
+      return notificationAPI.getNotifications(userId!, pageParam);
     },
     getNextPageParam: (last) => {
       const currentPage = last.data.notifications.pageable.pageNumber + 1;
@@ -15,6 +15,7 @@ const useGetNotifications = (userId: number) => {
       }
       return undefined;
     },
+    enabled: !!userId,
     initialPageParam: 1,
   });
 };
