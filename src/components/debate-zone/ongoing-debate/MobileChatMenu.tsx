@@ -3,8 +3,6 @@ import { useRoomStore } from "../../../stores/roomStateStore";
 import Counter from "./Counter";
 import hamburger from "../../../assets/icons/hamburger.svg";
 import ParticipantBox from "../ParticipantBox";
-import AudienceCard from "../AudienceCard";
-import profile from "../../../assets/icons/profile-white.svg";
 import exit from "../../../assets/icons/exit.svg";
 import ExitModal from "../../common/Modal";
 import { useModalStore } from "../../../stores/useModal";
