@@ -114,7 +114,7 @@ export default function NotificationList({
       onClick={handleOverlayClick}
     >
       <div
-        className={`absolute top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px] lg:max-w-[420px] border border-gray-200 ${bgColor}`}
+        className={`absolute w-[420px] top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px] lg:max-w-[420px] border border-gray-200 ${bgColor}`}
       >
         <div className="flex items-center justify-between px-2 sm:px-3">
           <h2 className={`text-base sm:text-lg font-semibold  ${textColor}`}>
@@ -206,7 +206,7 @@ export default function NotificationList({
       </div>
       {deleteModal && (
         <div
-          className={`absolute w-full top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px] lg:max-w-[420px] border border-gray-200 bg-black/40 `}
+          className={`absolute w-[420px] top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px]  lg:max-w-[420px] border border-gray-200 bg-black/40 `}
         >
           <div className="flex items-center w-full h-full">
             <div className="w-full p-4 rounded-lg bg-white/80 backdrop-blur-md">
