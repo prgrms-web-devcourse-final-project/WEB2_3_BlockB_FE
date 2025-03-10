@@ -7,14 +7,17 @@ import profile from "../../assets/icons/profile-white.svg";
 import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
 import { useEffect, useState } from "react";
 import { userApi } from "../../api/user";
+import { useVote } from "../../hooks/useVote";
+import { useNavigate } from "react-router";
 
 export default function ReplayDebate({
   isObserver = false,
 }: {
   isObserver?: boolean;
 }) {
-
+  const navigate = useNavigate()
   const { messages, position} = useDebateWebSocket()
+  const {hasVoted} = useDebateWebSocket()
   const [userNickname, setUserNickname] = useState<string | null>(null);
   useEffect(() => {
         const fetchUserNickname = async () => {
@@ -32,6 +35,8 @@ export default function ReplayDebate({
     { label: "반대", img: disagree, value: "CON"},
     { label: "기권", img: giveup, value: "NO_POSITION"},
   ];
+
+  const {moveState} = useVote(isObserver)
 
 
   return (
@@ -53,7 +58,7 @@ export default function ReplayDebate({
             />
           ))}
         </section>
-        <section className="flex flex-col items-center gap-[14px] font-bold text-white">
+        {!hasVoted ?  <section className="flex flex-col items-center gap-[14px] font-bold text-white">
           <p className="font-jersey text-[24px]">VOTE</p>
           <div className="flex flex-col gap-[20px]">
             {voteList.map((voteInfo, index) => (
@@ -64,6 +69,23 @@ export default function ReplayDebate({
             ))}
           </div>
         </section>
+        : <section className="flex flex-col justify-center">
+            <p className="text-center text-game_blue01">이미 투표권을 행사하셨습니다</p>
+            <div className="w-full flex justify-between mt-[60px] md:text-[16px] text-[14px]">
+          <button
+            onClick={()=> moveState("result")}
+            className="font-pretendard text-white border-b  "
+          >
+            결과 기다리기
+          </button>
+          <button
+            onClick={() => navigate("/main")}
+            className="font-pretendard text-white border-b "
+          >
+            홈으로
+          </button>
+        </div>
+          </section>}
       </div>
     </div>
   );

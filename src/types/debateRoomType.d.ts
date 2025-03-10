@@ -191,3 +191,9 @@ interface DebateWebSocketProviderProps {
   position?: string | null;
 }
 
+
+type VoteResult = {
+  agreeNumber: number,
+  disagreeNumber: number,
+  neutralNumber: number
+}

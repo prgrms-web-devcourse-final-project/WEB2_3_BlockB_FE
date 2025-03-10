@@ -56,7 +56,7 @@ export default function MessageSection() {
       className="w-full flex-1 flex flex-col max-h-[calc(100vh-40px)] overflow-hidden"
     >
       {/* 메시지 로그 영역 */}
-      <div className="flex-grow overflow-y-auto gap-[20px] md:m-3 m-2 rounded-sm">
+      <div className="flex-grow overflow-y-auto flex flex-col gap-[20px] md:m-3 m-2 rounded-sm">
         {messages.map((msg, index) => (
           <MessageItem
             key={index}

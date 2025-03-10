@@ -14,8 +14,13 @@ interface WebSocketContextType {
   isMyTurn: boolean;
   stompClient: Client | null;
   position: string | null; // ✅ 포지션을 컨텍스트에서 제공
+  isResultEnabled: boolean;
+  isCountingVotes: boolean;
+  setIsCountingVotes: (isCounting: boolean) => void;
+  roomInfoDetails: DebateRoomInfo;
   hasVoted: boolean;
   setHasVoted: (hasVoted: boolean) => void;
+  voteResult: VoteResult
 }
 
 const DebateWebSockContext = createContext<WebSocketContextType | undefined>(undefined);
@@ -25,10 +30,26 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const [isMyTurn, setIsMyTurn] = useState<boolean>(false);
-
   const [myTeamList, setMyTeamList] = useState<Participant[]>([]);
   const [opponentTeamList, setOppentTeamList] = useState<Participant[]>([]);
   const [hasVoted, setHasVoted] = useState<boolean>(false)
+  const [isCountingVotes, setIsCountingVotes] = useState(false);
+  const [roomInfoDetails, setRoomInfoDetails] = useState<DebateRoomInfo>({
+    roomId: "",
+    title: "",
+    description: "",
+    memberNumberType: 1,
+    categoryType: "",
+    continentType: "",
+    newsUrl: "",
+    status: "",
+    timeType: 30,
+    speakCountType: 3,
+    resultEnabled: false,
+    participants: [],
+  })
+  const [isResultEnabled, setResultEnabled] = useState<boolean>(false)
+  const [voteResult, setVoteResult] = useState<VoteResult>({agreeNumber: 0, disagreeNumber: 0, neutralNumber: 0})
 
   const [position, setPosition] = useState<string | null>(initialPosition); 
 
@@ -55,6 +76,22 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     }
   };
 
+  const getRoomInfoDetails = async () => {
+    if (roomId) {
+      const currentRoomInfoResponse = await debateRoomApi.fetchOngoingRoomInfo(roomId)
+      setRoomInfoDetails(currentRoomInfoResponse.data)
+      setResultEnabled(currentRoomInfoResponse.data.resultEnabled)
+    } 
+  }
+
+  const getVoteResult = async () => {
+    if (roomId) {
+      const currentRoomInfoResponse = await debateRoomApi.fetchDebateVoteResult(roomId)
+      setVoteResult(currentRoomInfoResponse.data)
+    }
+  }
+
+
   useEffect(() => {
     if (!roomId || !userName || !position) return;
 
@@ -67,12 +104,13 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         roomId,
       },
       debug: (msg) => console.log("[STOMP DEBUG]:", msg),
-      reconnectDelay: 5000,
+      reconnectDelay: 8000,
     });
 
     client.onConnect = () => {
       console.log("유저의 이름:", userName);
       getParticipantsList()
+      getRoomInfoDetails()
 
       client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
         console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
@@ -106,9 +144,15 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
           }
           if (parsedMessage.status === "CLOSED") {
             setRoomState("result");
-            setObservingState("result")
-            return stompClient?.deactivate()
+            setObservingState("result");
+            getVoteResult()
+            
+            // stompClient?.deactivate();
+            // setTimeout(() => {
+            //   navigate("/main");
+            // }, 8000); 
           }
+          
         }
 
         if (parsedMessage.event === "NOTIFICATION" && parsedMessage.message === "잠시 후 토론이 시작됩니다... ") {
@@ -132,7 +176,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, stompClient, position, hasVoted, setHasVoted }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, stompClient, position, isResultEnabled, isCountingVotes, setIsCountingVotes, roomInfoDetails, hasVoted, setHasVoted, voteResult }}>
       {children}
     </DebateWebSockContext.Provider>
   );
