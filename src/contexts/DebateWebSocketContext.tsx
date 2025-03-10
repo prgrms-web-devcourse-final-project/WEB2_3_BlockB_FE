@@ -14,6 +14,8 @@ interface WebSocketContextType {
   isMyTurn: boolean;
   stompClient: Client | null;
   position: string | null; // ✅ 포지션을 컨텍스트에서 제공
+  hasVoted: boolean;
+  setHasVoted: (hasVoted: boolean) => void;
 }
 
 const DebateWebSockContext = createContext<WebSocketContextType | undefined>(undefined);
@@ -26,6 +28,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
 
   const [myTeamList, setMyTeamList] = useState<Participant[]>([]);
   const [opponentTeamList, setOppentTeamList] = useState<Participant[]>([]);
+  const [hasVoted, setHasVoted] = useState<boolean>(false)
 
   const [position, setPosition] = useState<string | null>(initialPosition); 
 
@@ -104,6 +107,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
           if (parsedMessage.status === "CLOSED") {
             setRoomState("result");
             setObservingState("result")
+            return stompClient?.deactivate()
           }
         }
 
@@ -128,7 +132,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, stompClient, position }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, stompClient, position, hasVoted, setHasVoted }}>
       {children}
     </DebateWebSockContext.Provider>
   );
