@@ -78,3 +78,5 @@ interface NotificationDataType {
     empty: boolean;
   };
 }
+
+type DeleteModalType = "delete" | "allDelete" | null;

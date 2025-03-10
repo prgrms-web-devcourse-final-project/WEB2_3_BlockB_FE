@@ -92,7 +92,7 @@ export default function NotificationItem({
           openDeleteModal(id);
         }}
       >
-        <img src={kebab} alt="신고 버튼" />
+        <img src={kebab} alt="삭제 버튼" />
       </button>
     </div>
   );
