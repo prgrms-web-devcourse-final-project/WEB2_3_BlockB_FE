@@ -10,7 +10,8 @@ export default function NotFound() {
     setTimeout(() => {
       navigate("/main"); // 30초 후 메인으로 이동
     }, 30000);
-  }, [navigate]);
+  }, []);
+
   return (
     <div
       className="flex flex-col items-center justify-center h-screen text-center bg-cover bg-center"

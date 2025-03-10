@@ -73,7 +73,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
               <Link to={"/main"}>
                 <img
                   src={status === "debate-waiting" ? logoWhite : logo}
-                  className="max-md:w-7 max-md:h-7 max-md:object-cover"
+                  className="md:w-11 md:h-11 w-6 h-6 max-md:object-cover"
                 />
               </Link>
               <div
