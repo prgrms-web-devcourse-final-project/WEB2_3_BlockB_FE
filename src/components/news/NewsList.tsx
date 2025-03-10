@@ -8,12 +8,10 @@ export default function NewsList({
   newsData,
   loadMore,
   hasMore,
-  loadMoreRef,
 }: {
   newsData: NewsType[];
   loadMore: () => void;
   hasMore: boolean;
-  loadMoreRef: React.RefObject<HTMLDivElement>;
 }) {
   const navigate = useNavigate();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -57,10 +55,7 @@ export default function NewsList({
       <TopButton scrollContainerRef={scrollContainerRef} />
 
       {hasMore && (
-        <div
-          className="flex items-center justify-center w-full h-20 mt-10"
-          ref={loadMoreRef}
-        >
+        <div className="flex items-center justify-center w-full h-20 mt-10">
           <button
             className="border border-gray02 text-gray01 border-solid rounded-lg w-40 text-[20px] font-sofiaSans bg-gray02  transform scale-105  transition-all duration-200 hover:scale-110 active:bg-white active:text-black01"
             onClick={loadMore}
