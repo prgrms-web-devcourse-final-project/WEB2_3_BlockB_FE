@@ -52,15 +52,15 @@ export default function ProfileCard({
           <div className="flex lg:gap-[10px] gap-[2px] lg:h-[22px] h-[11px]">
             <figure className="flex items-center rounded-full">
               <img src={win} alt="승리" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
-              <figcaption>{participant.winNumber}</figcaption>
+              <figcaption>{participant.winNumber || 0}</figcaption>
             </figure>
             <figure className="flex items-center rounded-full">
               <img src={duse} alt="무승부" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
-              <figcaption>{participant.drawNumber}</figcaption>
+              <figcaption>{participant.drawNumber || 0}</figcaption>
             </figure>
             <figure className="flex items-center rounded-full">
               <img src={lose} alt="패배" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
-              <figcaption>{participant.defeatNumber}</figcaption>
+              <figcaption>{participant.defeatNumber || 0}</figcaption>
             </figure>
           </div>
         </div>

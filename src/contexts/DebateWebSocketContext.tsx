@@ -140,11 +140,12 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
       debug: (msg) => console.log("[STOMP DEBUG]:", msg),
       reconnectDelay: 8000,
     });
+    getRoomInfoDetails()
 
     client.onConnect = () => {
       console.log("유저의 이름:", userName);
       getParticipantsList()
-      getRoomInfoDetails()
+
 
       client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
         console.log("✅ subscribe 전달 받음 => 메시지 원본", message);

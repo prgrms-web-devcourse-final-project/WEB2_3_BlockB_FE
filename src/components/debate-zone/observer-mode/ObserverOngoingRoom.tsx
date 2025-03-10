@@ -3,13 +3,14 @@ import ExitModal from "../../common/Modal";
 import ObserverChatWindow from "./ObserverChatWindow";
 import exit from "../../../assets/icons/exit.svg";
 // import { useObservingStore } from "../../../stores/observingStateStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ObserverMobileChatMenu from "./ObserverMobileChatMenu";
 import ObserverMobileTab from "./ObserverMobileTab";
 import OngoingInfo from "./OngoingInfo";
 import DebateChatObserverMode from "./DebateChatObserverMode";
 import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 
 export default function ObserverOngoingRoom() {

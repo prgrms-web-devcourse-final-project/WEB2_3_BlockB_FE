@@ -9,8 +9,9 @@ export default function InfoDrodown() {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
   const {roomInfoDetails} = useDebateWebSocket()
 
-  useEffect(() => {
-    console.log("토론방 상세 정보")
+
+  useEffect(()=> {
+    console.log("🍎 debate룸에서 / observer룸에서 룸 상세 정보 확인" , roomInfoDetails)
   },[infoOpen, roomInfoDetails])
   
   return (
