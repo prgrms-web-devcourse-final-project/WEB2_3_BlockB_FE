@@ -82,7 +82,7 @@ export default function NotificationItem({
               navigate(`/user-page/${typeId}`);
             }}
           >
-            {actionType === "FOLLOW" ? "프로필확인" : "입장하기"}
+            {actionType === "FOLLOW" && "프로필확인"}
           </button>
         )}
       </div>
