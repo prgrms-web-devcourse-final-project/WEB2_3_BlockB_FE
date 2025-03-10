@@ -9,10 +9,9 @@ import Counter from "../ongoing-debate/Counter";
 import ExitModal from "../../common/Modal";
 import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function ObserverMobileChatMenu() {
-    const [turnCount] = useState(10)
-    const timerRef = useRef(100)
     const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false)
     const sidebarRef = useRef<HTMLDivElement | null>(null)
 
@@ -40,14 +39,14 @@ export default function ObserverMobileChatMenu() {
       });
     };
   
-
+    const {leftTurn, debateCountDown} = useDebateWebSocket()
   return (
     <div className="md:hidden flex h-[40px] justify-between items-center relative p-2">
         {/* 나가기 모달 */}
         <ExitModal />
         <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">
-            <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
-            <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />
+            <Counter label="TURN" boxNumber={2} value={leftTurn} />
+            <Counter label="TIMER" boxNumber={3} value={debateCountDown} />
         </div>
         <button onClick={()=>setIsSideBarOpen(!isSidebarOpen)}>
             <img src={hambuger} alt="사이드 바 버튼" />

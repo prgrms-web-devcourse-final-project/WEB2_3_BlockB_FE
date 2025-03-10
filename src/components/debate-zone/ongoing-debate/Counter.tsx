@@ -5,42 +5,20 @@ import turn from "../../../assets/icons/turn.svg";
 export default function Counter({
   label,
   boxNumber,
-  initialCount,
-  onComplete,
+  value,
 }: {
   label: string;
   boxNumber: number;
-  initialCount: number;
-  onComplete?: () => void;
+  value: number;
 }) {
-  const [count, setCount] = useState(initialCount);
   const [displayCount, setDisplayCount] = useState<string[]>([]);
 
-  
   useEffect(() => {
-    const paddedCount = (initialCount ?? 0).toString().padStart(boxNumber, "0");
+    const paddedCount = (value ?? 0).toString().padStart(boxNumber, "0");
     setDisplayCount(paddedCount.split(""));
-  }, [initialCount, boxNumber, count]);
+  }, [value]);
   
   
-  useEffect(() => {
-    if (label === "TIMER") {
-      const interval = setInterval(() => {
-        setCount((prev) => {
-          if (prev > 0) {
-            return prev - 1;
-          } else {
-            clearInterval(interval);
-            onComplete && onComplete(); // 타이머 종료 시 콜백 실행
-            return 0;
-          }
-        });
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [label, onComplete]);
-
   return (
     <div className="font-bold font-jersey flex md:flex-col flex-row md:gap-[2px] gap-[10px] items-center">
       <div className="flex items-center gap-[2px] justify-end">
