@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router";
 import { useRoomStore } from "../stores/roomStateStore";
 import { debateRoomApi } from "../api/debatezone";
 import { useObservingStore } from "../stores/observingStateStore";
-import { useObserverWebSocket } from "./ObserverWebSocketContext";
 
 type DebateWebSockContextType = {
   websocketStatus: WebSocketStatus;
@@ -143,14 +142,14 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     const {observingState} = useObservingStore()
   
     useEffect(()=> {
-      if (observingState === "waiting") return
+
       const getDebateLeftTurn = async() => {
         if (!roomId) return
         const {data: turnData} = await debateRoomApi.fetchDebateLeftTurn(roomId)
         setLeftTurnAtObserverView(turnData.turnCount) // flagType 도 있음
       }
       getDebateLeftTurn()
-    }, [roomId, userName])
+    }, [roomId, userName, roomState])
 
     
   // WebSocket 연결 및 메시지 처리

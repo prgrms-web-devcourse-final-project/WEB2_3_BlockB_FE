@@ -17,6 +17,7 @@ export default function Counter({
   const { leftTurn, leftTurnAtObserverView, debateCountDown } = useDebateWebSocket();
 
   useEffect(() => {
+    console.log("🍤 남은 턴 참관자용", leftTurnAtObserverView)
     const isTurnLabel = label === "TURN";
     const count = isTurnLabel ? (isObserverRoom ? leftTurnAtObserverView : leftTurn) : debateCountDown;
     const paddedCount = (count ?? 0).toString().padStart(boxNumber, "0");

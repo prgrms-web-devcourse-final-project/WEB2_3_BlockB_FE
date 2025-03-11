@@ -1,19 +1,28 @@
 import link from "../../assets/icons/link.svg";
 import info from "../../assets/icons/info-btn.svg";
-import { useEffect, useState } from "react";
+import React, { useState, useMemo } from "react";
 import { timeFormatter } from "../../utils/timeFormatter";
 import { getKeyFromDbKey } from "../../constants";
 import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
 
-export default function InfoDrodown() {
+
+const InfoDrodown = React.memo(() => {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
-  const {roomInfoDetails} = useDebateWebSocket()
+  const { roomInfoDetails } = useDebateWebSocket();
 
+  const memoizedRoomInfo = useMemo(() => {
+    return {
+      title: roomInfoDetails?.title,
+      description: roomInfoDetails?.description,
+      continentType: getKeyFromDbKey(roomInfoDetails?.continentType!),
+      categoryType: getKeyFromDbKey(roomInfoDetails?.categoryType!),
+      speakCountTime: timeFormatter(roomInfoDetails?.speakCountType! * roomInfoDetails?.timeType! * 2),
+      memberNumberType: roomInfoDetails?.memberNumberType,
+      resultEnabled: getKeyFromDbKey(roomInfoDetails?.resultEnabled!),
+      newsUrl: roomInfoDetails?.newsUrl
+    };
+  }, [roomInfoDetails]);
 
-  useEffect(()=> {
-    console.log("🍎 debate룸에서 / observer룸에서 룸 상세 정보 확인" , roomInfoDetails)
-  },[infoOpen, roomInfoDetails])
-  
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}
@@ -33,7 +42,7 @@ export default function InfoDrodown() {
                 토론 주제
               </span>
               <span className="md:text-white text-gray01">
-                {roomInfoDetails?.title}
+                {memoizedRoomInfo.title}
               </span>
             </h1>
             <h2 className="inline-flex justify-start">
@@ -41,41 +50,43 @@ export default function InfoDrodown() {
                 방 설명
               </span>
               <span className="md:text-white text-gray01">
-                {roomInfoDetails?.description}
+                {memoizedRoomInfo.description}
               </span>
             </h2>
           </div>
           {/* 토론방 정보 */}
           <div className="flex justify-start flex-wrap gap-[10px] text-black01 font-bold">
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 border border-gray03 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>{getKeyFromDbKey(roomInfoDetails?.continentType!)}</p>
+              <p>{memoizedRoomInfo.continentType}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{getKeyFromDbKey(roomInfoDetails?.categoryType!)}</p>
+              <p>{memoizedRoomInfo.categoryType}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{timeFormatter(roomInfoDetails?.speakCountType! * roomInfoDetails?.timeType! * 2)}</p>
+              <p>{memoizedRoomInfo.speakCountTime}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{roomInfoDetails?.memberNumberType} : {roomInfoDetails?.memberNumberType}</p>
+              <p>{memoizedRoomInfo.memberNumberType} : {memoizedRoomInfo.memberNumberType}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{getKeyFromDbKey(roomInfoDetails?.resultEnabled!)}</p>
+              <p>{memoizedRoomInfo.resultEnabled}</p>
             </div>
           </div>
           {/* 링크 */}
           <div>
-            {roomInfoDetails?.newsUrl && 
+            {memoizedRoomInfo.newsUrl && 
               <figure className="flex items-center w-full gap-2">
-              <img src={link} alt="연관된 뉴스 링크" />
-              <figcaption className="md:text-gray02 text-gray03  md:text-[10px] text-[8px] leading-0">
-                {roomInfoDetails?.newsUrl}
-              </figcaption>
-            </figure>
-           }
+                <img src={link} alt="연관된 뉴스 링크" />
+                <figcaption className="md:text-gray02 text-gray03  md:text-[10px] text-[8px] leading-0">
+                  {memoizedRoomInfo.newsUrl}
+                </figcaption>
+              </figure>
+            }
           </div>
         </div>
       )}
     </div>
   );
-}
+});
+
+export default InfoDrodown;

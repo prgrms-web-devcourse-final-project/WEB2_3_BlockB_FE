@@ -38,7 +38,7 @@ export default function DebateRoomGate() {
                     }`}
                 >
                     해당 룸으로 참여
-                </button>
+                </button>         
             </div>
         </div>
     )
