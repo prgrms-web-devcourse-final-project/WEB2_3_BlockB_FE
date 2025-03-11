@@ -1,14 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Client, Message } from "@stomp/stompjs";
 import { useParams } from "react-router";
-import { useObservingStore } from "../stores/observingStateStore";
-import { debateRoomApi } from "../api/debatezone";
 
 // ✅ Context 타입 정의
 interface WebSocketContextType {
   observerMessages: WebSocketCommunicationType[];
   sendObserverMessages: (message: string) => void;
-  leftTurnAtObserverView: number;
   stompClient: Client | null;
 }
 
@@ -29,19 +26,6 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
       });
     }
   };
-  const [leftTurnAtObserverView, setLeftTurnAtObserverView] = useState<number>(0)
-  const {observingState} = useObservingStore()
-
-  useEffect(()=> {
-    if (observingState === "waiting") return
-    const getDebateLeftTurn = async() => {
-      if (!roomId) return
-      const {data: turnData} = await debateRoomApi.fetchDebateLeftTurn(roomId)
-      setLeftTurnAtObserverView(turnData.turnCount) // flagType 도 있음
-    }
-    getDebateLeftTurn()
-  }, [roomId, userName])
-
 
   useEffect(() => {
     if (!roomId || !userName ) return;
@@ -81,7 +65,7 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
   }, [roomId, userName]);
 
   return (
-    <ObserverWebSocketContext.Provider value={{ observerMessages, sendObserverMessages, leftTurnAtObserverView, stompClient }}>
+    <ObserverWebSocketContext.Provider value={{ observerMessages, sendObserverMessages, stompClient }}>
       {children}
     </ObserverWebSocketContext.Provider>
   );

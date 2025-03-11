@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import timer from "../../../assets/icons/timer.svg";
 import turn from "../../../assets/icons/turn.svg";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
-import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
 
 export default function Counter({
   label,
@@ -15,8 +14,7 @@ export default function Counter({
 }) {
   const [displayCount, setDisplayCount] = useState<string[]>([]);
 
-  const { leftTurn, debateCountDown } = useDebateWebSocket();
-  const {leftTurnAtObserverView} = useObserverWebSocket()
+  const { leftTurn, leftTurnAtObserverView, debateCountDown } = useDebateWebSocket();
 
   useEffect(() => {
     const isTurnLabel = label === "TURN";
