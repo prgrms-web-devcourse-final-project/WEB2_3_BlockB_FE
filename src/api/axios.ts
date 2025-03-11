@@ -14,9 +14,26 @@ export const axiosInstance = axios.create({
   },
 });
 
+function isSafeURL(url: string): boolean {
+  try {
+    const resolved = new URL(url, VITE_BACKEND_URL);
+    return resolved.origin === new URL(VITE_BACKEND_URL).origin; // 같은 도메인인지 확인
+  } catch (e) {
+    return false;
+  }
+}
+
+// 요청 인터셉터 (토큰 추가 + SSRF 방어)
 axiosInstance.interceptors.request.use(
   (config) => {
     const { accessToken } = useAuthStore.getState();
+
+    // 요청 URL 검증 (SSRF 방어)
+    if (config.url && !isSafeURL(config.url)) {
+      console.error("SSRF 공격 시도가 감지되어 요청이 차단되었습니다.");
+      return Promise.reject(new Error("Potential SSRF attack detected!"));
+    }
+
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

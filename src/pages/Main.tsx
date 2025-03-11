@@ -95,10 +95,7 @@ export default function Main() {
 
           <NewsSimpleInfos datas={newses} tab={tab} isLoading={isLoading} />
 
-          <DebateSimpleInfos
-            tab={tab}
-            datas={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-          />
+          <DebateSimpleInfos tab={tab} />
         </div>
       </div>
     </>
