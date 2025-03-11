@@ -45,7 +45,7 @@ export default function OngoingDebate() {
         md:gap-[20px] md:px-10"
         >
           <ExitModal />
-          <div className="h-[728.4px] md:pt-[160px] lg:pt-[116px]  md:block hidden">
+          <div className="h-[728.4px] md:pt-[120px] lg:pt-[116px]  md:block hidden">
             <ParticipantBox
               label="PROS"
               labelAlignment="start"
@@ -84,22 +84,6 @@ export default function OngoingDebate() {
                 </button>
               </div>
             </div>
-            <button
-              onClick={() => {
-                setRoomState("voting");
-              }}
-              className="text-white"
-            >
-              투표로
-            </button>
-            <button
-              onClick={() => {
-                setRoomState("won-by-default");
-              }}
-              className="text-white"
-            >
-              부전승으로
-            </button>
           </div>
         </section>
       )}

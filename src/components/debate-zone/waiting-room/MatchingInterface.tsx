@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import profile from "../../../assets/icons/profile-white.svg";
 import { useWaveAnimation } from "../../../hooks/useWaveAnimation";
 
@@ -15,6 +16,10 @@ export default function MatchingInterface({
     "border-neutral-50/50",
     "border-neutral-50/30",
   ];
+
+  useEffect(()=> {
+    console.log("매칭 인터페이스에서 participants", participants)
+  }, [])
 
   return (
     <div className="absolute top-[250px] left-1/2 transform -translate-x-1/2 text-white">

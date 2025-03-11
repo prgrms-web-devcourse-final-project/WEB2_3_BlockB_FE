@@ -7,8 +7,9 @@ import profile from "../../../assets/icons/profile-white.svg"
 import exit from "../../../assets/icons/exit.svg"
 import Counter from "../ongoing-debate/Counter";
 import ExitModal from "../../common/Modal";
-import { useNavigate } from "react-router";
+import { data, useNavigate, useParams } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
+import { debateRoomApi } from "../../../api/debatezone";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function ObserverMobileChatMenu() {
@@ -39,7 +40,16 @@ export default function ObserverMobileChatMenu() {
       });
     };
 
-    const {roomInfoDetails} = useDebateWebSocket()
+    const {roomId} = useParams()
+    const {setRoomInfoDetails, roomInfoDetails} = useDebateWebSocket()
+    useEffect(()=> {
+        const fetchRoomInfoInObserverZone = async () => {
+        if(!roomId) return
+         const {data} =  await debateRoomApi.fetchObserverOngoingRoomInfo(roomId)
+         setRoomInfoDetails(data)
+        } 
+        fetchRoomInfoInObserverZone()
+    }),[]
   
   return (
     <div className="md:hidden flex h-[40px] justify-between items-center relative p-2">
@@ -60,8 +70,8 @@ export default function ObserverMobileChatMenu() {
                     <img src={exit} alt="나가기 버튼" />
                 </button>
             </div>
-            <ParticipantBox label="PROS" labelAlignment = "left" hasReportBtn ={true} participants={roomInfoDetails.proUsers}/>
-            <ParticipantBox label="CONS" labelAlignment = "left" hasReportBtn ={true} participants={roomInfoDetails.conUsers}/>
+            <ParticipantBox label="PROS" labelAlignment = "left" hasReportBtn ={true} participants={roomInfoDetails?.proUsers}/>
+            <ParticipantBox label="CONS" labelAlignment = "left" hasReportBtn ={true} participants={roomInfoDetails?.conUsers}/>
             <div className="flex flex-col gap-4 text-white">
                 {/* TODO: 삭제해야 함 */}
                 <p className="font-jersey text-[16px]">Audience</p>

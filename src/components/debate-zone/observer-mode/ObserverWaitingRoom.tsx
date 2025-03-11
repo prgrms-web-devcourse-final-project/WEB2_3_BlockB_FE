@@ -1,7 +1,6 @@
 import ObserverMatchingInterface from "./ObserverMatchingInterface";
 import ParticipantBox from "./../ParticipantBox";
 import InfoDropdwon from "../InfoDrodown";
-import profile from "../../../assets/icons/profile-white.svg";
 import { useState } from "react";
 import AudienceListBox from "./AudienceListBox";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";

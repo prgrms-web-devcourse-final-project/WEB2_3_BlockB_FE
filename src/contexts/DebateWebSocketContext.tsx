@@ -19,6 +19,7 @@ type DebateWebSockContextType = {
   isResultEnabled: boolean;
   isCountingVotes: boolean;
   roomInfoDetails: DebateRoomInfo;
+  setRoomInfoDetails: (info: DebateRoomInfo) => void
   isWaitngVote: boolean,
   hasVoted: boolean;
   setHasVoted: (hasVoted: boolean) => void;
@@ -34,7 +35,6 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   const [isMyTurn, setIsMyTurn] = useState<boolean>(false);
   const [myTeamList, setMyTeamList] = useState<Participant[]>([]);
   const [opponentTeamList, setOppentTeamList] = useState<Participant[]>([]);
-
   const [hasVoted, setHasVoted] = useState<boolean>(false)
   const [isCountingVotes, setIsCountingVotes] = useState(true);
   const [roomInfoDetails, setRoomInfoDetails] = useState<DebateRoomInfo>({
@@ -73,24 +73,33 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     }
   };
 
+  
+  const { roomState } = useRoomStore();
+  const getRoomInfoDetails = async () => {
+    if (roomId) {
+      const response = roomState === "waiting"
+        ? await debateRoomApi.fetchWaitingRoomInfo(roomId) 
+        : await debateRoomApi.fetchOngoingRoomInfo(roomId);
+      
+      const { data: roomInfoData } = response;
+      setRoomInfoDetails(roomInfoData);
+      setResultEnabled(roomInfoData.resultEnabled);
+    }
+  };
+
   const getParticipantsList = async () => {
     if (!roomId) return;
-  
-    const { data } = await debateRoomApi.fetchOngoingRoomInfo(roomId);
-    const { proUsers, conUsers } = data;
+
+    const { proUsers, conUsers } = roomInfoDetails
     const isPro = position === "pro";
   
     setMyTeamList(isPro ? proUsers : conUsers);
     setOppentTeamList(isPro ? conUsers : proUsers);
   };
-  
-  const getRoomInfoDetails = async () => {
-    if (roomId) {
-      const {data : roomInfoData} = await debateRoomApi.fetchOngoingRoomInfo(roomId)
-      setRoomInfoDetails(roomInfoData)
-      setResultEnabled(roomInfoData.resultEnabled)
-    } 
-  }
+
+  useEffect(()=> {
+    getParticipantsList()
+  }),[roomInfoDetails]
 
   const setInitialTurnCount = () => {
     setLeftTurn(roomInfoDetails.speakCountType * 2);
@@ -140,13 +149,11 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
       debug: (msg) => console.log("[STOMP DEBUG]:", msg),
       reconnectDelay: 8000,
     });
+
     getRoomInfoDetails()
 
     client.onConnect = () => {
       console.log("유저의 이름:", userName);
-      getParticipantsList()
-
-
       client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
         console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
         const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
@@ -206,7 +213,6 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         }
 
         if (parsedMessage.event === "user_joined") {
-          getParticipantsList();
           getRoomInfoDetails();
         }
       });
@@ -223,7 +229,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
+    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
       {children}
     </DebateWebSockContext.Provider>
   );
