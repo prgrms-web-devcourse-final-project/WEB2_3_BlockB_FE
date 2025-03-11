@@ -12,7 +12,6 @@ import useSlideUpAnimation from "../hooks/useSlideUpAnimation";
 import useNewsInfoParams from "../hooks/useNewsInfoParams";
 import Header from "../components/common/Header";
 
-
 export default function GeneratingRoom() {
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -62,31 +61,33 @@ export default function GeneratingRoom() {
       speakCount: speakCountMap[roomSettings.speakCount!],
       resultEnabled: roomSettings.hasVote!,
     };
-  
+
     if (generatingType === "fromNews" && newsId) {
       initialRoomInfos.newsId = Number(newsId);
       initialRoomInfos.newsUrl = `/news/${newsId}`;
     }
-    console.log("초기 방 세팅", initialRoomInfos)
-    const roomIdResponse = await debateRoomApi.generateDebateRoom(initialRoomInfos);
+    console.log("초기 방 세팅", initialRoomInfos);
+    const roomIdResponse = await debateRoomApi.generateDebateRoom(
+      initialRoomInfos
+    );
     return roomIdResponse.data;
   };
-  
+
   const onClickCreateBtn = async () => {
     const newRoomId = await makeNewRoom();
     navigate(`/debate-zone/${newRoomId}`);
   };
-  
+
   return (
     <div className="bg-[#070707] min-h-screen overflow-hidden">
       <Header status="debate-waiting" />
-      <div className="flex justify-center item-center md:min-h-screen">
+      <div className="flex justify-center pb-10 item-center md:min-h-screen">
         <div
           ref={containerRef}
           className="flex flex-col justify-between items-center gap-[10px]  md:w-[658px] h-auto rounded-[10px] md:px-10 px-3 md:py-10 py-5 md:mb-20 mb-10 md:border md:border-white md:bg-white md:bg-opacity-20 md:shadow-[0_4px_20px_rgba(251,251,251,1)] font-pretendard "
         >
           <ProgressIndicator checkedStates={checkedStates} />
-          <div className="w-full flex flex-col md:gap-4 gap-2">
+          <div className="flex flex-col w-full gap-2 md:gap-4">
             <RoomInputCard
               label="토론 주제"
               fieldKey="title"
@@ -100,7 +101,7 @@ export default function GeneratingRoom() {
             {generatingType == "fromNews" && (
               <button
                 onClick={moveToLinkedNews}
-                className="w-full h-5 flex justify-end items-center gap-2 animate-flip mb-2"
+                className="flex items-center justify-end w-full h-5 gap-2 mb-2 animate-flip"
               >
                 <img src={link} alt="연관된 뉴스 링크" />
                 <figcaption className="text-gray03 text-[12px] leading-0">
@@ -114,7 +115,7 @@ export default function GeneratingRoom() {
             generatingType={generatingType}
             setCheckedStates={setCheckedStates}
           />
-          <div className="w-full flex justify-end">
+          <div className="flex justify-end w-full">
             <RoomActionButtons
               cancelAction={() => {
                 navigate(-1);
