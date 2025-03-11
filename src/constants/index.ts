@@ -1,24 +1,28 @@
+
 export const continentChecklist: ChecklistItem[] = [
-  { dbKey: "africa", key: "아프리카", isChecked: false },
-  { dbKey: "south_america", key: "남미", isChecked: false },
-  { dbKey: "asia", key: "아시아", isChecked: false },
-  { dbKey: "europe", key: "유럽", isChecked: false },
-  { dbKey: "oceania", key: "오세아니아", isChecked: false },
+  { dbKey: "AS", key: "아시아/호주", isChecked: false },
+  { dbKey: "AM", key: "미국/중남미", isChecked: false },
+  { dbKey: "EU", key: "유럽", isChecked: false },
+  { dbKey: "CN", key: "중국", isChecked: false },
+  { dbKey: "JP", key: "일본", isChecked: false },
+  { dbKey: "AF", key: "아프리카/중동", isChecked: false },
+  { dbKey: "KR", key: "국내", isChecked: false },
 ];
 
 export const categoryChecklist: ChecklistItem[] = [
-  { dbKey: "politics", key: "정치", isChecked: false },
-  { dbKey: "economy", key: "경제", isChecked: false },
-  { dbKey: "society", key: "사회", isChecked: false },
-  { dbKey: "culture", key: "문화/생활", isChecked: false },
-  { dbKey: "entertainment", key: "연예", isChecked: false },
-  { dbKey: "it_science", key: "IT/과학", isChecked: false },
-  { dbKey: "column", key: "칼럼", isChecked: false },
+  { dbKey: "PO", key: "정치", isChecked: false },
+  { dbKey: "EC", key: "경제", isChecked: false },
+  { dbKey: "SO", key: "사회", isChecked: false },
+  { dbKey: "CU", key: "문화", isChecked: false },
+  { dbKey: "EN", key: "연예", isChecked: false },
+  { dbKey: "IT", key: "IT/과학", isChecked: false },
+  { dbKey: "SP", key: "스포츠", isChecked: false },
+  { dbKey: "CO", key: "칼럼", isChecked: false },
 ];
 
 export const participantChecklist: ChecklistItem[] = [
-  { dbKey: 1, key: "1:1", isChecked: false },
-  { dbKey: 3, key: "3:3", isChecked: false },
+  { dbKey: "T1", key: "1:1", isChecked: false },
+  { dbKey: "T2", key: "3:3", isChecked: false },
 ];
 
 export const stanceChecklist: ChecklistItem[] = [
@@ -141,29 +145,42 @@ switch (dates.getDay()) {
 }
 
 export const reportReasons: ChecklistItem[] = [
-  { dbKey: "sexual", key: "음란성/선정성", isChecked: false },
-  { dbKey: "spam", key: "스팸/광고", isChecked: false },
-  { dbKey: "abuse", key: "욕설/인신공격", isChecked: false },
-  { dbKey: "flooding", key: "도배", isChecked: false },
-  { dbKey: "privacy", key: "개인정보 노출", isChecked: false },
-  { dbKey: "ragequit", key: "사유 없는 탈주", isChecked: false },
+  { dbKey: "OBSCENITY", key: "음란성/선정성", isChecked: false },
+  { dbKey: "SPAM", key: "스팸/광고", isChecked: false },
+  { dbKey: "CUSS", key: "욕설/인신공격", isChecked: false },
+  { dbKey: "FLOODING", key: "도배", isChecked: false },
+  { dbKey: "LEAKAGE", key: "개인정보 노출", isChecked: false },
+  { dbKey: "DODGE", key: "사유 없는 탈주", isChecked: false },
 ];
+
 // 관리자 페이지
 
-export const processedFilters = [
+type AdminFilter = {
+  label: string, value: string, width: string
+}
+
+// 신고 사유
+export const unprocessedFilters = [
   { label: "전체", value: "all", width: "w-[74px]" },
-  { label: "음란/선정성", value: "sexual", width: "w-[118px]" },
-  { label: "스팸/광고", value: "ad", width: "w-[105px]" },
-  { label: "욕설/인신공격", value: "profanity", width: "w-[131px]" },
-  { label: "도배", value: "papering", width: "w-[74px]" },
+  { label: "음란/선정성", value: "OBSCENITY", width: "w-[118px]" },
+  { label: "스팸/광고", value: "SPAM", width: "w-[105px]" },
+  { label: "욕설/인신공격", value: "CUSS", width: "w-[131px]" },
+  { label: "도배", value: "FLOODING", width: "w-[74px]" },
   {
     label: "개인정보 노출",
-    value: "personalInformation",
+    value: "LEAKAGE",
     width: "w-[129px]",
   },
-  { label: "사유없는 탈주", value: "escape", width: "w-[129px]" },
+  { label: "사유없는 탈주", value: "DODGE", width: "w-[129px]" },
 ];
-export const processedHeader = [
+
+export const findFilterValue = (filterType: AdminFilter[], selectedLabel: string): string | undefined => {
+  const tag = filterType.find((selection) => selection.label === selectedLabel);
+  return tag ? tag.value : undefined;
+};
+
+
+export const unprocessedHeader = [
   "신고 사유",
   "신고자",
   "신고대상자",
@@ -171,25 +188,69 @@ export const processedHeader = [
   "조치",
 ];
 
-export const unProcessedFilters = [
+// 처리 결과
+export const processedFilters = [
   { label: "전체", value: "all", width: "w-[74px]" },
-  { label: "경고", value: "warn", width: "w-[74px]" },
-  { label: "일시정지", value: "pause", width: "w-[100px]" },
-  { label: "영구정지", value: "permanentStop", width: "w-[100px]" },
+  { label: "경고", value: "WARNING", width: "w-[74px]" },
+  { label: "일시정지", value: "SUSPENSION", width: "w-[100px]" },
+  { label: "영구정지", value: "BAN", width: "w-[100px]" },
+  { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];
 
-export const unProcessedHeader = [
+
+export const processedHeader = [
   "처리 옵션",
   "처리 대상자",
   "처리자",
-  "처리 사유",
   "처리 날짜",
   "조치",
 ];
 
 export const editOptions = [
-  { label: "경고", value: "warn", width: "w-[74px]" },
-  { label: "일시정지", value: "pause", width: "w-[100px]" },
-  { label: "영구정지", value: "permanentStop", width: "w-[100px]" },
-  { label: "처리없음", value: "none", width: "w-[100px]" },
+  { label: "경고", value: "WARNING", width: "w-[74px]" },
+  { label: "일시정지", value: "SUSPENSION", width: "w-[100px]" },
+  { label: "영구정지", value: "BAN", width: "w-[100px]" },
+  { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];
+
+// TODO: 백엔드가 어떤 분류로 주는지 재확인
+export const continentKR:Record<string, string> = {
+  "AS": "아시아/호주",
+  "AM": "미국/중남미",
+  "EU": "유럽",
+  "CN": "중국",
+  "JP": "일본",
+  "AF": "아프리카/중동",
+  "KR": "국내"
+}
+
+export const categoryKR:Record<string, string> = {
+  "PO": "정치",
+  "EC": "경제",
+  "SO": "사회",
+  "CU": "문화",
+  "EN": "엔터",
+  "SP": "스포츠",
+  "IT": "IT/과학",
+  "CO": "칼럼",
+  "ETC": "기타",
+}
+
+export const timeMap: Record<number, Time> = {  30: "T3", 40: "T4", 50: "T5", 60: "T6", 90: "T9", 120: "T12", 150: "T15"};
+export const speakCountMap: Record<number, SpeakCount> = {
+  3: "THREE",
+  4: "FOUR",
+  5: "FIVE",
+  6: "SIX",
+  7: "SEVEN",
+  8: "EIGHT",
+  9: "NINE",
+  10: "TEN",
+};
+
+export const roomStatusMap: Record<string, string> = {
+  "waiting" : "WAITING",
+  "ongoing": "DEBATE",
+  "voting": "VOTING",
+  "result": "CLOSED",
+}

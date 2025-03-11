@@ -1,101 +1,86 @@
-import { useEffect, useRef, useState } from "react";
-
-import AudienceCard from "./../AudienceCard";
+import { useEffect, useState } from "react";
 import ChatWindow from "./ChatWindow";
 import Counter from "./Counter";
-import ExitModal from "./ExitModal";
+import ExitModal from "../../common/Modal";
 import ParticipantBox from "../ParticipantBox";
 import exit from "../../../assets/icons/exit.svg";
-import profile from "../../../assets/icons/profile.svg";
-import { useRoomStore } from "../../../stores/roomStateStore";
+import { useNavigate } from "react-router";
+import { useModalStore } from "../../../stores/useModal";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function OngoingDebate() {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 2000);
   }, []);
 
-  const { roomSettings } = useRoomStore();
-  const [turnCount] = useState(roomSettings.turn!);
-  const timerRef = useRef(roomSettings.time!)
-  const { setRoomState } = useRoomStore();
-  const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+  const openModal = useModalStore((state) => state.openModal);
+
+  const handleExitClick = () => {
+    openModal('정말로 나가시겠습니까?', () => {
+      navigate('/main');
+    });
+  };
   
+  const {roomInfoDetails, position} = useDebateWebSocket()
 
   return (
     <>
       {isLoading ? (
         <section className="flex justify-center items-center md:gap-10 sm:gap-5 gap-[5px] min-h-screen">
-          <ParticipantBox label="PROS" labelAlignment="center" />
+          <ParticipantBox label="PROS" labelAlignment="center" participants={roomInfoDetails.proUsers} color={position === "pro" ? "blue" : ""}/>
           <span className="text-white font-bold md:text-[24px] sm:text-[18px] text-[14px] font-jersery">vs</span>
-          <ParticipantBox label="CONS" labelAlignment="center" color="blue" />
+          <ParticipantBox label="CONS" labelAlignment="center" participants={roomInfoDetails.conUsers} color={position === "con" ? "blue" : ""}/>
         </section>
       ) : (
         <section
           className="flex justify-between md:min-h-screen h-screen items-center
-        md:gap-[20px]"
+        md:gap-[20px] md:px-10"
         >
-          {isExitModalOpen && (
-            <ExitModal setIsExitModalOpen={setIsExitModalOpen} />
-          )}
-          <div className="h-[728.4px] pt-[110px] md:block hidden">
+          <ExitModal />
+          <div className="h-[728.4px] md:pt-[120px] lg:pt-[116px]  md:block hidden">
             <ParticipantBox
               label="PROS"
               labelAlignment="start"
               hasReportBtn={true}
+              participants={roomInfoDetails.proUsers}
             />
           </div>
 
           <ChatWindow />
 
-          <div className="md:block hidden">
+          <div className="md:block hidden md:flex md:flex-col md:justify-start h-[700px]">
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
-              <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
-              <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />
+              <Counter label="TURN" boxNumber={2} />
+              <Counter label="TIMER" boxNumber={3} />
             </div>
             <ParticipantBox
               label="CONS"
               labelAlignment="end"
-              color="blue"
               hasReportBtn={true}
+              participants={roomInfoDetails.conUsers}
             />
             <div className="space-y-2">
-              <section className="flex flex-col font-jersey gap-[10px] text-white  mt-[50px] ml-[20px] animate-slide-up">
+              {/* <section className="flex flex-col font-jersey gap-[10px] text-white  mt-[50px] ml-[20px] animate-slide-up">
                 <p>audience</p>
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
-              </section>
+              </section> */}
               <div className="flex justify-end">
                 <button
-                  onClick={() => {
-                    setIsExitModalOpen(true);
-                  }}
+                  onClick={handleExitClick}
                 >
                   <img src={exit} alt="토론방 나가기" />
                 </button>
               </div>
             </div>
-            <button
-              onClick={() => {
-                setRoomState("voting");
-              }}
-              className="text-white"
-            >
-              투표로
-            </button>
-            <button
-              onClick={() => {
-                setRoomState("won-by-default");
-              }}
-              className="text-white"
-            >
-              부전승으로
-            </button>
           </div>
         </section>
       )}

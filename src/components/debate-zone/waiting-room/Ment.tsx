@@ -6,11 +6,10 @@ export default function Ment() {
 
   useInterval(() => {
     setDots((prev) => (prev.length === 3 ? "" : prev + "."));
-    console.log(dots);
   }, 500);
 
   return (
-    <h3 className="text-white md:text-2xl sm:text-[16px] text-[14px] font-bold w-full text-center">
+    <h3 className="text-white md:text-[18px] sm:text-[16px] text-[14px] font-bold w-full text-center z-10">
       디베이터를 매칭하고 있습니다{dots}
     </h3>
   );

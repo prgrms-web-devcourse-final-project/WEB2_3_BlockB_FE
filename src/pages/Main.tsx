@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DebateSimpleInfos from "../components/main/DebateSimpleInfos";
 import NewsSimpleInfos from "../components/main/NewsSimpleInfos";
 import { date, day, month, year } from "../constants/index";
 import { Link } from "react-router";
+import { newsAPI } from "../api/news";
 
 export default function Main() {
   const [tab, setTeab] = useState(true);
-
+  const [newses, setNewses] = useState<NewsType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const fetchNewsTop10 = async () => {
+      try {
+        const newsTop10Results = await newsAPI.getNewsTop10();
+        setNewses(newsTop10Results.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+    };
+    fetchNewsTop10();
+  }, []);
   return (
     <>
-      <div className="flex justify-center text-black01 mb-[210px">
+      <div className="flex justify-center text-black01 md:mb-[210px] mb-[100px]">
         <div className="w-[1024px]  max-md:w-full ">
           <div className="flex justify-center">
             <div className="w-full h-[109px] max-lg:w-[768px] max-md:h-8  max-md:w-80 flex justify-between items-center mt-[30px] mb-[56px] max-md:mt-4 max-md:mb-5">
@@ -35,7 +49,7 @@ export default function Main() {
                 className={`${
                   tab
                     ? "  bg-blue03 text-white "
-                    : " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
+                    : " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] transform duration-200 hover:bg-gray02"
                 } w-[317px] h-[49px] max-md:w-40 max-md:h-5 justify-center flex rounded-t-[50px]`}
               >
                 news top 10
@@ -46,7 +60,7 @@ export default function Main() {
                 }}
                 className={`${
                   tab
-                    ? " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] "
+                    ? " shadow-[0px_-4px_4px_0px_rgba(0,0,0,0.25)] transform duration-200 hover:bg-gray02"
                     : " bg-blue03 text-white "
                 } w-[317px] h-[49px]  max-md:w-40 max-md:h-5 justify-center flex rounded-t-[50px]`}
               >
@@ -71,20 +85,17 @@ export default function Main() {
                 Focus
               </span>
               <Link
-                to={tab ? "/news" : "/debate-rooms"}
-                className="w-[112px] h-[34px] text-[20px] max-lg:text-[16px] max-md:text-[12px] max-md:w-[66px] max-md:h-[18px] bg-gray03 rounded-[10px] text-white justify-center items-center flex"
+                to={tab ? "/news?continent=all" : "/debate-rooms"}
+                className="w-[112px] h-[34px] text-[20px] max-lg:text-[16px] max-md:text-[12px] max-md:w-[66px] max-md:h-[18px] bg-gray03 rounded-[10px] text-white justify-center items-center flex transition transform duration-200 hover:scale-[1.04 hover:bg-blue01"
               >
                 view more
               </Link>
             </div>
           </div>
 
-          <NewsSimpleInfos dates={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} tab={tab} />
+          <NewsSimpleInfos datas={newses} tab={tab} isLoading={isLoading} />
 
-          <DebateSimpleInfos
-            tab={tab}
-            datas={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-          />
+          <DebateSimpleInfos tab={tab} />
         </div>
       </div>
     </>

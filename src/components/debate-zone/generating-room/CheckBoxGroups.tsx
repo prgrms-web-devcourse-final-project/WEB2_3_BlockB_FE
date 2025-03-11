@@ -11,6 +11,8 @@ import {
 
 import { useRoomStore } from "../../../stores/roomStateStore";
 import CheckBoxGroup from "./CheckBoxGroup";
+import { timeFormatter } from "../../../utils/timeFormatter";
+
 
 export default function CheckBoxGroups({
   generatingType,
@@ -29,11 +31,11 @@ export default function CheckBoxGroups({
   }[] = [
     { key: "continent", label: "대륙", list: continentChecklist },
     { key: "category", label: "카테고리", list: categoryChecklist },
-    { key: "participant", label: "참가인원", list: participantChecklist },
+    { key: "memberNumber", label: "참가인원", list: participantChecklist },
     { key: "stance", label: "입장", list: stanceChecklist },
     { key: "hasVote", label: "승패여부", list: hasVoteChecklist },
     { key: "time", label: "발언시간", list: timeChecklist },
-    { key: "turn", label: "발언횟수", list: turnChecklist },
+    { key: "speakCount", label: "발언횟수", list: turnChecklist },
   ];
 
   // 선택한 항목 관리
@@ -43,9 +45,9 @@ export default function CheckBoxGroups({
 
   useEffect(() => {
     const time = roomSettings.time ? +roomSettings.time : 0;
-    const turn = roomSettings.turn ? +roomSettings.turn : 0;
-    setCaculatedTime(time * turn);
-  }, [roomSettings.time, roomSettings.turn]);
+    const turn = roomSettings.speakCount ? +roomSettings.speakCount : 0;
+    setCaculatedTime(time * turn * 2);
+  }, [roomSettings.time, roomSettings.speakCount]);
 
   const handleCheck = (groupKey: keyof RoomSettings, key: string) => {
     const selectedItem = checklistGroups
@@ -84,9 +86,9 @@ export default function CheckBoxGroups({
         }
         return null;
       })}
-      <p className="flex justify-end text-[10px] mt-[2px] text-white">
+      <p className="flex justify-end md:text-[14px] text-[12px] mt-[2px] text-white">
         <span className="mr-[10px]">총 소요시간 :</span>
-        <span>{caculatedTime} 초</span>
+        <span>{timeFormatter(caculatedTime)}</span>
       </p>
     </section>
   );

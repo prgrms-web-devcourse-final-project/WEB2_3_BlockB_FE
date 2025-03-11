@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Header from "../components/common/Header";
 import ObserverOngoingRoom from "./../components/debate-zone/observer-mode/ObserverOngoingRoom";
 import ObserverWaitingRoom from "../components/debate-zone/observer-mode/ObserverWaitingRoom";
@@ -9,6 +8,12 @@ import VoteRoom from "../components/debate-zone/VoteRoom";
 import WinByDefault from "../components/debate-zone/WinByDefault";
 import { useObservingStore } from "../stores/observingStateStore";
 import ReportModal from "../components/debate-zone/ongoing-debate/ReportModal";
+import { ObserverWebSocketContextProvider } from "../contexts/ObserverWebSocketContext";
+import { useCheckRoomId } from "../hooks/useCheckRoomId";
+import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
+import { userApi } from "../api/user";
+import { useParams } from "react-router";
+import { debateRoomApi } from "../api/debatezone";
 
 export default function ObservingZone() {
   const { observingState } = useObservingStore();
@@ -28,16 +33,47 @@ export default function ObservingZone() {
     }
   }, [observingState]);
 
+  const [userName, setUserName] = useState(""); 
+  const {roomId} = useParams()
+  const {setObservingState} = useObservingStore()
+
+  const fetchUserNickname = async() => {
+    const userInfoResponse = await userApi.fetchMyProfile();
+    setUserName(userInfoResponse.data.nickname)
+  }
+
+  const setCurrentRoomState = async () => {
+    if (!roomId) return
+    const {data: currentRoomInfoResponse} = await debateRoomApi.fetchObserverOngoingRoomInfo(roomId)
+    const currentRoomState = currentRoomInfoResponse.status
+    console.log("observer 지금 토론방의 상태는?", currentRoomState)
+    currentRoomState === "WAITING" && setObservingState("waiting")
+    currentRoomState === "DEBATE" && setObservingState("ongoing")
+    currentRoomState === "VOTING" && setObservingState("voting")
+  }
+
+  useEffect(()=>{
+    fetchUserNickname()
+    setCurrentRoomState()
+  },[])
+
+
+  useCheckRoomId()
+
   return (
-    <div className="bg-[#070707] min-h-screen overflow-hidden">
-      <Header status={headerStatus} />
-      <ReportModal />
-      {observingState === "waiting" && <ObserverWaitingRoom />}
-      {observingState === "ongoing" && <ObserverOngoingRoom />}
-      {observingState === "won-by-default" && <WinByDefault />}
-      {observingState === "voting" && <VoteRoom isObserver={true} />}
-      {observingState === "replay" && <ReplayDebate isObserver={true} />}
-      {observingState === "result" && <VoteResult isObserver={true} />}
-    </div>
+    <DebateWebSocketProvider userName={userName} initialPosition="observer">
+      <ObserverWebSocketContextProvider userName={userName}>
+      <div className="bg-[#070707] min-h-screen overflow-hidden">
+        <Header status={headerStatus} />
+        <ReportModal  />
+        {observingState === "waiting" && <ObserverWaitingRoom />}
+        {observingState === "ongoing" && <ObserverOngoingRoom />}
+        {observingState === "won-by-default" && <WinByDefault />}
+        {observingState === "voting" && <VoteRoom isObserver={true} />}
+        {observingState === "replay" && <ReplayDebate isObserver={true} />}
+        {observingState === "result" && <VoteResult isObserver={true} />}
+      </div>
+      </ObserverWebSocketContextProvider>
+    </DebateWebSocketProvider>
   );
 }

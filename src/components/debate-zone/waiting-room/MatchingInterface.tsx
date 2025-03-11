@@ -1,10 +1,13 @@
+import { useEffect } from "react";
 import profile from "../../../assets/icons/profile-white.svg";
 import { useWaveAnimation } from "../../../hooks/useWaveAnimation";
 
 export default function MatchingInterface({
   isWaiting,
+  participants,
 }: {
   isWaiting: boolean;
+  participants: Participant[]
 }) {
   const waveRefs = useWaveAnimation(isWaiting);
 
@@ -14,16 +17,20 @@ export default function MatchingInterface({
     "border-neutral-50/30",
   ];
 
+  useEffect(()=> {
+    console.log("매칭 인터페이스에서 participants", participants)
+  }, [])
+
   return (
     <div className="absolute top-[250px] left-1/2 transform -translate-x-1/2 text-white">
       <div className="relative flex flex-wrap w-[153px] justify-center gap-[10px]">
         {/* 프로필 이미지 */}
-        {[...Array(3)].map((_, i) => (
+        {participants.map((participant, i) => (
           <figure key={i} className="relative rounded-full">
             <img
-              src={profile}
+              src={participant.profileUrl || profile}
               alt="프로필이미지"
-              className="md:w-[70px] md:h-[70px] w-[50px] h-[50px]"
+              className="rounded-full md:w-[70px] md:h-[70px] w-[50px] h-[50px]"
             />
           </figure>
         ))}

@@ -1,24 +1,33 @@
 import AudienceList from "./AudienceList";
-import ExitModal from "../ongoing-debate/ExitModal";
+import ExitModal from "../../common/Modal";
 import ObserverChatWindow from "./ObserverChatWindow";
 import exit from "../../../assets/icons/exit.svg";
-
-import { useObservingStore } from "../../../stores/observingStateStore";
 import { useState } from "react";
 import ObserverMobileChatMenu from "./ObserverMobileChatMenu";
 import ObserverMobileTab from "./ObserverMobileTab";
 import OngoingInfo from "./OngoingInfo";
 import DebateChatObserverMode from "./DebateChatObserverMode";
+import { useNavigate } from "react-router";
+import { useModalStore } from "../../../stores/useModal";
 
 
 export default function ObserverOngoingRoom() {
-  const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
-  // const { setObservingState } = useObservingStore();
+
   const [isDebateTabed, setIsDebateTabed] = useState<boolean>(true)
+  
+  const navigate = useNavigate();
+  const openModal = useModalStore((state) => state.openModal);
+
+  const handleExitClick = () => {
+    openModal('정말로 나가시겠습니까?', () => {
+      navigate('/main');
+    });
+  };
+
 
   return (
   <div className="flex md:flex-col justify-center items-center h-screen md:px-[100px] md:py-[30px]">
-  {isExitModalOpen && <ExitModal setIsExitModalOpen={setIsExitModalOpen} />}
+  <ExitModal/>
     {/* md 이상일 때만 나타남: 제목 및 타이머 */}
     <OngoingInfo />
     <div className="w-full md:flex flex-grow overflow-hidden">
@@ -34,7 +43,7 @@ export default function ObserverOngoingRoom() {
       <section className="flex md:flex-4 flex-col justify-between max-h-screen text-white">
           <AudienceList /> 
           <div className="flex justify-end md:flex hidden">
-            <button onClick={() => setIsExitModalOpen(true)}>
+            <button onClick={handleExitClick}>
               <img src={exit} alt="토론방 나가기" />
             </button>
           </div>

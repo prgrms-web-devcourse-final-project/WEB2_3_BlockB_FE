@@ -12,7 +12,7 @@ export default function TurnProgress() {
         </p>
         {/* progress dots */}
         <div className="flex gap-[5px]">
-          {Array.from({ length: roomSettings.turn || 0 }).map((_, index) => (
+          {Array.from({ length: roomSettings.speakCount || 0 }).map((_, index) => (
             <React.Fragment key={index}>
               <div className="w-4 h-4 relative">
                 <div className="w-4 h-4 left-0 top-0 absolute bg-zinc-700 rounded-full shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" />

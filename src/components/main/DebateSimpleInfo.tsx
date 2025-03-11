@@ -1,64 +1,86 @@
-import column from "../../assets/icons/column.svg";
+import { useState } from "react";
+import categoryIcons from "../../assets/icons/category/categoryIcon";
+import { useNavigate } from "react-router";
 
-export default function DebateSimpleInfo({ index }: { index: number }) {
-  let order;
-  switch (index) {
-    case 1:
-      order = "TOP";
-      break;
-    case 2:
-      order = "2nd";
-      break;
-    case 3:
-      order = "3rd";
-      break;
-    case 4:
-      order = "4th";
-      break;
-    case 5:
-      order = "5th";
-      break;
-    case 6:
-      order = "6th";
-      break;
-    case 7:
-      order = "7th";
-      break;
-    case 8:
-      order = "8th";
-      break;
-    case 9:
-      order = "9th";
-      break;
-    case 10:
-      order = "10th";
-      break;
-  }
+const categoryMap: Record<string, string> = {
+  PO: "정치",
+  EC: "경제",
+  SO: "사회",
+  CU: "문화",
+  EN: "연예",
+  SP: "스포츠",
+  IT: "IT",
+  CO: "칼럼",
+  ETC: "기타",
+};
+
+export default function DebateSimpleInfo({
+  index,
+  title,
+  speakCountType,
+  timeType,
+  memberNumberType,
+  categoryType,
+  roomId,
+}: {
+  index: number;
+  title: string;
+  speakCountType: number;
+  timeType: number;
+  memberNumberType: number;
+  categoryType: string;
+  roomId: string;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const order = index === 1 ? "TOP" : `${index}th`;
+  const totalSeconds = speakCountType * timeType;
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const formattedTime = `${minutes > 0 ? `${minutes}분` : ""} ${
+    seconds > 0 ? `${seconds}초` : ""
+  }`.trim();
+
+  const categoryName = categoryMap[categoryType] || "기타";
+
+  const categoryIcon = isHovered
+    ? categoryIcons[categoryName]?.["blue"]
+    : categoryIcons[categoryName]?.["gray"];
+
+  const navigate = useNavigate();
   return (
-    <div className="flex max-lg:justify-center">
-      <div className="w-full max-lg:w-[768px] max-md:w-80  h-[77px]  flex text-black01] font-extrabold justify-between items-center rounded-[10px] hover:bg-blue04 ">
-        <div className="flex h-[43px] items-center  ">
-          <p className="max-md:text-[14px]">{order}</p>
+    <div
+      className="flex max-lg:justify-center"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        className="w-full max-lg:w-[768px] max-md:w-80 h-[77px] flex items-center rounded-[10px] hover:bg-gray02 transform transition duration-200 hover:scale-[1.02]"
+        onClick={() => navigate(`/observing-zone/${roomId}`)}
+      >
+        <div className="flex items-center w-full px-2">
+          <p className="text-center w-[60px] max-md:text-[14px] font-bold">
+            {order}
+          </p>
+
           <img
-            src={column}
-            alt="컬럼 아이콘"
-            className="mx-[19px] max-md:hidden"
+            src={categoryIcon}
+            alt="카테고리 아이콘"
+            className="w-9 h-9 mx-2 max-md:hidden mr-6 transition duration-200"
           />
-          <p className="font-pretendard max-md:text-[12px] max-md:mx-2">
-            인공지능이 인간의 일자리를 대체할 것인가, 보완할 것인가?
+
+          <p className="flex-1 font-pretendard text-[18px] max-md:text-[12px] font-bold truncate">
+            {title}
           </p>
         </div>
-        <div className="flex font-pretendard h-[27px] text-[18px] max-md:text-[10px] w-44 justify-between max-md:w-28">
-          {["15분", "15번", "1 : 1"].map((item, index) => {
-            return (
-              <p
-                className="flex rounded-[10px] bg-[#D9D9D9] justify-center items-center w-[52px] max-md:w-8 h-8 max-md:h-4"
-                key={index}
-              >
-                {item}
-              </p>
-            );
-          })}
+
+        <div className="flex justify-between items-center w-[250px] font-pretendard text-[18px] max-md:text-[10px]">
+          <p className="flex justify-center items-center font-semibold rounded-[10px] bg-[#D9D9D9] w-[100px] h-8 max-md:h-4 max-md:mr-3 max-md:w-14 max-md:text-[10px]">
+            {formattedTime}
+          </p>
+
+          <p className="flex justify-center items-center font-semibold rounded-[10px] bg-[#D9D9D9] w-[60px] h-8 max-md:h-4 ">
+            {memberNumberType}:{memberNumberType}
+          </p>
         </div>
       </div>
     </div>

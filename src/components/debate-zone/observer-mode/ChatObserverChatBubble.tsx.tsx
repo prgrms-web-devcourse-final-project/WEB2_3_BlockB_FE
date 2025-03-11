@@ -1,13 +1,13 @@
-import profile from "../../../assets/icons/profile-white.svg";
-
 export default function ChatObserverChatBubble({
   isMine,
   username,
   message,
+  profileUrl,
 }: {
   isMine: boolean;
   username: string;
   message: string;
+  profileUrl: string;
 }) {
   return (
     <div className={`w-full flex ${isMine ? "justify-end" : "justify-start"} md:text-[16px] text-[14px]`}>
@@ -19,9 +19,9 @@ export default function ChatObserverChatBubble({
         } py-[5px] gap-[8px]`}
       >
         <img
-          src={profile}
-          alt=""
-          className="rounded-full w-[28px] h-[28px] bg-white mt-[7px]"
+          src={profileUrl}
+          alt={`${username}님의 프로필 사진`}
+          className="rounded-full w-[28px] h-[28px] mt-[7px]"
         />
         <div className="md:max-w-[320px] sm:max-w-[500px] max-w-[330px] ">
           <p className={`font-bold ${isMine ? "text-right" : ""}`}>

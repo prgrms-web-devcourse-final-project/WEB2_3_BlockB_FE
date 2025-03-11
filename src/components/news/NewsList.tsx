@@ -1,54 +1,69 @@
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 import bookmark from "../../assets/icons/bookmark.svg";
-import connection from "../../assets/icons/connection.svg";
 import like from "../../assets/icons/like.svg";
-type NewsItem = {
-  newsId: number;
-  newsTitle: string;
-  newsContent: string;
-  newsImgUrl: string;
-  newsType: string;
-  deliveryTime: string;
-};
+import TopButton from "../common/TopButton";
 
-interface NewsListProps {
-  newsData: NewsItem[];
-}
-
-export default function NewsList({ newsData }: NewsListProps) {
+export default function NewsList({
+  newsData,
+  loadMore,
+  hasMore,
+}: {
+  newsData: NewsType[];
+  loadMore: () => void;
+  hasMore: boolean;
+}) {
   const navigate = useNavigate();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-      {newsData.map((news) => (
-        <div
-          key={news.newsId}
-          className="rounded-lg cursor-pointer"
-          onClick={() => navigate(`/news/${news.newsId}`)}
-        >
-          <img
-            src={news.newsImgUrl}
-            alt="뉴스 이미지"
-            className="w-full h-48 object-cover rounded-lg"
-          />
-          <h3 className="text-lg font-extrabold mt-3">{news.newsTitle}</h3>
-          <div className="text-gray-500 text-sm flex justify-between mt-2">
-            <p>{news.newsType}</p>
-            <p>{new Date(news.deliveryTime).toLocaleString()}</p>
-          </div>
-          <p className="mt-2 text-sm text-gray-700">{news.newsContent}</p>
-          <div className="flex justify-end items-center mt-3 text-gray-500 text-sm">
-            <div className="flex space-x-3">
-              <img src={like} alt="좋아요" className="w-5 h-5" />
-              <span className="w-6 h-4">123</span>
-              <img src={bookmark} alt="북마크" className="w-5 h-5" />
-              <span className="w-6 h-4">12</span>
-              <img src={connection} alt="커넥트트" className="w-5 h-5" />
-              <span className="w-6 h-4">12</span>
+    <div ref={scrollContainerRef} className="relative h-screen overflow-auto">
+      <div className="grid grid-cols-1 gap-5 mt-6 md:grid-cols-3">
+        {newsData.map((news, index) => (
+          <div
+            key={index}
+            className="cursor-pointer rounded-[10px] px-2 transform transition duration-200 hover:scale-[1.02]"
+            onClick={() => navigate(`/news/${news.id}`)}
+          >
+            <img
+              src={news.imgUrl}
+              alt="뉴스 이미지"
+              className="object-cover w-full h-48 rounded-lg"
+            />
+            <h3 className="mt-3 text-lg font-extrabold lg:h-[74px] h-[102px]">
+              {news.title}
+            </h3>
+            <div className="flex justify-between mt-2 text-sm text-gray-500">
+              <p>{news.newsType}</p>
+              <p>{new Date(news.deliveryTime).toLocaleString()}</p>
+            </div>
+            <p className="mt-2 text-sm text-gray-700 md:h-[180px] sm:h-[200px] h-[160px] overflow-hidden break-words pb-2">
+              {news.content}
+            </p>
+            <div className="flex items-center justify-end mt-3 text-sm text-gray-500">
+              <div className="flex space-x-3">
+                <img src={like} alt="좋아요" className="w-5 h-5" />
+                <span className="w-6 h-4">{news.like}</span>
+                <img src={bookmark} alt="북마크" className="w-5 h-5" />
+                <span className="w-6 h-4">{news.bookmark}</span>
+              </div>
             </div>
           </div>
+        ))}
+      </div>
+
+      <TopButton scrollContainerRef={scrollContainerRef} />
+
+      {hasMore && (
+        <div className="flex items-center justify-center w-full h-20 mt-10">
+          <button
+            className="border border-gray02 text-gray01 border-solid rounded-lg w-40 text-[20px] font-sofiaSans bg-gray02  transform scale-105  transition-all duration-200 hover:scale-110 active:bg-white active:text-black01"
+            onClick={loadMore}
+          >
+            show more
+          </button>
         </div>
-      ))}
+      )}
     </div>
   );
 }

@@ -44,5 +44,5 @@ export default function Footer({ status }: { status: FooterStatusType }) {
         copyright | website made by team BlockB
       </p>
     </footer>
-  );
+  )
 }

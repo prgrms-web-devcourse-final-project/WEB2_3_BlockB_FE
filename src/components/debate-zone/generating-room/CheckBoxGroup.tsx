@@ -12,8 +12,8 @@ export default function CheckBoxGroup({
   onCheck: (key: string) => void;
 }) {
   return (
-    <section className="w-full flex flex-col md:flex-row font-bold items-start md:items-center gap-3">
-      <p className="text-white w-[66px] h-auto text-[16px] md:mr-[10px] ">
+    <section className="w-full flex flex-col md:flex-row font-bold items-start gap-3">
+      <p className="text-white w-[66px] h-auto text-[16px] md:mr-[10px] md:pt-[5.5px]">
         {label}
       </p>
       <div className="w-full h-auto flex flex-wrap gap-2 text-[14px]">

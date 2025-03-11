@@ -18,7 +18,7 @@ export default function WinByDefault() {
           </h2>
           <ParticipantBox label="PROS" labelAlignment="center" />
         </div>
-        <p className="md:block hidden text-white font-bold md:text-[24px] text-[20px] font-jersey">vs</p>
+        <p className="md:block hidden text-white font-bold md:text-[24px] text-[20px] font-jersey pt-[10px]">vs</p>
         <div>
           <h2
             className="text-white text-center md:text-3xl text-[18px] font-bold mb-[18px]"

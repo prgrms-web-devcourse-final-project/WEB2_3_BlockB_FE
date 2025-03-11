@@ -10,7 +10,8 @@ export default function NotFound() {
     setTimeout(() => {
       navigate("/main"); // 30초 후 메인으로 이동
     }, 30000);
-  }, [navigate]);
+  }, []);
+
   return (
     <div
       className="flex flex-col items-center justify-center h-screen text-center bg-cover bg-center"
@@ -21,7 +22,7 @@ export default function NotFound() {
         잘못된 경로로 들어왔습니다
       </p>
       <Link
-        to="/debate-rooms"
+        to="/news"
         className="text-white font-extrabold text-[16px] font-pretendard"
       >
         웹사이트로 돌아가서

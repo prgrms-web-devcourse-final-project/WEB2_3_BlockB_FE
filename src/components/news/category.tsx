@@ -1,59 +1,57 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import CategorySkeleton from "../common/skeleton/news/CatecorySkeleton";
+import { useNavigate, useSearchParams } from "react-router";
 
 const Category = () => {
+  const [serchParams] = useSearchParams();
+  const continentCode = serchParams.get("continent");
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-
   const categories = [
-    { name: "전체보기", path: "/news/?category=all" },
-    { name: "한국", path: "/news" },
-    { name: "중국", path: "/news" },
-    { name: "일본", path: "/news" },
-    { name: "유럽", path: "/news" },
-    { name: "아시아/호주", path: "/news" },
-    { name: "미국/중남미", path: "/news" },
-    { name: "아프리카/중동", path: "/news" },
+    { name: "전체보기", code: "all" },
+    { name: "한국", code: `KR` },
+    { name: "중국", code: `CN` },
+    { name: "일본", code: `JP` },
+    { name: "유럽", code: `EU` },
+    { name: "아시아/호주", code: `AS` },
+    { name: "미국/중남미", code: `AM` },
+    { name: "아프리카/중동", code: `AF` },
   ];
 
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 2000);
-  }, []);
-
-  const handleNavigate = (path: string) => {
-    navigate(path);
-  };
-
-  if (isLoading) return <CategorySkeleton />;
-
   return (
-    <div className="w-full md:border text-gray-400 rounded-md md:p-4 text-left">
-      <div className="text-blue03 font-extrabold text-lg md:p-2 mb-2 font-pretendard">
+    <div className="w-full text-left text-gray-400 rounded-md md:border md:p-4">
+      <div className="mb-2 text-lg font-extrabold text-blue03 md:p-2 font-pretendard">
         카테고리
       </div>
 
-      {/* PC 일때때 */}
+      {/* PC */}
       <div className="hidden md:block">
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <div
-            key={category.path}
-            className="p-2 text-gray-500 font-bold font-pretendard hover:cursor-pointer hover:text-blue03 transition-colors"
-            onClick={() => handleNavigate(category.path)}
+            key={index}
+            className={`${
+              continentCode === category.code ? "text-blue03" : "text-gray-500"
+            } px-4 py-2 font-bold  transition-colors hover:bg-gray02 rounded-md cursor-pointer font-pretendard hover:text-blue03`}
+            onClick={() => {
+              navigate(`/news?continent=${category.code}`);
+            }}
           >
             {category.name}
           </div>
         ))}
       </div>
 
-      {/* 모바일 일때 */}
-      <div className="block md:hidden overflow-x-auto whitespace-nowrap scroll mb-5">
+      {/* 모바일 */}
+      <div className="block mb-5 overflow-x-auto md:hidden whitespace-nowrap scroll">
         <div className="flex gap-3">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <div
-              key={category.path}
-              className="px-4 py-2 bg-gray-100 rounded-md text-gray-500 font-bold font-pretendard cursor-pointer hover:text-blue03 transition-colors"
-              onClick={() => handleNavigate(category.path)}
+              key={index}
+              className={`${
+                continentCode === category.code
+                  ? "text-blue03"
+                  : "text-gray-500"
+              } px-4 py-2 font-bold  transition-colors bg-gray-100 rounded-md cursor-pointer font-pretendard hover:text-blue03`}
+              onClick={() => {
+                navigate(`/news?continent=${category.code}`);
+              }}
             >
               {category.name}
             </div>
