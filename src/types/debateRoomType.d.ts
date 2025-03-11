@@ -174,9 +174,11 @@ type DebateRoomInfo = {
 }
 
 // WebSocket Context Type
+type WebSocketEvent = "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left"
+type WebSocketStatus = "WAITING" | "DEBATE" | "VOTING" | "CLOSED"
 type WebSocketCommunicationType = {
-  event: "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left",
-  status?: "DEBATE" | "VOTING" | "CLOSED", 
+  event: WebSocketEvent,
+  status?: WebSocketStatus, 
   userName?: string;
   turn: "PRO" | "CON",
   position?: "pro" | "con" | "no_position";
