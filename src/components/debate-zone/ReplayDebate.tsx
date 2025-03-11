@@ -28,8 +28,6 @@ export default function ReplayDebate({
   fetchUserNickname();
   }, []);
 
-  //  TODO: Observer일 경우 찬반으로 나눠서 보여줘야 함
-
   const voteList: VoteInfo[] = [
     { label: "찬성", img: agree, value: "PRO" },
     { label: "반대", img: disagree, value: "CON"},
@@ -53,8 +51,8 @@ export default function ReplayDebate({
               message={msg.message}
               nickname={msg.userName! || "공지"} 
               profile={ msg.imageUrl || profile}
-              isMine={msg.userName === userNickname}
-              isOppenent={position !== msg.position || false}
+              isMine={isObserver ? (msg.position === "pro") : (msg.userName === userNickname)}
+              isOppenent={isObserver? (msg.position === "con") : (position !== msg.position || false)}
             />
           ))}
         </section>
