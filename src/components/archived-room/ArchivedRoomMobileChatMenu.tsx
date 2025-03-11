@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import { useModalStore } from "../../stores/useModal";
 import ParticipantBox from "../debate-zone/ParticipantBox";
 
-export default function ArchivedRoomMobileChatMenu() {
+export default function ArchivedRoomMobileChatMenu({proUsers, conUsers}: {proUsers: Participant[], conUsers: Participant[]}) {
   const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
@@ -53,8 +53,8 @@ export default function ArchivedRoomMobileChatMenu() {
               <img src={exit} alt="나가기 버튼" />
             </button>
           </div>
-          <ParticipantBox label="PROS" labelAlignment="left" hasReportBtn={true} />
-          <ParticipantBox label="CONS" labelAlignment="left" hasReportBtn={true} />
+          <ParticipantBox label="PROS" labelAlignment="left" hasReportBtn={true} participants={proUsers}/>
+          <ParticipantBox label="CONS" labelAlignment="left" hasReportBtn={true} participants={conUsers}/>
           <div className="flex flex-col gap-4 text-white"></div>
         </section>
       )}

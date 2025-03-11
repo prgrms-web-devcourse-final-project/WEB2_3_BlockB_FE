@@ -1,9 +1,9 @@
 import ArchivedRoomInfoDropdown from "./ArchivedRoomInfoDropdown";
 
-export default function ArchivedRoomObserverMobileTab({ isDebateTabed, setIsDebateTabed }: { isDebateTabed: boolean; setIsDebateTabed: (isTabed: boolean) => void }) {
-   return (
+export default function ArchivedRoomObserverMobileTab({ isDebateTabed, setIsDebateTabed, roomInfo }: { isDebateTabed: boolean; setIsDebateTabed: (isTabed: boolean) => void, roomInfo: DebateRoomInfo | undefined}) {
+   if(roomInfo) return (
       <section className="md:hidden flex gap-4 h-[24px] border-b border-gray01 items-center px-2">
-        <ArchivedRoomInfoDropdown />
+        <ArchivedRoomInfoDropdown roomInfo={roomInfo} />
         <div className="relative flex gap-2">
           <div
             onClick={() => setIsDebateTabed(true)}
