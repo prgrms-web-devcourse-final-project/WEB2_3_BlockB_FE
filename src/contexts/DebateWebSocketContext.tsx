@@ -6,6 +6,7 @@ import { debateRoomApi } from "../api/debatezone";
 import { useObservingStore } from "../stores/observingStateStore";
 
 type DebateWebSockContextType = {
+  websocketStatus: WebSocketStatus;
   messages: WebSocketCommunicationType[];
   sendMessage: (message: string) => void;
   isWaitingRecruitment: boolean;
@@ -58,6 +59,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   const [isWaitngVote, setIsWaitingVote] = useState(true)
   const [leftTurn, setLeftTurn] = useState<number>(0)
   const [debateCountDown, setDebateCountDown] = useState<number>(0)
+  const [websocketStatus, setWebSocketStatus] = useState<WebSocketStatus>("WAITING")
 
   const { setRoomState } = useRoomStore();
   const { setObservingState } = useObservingStore()
@@ -188,11 +190,12 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
           if (parsedMessage.status === "VOTING") {
             setIsWaitingVote(false);
           }
-          if (parsedMessage.status === "CLOSED") {    
+          if (parsedMessage.status === "CLOSED") { 
+            setWebSocketStatus("CLOSED")   
             stompClient?.deactivate();
             setTimeout(() => {
               navigate("/main");
-            }, 8000); 
+            }, 10000); 
           }
           
         }
@@ -229,7 +232,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
+    <DebateWebSockContext.Provider value={{ websocketStatus, messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
       {children}
     </DebateWebSockContext.Provider>
   );

@@ -36,6 +36,7 @@ export default function ReplayDebate({
 
   const {moveState} = useVote(isObserver)
 
+  const {websocketStatus} = useDebateWebSocket()
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
@@ -56,7 +57,7 @@ export default function ReplayDebate({
             />
           ))}
         </section>
-        {!hasVoted ?  <section className="flex flex-col items-center gap-[14px] font-bold text-white">
+        {(!hasVoted && websocketStatus !== "CLOSED") ?  <section className="flex flex-col items-center gap-[14px] font-bold text-white">
           <p className="font-jersey text-[24px]">VOTE</p>
           <div className="flex flex-col gap-[20px]">
             {voteList.map((voteInfo, index) => (
