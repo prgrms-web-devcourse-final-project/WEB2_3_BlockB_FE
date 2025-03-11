@@ -81,35 +81,38 @@ export default function Header({ status }: { status: HeaderStatusType }) {
                   role === "ROLE_ADMIN"
                     ? "w-[460px] max-md:w-[220px]"
                     : "w-[360px] max-md:w-[180px]"
-                } flex h-[29px] justify-between text-[24px] max-md:text-[12px] items-center font-sofiaSans text-black01`}
+                } flex h-[29px] justify-between text-[24px] max-md:text-[13px] items-center font-sofiaSans text-black01`}
               >
                 <Link to={"/news?continent=all"}>News</Link>
                 <Link to={"/debate-rooms"}>Debate Rooms</Link>
                 <Link to={"/debaters"}>Debaters</Link>
-                {role === "ROLE_ADMIN" ? <Link to={"/admin"}>Admin</Link> : ""}
+                {role === "ROLE_ADMIN" && <Link to={"/admin"}>Admin</Link>}
               </div>
             </div>
             <div className="flex items-center gap-1 space-x-1 md:space-x-4">
-              <button
-                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-              >
-                <div className="relative">
-                  <img
-                    className="max-md:w-[11px] max-md:h-[14px]"
-                    src={
-                      status === "debate-waiting"
-                        ? notificationWhite
-                        : notification
-                    }
-                    alt="알림"
-                  />
-                  {data?.pages[0].data.unreadCount > 0 && (
-                    <span className="absolute top-[-3px] right-[-10px]  bg-red-500 text-white text-[10px] font-bold px-1 rounded-full">
-                      {data?.pages[0].data.unreadCount}
-                    </span>
-                  )}
-                </div>
-              </button>
+              {role === "ROLE_ADMIN" && (
+                <button
+                  onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                >
+                  <div className="relative">
+                    <img
+                      className="max-md:w-[11px] max-md:h-[14px]"
+                      src={
+                        status === "debate-waiting"
+                          ? notificationWhite
+                          : notification
+                      }
+                      alt="알림"
+                    />
+                    {data?.pages[0].data.unreadCount > 0 && (
+                      <span className="absolute top-[-3px] right-[-10px]  bg-red-500 text-white text-[10px] font-bold px-1 rounded-full">
+                        {data?.pages[0].data.unreadCount}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              )}
+
               <button onClick={() => navigate(`/user-page/${userId}`)}>
                 <img
                   className="md:w-[35px] w-[16px] md:h-[35px] h-[16px] rounded-full"
