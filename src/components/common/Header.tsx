@@ -90,7 +90,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
               </div>
             </div>
             <div className="flex items-center gap-1 space-x-1 md:space-x-4">
-              {role === "ROLE_ADMIN" && (
+              {role !== "ROLE_ADMIN" && (
                 <button
                   onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                 >
