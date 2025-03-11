@@ -38,6 +38,11 @@ export default function ReplayDebate({
 
   const {websocketStatus} = useDebateWebSocket()
 
+  const replayAnnounceMessage = () => {
+    if (websocketStatus === "CLOSED") return "이미 투표가 완료됐습니다"
+    else if (hasVoted) return "이미 투표권을 행사하셨습니다"
+  }
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
       <h1 className="text-white font-pretendard font-bold md:text-[24px] text-[18px] text-center md:mb-[30px] mt-[10px] mb-5">
@@ -69,7 +74,7 @@ export default function ReplayDebate({
           </div>
         </section>
         : <section className="flex flex-col justify-center">
-            <p className="text-center text-game_blue01">이미 투표권을 행사하셨습니다</p>
+            <p className="text-center text-game_blue01">{replayAnnounceMessage()}</p>
             <div className="w-full flex md:flex-col md:gap-3 justify-between mt-[60px] md:text-[16px] text-[14px]">
               <button
                 onClick={()=> moveState("result")}
