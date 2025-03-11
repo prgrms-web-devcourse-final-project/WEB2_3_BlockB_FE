@@ -48,7 +48,7 @@ export default function ObserverOngoingRoom() {
           </div>
           {/* 참관자 챗 */}
           <ObserverChatWindow isDebateTabed={isDebateTabed}/> 
-        </section>
+      </section>
     </div>
 </div>
 

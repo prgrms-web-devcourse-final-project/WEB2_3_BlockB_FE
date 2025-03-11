@@ -60,8 +60,8 @@ export default function ObserverMobileChatMenu() {
             <img src={hambuger} alt="사이드 바 버튼" />
         </button>
         {/* 사이드바 */}
-        {isSidebarOpen && <section ref={sidebarRef} className={`absolute right-0 top-0 min-h-screen bg-black w-1/2 flex flex-col gap-4 p-6 
-        ${isSidebarOpen ? "animate-slideIn" : "animate-slideOut"}`}>
+                {isSidebarOpen && <section ref={sidebarRef} className={`absolute right-0 top-0 min-h-screen bg-black w-1/2 flex flex-col gap-4 p-6 
+                ${isSidebarOpen ? "animate-slideIn" : "animate-slideOut"}`}>
                 <div className="flex justify-end">
                     <button onClick={handleExitClick}>
                         <img src={exit} alt="나가기 버튼" />
