@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import logoWhite from "../../assets/icons/logo-white.png";
+import logoWhite from "../../assets/icons/logo-white-big.svg";
 import logo from "../../assets/icons/logo.svg";
 import notificationWhite from "../../assets/icons/notification-white.svg";
 import notification from "../../assets/icons/notification.svg";
