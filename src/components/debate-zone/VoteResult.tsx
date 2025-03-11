@@ -17,7 +17,7 @@ export default function VoteResult({
   const aggregate = voteResult.agreeNumber + voteResult.disagreeNumber + voteResult.neutralNumber
 
   if(isCountingVotes) return <LoadingBar isLoading={isCountingVotes} color="white" speed={230}/>
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen px-[10px]">
       <section className="flex flex-col justify-between w-[643px]">
@@ -29,7 +29,6 @@ export default function VoteResult({
             VOTE RESULT
           </h2>
           <ResultGraph
-            isWatingResult={true}
             prosPercentage={(voteResult.agreeNumber / aggregate) * 100 || 0}
             consPercentage={(voteResult.disagreeNumber / aggregate) * 100 || 0}
             noVotePercentage={(voteResult.neutralNumber / aggregate) * 100 || 0}

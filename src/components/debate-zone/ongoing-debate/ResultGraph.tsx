@@ -1,10 +1,8 @@
 export default function ResultGraph({
-  isWatingResult,
   prosPercentage = 0,
   consPercentage = 0,
   noVotePercentage = 0,
 }: {
-  isWatingResult: boolean;
   prosPercentage?: number;
   consPercentage?: number;
   noVotePercentage?: number;
@@ -16,11 +14,8 @@ export default function ResultGraph({
         <p className="text-white mb-1">찬성 ({prosPercentage}%)</p>
         <div className="w-full bg-gray-700 rounded-full h-6 relative overflow-hidden">
           <div
-            className={`bg-blue-500 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2`}
-            style={{
-              width: isWatingResult ? "0%" : `${prosPercentage}%`,
-              transition: 'width 1s ease-in-out', 
-            }}
+            className="bg-blue-500 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2"
+            style={{ width: `${prosPercentage}%` }}
           >
             {prosPercentage}%
           </div>
@@ -32,12 +27,8 @@ export default function ResultGraph({
         <p className="text-white mb-1">반대 ({consPercentage}%)</p>
         <div className="w-full bg-gray-700 rounded-full h-6 relative overflow-hidden">
           <div
-            className={`bg-red-500 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2`}
-            style={{
-              width: isWatingResult ? "0%" : `${consPercentage}%`,
-              transition: 'width 1s ease-in-out', 
-              transitionDelay: '0.2s', 
-            }}
+            className="bg-red-500 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2"
+            style={{ width: `${consPercentage}%` }}
           >
             {consPercentage}%
           </div>
@@ -49,12 +40,8 @@ export default function ResultGraph({
         <p className="text-white mb-1">기권 ({noVotePercentage}%)</p>
         <div className="w-full bg-gray-700 rounded-full h-6 relative overflow-hidden">
           <div
-            className={`bg-blue-300 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2`}
-            style={{
-              width: isWatingResult ? "0%" : `${noVotePercentage}%`,
-              transition: 'width 1s ease-in-out', 
-              transitionDelay: '0.4s', 
-            }}
+            className="bg-blue-300 h-6 rounded-full text-white text-sm font-bold flex items-center justify-end pr-2"
+            style={{ width: `${noVotePercentage}%` }}
           >
             {noVotePercentage}%
           </div>
