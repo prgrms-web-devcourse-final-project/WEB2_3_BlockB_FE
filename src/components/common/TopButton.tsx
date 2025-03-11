@@ -11,8 +11,10 @@ export default function TopButton({ scrollContainerRef }: TopButtonProps) {
   const [showButton, setShowButton] = useState(false);
   const [hover, setHover] = useState(false);
 
-  const topBtnColor = pathname === "/" ? "#FBFBFB" : "#474747";
-  const bgColor = pathname === "/" ? "bg-black" : "bg-white";
+  const topBtnColor =
+    pathname === "/" || "/debate-zone/new-debate" ? "#FBFBFB" : "#474747";
+  const bgColor =
+    pathname === "/" || "/debate-zone/new-debate" ? "bg-black" : "bg-white";
 
   useEffect(() => {
     const handleScroll = () => {
