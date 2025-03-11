@@ -28,7 +28,7 @@ export default function VoteRoom({ isObserver = false }: { isObserver?: boolean 
               투표
             </button>
           </div>
-          <p className="text-white font-bold md:text-[30px] text-[18px] font-jersey pt-[10px]">vs</p>
+          <p className="text-white font-bold md:text-[30px] text-[18px] font-jersey">vs</p>
           <div className="flex flex-col items-center gap-[26px]">
             <ParticipantBox label="CONS" labelAlignment="center" participants={roomInfoDetails.conUsers}/>
             <button onClick={() => onVoteWithStageChanged("CON", "result")} className={btnClass}>
