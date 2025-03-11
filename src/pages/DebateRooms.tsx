@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DebateRoomList from "../components/debate-room/DebateRoomList";
 import FilterSection from "../components/debate-room/FilterSection";
 import searchIcon from "../assets/icons/search.svg";
@@ -7,50 +7,9 @@ import { debatesAPI } from "../api/debates";
 import { Client, Frame, IMessage } from "@stomp/stompjs";
 import Pagination from "../components/common/Pagenation";
 import useDebounce from "../hooks/useDebounce";
-import { useNavigate } from "react-router";
-import speechBubble from "../assets/icons/speechBubble.svg";
-
-type ActiveFilter = "참여가능" | "종료";
-
-function ActiveFilterSection({
-  selectedActive,
-  setSelectedActive,
-}: {
-  selectedActive: ActiveFilter;
-  setSelectedActive: (val: ActiveFilter) => void;
-}) {
-  const activeFilters: ActiveFilter[] = ["참여가능", "종료"];
-  const navigate = useNavigate();
-  return (
-    <div className="flex items-center justify-between mb-6">
-      <div className="flex items-center gap-4">
-        {activeFilters.map((filter) => (
-          <button
-            key={filter}
-            onClick={() => setSelectedActive(filter)}
-            className={
-              selectedActive === filter
-                ? "bg-blue03 text-white px-3 py-1 rounded-full"
-                : "bg-gray-100 text-gray-700 px-3 py-1 rounded-full"
-            }
-          >
-            {filter}
-          </button>
-        ))}
-      </div>
-
-      <button
-        onClick={() => navigate(`/debate-zone/new-debate`)}
-        className="flex items-center justify-center px-2 py-2 text-white rounded-md md:w-auto bg-blue-950"
-      >
-        토론방 개설
-        <span className="ml-2">
-          <img src={speechBubble} alt="말풍선" className="w-5 h-5 mx-1" />
-        </span>
-      </button>
-    </div>
-  );
-}
+import ActiveFilterSection, {
+  ActiveFilter,
+} from "../components/debaters/ActiveFilterSection";
 
 const mapContinentToCode = (continent: string): string => {
   const continentMap: Record<string, string> = {
@@ -120,17 +79,23 @@ export default function DebateRooms() {
   const [selectedParticipant, setSelectedParticipant] = useState<string>("");
   const [selectedSort, setSelectedSort] = useState<string>("최신순");
 
-  const [debateRooms, setDebateRooms] = useState<DebateRoomInfo[]>([]);
+  const [debateRooms, setDebateRooms] = useState<any[]>([]); // <= DebateRoom 타입
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const latestSort = useRef(selectedSort);
+  const latestActive = useRef(selectedActive);
+  const clientRef = useRef<Client | null>(null);
+
+  useEffect(() => {
+    latestSort.current = selectedSort;
+    latestActive.current = selectedActive;
+  }, [selectedSort, selectedActive]);
 
   const availableSortOptions =
     selectedActive === "종료" ? ["최신순", "인기순"] : sortOptions;
-
-  const apiSortValue = selectedSort === "인기순" ? "popular" : "recent";
 
   // 필터 리셋
   const resetFilters = () => {
@@ -142,14 +107,20 @@ export default function DebateRooms() {
     resetFilters();
   }, [selectedActive]);
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+    if (clientRef.current) {
+      clientRef.current.deactivate();
+      clientRef.current = null;
+    }
 
+    setIsLoading(true);
+    setDebateRooms([]);
+
+    const fetchData = async () => {
       const continentCode = mapContinentToCode(selectedContinent);
       const categoryCode = mapCategoryToCode(selectedCategory);
       const participantCode = mapParticipantToCode(selectedParticipant);
 
-      if (selectedActive === "종료") {
+      if (latestActive.current === "종료") {
         try {
           const response = await debatesAPI.getFinishedDebates(
             debouncedSearchTerm,
@@ -157,7 +128,7 @@ export default function DebateRooms() {
             categoryCode,
             participantCode,
             currentPage,
-            apiSortValue
+            latestSort.current === "인기순" ? "popular" : "recent"
           );
 
           setDebateRooms(response.content);
@@ -169,6 +140,7 @@ export default function DebateRooms() {
         }
       } else {
         console.log("STOMP 웹소켓 활성화 시도...");
+
         const WS_URL = import.meta.env.VITE_WS_URL;
         const client = new Client({
           brokerURL: `${WS_URL}/room-list/filtered?continent=${encodeURIComponent(
@@ -181,6 +153,8 @@ export default function DebateRooms() {
           reconnectDelay: 5000,
         });
 
+        clientRef.current = client;
+
         client.onConnect = (frame: Frame) => {
           console.log("STOMP 웹소켓 연결 성공:", frame);
 
@@ -190,12 +164,12 @@ export default function DebateRooms() {
               console.log("웹소켓 메시지 수신:", parsedData);
 
               let debateRoomsData = [];
-              if (selectedSort === "최신순") {
-                debateRoomsData = parsedData.roomSortedByCreatedAt || [];
-              } else if (selectedSort === "임박순") {
-                debateRoomsData = parsedData.roomSortedByUserCount || [];
-              } else if (selectedSort === "인기순") {
-                debateRoomsData = parsedData.observerCurrent || [];
+              if (latestSort.current === "최신순") {
+                debateRoomsData = parsedData.roomSortedByCreatedAt;
+              } else if (latestSort.current === "임박순") {
+                debateRoomsData = parsedData.roomSortedByUserCount;
+              } else if (latestSort.current === "인기순") {
+                debateRoomsData = parsedData.observerCurrent;
               }
 
               if (!debateRoomsData) {
@@ -204,9 +178,7 @@ export default function DebateRooms() {
                 return;
               }
 
-              console.log("웹소켓에서 받은 debateRoomsData:", debateRoomsData);
-
-              const transformedData: DebateRoomInfo[] = debateRoomsData
+              const transformedData = debateRoomsData
                 .map((room: any) => {
                   if (!room.debateRoomResponse) {
                     console.warn("유효한 debateRoomResponse 없음", room);
@@ -214,11 +186,6 @@ export default function DebateRooms() {
                   }
 
                   const meta = room.debateRoomResponse;
-
-                  console.log(
-                    `웹소켓 데이터 확인 - timeType: ${meta.timeType}, speakCountType: ${meta.speakCountType}`
-                  );
-
                   const totalTime =
                     (meta.timeType ?? 0) * (meta.speakCountType ?? 0);
                   const minutes = Math.floor(totalTime / 60);
@@ -234,7 +201,7 @@ export default function DebateRooms() {
                     categoryType: meta.categoryType || "ETC",
                     continentType: meta.continentType || "",
                     member: meta.memberNumberType ?? 1,
-                    time: formattedTime, // 변환된 시간 적용
+                    time: formattedTime,
                     speakingCount: meta.speakCountType ?? 0,
                     proUsersCount: meta.proUsers?.length ?? 0,
                     conUsersCount: meta.conUsers?.length ?? 0,
@@ -242,34 +209,43 @@ export default function DebateRooms() {
                 })
                 .filter(Boolean);
 
-              console.log("최종 변환된 debateRooms 데이터:", transformedData);
-
               setDebateRooms(transformedData);
               setIsLoading(false);
             } catch (error) {
               console.error("웹소켓 데이터 변환 오류:", error);
             }
           });
-
           setTimeout(() => {
             if (client.connected) {
               client.publish({
                 destination: "/app/filteredUpdate",
-                body: JSON.stringify({ message: "테스트 메시지 전송" }),
+                body: JSON.stringify({ message: "최신 토론방 요청" }),
               });
-              console.log("메시지 전송 완료");
             } else {
-              console.warn("STOMP 웹소켓이 아직 연결되지 않음");
+              console.warn(
+                "STOMP 웹소켓이 아직 연결되지 않음 (초기 메시지 전송 실패)"
+              );
             }
           }, 500);
+
+          const intervalId = setInterval(() => {
+            if (client.connected) {
+              client.publish({
+                destination: "/app/filteredUpdate",
+                body: JSON.stringify({ message: "최신 토론방 요청" }),
+              });
+              console.log("5초 간격 요청");
+            }
+          }, 5000);
+
+          return () => {
+            console.log("웹소켓 연결 종료");
+            client.deactivate();
+            clearInterval(intervalId);
+          };
         };
 
         client.activate();
-
-        return () => {
-          console.log("STOMP 웹소켓 연결 종료");
-          client.deactivate();
-        };
       }
     };
 

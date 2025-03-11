@@ -24,19 +24,19 @@ interface FinishedDebatesResponse {
     totalElements: number;
     totalPages: number;
     size: number;
-    content: DebateRoomInfoRaw[]; // API 응답 데이터 구조
+    content: DebateRoomInfoRaw[];
   };
 }
 
 interface DebateRoomInfoRaw {
-  uuid: string; // 기존 `roomId` -> `uuid` 변경
+  uuid: string;
   title: string;
   description: string;
   categoryType: string;
   continentType: string;
-  memberNumberType: number; // 기존 `member` → `memberNumberType`
-  timeType: number; // 기존 `time` → `timeType`
-  speakCountType: number; // 기존 `speakingCount` → `speakCountType`
+  memberNumberType: number;
+  timeType: number;
+  speakCountType: number;
   proUsers: Participant[];
   conUsers: Participant[];
   status: "CLOSED";
@@ -95,7 +95,6 @@ const getFinishedDebates = async (
 
     return {
       content: data.content.map((room: DebateRoomInfoRaw): DebateRoomInfo => {
-        // 🔹 초 단위 계산 (웹소켓과 동일)
         const totalSeconds = room.timeType * room.speakCountType;
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
@@ -110,8 +109,8 @@ const getFinishedDebates = async (
           categoryType: room.categoryType,
           continentType: room.continentType,
           member: room.memberNumberType,
-          time: formattedTime, // ✅ 변환된 시간 적용 (웹소켓과 동일)
-          speakingCount: room.speakCountType.toString(), // ✅ 숫자를 문자열로 변환
+          time: formattedTime,
+          speakingCount: room.speakCountType.toString(),
           proUsersCount: room.proUsers.length,
           conUsersCount: room.conUsers.length,
         };
