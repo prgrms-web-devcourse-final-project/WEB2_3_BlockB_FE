@@ -2,23 +2,31 @@ import { useEffect, useState } from "react";
 import timer from "../../../assets/icons/timer.svg";
 import turn from "../../../assets/icons/turn.svg";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
+import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
 
 export default function Counter({
   label,
   boxNumber,
+  isObserverRoom = false
 }: {
   label: string;
   boxNumber: number;
+  isObserverRoom?: boolean
 }) {
   const [displayCount, setDisplayCount] = useState<string[]>([]);
 
-  const {leftTurn, debateCountDown} = useDebateWebSocket()
+  const { leftTurn, debateCountDown } = useDebateWebSocket();
+  const {leftTurnAtObserverView} = useObserverWebSocket()
+
   useEffect(() => {
-    const paddedCount = ((label === "TURN" ? leftTurn : debateCountDown) ?? 0).toString().padStart(boxNumber, "0");
+    const isTurnLabel = label === "TURN";
+    const count = isTurnLabel ? (isObserverRoom ? leftTurnAtObserverView : leftTurn) : debateCountDown;
+    const paddedCount = (count ?? 0).toString().padStart(boxNumber, "0");
+
     setDisplayCount(paddedCount.split(""));
   }, [debateCountDown, leftTurn]);
 
-  
+
   return (
     <div className="font-bold font-jersey flex md:flex-col flex-row md:gap-[2px] gap-[10px] items-center">
       <div className="flex items-center gap-[2px] justify-end">
