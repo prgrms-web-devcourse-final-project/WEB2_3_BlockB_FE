@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Category from "../components/news/Category";
+import Category from "../components/news/category";
 import bookmark from "../assets/icons/bookmark.svg";
 import bookmarked from "../assets/icons/bookmarked.svg";
 import like from "../assets/icons/like.svg";
@@ -49,8 +49,8 @@ export default function NewsDetail() {
     <div className="w-full h-screen overflow-hidden font-pretendard">
       <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0 md:gap-6">
         <div className="order-1 w-full md:w-1/6 md:ml-3">
-        {/* TODO: category 이동 */}
-          <Category  />
+          {/* TODO: category 이동 */}
+          <Category />
         </div>
         <div className="order-2 w-full overflow-auto md:w-5/6 md:mr-3">
           {isLoading ? (
