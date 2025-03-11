@@ -208,11 +208,14 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
           setRoomState("voting");
           setObservingState("voting");
          }
-         if (parsedMessage.message === "투표가 종료되었습니다. 투표 결과 집계중..."){
+         if (parsedMessage.message === "투표가 종료되었습니다. 투표 결과 집계중...") {
           setRoomState("result");
           setObservingState("result");
-          getVoteResult();
-         }
+        
+          setTimeout(() => {
+            getVoteResult();
+          }, 2000);
+        }
         }
 
         if (parsedMessage.event === "user_joined") {

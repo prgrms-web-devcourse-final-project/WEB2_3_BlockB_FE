@@ -2,25 +2,28 @@ import { useParams } from "react-router";
 import flag from "../../../assets/icons/flag-white.svg";
 import profile from "../../../assets/icons/profile-white.svg";
 import { useReportModalStore } from "../../../stores/reportModalStore";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { debateRoomApi } from "../../../api/debatezone";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
+import { memo } from "react";
 
-export default function AudienceList() {
+const AudienceList = () => {
   const { openModal } = useReportModalStore();
-
-  const handleOpenReportModal = (userNickname: string, userId: number) => (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-    openModal({
-      targetNickname: userNickname,
-      targetUserId: userId,
-      targetType: "CHAT",
-      roomId: null,
-    });
-  };
-
   const { roomId } = useParams();
   const { setRoomInfoDetails, roomInfoDetails } = useDebateWebSocket();
+
+  const handleOpenReportModal = useCallback(
+    (userNickname: string, userId: number) => (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.stopPropagation();
+      openModal({
+        targetNickname: userNickname,
+        targetUserId: userId,
+        targetType: "CHAT",
+        roomId: null,
+      });
+    },
+    [openModal]
+  );
 
   useEffect(() => {
     const fetchRoomInfoInObserverZone = async () => {
@@ -29,7 +32,7 @@ export default function AudienceList() {
       setRoomInfoDetails(data);
     };
     fetchRoomInfoInObserverZone();
-  }, [roomId]);
+  }, [roomId, setRoomInfoDetails]);
 
   return (
     <div className="hidden md:flex w-full h-[176px] font-jersey text-white flex-col justify-normal items-end gap-[5px]">
@@ -70,4 +73,7 @@ export default function AudienceList() {
       </div>
     </div>
   );
-}
+};
+
+// 메모이제이션 적용
+export default memo(AudienceList);

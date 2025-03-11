@@ -27,7 +27,6 @@ const fetchWaitingRoomInfo = async (roomId: string) => {
 const fetchOngoingRoomInfo = async (roomId: string) => {
     try {
         const response = await axiosInstance.get(`/api/debates/${roomId}`);
-        console.log("🌸 토론중 토론방 정보 가져오기 성공",response.data);
         return response.data;
     } catch (error) {
         console.error("❌ 진행 중인 토론방 정보를 불러오지 못했습니다", error);
