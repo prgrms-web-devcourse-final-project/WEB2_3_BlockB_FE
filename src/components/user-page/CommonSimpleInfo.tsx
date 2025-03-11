@@ -10,7 +10,7 @@ export default function CommonSimpleInfo({ type, data }: CommonSimpleInfoProps) 
   const navigate = useNavigate();
 
   const goToLinkedPage = () => {
-    type === "news" ? navigate(`/news/${data.newsId}`) : navigate(`/`); // TODO: 뉴스 아카이빙 페이지 추가 예정
+    type === "news" ? navigate(`/news/${data.newsId}`) : navigate(`/archived-room/${data.debateId}`); 
   };
 
   return (
