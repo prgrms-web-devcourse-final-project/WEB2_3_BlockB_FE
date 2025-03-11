@@ -1,4 +1,17 @@
-export default function ArchivedRoomObserverChat({ isDebateTabed }: { isDebateTabed: boolean }) {
+import { useEffect, useState } from "react"
+import { userApi } from "../../api/user";
+import ChatObserverChatBubble from "../debate-zone/observer-mode/ChatObserverChatBubble.tsx";
+
+export default function ArchivedRoomObserverChat({ isDebateTabed, logs }: { isDebateTabed: boolean, logs: ArchivedChatLog[]}) {
+  const [currentUserName, setCurrentUserName] = useState<string>("")
+  useEffect(() => {
+      const fetchUserNickname = async () => {
+        const userResponse = await userApi.fetchMyProfile();
+        setCurrentUserName(userResponse.data.nickname);
+      };
+  
+      fetchUserNickname();
+    }, []);
   return (
         <section
           id="chatwindow"
@@ -9,13 +22,13 @@ export default function ArchivedRoomObserverChat({ isDebateTabed }: { isDebateTa
           <div className="flex-grow overflow-y-auto">
           <div className="md:w-[378px] md:h-[376px] flex flex-col flex-grow p-[10px] font-pretendard flex flex-col gap-[12px] overflow-y-auto">
 
-            {/* {observerMessages.map((msg)=>
+            {logs.map((msg)=>
             <ChatObserverChatBubble
-                isMine={msg.userName === currentUserName}
-                username={currentUserName}
-                message={msg.message}
-                profileUrl={msg.imageUrl || profile}
-            />)} */}
+                isMine={msg.nickname === currentUserName}
+                username={msg.nickname}
+                message={msg.content}
+                profileUrl={msg.profileUrl}
+            />)}
 
             </div>
           </div>

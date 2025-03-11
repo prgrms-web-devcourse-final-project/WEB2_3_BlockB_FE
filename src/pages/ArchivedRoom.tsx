@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router";
 import ArchivedRoomMobileChatMenu from "../components/archived-room/ArchivedRoomMobileChatMenu";
-import { useModalStore } from "../stores/useModal";
 import { useEffect, useState } from "react";
 import exit from "../assets/icons/exit.svg";
 import ArchivedRoomObserverMobileTab from "../components/archived-room/ArchivedRoomObserverMobileTab";
@@ -12,18 +11,11 @@ import { debateRoomApi } from "../api/debatezone";
 
 export default function ArchivedRoom() {
     const [isDebateTabed, setIsDebateTabed] = useState<boolean>(true);
-  
     const navigate = useNavigate();
-    const openModal = useModalStore((state) => state.openModal);
-  
-    const handleExitClick = () => {
-      openModal('정말로 나가시겠습니까?', () => {
-        navigate('/main');
-      });
-    };
 
-    const [archivedChatLogs, setArchivedChatLogs] = useState();
-    const [archivedRoomInfoDetails, setArchivedRoomInfoDetails] = useState<DebateRoomInfo | undefined>(undefined);
+    const [debaterChatLogs, setDebaterChatLogs] = useState<ArchivedChatLog[]>([]);
+    const [observerChatLogs, setObserverChatLogs] = useState<ArchivedChatLog[]>([])
+    const [archivedRoomInfoDetails, setArchivedRoomInfoDetails] = useState<DebateRoomInfo | undefined>();
     const { roomId } = useParams();
 
     useEffect(() => {
@@ -31,16 +23,20 @@ export default function ArchivedRoom() {
             if (!roomId) return;
             try {
                 const { data: archivedDebateData } = await userApi.fetchArchivedDebateDetails(roomId);
-                setArchivedChatLogs(archivedDebateData);
+                setDebaterChatLogs(archivedDebateData.filter((chat: ArchivedChatLog) => chat.position !== "NO_POSITION").reverse());
+                setObserverChatLogs(archivedDebateData.filter((chat: ArchivedChatLog) => chat.position === "NO_POSITION").reverse())
                 const { data: roomInfoDetails } = await debateRoomApi.fetchOngoingRoomInfo(roomId);
                 setArchivedRoomInfoDetails(roomInfoDetails);
             } catch (error) {
                 console.log("저장된 토론방 정보 가져오는 도중 애러 발생", error);
                 navigate("/not-found");
-            }
+            } 
         };
         loadArchivedDebateLogs();
     }, [roomId]);
+    
+
+    if (!archivedRoomInfoDetails) return <div></div>
   
     return (
         <div className="bg-[#070707] min-h-screen overflow-hidden">
@@ -65,18 +61,18 @@ export default function ArchivedRoom() {
                             roomInfo={archivedRoomInfoDetails}
                         />
                         {/* 디베이터 챗 */}
-                        <ArchivedRoomDebateChat isDebateTabed={isDebateTabed} />
+                        <ArchivedRoomDebateChat isDebateTabed={isDebateTabed} logs={debaterChatLogs}/>
                     </div>
                     {/* 우측 */}
-                    <section className="flex md:flex-4 flex-col justify-between max-h-screen text-white">
-                        <ArchivedRoomDebaterList />
+                    <section className="flex md:flex-4 flex-col gap-[20px] justify-between max-h-screen text-white">
+                        <ArchivedRoomDebaterList roomInfo={archivedRoomInfoDetails}/>
                         <div className="flex justify-end md:flex hidden">
-                            <button onClick={handleExitClick}>
+                            <button onClick={() => navigate(-1)}>
                                 <img src={exit} alt="토론방 나가기" />
                             </button>
                         </div>
                         {/* 참관자 챗 */}
-                        <ArchivedRoomObserverChat isDebateTabed={isDebateTabed} />
+                        <ArchivedRoomObserverChat isDebateTabed={isDebateTabed} logs={observerChatLogs} />
                     </section>
                 </div>
             </div>

@@ -41,7 +41,7 @@ export default function ObserverOngoingRoom() {
       {/* 우측 */}
       <section className="flex md:flex-4 flex-col justify-between max-h-screen text-white">
           <DebaterList /> 
-          <div className="flex justify-end md:flex hidden">
+          <div className="flex justify-end md:flex hidden mt-[10px]">
             <button onClick={handleExitClick}>
               <img src={exit} alt="토론방 나가기" />
             </button>
