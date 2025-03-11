@@ -18,11 +18,11 @@ export default function NewsList({
 
   return (
     <div ref={scrollContainerRef} className="relative h-screen overflow-auto">
-      <div className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 mt-6 md:grid-cols-3">
         {newsData.map((news, index) => (
           <div
             key={index}
-            className="cursor-pointer rounded-[10px] transform transition duration-200 hover:scale-[1.02]"
+            className="cursor-pointer rounded-[10px] px-2 transform transition duration-200 hover:scale-[1.02]"
             onClick={() => navigate(`/news/${news.id}`)}
           >
             <img
