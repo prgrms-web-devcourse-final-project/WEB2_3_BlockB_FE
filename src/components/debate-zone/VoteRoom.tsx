@@ -11,7 +11,7 @@ export default function VoteRoom({ isObserver = false }: { isObserver?: boolean 
   const {roomInfoDetails, isWaitngVote } = useDebateWebSocket()
 
   if (isWaitngVote) return <LoadingBar isLoading={isWaitngVote} color="white" speed={30}/>
-  
+
   return (
     <div className="flex flex-col justify-center items-center gap-[30px] min-h-screen">
       <div>
@@ -28,7 +28,7 @@ export default function VoteRoom({ isObserver = false }: { isObserver?: boolean 
               투표
             </button>
           </div>
-          <p className="text-white font-bold md:text-[30px] text-[18px] font-jersey">vs</p>
+          <p className="text-white font-bold md:text-[30px] text-[18px] font-jersey pt-[10px]">vs</p>
           <div className="flex flex-col items-center gap-[26px]">
             <ParticipantBox label="CONS" labelAlignment="center" participants={roomInfoDetails.conUsers}/>
             <button onClick={() => onVoteWithStageChanged("CON", "result")} className={btnClass}>

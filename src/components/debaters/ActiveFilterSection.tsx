@@ -32,7 +32,7 @@ export default function ActiveFilterSection({
 
       <button
         onClick={() => navigate(`/debate-zone/new-debate`)}
-        className="flex items-center justify-center px-2 py-2 text-white rounded-md md:w-auto bg-blue-950"
+        className="flex items-center justify-center px-2 py-1 text-white rounded-md md:w-auto bg-blue-950"
       >
         토론방 개설
         <span className="ml-2">

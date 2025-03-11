@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useRoomStore } from "../../../stores/roomStateStore";
 import Counter from "./Counter";
 import hamburger from "../../../assets/icons/hamburger.svg";
 import ParticipantBox from "../ParticipantBox";
@@ -10,13 +9,8 @@ import { useNavigate } from "react-router";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function MobileChatMenu() {
-  const { roomSettings } = useRoomStore();
-  const [turnCount] = useState(roomSettings.speakCount!);
-  const timerRef = useRef(roomSettings.time!);
-
   const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -42,15 +36,15 @@ export default function MobileChatMenu() {
     });
   };
 
-  const {roomInfoDetails} = useDebateWebSocket()
-
+  const {roomInfoDetails } = useDebateWebSocket()
+  
   return (
     <div className="md:hidden flex justify-between items-center relative px-2 py-3 h-10">
       {/* 나가기 모달 */}
       <ExitModal />
       <div className="flex justify-between text-white font-jersey flex sm:gap-[60px] gap-[40px]">
-        <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
-        <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />
+        <Counter label="TURN" boxNumber={2} />
+        <Counter label="TIMER" boxNumber={3}/>
       </div>
       <button onClick={() => setIsSideBarOpen(!isSidebarOpen)}>
         <img src={hamburger} alt="사이드 바 버튼" />
@@ -59,7 +53,7 @@ export default function MobileChatMenu() {
       {isSidebarOpen && (
         <section
           ref={sidebarRef}
-          className={`absolute right-0 top-0 min-h-screen bg-black w-1/2 flex flex-col gap-4 p-6 
+          className={`absolute right-0 top-0 min-h-screen bg-black w-1/2 flex flex-col gap-4 p-6 z-10
     ${isSidebarOpen ? "animate-slideIn" : "animate-slideOut"}`}
         >
           <div className="flex justify-end">

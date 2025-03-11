@@ -15,8 +15,8 @@ const generateDebateRoom = async (initialRoomInfo: RoomInfoRequest) => {
 // ✅ 토론방 대기실 참관자용 토론 정보 가져오기
 const fetchWaitingRoomInfo = async (roomId: string) => {
     try {
-        const response = await axiosInstance.get(`/api/debates/observer/waitroom/${roomId}`);
-        console.log(response.data);
+        const response = await axiosInstance.get(`/api/debates/waitroom/${roomId}`);
+        console.log("🍭 대기자 토론정보 가져오기")
         return response.data;
     } catch (error) {
         console.error("❌ 대기실 정보를 불러오지 못했습니다", error);
@@ -27,7 +27,6 @@ const fetchWaitingRoomInfo = async (roomId: string) => {
 const fetchOngoingRoomInfo = async (roomId: string) => {
     try {
         const response = await axiosInstance.get(`/api/debates/${roomId}`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error("❌ 진행 중인 토론방 정보를 불러오지 못했습니다", error);

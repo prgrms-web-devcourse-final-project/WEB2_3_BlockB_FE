@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import logo from '../../assets/icons/logo.svg'; 
-import logoWhite from "../../assets/icons/logo-white.svg"
+import logoWhite from "../../assets/icons/logo-white-big.svg"
 
 interface LoadingBarProps {
   isLoading: boolean;

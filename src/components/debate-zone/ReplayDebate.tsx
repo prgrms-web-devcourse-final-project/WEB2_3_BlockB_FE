@@ -28,8 +28,6 @@ export default function ReplayDebate({
   fetchUserNickname();
   }, []);
 
-  //  TODO: Observer일 경우 찬반으로 나눠서 보여줘야 함
-
   const voteList: VoteInfo[] = [
     { label: "찬성", img: agree, value: "PRO" },
     { label: "반대", img: disagree, value: "CON"},
@@ -38,6 +36,12 @@ export default function ReplayDebate({
 
   const {moveState} = useVote(isObserver)
 
+  const {websocketStatus} = useDebateWebSocket()
+
+  const replayAnnounceMessage = () => {
+    if (websocketStatus === "CLOSED") return "이미 투표가 완료됐습니다"
+    else if (hasVoted) return "이미 투표권을 행사하셨습니다"
+  }
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
@@ -53,12 +57,12 @@ export default function ReplayDebate({
               message={msg.message}
               nickname={msg.userName! || "공지"} 
               profile={ msg.imageUrl || profile}
-              isMine={msg.userName === userNickname}
-              isOppenent={position !== msg.position || false}
+              isMine={isObserver ? (msg.position === "pro") : (msg.userName === userNickname)}
+              isOppenent={isObserver? (msg.position === "con") : (position !== msg.position || false)}
             />
           ))}
         </section>
-        {!hasVoted ?  <section className="flex flex-col items-center gap-[14px] font-bold text-white">
+        {(!hasVoted && websocketStatus !== "CLOSED") ?  <section className="flex flex-col items-center gap-[14px] font-bold text-white">
           <p className="font-jersey text-[24px]">VOTE</p>
           <div className="flex flex-col gap-[20px]">
             {voteList.map((voteInfo, index) => (
@@ -70,7 +74,7 @@ export default function ReplayDebate({
           </div>
         </section>
         : <section className="flex flex-col justify-center">
-            <p className="text-center text-game_blue01">이미 투표권을 행사하셨습니다</p>
+            <p className="text-center text-game_blue01">{replayAnnounceMessage()}</p>
             <div className="w-full flex md:flex-col md:gap-3 justify-between mt-[60px] md:text-[16px] text-[14px]">
               <button
                 onClick={()=> moveState("result")}
