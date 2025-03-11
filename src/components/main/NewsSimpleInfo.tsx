@@ -6,7 +6,7 @@ import bookmark from "../../assets/icons/bookmark.svg";
 export default function NewsSimpleInfo({ data }: { data: NewsType }) {
   return (
     <Link to={`/news/${data.id}`}>
-      <div className="w-[321px] h-[540px] max-lg:w-[369px] max-md:w-[320px]  max-md:h-[180px] flex flex-col justify-between font-pretendard">
+      <div className="w-[321px] h-[540px] max-lg:w-[369px] max-md:w-[320px]  max-md:h-[180px] flex flex-col justify-between font-pretendard hover:scale-[1.02]">
         <div className="max-md:flex max-md:gap-2 ">
           <img
             src={data.imgUrl}

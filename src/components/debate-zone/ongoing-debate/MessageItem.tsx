@@ -6,7 +6,7 @@ export default function MessageItem({
   isOppenent = false, // 상대방 편 메시지 여부
   isMine = true, // 내 메시지 여부(우측 정렬 중 내 메시지)
 }: {
-  key: number;
+  key: string;
   message: string;
   nickname: string;
   profile: string;
@@ -23,7 +23,7 @@ export default function MessageItem({
       <figure
         className={`rounded-full ${isOppenent ? "order-first" : "order-last"}`}
       >
-        <img src={profile} className="bg-cover md:w-[35px] md:h-[35px] w-[30px] h-[30px]" />
+        <img src={profile} className="rounded-full bg-cover md:w-[35px] md:h-[35px] w-[30px] h-[30px]" />
       </figure>
 
       <div

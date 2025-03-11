@@ -27,7 +27,7 @@ function LikeBookmarkSection({ datas }: { datas: NewsType[] }) {
 }
 function Desktop({ datas }: { datas: NewsType[] }) {
   return (
-    <div className="flex justify-center max-lg:hidden">
+    <div className="flex justify-center max-lg:hidden hover:scale-[1.02]">
       <div className="w-full h-[311px] mb-[50px] flex">
         <img
           src={datas[0].imgUrl}
@@ -56,7 +56,7 @@ function Desktop({ datas }: { datas: NewsType[] }) {
 
 function Tablet({ datas }: { datas: NewsType[] }) {
   return (
-    <div className="flex justify-center lg:hidden max-md:hidden">
+    <div className="flex justify-center lg:hidden max-md:hidden hover:scale-[1.02]">
       <div className="w-[768px] h-[250px] mb-[50px] flex">
         <img
           src={datas[0].imgUrl}
@@ -85,7 +85,7 @@ function Tablet({ datas }: { datas: NewsType[] }) {
 
 function Mobile({ datas }: { datas: NewsType[] }) {
   return (
-    <div className="flex justify-center lg:hidden md:hidden mb-[15px]">
+    <div className="flex justify-center lg:hidden md:hidden mb-[15px] hover:scale-[1.02]">
       <div className="flex flex-col w-[320px] h-[180px]">
         <div className="flex">
           <img

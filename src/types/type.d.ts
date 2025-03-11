@@ -1,4 +1,9 @@
-type HeaderStatusType = "default" | "debate-waiting" | "debate-ing" | "admin";
+type HeaderStatusType =
+  | "default"
+  | "debate-waiting"
+  | "debate-ing"
+  | "admin"
+  | "landing";
 
 type FooterStatusType = "default" | "landing";
 
@@ -38,8 +43,8 @@ interface NotificationType {
   typeId: number;
   content: string;
   statusType: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface NotificationDataType {
@@ -73,3 +78,5 @@ interface NotificationDataType {
     empty: boolean;
   };
 }
+
+type DeleteModalType = "delete" | "allDelete" | null;

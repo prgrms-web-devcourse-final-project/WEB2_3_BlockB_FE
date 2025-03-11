@@ -7,19 +7,19 @@ import { notificationAPI } from "../../api/notificaion";
 import { useUserStore } from "../../stores/userStore";
 import useGetNotifications from "../../hooks/useGetNotifications";
 import { useInView } from "react-intersection-observer";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NotificationList({
   status,
   onClose,
-  fetchNotificationData,
 }: {
   status: HeaderStatusType;
   onClose: () => void;
-  fetchNotificationData: () => void;
 }) {
   const { userId } = useUserStore();
+  const queryClient = useQueryClient();
   const [deleteNotificationId, setDeleteNotificationId] = useState<number>(0);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState<DeleteModalType>(null);
   const {
     data,
     isLoading,
@@ -28,47 +28,34 @@ export default function NotificationList({
     hasNextPage,
     isFetchingNextPage,
   } = useGetNotifications(userId!);
-  const [notifications, setNotifications] = useState<NotificationType[]>([]);
 
   const { ref, inView } = useInView();
 
   const openDeleteModal = (notificationId: number) => {
-    setDeleteModal(!deleteModal);
+    setDeleteModal("delete");
     setDeleteNotificationId(notificationId);
   };
   const closeDeleteModal = () => {
-    setDeleteModal(!deleteModal);
-  };
-  const fetchNotifications = async () => {
-    const notificationInfos = await notificationAPI.getNotifications(
-      userId!,
-      1
-    );
-    setNotifications(notificationInfos.data.notifications.content);
+    setDeleteModal(null);
   };
 
   const allNotificationsDelete = async () => {
     await notificationAPI.deleteAllNotifications(userId!);
-    setNotifications([]);
-    fetchNotificationData();
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
   const allNotificationsRead = async () => {
     await notificationAPI.putAllNotifications(userId!);
-    fetchNotifications();
-    fetchNotificationData();
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
 
   const notificationDelete = async (notificationId: number) => {
     await notificationAPI.deleteNotifications(notificationId);
-    fetchNotifications();
-    fetchNotificationData();
+    queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
 
   useEffect(() => {
     if (data) {
-      setNotifications(
-        data.pages.flatMap((page) => page.data.notifications.content)
-      ); // 모든 페이지의 데이터를 합쳐서 새로운 배열로 저장
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
     }
   }, [data]);
 
@@ -114,7 +101,7 @@ export default function NotificationList({
       onClick={handleOverlayClick}
     >
       <div
-        className={`absolute top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px] lg:max-w-[420px] border border-gray-200 ${bgColor}`}
+        className={`absolute w-[420px] top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px] lg:max-w-[420px] border border-gray-200 ${bgColor}`}
       >
         <div className="flex items-center justify-between px-2 sm:px-3">
           <h2 className={`text-base sm:text-lg font-semibold  ${textColor}`}>
@@ -132,7 +119,12 @@ export default function NotificationList({
             {localStorage.getItem("fcmToken") && (
               <div className="flex gap-2">
                 {[
-                  { content: "모두 삭제", function: allNotificationsDelete },
+                  {
+                    content: "모두 삭제",
+                    function: () => {
+                      setDeleteModal("allDelete");
+                    },
+                  },
                   { content: "모두 읽기", function: allNotificationsRead },
                 ].map((item, index) => (
                   <button
@@ -151,21 +143,21 @@ export default function NotificationList({
         {/* 알림 리스트 */}
         <div className="space-y-2 max-h-[70vh] overflow-y-auto font-pretendard ${textColor}">
           {localStorage.getItem("fcmToken") ? (
-            notifications.length > 0 ? (
+            data!.pages[0].data.notifications.content.length > 0 ? (
               <>
-                {notifications.map((notification, index) => (
-                  <NotificationItem
-                    key={index}
-                    isNew={notification.statusType === "UNREAD"}
-                    message={notification.content}
-                    actionType={notification.notificationType}
-                    typeId={notification.typeId}
-                    id={notification.id}
-                    fetchNotifications={fetchNotifications}
-                    openDeleteModal={openDeleteModal}
-                    fetchNotificationData={fetchNotificationData}
-                  />
-                ))}
+                {data!.pages[0].data.notifications.content.map(
+                  (notification: NotificationType, index: number) => (
+                    <NotificationItem
+                      key={index}
+                      statusType={notification.statusType}
+                      message={notification.content}
+                      actionType={notification.notificationType}
+                      typeId={notification.typeId}
+                      id={notification.id}
+                      openDeleteModal={openDeleteModal}
+                    />
+                  )
+                )}
 
                 <div ref={ref} className="w-full h-10 "></div>
               </>
@@ -206,7 +198,7 @@ export default function NotificationList({
       </div>
       {deleteModal && (
         <div
-          className={`absolute w-full top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px] lg:max-w-[420px] border border-gray-200 bg-black/40 `}
+          className={`absolute w-[420px] top-[50px] h-72 overflow-auto md:top-[85px] right-[15px] md:right-[30px] mx-auto p-3 sm:p-4 rounded-lg shadow-lg max-w-[90%] sm:max-w-[400px]  lg:max-w-[420px] border border-gray-200 bg-black/40 `}
         >
           <div className="flex items-center w-full h-full">
             <div className="w-full p-4 rounded-lg bg-white/80 backdrop-blur-md">
@@ -217,7 +209,12 @@ export default function NotificationList({
                 <button
                   className="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
                   onClick={() => {
-                    notificationDelete(deleteNotificationId);
+                    if (deleteModal === "delete") {
+                      notificationDelete(deleteNotificationId);
+                    }
+                    if (deleteModal === "allDelete") {
+                      allNotificationsDelete();
+                    }
                     closeDeleteModal();
                   }}
                 >

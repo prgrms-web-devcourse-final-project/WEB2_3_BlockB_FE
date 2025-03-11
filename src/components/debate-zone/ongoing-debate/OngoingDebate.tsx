@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-
-import AudienceCard from "./../AudienceCard";
 import ChatWindow from "./ChatWindow";
 import Counter from "./Counter";
 import ExitModal from "../../common/Modal";
 import ParticipantBox from "../ParticipantBox";
 import exit from "../../../assets/icons/exit.svg";
-import profile from "../../../assets/icons/profile.svg";
 import { useRoomStore } from "../../../stores/roomStateStore";
 import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
 export default function OngoingDebate() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,13 +34,15 @@ export default function OngoingDebate() {
     console.log("턴 카운트",turnCount, timerRef.current)
   },[]);
 
+  const {roomInfoDetails, position} = useDebateWebSocket()
+
   return (
     <>
       {isLoading ? (
         <section className="flex justify-center items-center md:gap-10 sm:gap-5 gap-[5px] min-h-screen">
-          <ParticipantBox label="PROS" labelAlignment="center" />
+          <ParticipantBox label="PROS" labelAlignment="center" participants={roomInfoDetails.proUsers} color={position === "pro" ? "blue" : ""}/>
           <span className="text-white font-bold md:text-[24px] sm:text-[18px] text-[14px] font-jersery">vs</span>
-          <ParticipantBox label="CONS" labelAlignment="center" color="blue" />
+          <ParticipantBox label="CONS" labelAlignment="center" participants={roomInfoDetails.conUsers} color={position === "con" ? "blue" : ""}/>
         </section>
       ) : (
         <section
@@ -55,12 +55,13 @@ export default function OngoingDebate() {
               label="PROS"
               labelAlignment="start"
               hasReportBtn={true}
+              participants={roomInfoDetails.proUsers}
             />
           </div>
 
           <ChatWindow />
 
-          <div className="md:block hidden">
+          <div className="md:block hidden md:flex md:flex-col md:justify-start h-[700px]">
             <div className="flex justify-end text-white text-[14px] gap-[20px] mb-[50px]">
               <Counter label="TURN" boxNumber={2} initialCount={turnCount} />
               <Counter label="TIMER" boxNumber={3} initialCount={timerRef.current} />
@@ -68,18 +69,18 @@ export default function OngoingDebate() {
             <ParticipantBox
               label="CONS"
               labelAlignment="end"
-              color="blue"
               hasReportBtn={true}
+              participants={roomInfoDetails.conUsers}
             />
             <div className="space-y-2">
-              <section className="flex flex-col font-jersey gap-[10px] text-white  mt-[50px] ml-[20px] animate-slide-up">
+              {/* <section className="flex flex-col font-jersey gap-[10px] text-white  mt-[50px] ml-[20px] animate-slide-up">
                 <p>audience</p>
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
-              </section>
+              </section> */}
               <div className="flex justify-end">
                 <button
                   onClick={handleExitClick}

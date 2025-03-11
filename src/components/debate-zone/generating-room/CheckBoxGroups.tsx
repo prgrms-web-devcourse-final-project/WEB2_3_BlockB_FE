@@ -46,7 +46,7 @@ export default function CheckBoxGroups({
   useEffect(() => {
     const time = roomSettings.time ? +roomSettings.time : 0;
     const turn = roomSettings.speakCount ? +roomSettings.speakCount : 0;
-    setCaculatedTime(time * turn);
+    setCaculatedTime(time * turn * 2);
   }, [roomSettings.time, roomSettings.speakCount]);
 
   const handleCheck = (groupKey: keyof RoomSettings, key: string) => {

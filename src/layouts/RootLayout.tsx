@@ -58,6 +58,7 @@ const RootLayout = () => {
 
     // 페이지별 헤더/푸터 스타일 설정
     if (pathname === "/") {
+      setHeaderStatus("landing");
       setFooterStatus("landing");
     } else {
       setHeaderStatus("default");

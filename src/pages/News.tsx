@@ -1,27 +1,24 @@
-import { useState, useEffect, useRef } from "react";
-import search from "../assets/icons/search.svg";
-import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
-import NewsList from "../components/news/NewsList";
-import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearchSkeleton";
-import { newsAPI } from "../api/news";
-import Category from "../components/news/Category";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router";
+
+import { newsAPI } from "../api/news";
+import search from "../assets/icons/search.svg";
+import NewsList from "../components/news/NewsList";
+import Category from "../components/news/category";
+import NewsSkeleton from "../components/common/skeleton/news/NewsSkeleton";
+import FilterSearchSkeleton from "../components/common/skeleton/news/FilterSearchSkeleton";
 
 export default function News() {
   const [serchParams] = useSearchParams();
   const continentCode = serchParams.get("continent");
-
+  const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [newsData, setNewsData] = useState<NewsType[]>([]);
-  const [text, setText] = useState("");
   const [cursor, setCursor] = useState<number | null>(null);
   const [currentSearchTerm, setCurrentSearchTerm] = useState("");
   const [currentSort, setCurrentSort] = useState<"LATEST" | "POPULAR">(
     "LATEST"
   );
-  const observerRef = useRef<HTMLDivElement | null>(
-    null
-  ) as React.RefObject<HTMLDivElement>;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -68,7 +65,7 @@ export default function News() {
           setNewsData((prevNews) => [...prevNews, ...newsResults.data.content]);
         }
 
-        // 👇 데이터가 12개 미만이면 cursor를 null로 설정하고 이후 요청 막기
+        //  데이터가 12개 미만이면 cursor를 null로 설정하고 이후 요청 막기
         if (newsResults.data.content.length < 12) {
           setCursor(null);
         } else {
@@ -92,34 +89,15 @@ export default function News() {
     fetchAllNews(currentSort, true, continentCode!);
   }, [currentSort]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const firstEntry = entries[0];
-      if (firstEntry.isIntersecting && !isLoading) {
-        fetchAllNews(currentSort, false);
-      }
-    });
-    if (observerRef.current) observer.observe(observerRef.current);
-    return () => {
-      if (observerRef.current) observer.unobserve(observerRef.current);
-    };
-  }, [currentSort]);
-
   return (
     <div className="w-full h-screen overflow-y-hidden font-pretendard">
       <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0">
         {/* 카테고리 */}
-        <div className="order-1 w-full md:w-1/6 md:ml-3 md:order-1">
+        <div className="order-1 w-full md:w-1/6 md:ml-3 ">
           <Category />
         </div>
 
-        <div className="order-2 overflow-auto md:w-5/6 md:mr-3 md:ml-6 md:order-2">
+        <div className="order-2 overflow-auto md:w-5/6 md:mr-3 md:ml-6">
           {/* 필터 & 검색 바 */}
           {isLoading ? (
             <FilterSearchSkeleton />
@@ -186,7 +164,6 @@ export default function News() {
               newsData={newsData}
               loadMore={() => fetchAllNews(currentSort, false, continentCode!)}
               hasMore={cursor !== null}
-              loadMoreRef={observerRef}
             />
           )}
         </div>

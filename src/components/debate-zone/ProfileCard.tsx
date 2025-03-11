@@ -1,3 +1,4 @@
+import { useParams } from "react-router";
 import duse from "../../assets/icons/duse.svg";
 import flagWhite from "../../assets/icons/flag-white.svg";
 import flag from "../../assets/icons/flag.svg";
@@ -9,19 +10,22 @@ import { useReportModalStore } from "../../stores/reportModalStore";
 export default function ProfileCard({
   color,
   hasReportBtn = false,
+  participant,
 }: {
   color?: string;
   hasReportBtn?: boolean;
+  participant: Participant
 }) {
     const { openModal } = useReportModalStore();
-
+    const {roomId} = useParams()
     const handleOpenReportModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      if(!roomId) return
       e.stopPropagation()
       openModal({
-        targetNickname: "김예빈 어드민 계정",
-        targetUserId: 2,
+        targetNickname: participant.nickname,
+        targetUserId: participant.id,
         targetType: "CHAT",
-        roomId: null,
+        roomId: roomId,
       });
     };
   return (
@@ -41,22 +45,22 @@ export default function ProfileCard({
     >
       <div className="flex lg:gap-[21px] gap-1 items-center">
         <figure className="rounded-full">
-          <img src={profile} alt="" className="lg:w-[54px] lg:h-[54px] w-[25px] h-[25px]" />
+          <img src={ participant.profileUrl || profile} alt="" className="lg:w-[54px] lg:h-[54px] w-[25px] h-[25px] rounded-full" />
         </figure>
         <div className="flex flex-col gap-[2px]">
-          <p className="leading-0">imaria0218</p>
+          <p className="leading-0">{participant.nickname}</p>
           <div className="flex lg:gap-[10px] gap-[2px] lg:h-[22px] h-[11px]">
             <figure className="flex items-center rounded-full">
-              <img src={win} alt="" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
-              <figcaption>5</figcaption>
+              <img src={win} alt="승리" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
+              <figcaption>{participant.winNumber}</figcaption>
             </figure>
             <figure className="flex items-center rounded-full">
-              <img src={duse} alt="" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
-              <figcaption>3</figcaption>
+              <img src={duse} alt="무승부" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
+              <figcaption>{participant.drawNumber}</figcaption>
             </figure>
             <figure className="flex items-center rounded-full">
-              <img src={lose} alt="" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
-              <figcaption>0</figcaption>
+              <img src={lose} alt="패배" className="lg:w-[22px] lg:h-[22px] w-[11px] h-[11px] lg:mr-2 mr-1" />
+              <figcaption>{participant.defeatNumber}</figcaption>
             </figure>
           </div>
         </div>

@@ -5,7 +5,7 @@ interface ReportModalState {
   targetNickname: string;
   targetUserId: number | null;
   targetType: 'PROFILE' | 'CHAT';
-  roomId: number | null;
+  roomId: string | null;
   openModal: (data: Omit<ReportModalState, 'isOpen' | 'openModal' | 'closeModal'>) => void;
   closeModal: () => void;
 }

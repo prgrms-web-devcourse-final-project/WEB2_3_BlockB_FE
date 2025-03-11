@@ -12,7 +12,7 @@ interface WebSocketContextType {
 // ✅ Context 생성
 const ObserverWebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
 
-export const ObserverWebSocketContextProvider = ({ children, userName, position }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
+export const ObserverWebSocketContextProvider = ({ children, userName }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
   const [messages, setMessages] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
   const { roomId } = useParams<{ roomId: string }>();
@@ -28,14 +28,13 @@ export const ObserverWebSocketContextProvider = ({ children, userName, position 
   };
 
   useEffect(() => {
-    if (!roomId) return; // roomId가 없으면 WebSocket 연결하지 않음
+    if (!roomId || !userName ) return;
 
     const WS_URL = import.meta.env.VITE_WS_URL;
     const client = new Client({
       brokerURL: `${WS_URL}/observer/${roomId}`,
       connectHeaders: {
         userName,
-        position,
         roomId,
       },
       debug: (msg) => console.log("[STOMP DEBUG]:", msg),
@@ -44,11 +43,13 @@ export const ObserverWebSocketContextProvider = ({ children, userName, position 
 
     // ✅ STOMP 클라이언트가 연결되었을 때 실행
     client.onConnect = () => {
+      console.log("observer쪽 userName", userName)
       console.log("WebSocket Connected to:", `/topic/observer/${roomId}`);
       client.subscribe(`/topic/observer/${roomId}`, (message: Message) => {
         try {
+          console.log("🍎 observer subscribe 전달 받음 => 메시지 원본", message);
           const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
-          console.log("Received message:", parsedMessage);
+          console.log("🍎 observer subscribe 전달 받음 => 메시지 변형", parsedMessage);
 
           if (parsedMessage.message.length > 0) {
             setMessages((prevMessages) => [...prevMessages, parsedMessage]);

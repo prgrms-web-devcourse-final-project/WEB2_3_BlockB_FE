@@ -32,10 +32,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
-        <Route path="/" element={<Landing />} />
         <Route element={<RootLayout />}>
           {/* 로그인하지 않은 상태에서만 접근 가능 */}
           <Route element={<PublicRoute />}>
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/login/oauth2/callback/google"
@@ -74,7 +74,7 @@ function App() {
 
           {/* 임시 테스트용 -- 특정 룸에 특정 입장으로 들어갈 수 있음*/}
           <Route path="/debate-gate" element={<DebateRoomGate />} />
-      </Route>
+        </Route>
       </Routes>
     </QueryClientProvider>
   );
