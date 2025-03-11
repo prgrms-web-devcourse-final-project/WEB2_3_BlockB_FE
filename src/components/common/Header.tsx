@@ -42,7 +42,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
           <div className="w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] justify-between items-center bg-black01 text-white">
             <img
               src={logoWhite}
-              className="max-md:w-7 max-md:h-7 max-md:object-cover"
+              className="max-md:w-7 max-md:h-7 w-12 h-12 max-md:object-cover"
             />
             <p className="font-unifrakturCook text-[40px] max-md:text-[24px]">
               Earth Talk
