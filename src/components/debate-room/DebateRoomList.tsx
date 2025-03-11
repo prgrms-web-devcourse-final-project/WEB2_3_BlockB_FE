@@ -19,11 +19,12 @@ const formatTotalSpeakingTime = (timeKey: string, speakKey: string): string => {
 };
 
 type DebateRoomListProps = {
-  debateRooms: DebateRoomInfo[];
+  debateRooms: DebateRoom[];
+  isFinished: boolean;
   isLoading: boolean;
 };
 
-export type DebateRoomInfo = {
+export type DebateRoom = {
   proUsersCount: number;
   conUsersCount: number;
   roomId: string;
@@ -35,6 +36,10 @@ export type DebateRoomInfo = {
   speakingTimeSeconds: number; // 발언 시간 (초)
   speakingCount: string; // 찬/반 발언 횟수
   time: string; // 발언 시간
+  memeberNumberType: number; // 참여 인원
+  newsUrl: string; // 뉴스 링크
+  status: string; // 방 상태
+  timeType: number; // 시간 타입
 };
 
 // 카테고리 변환 매핑
@@ -53,14 +58,15 @@ const categoryMapping: { [key: string]: string } = {
 export default function DebateRoomList({
   debateRooms,
   isLoading,
-}: DebateRoomListProps) {
+  isFinished,
+}: DebateRoomListProps & { isFinished: boolean }) {
   const navigate = useNavigate();
   return (
     <>
       {isLoading ? (
         <DebateRoomSkeleton />
       ) : (
-        <table className="hidden md:table w-full border-collapse rounded-t-lg overflow-hidden">
+        <table className="hidden md:table w-full border-collapse rounded-t-lg  overflow-hidden">
           <thead className="bg-gray02 border-b rounded-t-lg">
             <tr className="text-gray-700 text-center whitespace-nowrap">
               <th className="p-3 first:rounded-tl-lg last:rounded-tr-lg">
@@ -113,12 +119,16 @@ export default function DebateRoomList({
                   </td>
                   <td className="p-3 flex space-x-2 justify-center">
                     <button
+                      disabled={
+                        isFinished || room.proUsersCount === room.member
+                      }
                       className={`px-3 py-1 text-white rounded-md ${
-                        room.proUsersCount === room.member
+                        isFinished || room.proUsersCount === room.member
                           ? "bg-gray-500 cursor-not-allowed"
                           : "bg-blue-500 hover:bg-[#0044aa]"
                       }`}
                       onClick={() =>
+                        !isFinished &&
                         navigate(`/debate-zone/${room.roomId}`, {
                           state: { stance: "pro" },
                         })
@@ -127,12 +137,16 @@ export default function DebateRoomList({
                       찬성
                     </button>
                     <button
+                      disabled={
+                        isFinished || room.conUsersCount === room.member
+                      }
                       className={`px-3 py-1 text-white rounded-md ${
-                        room.conUsersCount === room.member
+                        isFinished || room.conUsersCount === room.member
                           ? "bg-gray-500 cursor-not-allowed"
                           : "bg-blue-500 hover:bg-[#0044aa]"
                       }`}
                       onClick={() =>
+                        !isFinished &&
                         navigate(`/debate-zone/${room.roomId}`, {
                           state: { stance: "con" },
                         })
@@ -140,7 +154,14 @@ export default function DebateRoomList({
                     >
                       반대
                     </button>
-                    <button className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]">
+                    <button
+                      className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
+                      onClick={() =>
+                        navigate(`/observing-zone/${room.roomId}`, {
+                          state: { stance: "con" },
+                        })
+                      }
+                    >
                       참관
                     </button>
                   </td>
@@ -191,12 +212,14 @@ export default function DebateRoomList({
 
                 <div className="flex space-x-2 justify-end">
                   <button
+                    disabled={isFinished || room.proUsersCount === room.member}
                     className={`px-3 py-1 text-white rounded-md ${
-                      room.proUsersCount === room.member
+                      isFinished || room.proUsersCount === room.member
                         ? "bg-gray-500 cursor-not-allowed"
                         : "bg-blue-500 hover:bg-[#0044aa]"
                     }`}
                     onClick={() =>
+                      !isFinished &&
                       navigate(`/debate-zone/${room.roomId}`, {
                         state: { stance: "pro" },
                       })
@@ -205,12 +228,14 @@ export default function DebateRoomList({
                     찬성
                   </button>
                   <button
+                    disabled={isFinished || room.conUsersCount === room.member}
                     className={`px-3 py-1 text-white rounded-md ${
-                      room.conUsersCount === room.member
+                      isFinished || room.conUsersCount === room.member
                         ? "bg-gray-500 cursor-not-allowed"
                         : "bg-blue-500 hover:bg-[#0044aa]"
                     }`}
                     onClick={() =>
+                      !isFinished &&
                       navigate(`/debate-zone/${room.roomId}`, {
                         state: { stance: "con" },
                       })
@@ -218,7 +243,14 @@ export default function DebateRoomList({
                   >
                     반대
                   </button>
-                  <button className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]">
+                  <button
+                    className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
+                    onClick={() =>
+                      navigate(`/observing-zone/${room.roomId}`, {
+                        state: { stance: "con" },
+                      })
+                    }
+                  >
                     참관
                   </button>
                 </div>

@@ -12,7 +12,7 @@ const SortSection = ({
   setSelectedSort,
 }: SortSectionProps) => {
   return (
-    <div className="flex gap-8 mt-4">
+    <div className="flex gap-8 mt-4 mb-4">
       <div className="flex items-center gap-2">
         <img src={sortIcon} alt="정렬 아이콘" className="w-5 h-5" />
         <span className="text-gray-700 font-semibold">정렬</span>

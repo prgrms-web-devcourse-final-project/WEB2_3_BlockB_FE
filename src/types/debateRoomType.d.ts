@@ -8,8 +8,8 @@ type RoomType = {
 } | null;
 
 type ChecklistItem = {
-  dbKey: string | number | boolean; 
-  key: string; 
+  dbKey: string | number | boolean;
+  key: string;
   isChecked: boolean;
 };
 
@@ -23,7 +23,7 @@ type RoomSettings = {
   hasVote: boolean | null;
   time: number | null;
   speakCount: number | null;
-  link?: string | null
+  link?: string | null;
 };
 
 type VoteInfo = {
@@ -43,12 +43,7 @@ type DebaterType = {
   losses: number;
 };
 
-type NewsSource = 
-  | "JOONGANG"
-  | "HANI"
-  | "HANKYUNG"
-  | "HANKOOK"
-  | "SEGYE";
+type NewsSource = "JOONGANG" | "HANI" | "HANKYUNG" | "HANKOOK" | "SEGYE";
 
 const NewsTypeNames: Record<NewsSource, string> = {
   JOONGANG: "중앙일보",
@@ -58,14 +53,7 @@ const NewsTypeNames: Record<NewsSource, string> = {
   SEGYE: "세계일보",
 };
 
-type Continent =
-  | "AS"
-  | "AM"
-  | "EU"
-  | "CN"
-  | "JP"
-  | "AF"
-  | "KR";
+type Continent = "AS" | "AM" | "EU" | "CN" | "JP" | "AF" | "KR";
 
 const ContinentNames: Record<Continent, string> = {
   AS: "아시아/호주",
@@ -77,16 +65,7 @@ const ContinentNames: Record<Continent, string> = {
   KR: "국내",
 };
 
-type Category =
-  | "PO"
-  | "EC"
-  | "SO"
-  | "CU"
-  | "EN"
-  | "SP"
-  | "IT"
-  | "CO"
-  | "ETC";
+type Category = "PO" | "EC" | "SO" | "CU" | "EN" | "SP" | "IT" | "CO" | "ETC";
 
 const CategoryNames: Record<Category, string> = {
   PO: "정치",
@@ -100,7 +79,7 @@ const CategoryNames: Record<Category, string> = {
   ETC: "기타",
 };
 
-type Time = "T3" | "T4" | "T5" | "T6" | "T9" | "T12" | "T15"
+type Time = "T3" | "T4" | "T5" | "T6" | "T9" | "T12" | "T15";
 
 type SpeakCount =
   | "THREE"
@@ -131,28 +110,26 @@ type NewsLinkDetail = {
 
 type RoomInfoRequest = {
   newsId?: number | null;
-  newsUrl?: string | null,
+  newsUrl?: string | null;
   title: string;
   description: string;
-  memberNumber: MemberNumber; 
+  memberNumber: MemberNumber;
   continent: Continent;
   category: Category;
   time: Time;
   speakCount: SpeakCount;
   resultEnabled: boolean;
-  endTime?: string | null
+  endTime?: string | null;
 };
-
-
 
 type Participant = {
   id: number;
   nickname: string;
-  position: 'PRO' | 'CON';
+  position: "PRO" | "CON";
   winNumber: number;
   defeatNumber: number;
   drawNumber: number;
-}
+};
 
 type DebateRoomInfo = {
   roomId: string;
@@ -164,16 +141,28 @@ type DebateRoomInfo = {
   newsUrl: string;
   status: string;
   timeType: number;
+  member: string;
   speakCountType: number;
+  resultEnabled: boolean;
   participants: Participant[];
-}
+  speakingTimeSeconds?: number;
+};
 
 // WebSocket Context Type
 type WebSocketCommunicationType = {
-  event: "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left",
-  status?: "DEBATE" | "VOTING" | "CLOSED", // TODO: 백엔드가 DEBATING으로 주는지 DEBATE로 주는지 확인 => 명세서에 두가지 버전 모두 존재
+  event:
+    | "JOIN"
+    | "MESSAGE"
+    | "EXIT"
+    | "STATUS"
+    | "TURN"
+    | "NOTIFICATION"
+    | "user_joined"
+    | "error"
+    | "user_left";
+  status?: "DEBATE" | "VOTING" | "CLOSED"; // TODO: 백엔드가 DEBATING으로 주는지 DEBATE로 주는지 확인 => 명세서에 두가지 버전 모두 존재
   userName?: string;
-  turn: "PRO" | "CON",
+  turn: "PRO" | "CON";
   position?: "PRO" | "CON" | "NO_POSITION";
   message: string;
   timestamp?: string;
@@ -184,4 +173,3 @@ interface DebateWebSocketProviderProps {
   userName: string | null;
   position: string | null;
 }
-
