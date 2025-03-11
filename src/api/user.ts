@@ -86,7 +86,7 @@ const fetchArchivedDebateList = async (userId: number) => {
 };
 
 // 아카이브된 토론방 상세
-const fetchArchivedDebateDetails = async (debateId: number) => {
+const fetchArchivedDebateDetails = async (debateId: string) => {
   try {
     const response = await axiosInstance.get(
       `/api/users/mypage/${debateId}/debateChats`
