@@ -190,7 +190,6 @@ export default function DebateRooms() {
               console.log("웹소켓 메시지 수신:", parsedData);
 
               let debateRoomsData = [];
-
               if (selectedSort === "최신순") {
                 debateRoomsData = parsedData.roomSortedByCreatedAt || [];
               } else if (selectedSort === "임박순") {
@@ -199,13 +198,12 @@ export default function DebateRooms() {
                 debateRoomsData = parsedData.observerCurrent || [];
               }
 
-              if (!debateRoomsData.length) {
+              if (!debateRoomsData) {
                 console.warn("웹소켓 메시지에 유효한 토론방 데이터가 없음");
                 setDebateRooms([]);
                 return;
               }
 
-              // 📌 웹소켓 데이터 로그 출력
               console.log("웹소켓에서 받은 debateRoomsData:", debateRoomsData);
 
               const transformedData: DebateRoomInfo[] = debateRoomsData
@@ -217,12 +215,10 @@ export default function DebateRooms() {
 
                   const meta = room.debateRoomResponse;
 
-                  // 📌 timeType과 speakCountType 값 확인
                   console.log(
                     `웹소켓 데이터 확인 - timeType: ${meta.timeType}, speakCountType: ${meta.speakCountType}`
                   );
 
-                  // 🔹 발언 시간 변환 로직
                   const totalTime =
                     (meta.timeType ?? 0) * (meta.speakCountType ?? 0);
                   const minutes = Math.floor(totalTime / 60);

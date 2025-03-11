@@ -39,12 +39,17 @@ export default function DebateRoomList({
   isFinished,
 }: DebateRoomListProps & { isFinished: boolean }) {
   const navigate = useNavigate();
+
   return (
     <>
       {isLoading ? (
         <DebateRoomSkeleton />
+      ) : debateRooms.length === 0 ? (
+        <div className="text-center py-10 text-gray-500">
+          <p>현재 표시할 토론방이 없습니다.</p>
+        </div>
       ) : (
-        <table className="hidden md:table w-full border-collapse rounded-t-lg  overflow-hidden">
+        <table className="hidden md:table w-full border-collapse rounded-t-lg overflow-hidden">
           <thead className="bg-gray02 border-b rounded-t-lg">
             <tr className="text-gray-700 text-center whitespace-nowrap">
               <th className="p-3 first:rounded-tl-lg last:rounded-tr-lg">
@@ -154,6 +159,10 @@ export default function DebateRoomList({
       <div className="md:hidden flex flex-col gap-4">
         {isLoading ? (
           <DebateRoomSkeleton />
+        ) : debateRooms.length === 0 ? (
+          <div className="text-center py-10 text-gray-500">
+            <p>현재 표시할 토론방이 없습니다.</p>
+          </div>
         ) : (
           debateRooms.map((room) => {
             const categoryName = categoryMapping[room.categoryType] || "기타";
