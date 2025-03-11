@@ -1,28 +1,12 @@
+import { useState } from "react";
 import link from "../../assets/icons/link.svg";
 import info from "../../assets/icons/info-btn.svg";
-import React, { useState, useMemo } from "react";
 import { timeFormatter } from "../../utils/timeFormatter";
 import { getKeyFromDbKey } from "../../constants";
-import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
 
-
-const InfoDrodown = React.memo(() => {
+export default function ArchivedRoomInfoDropdown({ roomInfo }: { roomInfo: DebateRoomInfo }) {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
-  const { roomInfoDetails } = useDebateWebSocket();
-
-  const memoizedRoomInfo = useMemo(() => {
-    return {
-      title: roomInfoDetails?.title,
-      description: roomInfoDetails?.description,
-      continentType: getKeyFromDbKey(roomInfoDetails?.continentType!),
-      categoryType: getKeyFromDbKey(roomInfoDetails?.categoryType!),
-      speakCountTime: timeFormatter(roomInfoDetails?.speakCountType! * roomInfoDetails?.timeType! * 2),
-      memberNumberType: roomInfoDetails?.memberNumberType,
-      resultEnabled: getKeyFromDbKey(roomInfoDetails?.resultEnabled!),
-      newsUrl: roomInfoDetails?.newsUrl
-    };
-  }, [roomInfoDetails]);
-
+  
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}
@@ -42,7 +26,7 @@ const InfoDrodown = React.memo(() => {
                 토론 주제
               </span>
               <span className="md:text-white text-gray01">
-                {memoizedRoomInfo.title}
+                {roomInfo.title}
               </span>
             </h1>
             <h2 className="inline-flex justify-start">
@@ -50,35 +34,35 @@ const InfoDrodown = React.memo(() => {
                 방 설명
               </span>
               <span className="md:text-white text-gray01">
-                {memoizedRoomInfo.description}
+                {roomInfo.description}
               </span>
             </h2>
           </div>
           {/* 토론방 정보 */}
           <div className="flex justify-start flex-wrap gap-[10px] text-black01 font-bold">
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 border border-gray03 rounded-3xl justify-start items-center gap-2 inline-flex">
-              <p>{memoizedRoomInfo.continentType}</p>
+              <p>{getKeyFromDbKey(roomInfo.continentType)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{memoizedRoomInfo.categoryType}</p>
+              <p>{getKeyFromDbKey(roomInfo.categoryType)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{memoizedRoomInfo.speakCountTime}</p>
+              <p>{timeFormatter(roomInfo.timeType * roomInfo.speakCountType * 2)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{memoizedRoomInfo.memberNumberType} : {memoizedRoomInfo.memberNumberType}</p>
+              <p>{roomInfo.memberNumberType} : {roomInfo.memberNumberType}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{memoizedRoomInfo.resultEnabled}</p>
+              <p>{getKeyFromDbKey(roomInfo.resultEnabled)}</p>
             </div>
           </div>
           {/* 링크 */}
           <div>
-            {memoizedRoomInfo.newsUrl && 
+            {roomInfo.newsUrl && 
               <figure className="flex items-center w-full gap-2">
                 <img src={link} alt="연관된 뉴스 링크" />
                 <figcaption className="md:text-gray02 text-gray03  md:text-[10px] text-[8px] leading-0">
-                  {memoizedRoomInfo.newsUrl}
+                  {roomInfo.newsUrl}
                 </figcaption>
               </figure>
             }
@@ -87,6 +71,4 @@ const InfoDrodown = React.memo(() => {
       )}
     </div>
   );
-});
-
-export default InfoDrodown;
+}

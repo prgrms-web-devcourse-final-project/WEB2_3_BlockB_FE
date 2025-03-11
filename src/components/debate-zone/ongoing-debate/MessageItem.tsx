@@ -1,12 +1,12 @@
 export default function MessageItem({
-  key,
+  uniqueKey,
   message,
   nickname,
   profile,
   isOppenent = false, // 상대방 편 메시지 여부
   isMine = true, // 내 메시지 여부(우측 정렬 중 내 메시지)
 }: {
-  key: string;
+  uniqueKey: string;
   message: string;
   nickname: string;
   profile: string;
@@ -15,7 +15,7 @@ export default function MessageItem({
 }) {
   return (
     <div
-      key={key}
+      key={uniqueKey}
       className={`flex w-full ${
         isOppenent ? "justify-start" : "justify-end"
       } gap-[10px] font-bold md:text-[16px] text-[14px]`}

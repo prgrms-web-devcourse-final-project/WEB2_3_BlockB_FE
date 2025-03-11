@@ -15,6 +15,7 @@ type DebateWebSockContextType = {
   isMyTurn: boolean;
   leftTurn: number;
   debateCountDown: number;
+  leftTurnAtObserverView: number;
   stompClient: Client | null;
   position: string | null; 
   isResultEnabled: boolean;
@@ -136,6 +137,21 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     setIsCountingVotes(false)
   }
 
+  // 관찰자용 턴 변경 메서드
+    const [leftTurnAtObserverView, setLeftTurnAtObserverView] = useState<number>(0)
+    const {observingState} = useObservingStore()
+  
+    useEffect(()=> {
+
+      const getDebateLeftTurn = async() => {
+        if (!roomId) return
+        const {data: turnData} = await debateRoomApi.fetchDebateLeftTurn(roomId)
+        setLeftTurnAtObserverView(turnData.turnCount) // flagType 도 있음
+      }
+      getDebateLeftTurn()
+    }, [roomId, userName, roomState])
+
+    
   // WebSocket 연결 및 메시지 처리
   useEffect(() => {
     if (!roomId || !userName || !position) return;
@@ -171,6 +187,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
 
         if (parsedMessage.event === "TURN") {
           updateTurnCount();
+          setLeftTurnAtObserverView(prev => prev - 1)
           console.log("현재턴은", parsedMessage.turn, ", 내 포지션은", position?.toUpperCase());
           setIsMyTurn(parsedMessage.turn === position?.toUpperCase());
           setMessages((prevMessages) => [...prevMessages, parsedMessage]);
@@ -235,7 +252,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ websocketStatus, messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
+    <DebateWebSockContext.Provider value={{ websocketStatus, messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, leftTurnAtObserverView, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
       {children}
     </DebateWebSockContext.Provider>
   );

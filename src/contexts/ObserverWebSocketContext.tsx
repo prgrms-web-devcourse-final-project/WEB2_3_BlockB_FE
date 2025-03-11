@@ -27,7 +27,6 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
     }
   };
 
-
   useEffect(() => {
     if (!roomId || !userName ) return;
 

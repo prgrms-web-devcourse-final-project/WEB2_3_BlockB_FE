@@ -6,19 +6,26 @@ import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 export default function Counter({
   label,
   boxNumber,
+  isObserverRoom = false
 }: {
   label: string;
   boxNumber: number;
+  isObserverRoom?: boolean
 }) {
   const [displayCount, setDisplayCount] = useState<string[]>([]);
 
-  const {leftTurn, debateCountDown} = useDebateWebSocket()
+  const { leftTurn, leftTurnAtObserverView, debateCountDown } = useDebateWebSocket();
+
   useEffect(() => {
-    const paddedCount = ((label === "TURN" ? leftTurn : debateCountDown) ?? 0).toString().padStart(boxNumber, "0");
+    console.log("🍤 남은 턴 참관자용", leftTurnAtObserverView)
+    const isTurnLabel = label === "TURN";
+    const count = isTurnLabel ? (isObserverRoom ? leftTurnAtObserverView : leftTurn) : debateCountDown;
+    const paddedCount = (count ?? 0).toString().padStart(boxNumber, "0");
+
     setDisplayCount(paddedCount.split(""));
   }, [debateCountDown, leftTurn]);
 
-  
+
   return (
     <div className="font-bold font-jersey flex md:flex-col flex-row md:gap-[2px] gap-[10px] items-center">
       <div className="flex items-center gap-[2px] justify-end">

@@ -1,4 +1,4 @@
-import AudienceList from "./AudienceList";
+import DebaterList from "./DebaterList";
 import ExitModal from "../../common/Modal";
 import ObserverChatWindow from "./ObserverChatWindow";
 import exit from "../../../assets/icons/exit.svg";
@@ -24,7 +24,6 @@ export default function ObserverOngoingRoom() {
     });
   };
 
-
   return (
   <div className="flex md:flex-col justify-center items-center h-screen md:px-[100px] md:py-[30px]">
   <ExitModal/>
@@ -41,15 +40,15 @@ export default function ObserverOngoingRoom() {
       </div>x
       {/* 우측 */}
       <section className="flex md:flex-4 flex-col justify-between max-h-screen text-white">
-          <AudienceList /> 
-          <div className="flex justify-end md:flex hidden">
+          <DebaterList /> 
+          <div className="flex justify-end md:flex hidden mt-[10px]">
             <button onClick={handleExitClick}>
               <img src={exit} alt="토론방 나가기" />
             </button>
           </div>
           {/* 참관자 챗 */}
           <ObserverChatWindow isDebateTabed={isDebateTabed}/> 
-        </section>
+      </section>
     </div>
 </div>
 

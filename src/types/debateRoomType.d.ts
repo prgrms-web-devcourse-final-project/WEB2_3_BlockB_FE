@@ -199,3 +199,12 @@ type VoteResult = {
   disagreeNumber: number,
   neutralNumber: number
 }
+
+
+type ArchivedChatLog = {
+  nickname: string;
+  position: 'NO_POSITION' | 'CON' | "PRO";
+  content: string;
+  profileUrl: string;
+  createdAt: string; // ISO 8601 형식의 날짜 문자열
+};

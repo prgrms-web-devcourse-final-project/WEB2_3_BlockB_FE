@@ -21,7 +21,7 @@ export default function DebateChatObserverMode({isDebateTabed}: {isDebateTabed: 
   >
     {messages.map((msg, index) => (
       <MessageItem
-      key={`${index}${msg.timestamp}`}
+      uniqueKey={`${index}${msg.timestamp}`}
       message={msg.message}
       nickname={msg.userName! || "공지"} 
       profile={ msg.imageUrl || profile}
