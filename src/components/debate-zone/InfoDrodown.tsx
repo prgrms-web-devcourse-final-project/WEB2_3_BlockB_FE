@@ -61,7 +61,6 @@ export default function InfoDrodown() {
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>{getKeyFromDbKey(roomInfoDetails?.resultEnabled!)}</p>
-              {/* TODO:이에 대한 api 응답값 현재 부재. 백엔드 업데이트 시 추가 예정 */}
             </div>
           </div>
           {/* 링크 */}
