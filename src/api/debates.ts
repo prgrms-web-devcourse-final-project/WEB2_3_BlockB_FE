@@ -1,5 +1,4 @@
 import { axiosInstance } from "./axios";
-import { speakCountMap, timeMap } from "../constants";
 const getTopDebaters = async (
   searchTerm: string = ""
 ): Promise<DebaterType[]> => {
@@ -25,24 +24,24 @@ interface FinishedDebatesResponse {
     totalElements: number;
     totalPages: number;
     size: number;
-    content: DebateRoomInfoRaw[];
+    content: DebateRoomInfoRaw[]; // API 응답 데이터 구조
   };
 }
 
 interface DebateRoomInfoRaw {
-  roomId: number;
+  uuid: string; // 기존 `roomId` -> `uuid` 변경
   title: string;
   description: string;
-  memberNumberType: number;
   categoryType: string;
   continentType: string;
-  newsUrl: string;
-  status: "CLOSED";
-  timeType: number;
-  speakCountType: number;
+  memberNumberType: number; // 기존 `member` → `memberNumberType`
+  timeType: number; // 기존 `time` → `timeType`
+  speakCountType: number; // 기존 `speakingCount` → `speakCountType`
   proUsers: Participant[];
   conUsers: Participant[];
+  status: "CLOSED";
 }
+
 interface DebateRoomInfo {
   roomId: string;
   title: string;
@@ -95,20 +94,28 @@ const getFinishedDebates = async (
     const data = response.data.data;
 
     return {
-      content: data.content.map(
-        (room: DebateRoomInfoRaw): DebateRoomInfo => ({
-          roomId: room.roomId.toString(),
+      content: data.content.map((room: DebateRoomInfoRaw): DebateRoomInfo => {
+        // 🔹 초 단위 계산 (웹소켓과 동일)
+        const totalSeconds = room.timeType * room.speakCountType;
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        const formattedTime = `${minutes > 0 ? `${minutes}분` : ""} ${
+          seconds > 0 ? `${seconds}초` : ""
+        }`.trim();
+
+        return {
+          roomId: room.uuid,
           title: room.title,
           description: room.description,
           categoryType: room.categoryType,
           continentType: room.continentType,
-          member: room.memberNumberType === 1 ? 1 : 3,
-          time: timeMap[room.timeType] ?? "시간 없음",
-          speakingCount: speakCountMap[room.speakCountType] ?? "0",
+          member: room.memberNumberType,
+          time: formattedTime, // ✅ 변환된 시간 적용 (웹소켓과 동일)
+          speakingCount: room.speakCountType.toString(), // ✅ 숫자를 문자열로 변환
           proUsersCount: room.proUsers.length,
           conUsersCount: room.conUsers.length,
-        })
-      ),
+        };
+      }),
       totalPages: data.totalPages || 1,
     };
   } catch (error) {
@@ -116,7 +123,6 @@ const getFinishedDebates = async (
     throw error;
   }
 };
-
 export const debatesAPI = {
   getTopDebaters,
   getFinishedDebates,

@@ -141,11 +141,7 @@ type DebateRoomInfo = {
   newsUrl: string;
   status: string;
   timeType: number;
-  member: string;
-  speakCountType: number;
-  resultEnabled: boolean;
-  participants: Participant[];
-  speakingTimeSeconds?: number;
+  member: number;
 };
 
 // WebSocket Context Type

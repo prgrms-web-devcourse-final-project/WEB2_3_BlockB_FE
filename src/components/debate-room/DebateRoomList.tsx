@@ -1,22 +1,6 @@
 import DebateRoomSkeleton from "../common/skeleton/debate/DebateRoomSkeleton";
 import categoryIcons from "../../assets/icons/category/categoryIcon";
-import { timeMap, speakCountMap } from "../../constants";
 import { useNavigate } from "react-router-dom";
-const formatTotalSpeakingTime = (timeKey: string, speakKey: string): string => {
-  const speakingTimeSeconds =
-    +Object.keys(timeMap).find((k) => timeMap[+k] === timeKey)! || 0;
-  const speakingCount =
-    +Object.keys(speakCountMap).find((k) => speakCountMap[+k] === speakKey)! ||
-    0;
-
-  const totalSeconds = speakingTimeSeconds * speakingCount;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-
-  return `${minutes > 0 ? `${minutes}분` : ""}${
-    seconds > 0 ? ` ${seconds}초` : ""
-  }`.trim();
-};
 
 type DebateRoomListProps = {
   debateRooms: DebateRoom[];
@@ -25,23 +9,17 @@ type DebateRoomListProps = {
 };
 
 export type DebateRoom = {
-  proUsersCount: number;
-  conUsersCount: number;
   roomId: string;
   title: string;
   description: string;
   categoryType: string;
   continentType: string;
-  member: number; // "T1" → 1, "T2" → 3 변환
-  speakingTimeSeconds: number; // 발언 시간 (초)
-  speakingCount: string; // 찬/반 발언 횟수
-  time: string; // 발언 시간
-  memeberNumberType: number; // 참여 인원
-  newsUrl: string; // 뉴스 링크
-  status: string; // 방 상태
-  timeType: number; // 시간 타입
+  member: number;
+  time: string;
+  speakingCount: string;
+  proUsersCount: number;
+  conUsersCount: number;
 };
-
 // 카테고리 변환 매핑
 const categoryMapping: { [key: string]: string } = {
   PO: "정치",
@@ -109,7 +87,7 @@ export default function DebateRoomList({
                   </td>
                   <td className="p-3 rounded-lg">
                     <span className="px-3 py-1 border rounded-lg">
-                      {formatTotalSpeakingTime(room.time, room.speakingCount)}
+                      {room.time}
                     </span>
                   </td>
                   <td className="p-3 rounded-lg">
@@ -203,7 +181,7 @@ export default function DebateRoomList({
                     {room.proUsersCount} | {room.conUsersCount}
                   </span>
                   <span className="px-3 py-1 border rounded-lg">
-                    {formatTotalSpeakingTime(room.time, room.speakingCount)}
+                    {room.time}
                   </span>
                   <span className="px-3 py-1 border rounded-lg">
                     {room.member} : {room.member}

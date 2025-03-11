@@ -66,15 +66,15 @@ const RootLayout = () => {
   }, [pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen ">
       {!hideHeaderFooter && <Header status={headerStatus} />}
-      <main className="flex-1">
+      <main className="flex-1 ">
         <Outlet />
       </main>
       {!hideHeaderFooter && <Footer status={footerStatus} />}
       <TopButton />
     </div>
-  )
-}
+  );
+};
 
 export default RootLayout;

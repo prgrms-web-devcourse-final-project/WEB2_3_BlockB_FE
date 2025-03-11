@@ -187,39 +187,71 @@ export default function DebateRooms() {
           client.subscribe("/topic/filteredStatus", (message: IMessage) => {
             try {
               const parsedData = JSON.parse(message.body);
-              console.log("메시지 수신:", parsedData);
+              console.log("웹소켓 메시지 수신:", parsedData);
 
-              let sortedData;
+              let debateRoomsData = [];
+
               if (selectedSort === "최신순") {
-                sortedData = parsedData.roomSortedByCreatedAt;
+                debateRoomsData = parsedData.roomSortedByCreatedAt || [];
               } else if (selectedSort === "임박순") {
-                sortedData = parsedData.roomSortedByUserCount;
-              } else {
-                sortedData = parsedData.observerCurrent;
+                debateRoomsData = parsedData.roomSortedByUserCount || [];
+              } else if (selectedSort === "인기순") {
+                debateRoomsData = parsedData.observerCurrent || [];
               }
 
-              const transformedData: DebateRoomInfo[] = sortedData.map(
-                (room: any) => {
-                  const meta = room.debateMetaDataRoomResponse;
+              if (!debateRoomsData.length) {
+                console.warn("웹소켓 메시지에 유효한 토론방 데이터가 없음");
+                setDebateRooms([]);
+                return;
+              }
+
+              // 📌 웹소켓 데이터 로그 출력
+              console.log("웹소켓에서 받은 debateRoomsData:", debateRoomsData);
+
+              const transformedData: DebateRoomInfo[] = debateRoomsData
+                .map((room: any) => {
+                  if (!room.debateRoomResponse) {
+                    console.warn("유효한 debateRoomResponse 없음", room);
+                    return null;
+                  }
+
+                  const meta = room.debateRoomResponse;
+
+                  // 📌 timeType과 speakCountType 값 확인
+                  console.log(
+                    `웹소켓 데이터 확인 - timeType: ${meta.timeType}, speakCountType: ${meta.speakCountType}`
+                  );
+
+                  // 🔹 발언 시간 변환 로직
+                  const totalTime =
+                    (meta.timeType ?? 0) * (meta.speakCountType ?? 0);
+                  const minutes = Math.floor(totalTime / 60);
+                  const seconds = totalTime % 60;
+                  const formattedTime = `${minutes > 0 ? `${minutes}분` : ""} ${
+                    seconds > 0 ? `${seconds}초` : ""
+                  }`.trim();
+
                   return {
-                    roomId: meta.uuid,
-                    title: meta.title,
-                    description: meta.description,
-                    categoryType: meta.category,
-                    continentType: meta.continent,
-                    member: meta.memberNumber === "T1" ? "1" : "3",
-                    time: meta.time,
-                    speakingCount: meta.speakCount,
-                    proUsersCount: room.proUsers.length,
-                    conUsersCount: room.conUsers.length,
+                    roomId: meta.uuid || "알 수 없음",
+                    title: meta.title || "제목 없음",
+                    description: meta.description || "설명 없음",
+                    categoryType: meta.categoryType || "ETC",
+                    continentType: meta.continentType || "",
+                    member: meta.memberNumberType ?? 1,
+                    time: formattedTime, // 변환된 시간 적용
+                    speakingCount: meta.speakCountType ?? 0,
+                    proUsersCount: meta.proUsers?.length ?? 0,
+                    conUsersCount: meta.conUsers?.length ?? 0,
                   };
-                }
-              );
+                })
+                .filter(Boolean);
+
+              console.log("최종 변환된 debateRooms 데이터:", transformedData);
 
               setDebateRooms(transformedData);
               setIsLoading(false);
             } catch (error) {
-              console.error("JSON 파싱 오류:", error);
+              console.error("웹소켓 데이터 변환 오류:", error);
             }
           });
 
