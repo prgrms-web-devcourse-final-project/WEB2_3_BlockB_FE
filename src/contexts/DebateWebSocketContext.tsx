@@ -55,7 +55,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   })
   const [isResultEnabled, setResultEnabled] = useState<boolean>(false)
   const [voteResult, setVoteResult] = useState<VoteResult>({agreeNumber: 0, disagreeNumber: 0, neutralNumber: 0})
-  const [position, setPosition] = useState<string | null>(initialPosition); 
+  const [position, _] = useState<string | null>(initialPosition); 
   const [isWaitngVote, setIsWaitingVote] = useState(true)
   const [leftTurn, setLeftTurn] = useState<number>(0)
   const [debateCountDown, setDebateCountDown] = useState<number>(0)

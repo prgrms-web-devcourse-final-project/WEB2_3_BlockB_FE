@@ -54,7 +54,7 @@ export default function DebateSimpleInfo({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className="w-full max-lg:w-[768px] max-md:w-80 h-[77px] flex items-center rounded-[10px] bg-white hover:bg-gray02 transform transition duration-200 hover:scale-[1.02]"
+        className="w-full max-lg:w-[768px] max-md:w-80 h-[77px] flex items-center rounded-[10px] hover:bg-gray02 transform transition duration-200 hover:scale-[1.02]"
         onClick={() => navigate(`/observing-zone/${roomId}`)}
       >
         <div className="flex items-center w-full px-2">

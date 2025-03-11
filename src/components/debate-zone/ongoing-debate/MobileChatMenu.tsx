@@ -36,7 +36,7 @@ export default function MobileChatMenu() {
     });
   };
 
-  const {roomInfoDetails, leftTurn, debateCountDown } = useDebateWebSocket()
+  const {roomInfoDetails } = useDebateWebSocket()
   
   return (
     <div className="md:hidden flex justify-between items-center relative px-2 py-3 h-10">

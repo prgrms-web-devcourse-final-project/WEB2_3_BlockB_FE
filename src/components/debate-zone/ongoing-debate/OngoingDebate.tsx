@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ChatWindow from "./ChatWindow";
 import Counter from "./Counter";
 import ExitModal from "../../common/Modal";
 import ParticipantBox from "../ParticipantBox";
 import exit from "../../../assets/icons/exit.svg";
-import { useRoomStore } from "../../../stores/roomStateStore";
 import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
@@ -17,7 +16,6 @@ export default function OngoingDebate() {
     }, 2000);
   }, []);
 
-  const { setRoomState } = useRoomStore();
 
   const navigate = useNavigate();
   const openModal = useModalStore((state) => state.openModal);
@@ -28,7 +26,6 @@ export default function OngoingDebate() {
     });
   };
   
-
   const {roomInfoDetails, position} = useDebateWebSocket()
 
   return (

@@ -110,7 +110,7 @@ export default function DebateRoomList({
                     disabled={isFinished || room.proUsersCount === room.member}
                     className={`px-3 py-1 text-white rounded-md ${
                       isFinished || room.proUsersCount === room.member
-                        ? "bg-gray-500 cursor-not-allowed"
+                        ? "bg-gray03 cursor-not-allowed"
                         : "bg-blue-500 hover:bg-[#0044aa]"
                     }`}
                     onClick={() =>
@@ -126,7 +126,7 @@ export default function DebateRoomList({
                     disabled={isFinished || room.conUsersCount === room.member}
                     className={`px-3 py-1 text-white rounded-md ${
                       isFinished || room.conUsersCount === room.member
-                        ? "bg-gray-500 cursor-not-allowed"
+                        ? "bg-gray03 cursor-not-allowed"
                         : "bg-blue-500 hover:bg-[#0044aa]"
                     }`}
                     onClick={() =>
@@ -184,7 +184,7 @@ export default function DebateRoomList({
                   disabled={isFinished || room.proUsersCount === room.member}
                   className={`px-3 py-1 text-white rounded-md ${
                     isFinished || room.proUsersCount === room.member
-                      ? "bg-gray-500 cursor-not-allowed"
+                      ? "bg-gray03 cursor-not-allowed"
                       : "bg-blue-500 hover:bg-[#0044aa]"
                   }`}
                   onClick={() =>
@@ -200,7 +200,7 @@ export default function DebateRoomList({
                   disabled={isFinished || room.conUsersCount === room.member}
                   className={`px-3 py-1 text-white rounded-md ${
                     isFinished || room.conUsersCount === room.member
-                      ? "bg-gray-500 cursor-not-allowed"
+                      ? "bg-gray03 cursor-not-allowed"
                       : "bg-blue-500 hover:bg-[#0044aa]"
                   }`}
                   onClick={() =>

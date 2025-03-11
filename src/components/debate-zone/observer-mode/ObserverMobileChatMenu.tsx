@@ -7,7 +7,7 @@ import profile from "../../../assets/icons/profile-white.svg"
 import exit from "../../../assets/icons/exit.svg"
 import Counter from "../ongoing-debate/Counter";
 import ExitModal from "../../common/Modal";
-import { data, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
 import { debateRoomApi } from "../../../api/debatezone";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
