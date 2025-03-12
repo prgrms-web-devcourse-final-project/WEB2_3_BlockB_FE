@@ -35,7 +35,7 @@ export default function ActiveFilterSection({
         className="flex items-center justify-center px-2 py-1 text-white rounded-md md:w-auto bg-blue-950"
       >
         토론방 개설
-        <span className="ml-2">
+        <span className="ml-1">
           <img src={speechBubble} alt="말풍선" className="w-5 h-5 mx-1" />
         </span>
       </button>
