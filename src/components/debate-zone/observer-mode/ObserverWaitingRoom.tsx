@@ -3,12 +3,11 @@ import ParticipantBox from "./../ParticipantBox";
 import InfoDropdwon from "../InfoDrodown";
 import { useState } from "react";
 import AudienceListBox from "./AudienceListBox";
-import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
-
+import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
 
 export default function ObserverWaitingRoom() {
   const [isWaiting, setIsWaiting] = useState<boolean>(true);
-  const { observerRoomInfoDetails } = useObserverWebSocket()
+    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
   if (isWaiting)
     return (

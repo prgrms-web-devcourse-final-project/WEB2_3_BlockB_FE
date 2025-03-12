@@ -3,13 +3,12 @@ import { Client, Message } from "@stomp/stompjs";
 import { useParams } from "react-router";
 import { debateRoomApi } from "../api/debatezone";
 import { useObservingStore } from "../stores/observingStateStore";
+import { useObserverRoomStore } from "../stores/observerRoomInfoStore";
 
 // ✅ Context 타입 정의
 interface WebSocketContextType {
   observerMessages: WebSocketCommunicationType[];
   sendObserverMessages: (message: string) => void;
-  observerRoomInfoDetails: DebateRoomInfo;
-  setObserverRoomInfoDetails: (info: DebateRoomInfo) => void;
   stompClient: Client | null;
 }
 
@@ -19,21 +18,9 @@ const ObserverWebSocketContext = createContext<WebSocketContextType | undefined>
 export const ObserverWebSocketContextProvider = ({ children, userName }: React.PropsWithChildren<DebateWebSocketProviderProps>) => {
   const [observerMessages, setObserverMessage] = useState<WebSocketCommunicationType[]>([]);
   const [stompClient, setStompClient] = useState<Client | null>(null);
-  const [observerRoomInfoDetails, setObserverRoomInfoDetails] = useState<DebateRoomInfo>({
-    roomId: "",
-    title: "",
-    description: "",
-    memberNumberType: 1,
-    categoryType: "",
-    continentType: "",
-    newsUrl: "",
-    status: "",
-    timeType: 30,
-    speakCountType: 3,
-    resultEnabled: false,
-    proUsers: [],
-    conUsers: [],
-  })
+
+  const setObserverRoomInfoDetails = useObserverRoomStore((state) => state.setObserverRoomInfoDetails);
+  const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
   const { roomId } = useParams<{ roomId: string }>();
 
   // ✅ 메시지 보내기 함수
@@ -89,7 +76,6 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
     }, [observerRoomInfoDetails]);
     
 
-
   useEffect(() => {
     if (!roomId || !userName ) return;
 
@@ -106,7 +92,6 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
 
     client.onConnect = () => {
   
-
       client.subscribe(`/topic/observer/${roomId}`, (message: Message) => {
           const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
           console.log("🍎 observer subscribe 전달 받음 => 메시지 변형", parsedMessage);
@@ -126,7 +111,7 @@ export const ObserverWebSocketContextProvider = ({ children, userName }: React.P
   }, [roomId, userName]);
 
   return (
-    <ObserverWebSocketContext.Provider value={{ observerMessages, sendObserverMessages,observerRoomInfoDetails, setObserverRoomInfoDetails, stompClient }}>
+    <ObserverWebSocketContext.Provider value={{ observerMessages, sendObserverMessages, stompClient }}>
       {children}
     </ObserverWebSocketContext.Provider>
   );

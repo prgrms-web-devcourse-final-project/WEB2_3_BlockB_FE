@@ -1,3 +1,4 @@
+import announceProfile from "../../../assets/icons/announce-profile.svg"
 export default function MessageItem({
   uniqueKey,
   message,
@@ -23,7 +24,7 @@ export default function MessageItem({
       <figure
         className={`rounded-full ${isOppenent ? "order-first" : "order-last"}`}
       >
-        <img src={profile} className="rounded-full bg-cover md:w-[35px] md:h-[35px] w-[30px] h-[30px]" />
+        <img src={nickname ==="공지" ? announceProfile : profile} className="rounded-full bg-cover md:w-[35px] md:h-[35px] w-[30px] h-[30px]" />
       </figure>
 
       <div
@@ -38,8 +39,8 @@ export default function MessageItem({
           className={`${
             isMine
               ? "bg-white text-black01"
-              : "bg-white bg-opacity-50 text-black01"
-          }   md:p-2 p-1 rounded-md md:max-w-[300px] sm:max-w-[320px] max-w-[300px] break-words h-auto `}
+              : nickname === "공지" ? "bg-game_blue01 bg-opacity-80 text-white" : "bg-white bg-opacity-50 text-black01"
+          }  md:px-3 md:py-[6px] px-2 py-1 rounded-md md:max-w-[300px] sm:max-w-[320px] max-w-[300px] break-words h-auto `}
         >
           {message}
         </div>

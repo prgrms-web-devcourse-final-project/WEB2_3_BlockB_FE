@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { useRoomStore } from "../stores/roomStateStore";
 import { debateRoomApi } from "../api/debatezone";
 import { useObservingStore } from "../stores/observingStateStore";
-import { useObserverWebSocket } from "./ObserverWebSocketContext";
+import { useObserverRoomStore } from "../stores/observerRoomInfoStore";
 
 type DebateWebSockContextType = {
   websocketStatus: WebSocketStatus;
@@ -53,7 +53,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     status: "",
     timeType: 30,
     speakCountType: 3,
-    resultEnabled: false,
+    resultEnabled: true,
     proUsers: [],
     conUsers: [],
   })
@@ -101,8 +101,8 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }
   }
 
-  const {setObserverRoomInfoDetails} = useObserverWebSocket()
-  
+  const setObserverRoomInfoDetails = useObserverRoomStore((state) => state.setObserverRoomInfoDetails);
+
   const getObserverOngoingInfo = async () => {
     if (roomId) {
       const { data: roomInfoData } = await debateRoomApi.fetchObserverOngoingRoomInfo(roomId);
@@ -132,6 +132,10 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   const updateTurnCount = () => {
     setLeftTurn((prevTurn) => prevTurn - 1); 
   };
+
+  useEffect(()=>{
+    console.log("🧅 RoomDetial 바뀜", roomInfoDetails)
+  },[roomInfoDetails])
 
   // 타이머 업데이트
   useEffect(() => {
@@ -184,7 +188,6 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     }
   }, [websocketStatus, voteTimer]);
   
-
     
   // WebSocket 연결 및 메시지 처리
   useEffect(() => {
@@ -198,13 +201,11 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         position,
         roomId,
       },
-      // debug: (msg) => console.log("[STOMP DEBUG]:", msg),
       reconnectDelay: 8000,
     });
 
     client.onConnect = () => {
       client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
-        // console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
         const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
         console.log("✅ subscribe 전달 받음 => 메시지 변형", parsedMessage);
 
@@ -238,13 +239,13 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
             setIsWaitingVote(false);
           }
           if (parsedMessage.status === "CLOSED") { 
-            setWebSocketStatus("CLOSED")   
-            stompClient?.deactivate();
-            // setTimeout(() => {
-            //   navigate("/main");
-            // }, 10000); 
+              setWebSocketStatus("CLOSED") 
+              if (parsedMessage.message === "토론이 모두 종료되었습니다.") {
+                 setRoomState("replay")
+                 setObservingState("replay")
+              }
+              client.deactivate();
           }
-          
         }
 
         if (parsedMessage.event === "NOTIFICATION") {
@@ -252,31 +253,32 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
            getOngoingRoomInfo()
            setIsWaitingRecruitment(false);
          }
+
          if (parsedMessage.message === "잠시 후 투표가 시작됩니다.") {
           setRoomState("voting");
           setObservingState("voting");
          }
+
          if (parsedMessage.message === "투표가 종료되었습니다. 투표 결과 집계중...") {
           setRoomState("result");
           setObservingState("result");
-        
           setTimeout(() => {
             getVoteResult();
           }, 2000);
         }
+
         }
 
         if (parsedMessage.event === "user_joined") {
           getRoomWaitingRoomInfo();
         }
-        
+
         if (parsedMessage.event === "user_left") {
-            getOngoingRoomInfo(); 
-            getObserverOngoingInfo()
+          getOngoingRoomInfo(); 
+          getObserverOngoingInfo();
         }
 
         if (parsedMessage.event === "WIN_BY_DEFAULT") {
-
           setRoomState("won-by-default")
           setObservingState("won-by-default")
           setWinnerByDefault(parsedMessage.winner)
