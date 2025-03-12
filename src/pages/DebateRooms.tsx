@@ -107,15 +107,15 @@ export default function DebateRooms() {
     resetFilters();
   }, [selectedActive]);
   useEffect(() => {
-    if (clientRef.current) {
-      clientRef.current.deactivate();
-      clientRef.current = null;
-    }
-
     setIsLoading(true);
     setDebateRooms([]);
 
     const fetchData = async () => {
+      if (clientRef.current) {
+        clientRef.current.deactivate();
+        clientRef.current = null;
+      }
+
       const continentCode = mapContinentToCode(selectedContinent);
       const categoryCode = mapCategoryToCode(selectedCategory);
       const participantCode = mapParticipantToCode(selectedParticipant);
@@ -130,7 +130,6 @@ export default function DebateRooms() {
             currentPage,
             latestSort.current === "인기순" ? "popular" : "recent"
           );
-
           setDebateRooms(response.content);
           setTotalPages(response.totalPages);
         } catch (error) {
@@ -187,7 +186,7 @@ export default function DebateRooms() {
 
                   const meta = room.debateRoomResponse;
                   const totalTime =
-                    (meta.timeType ?? 0) * (meta.speakCountType ?? 0);
+                    (meta.timeType ?? 0) * (meta.speakCountType ?? 0) * 2;
                   const minutes = Math.floor(totalTime / 60);
                   const seconds = totalTime % 60;
                   const formattedTime = `${minutes > 0 ? `${minutes}분` : ""} ${
@@ -215,6 +214,7 @@ export default function DebateRooms() {
               console.error("웹소켓 데이터 변환 오류:", error);
             }
           });
+
           setTimeout(() => {
             if (client.connected) {
               client.publish({
@@ -228,20 +228,20 @@ export default function DebateRooms() {
             }
           }, 500);
 
-          // const intervalId = setInterval(() => {
-          //   if (client.connected) {
-          //     client.publish({
-          //       destination: "/app/filteredUpdate",
-          //       body: JSON.stringify({ message: "최신 토론방 요청" }),
-          //     });
-          //     console.log("5초 간격 요청");
-          //   }
-          // }, 5000);
+          const intervalId = setInterval(() => {
+            if (client.connected) {
+              client.publish({
+                destination: "/app/filteredUpdate",
+                body: JSON.stringify({ message: "최신 토론방 요청" }),
+              });
+              console.log("5초 간격 요청");
+            }
+          }, 5000);
 
           return () => {
             console.log("웹소켓 연결 종료");
             client.deactivate();
-            // clearInterval(intervalId);
+            clearInterval(intervalId);
           };
         };
 
@@ -250,6 +250,14 @@ export default function DebateRooms() {
     };
 
     fetchData();
+
+    return () => {
+      if (clientRef.current) {
+        console.log("컴포넌트 언마운트: 웹소켓 종료");
+        clientRef.current.deactivate();
+        clientRef.current = null;
+      }
+    };
   }, [
     selectedActive,
     selectedContinent,

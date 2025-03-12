@@ -57,7 +57,7 @@ export default function DebateRoomList({
       <table className="hidden md:table w-full border-collapse rounded-t-lg overflow-hidden">
         <thead className="bg-gray02 border-b rounded-t-lg">
           <tr className="text-gray-700 text-center whitespace-nowrap">
-            <th className="p-3 first:rounded-tl-lg last:rounded-tr-lg">
+            <th className="p-3 first:rounded-tl-lg  last:rounded-tr-lg">
               카테고리
             </th>
             <th className="p-3">방제</th>
@@ -77,7 +77,7 @@ export default function DebateRoomList({
                 key={room.roomId}
                 className="border-b text-center whitespace-nowrap"
               >
-                <td className="p-3 flex items-center justify-center gap-2">
+                <td className="p-3 flex items-center w-[150px] justify-center gap-2">
                   <span className="px-2 py-1 bg-gray-300 text-gray01 rounded flex items-center gap-2">
                     {categoryName}
                     {categoryIcons[categoryName]?.gray && (
@@ -171,8 +171,8 @@ export default function DebateRoomList({
               <div className="flex items-center gap-2 mb-2">
                 <span className="font-semibold">{room.title}</span>
               </div>
-              <div className="flex justify-between items-center text-center text-gray-700 mb-3">
-                <span className="px-2 py-1 bg-gray-300 text-gray01 rounded flex items-center gap-2">
+              <div className="flex justify-between items-center text-center  text-gray-700 mb-3">
+                <span className="px-2 py-1 bg-gray-300 text-gray01  rounded flex items-center gap-2">
                   {categoryName}
                   {categoryIcons[categoryName]?.gray && (
                     <img
