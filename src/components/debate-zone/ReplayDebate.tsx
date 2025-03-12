@@ -10,7 +10,6 @@ import { userApi } from "../../api/user";
 import { useVote } from "../../hooks/useVote";
 import { useNavigate } from "react-router";
 import clock from "../../assets/icons/clock.svg"
-import { useObserverRoomStore } from "../../stores/observerRoomInfoStore";
 export default function ReplayDebate({
   isObserver = false,
 }: {
@@ -44,23 +43,11 @@ export default function ReplayDebate({
     else if (hasVoted) return "이미 투표권을 행사하셨습니다";
   };
 
-  const { roomInfoDetails } = useDebateWebSocket();
-  const observerRoomInfoDetails = useObserverRoomStore(
-    (state) => state.observerRoomInfoDetails
-  );
-  const [isVoteBtnShow, setIsVoteBtnShow] = useState<boolean>(false);
 
-  useEffect(() => {
-    setIsVoteBtnShow(
-      observerRoomInfoDetails.resultEnabled || roomInfoDetails.resultEnabled
-    );
-  }, [observerRoomInfoDetails, roomInfoDetails]);
-
-  const shouldShowVoteButtons = (!hasVoted && websocketStatus !== "CLOSED") || (observerRoomInfoDetails.resultEnabled || roomInfoDetails.resultEnabled);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
-      {(shouldShowVoteButtons || isVoteBtnShow) ? (
+      {(websocketStatus !== "CLOSED") ? (
         <h1 className="text-white font-pretendard font-bold md:text-[20px] text-[16px] text-center md:mb-[30px] mt-[10px] mb-5">
           찬반 투표가 진행중입니다...
         </h1>) 
@@ -95,7 +82,7 @@ export default function ReplayDebate({
         </section>
 
         {/* 투표 버튼 */}
-        {(shouldShowVoteButtons || isVoteBtnShow) ? (
+        {(websocketStatus !== "CLOSED") ? (
           <section className="flex flex-col items-center gap-[14px] font-bold text-white">
             <p className="font-jersey text-[24px]">VOTE</p>
             <div className="flex flex-col gap-[20px]">
@@ -107,8 +94,8 @@ export default function ReplayDebate({
         ) : (
           <section className="flex flex-col justify-center">
             <p className="text-center text-game_blue01">{replayAnnounceMessage()}</p>
-            <div className={`w-full flex md:flex-col md:gap-3 justify-${shouldShowVoteButtons ? "between" : "center"} mt-[60px] md:text-[16px] text-[14px]`}>
-             {shouldShowVoteButtons && <button
+            <div className={`w-full flex md:flex-col md:gap-3 justify-${websocketStatus !== "CLOSED" ? "between" : "center"} mt-[60px] md:text-[16px] text-[14px]`}>
+             {websocketStatus !== "CLOSED" && <button
                 onClick={() => moveState("result")}
                 className="font-pretendard text-white border-b border-gray02"
               >
@@ -116,9 +103,9 @@ export default function ReplayDebate({
               </button>}
               <button
                 onClick={() => navigate("/main")}
-                className={`text-white ${ shouldShowVoteButtons ? "font-pretendard  border-b border-gray02 w-[50px]" : "bg-game_blue01 bg-opacity-30 border border-white rounded-[10px] p-2 w-[120px] font-jersey font-bold"} `}
+                className={`text-white ${ websocketStatus !== "CLOSED" ? "font-pretendard  border-b border-gray02 w-[50px]" : "bg-game_blue01 bg-opacity-30 border border-white rounded-[10px] p-2 w-[120px] font-jersey font-bold"} `}
               >
-                {shouldShowVoteButtons ? "홈으로" : "GO TO HOME"}
+                {websocketStatus !== "CLOSED" ? "홈으로" : "GO TO HOME"}
               </button>
             </div>
           </section>
