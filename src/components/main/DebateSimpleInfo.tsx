@@ -33,7 +33,7 @@ export default function DebateSimpleInfo({
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const order = index === 1 ? "TOP" : `${index}th`;
-  const totalSeconds = speakCountType * timeType;
+  const totalSeconds = speakCountType * timeType * 2;
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   const formattedTime = `${minutes > 0 ? `${minutes}분` : ""} ${
