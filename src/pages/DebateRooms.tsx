@@ -228,20 +228,20 @@ export default function DebateRooms() {
             }
           }, 500);
 
-          const intervalId = setInterval(() => {
-            if (client.connected) {
-              client.publish({
-                destination: "/app/filteredUpdate",
-                body: JSON.stringify({ message: "최신 토론방 요청" }),
-              });
-              console.log("5초 간격 요청");
-            }
-          }, 5000);
+          // const intervalId = setInterval(() => {
+          //   if (client.connected) {
+          //     client.publish({
+          //       destination: "/app/filteredUpdate",
+          //       body: JSON.stringify({ message: "최신 토론방 요청" }),
+          //     });
+          //     console.log("5초 간격 요청");
+          //   }
+          // }, 5000);
 
           return () => {
             console.log("웹소켓 연결 종료");
             client.deactivate();
-            clearInterval(intervalId);
+            // clearInterval(intervalId);
           };
         };
 
