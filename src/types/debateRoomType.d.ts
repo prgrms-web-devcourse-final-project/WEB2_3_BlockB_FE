@@ -174,8 +174,9 @@ type DebateRoomInfo = {
 }
 
 // WebSocket Context Type
-type WebSocketEvent = "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left"
+type WebSocketEvent = "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left" | "WIN_BY_DEFAULT";
 type WebSocketStatus = "WAITING" | "DEBATE" | "VOTING" | "CLOSED"
+
 type WebSocketCommunicationType = {
   event: WebSocketEvent,
   status?: WebSocketStatus, 
@@ -186,6 +187,7 @@ type WebSocketCommunicationType = {
   timestamp?: string;
   kickedUserName?: string; // 인원 초과시 강퇴에 해당함
   imageUrl?: string;
+  winner?: "PRO" | "CON"
 };
 
 interface DebateWebSocketProviderProps {

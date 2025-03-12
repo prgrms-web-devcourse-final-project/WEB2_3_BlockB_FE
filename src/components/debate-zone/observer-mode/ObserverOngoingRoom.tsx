@@ -10,7 +10,6 @@ import DebateChatObserverMode from "./DebateChatObserverMode";
 import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
 
-
 export default function ObserverOngoingRoom() {
 
   const [isDebateTabed, setIsDebateTabed] = useState<boolean>(true)

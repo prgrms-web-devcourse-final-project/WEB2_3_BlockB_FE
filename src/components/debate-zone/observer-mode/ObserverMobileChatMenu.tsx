@@ -5,10 +5,9 @@ import ParticipantBox from "../ParticipantBox";
 import exit from "../../../assets/icons/exit.svg"
 import Counter from "../ongoing-debate/Counter";
 import ExitModal from "../../common/Modal";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
-import { debateRoomApi } from "../../../api/debatezone";
-import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
+import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
 
 export default function ObserverMobileChatMenu() {
     const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false)
@@ -38,17 +37,8 @@ export default function ObserverMobileChatMenu() {
       });
     };
 
-    const {roomId} = useParams()
-    const {setRoomInfoDetails, roomInfoDetails} = useDebateWebSocket()
-    useEffect(()=> {
-        const fetchRoomInfoInObserverZone = async () => {
-        if(!roomId) return
-         const {data} =  await debateRoomApi.fetchObserverOngoingRoomInfo(roomId)
-         setRoomInfoDetails(data)
-        } 
-        fetchRoomInfoInObserverZone()
-    }),[]
-  
+    const {observerRoomInfoDetails} = useObserverWebSocket()
+
   return (
     <div className="md:hidden flex h-[40px] justify-between items-center relative p-2">
         {/* 나가기 모달 */}
@@ -67,8 +57,8 @@ export default function ObserverMobileChatMenu() {
                         <img src={exit} alt="나가기 버튼" />
                     </button>
                 </div>
-                <ParticipantBox label="PROS" labelAlignment = "left" hasReportBtn ={true} participants={roomInfoDetails?.proUsers}/>
-                <ParticipantBox label="CONS" labelAlignment = "left" hasReportBtn ={true} participants={roomInfoDetails?.conUsers}/>
+                <ParticipantBox label="PROS" labelAlignment = "left" hasReportBtn ={true} participants={observerRoomInfoDetails.proUsers}/>
+                <ParticipantBox label="CONS" labelAlignment = "left" hasReportBtn ={true} participants={observerRoomInfoDetails.conUsers}/>
                 <div className="flex flex-col gap-4 text-white">
              </div>
         </section>}
