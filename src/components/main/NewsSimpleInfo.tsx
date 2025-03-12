@@ -1,12 +1,12 @@
 import { Link } from "react-router";
-
+import { newsCompany } from "../../constants/index";
 import like from "../../assets/icons/like.svg";
 import bookmark from "../../assets/icons/bookmark.svg";
 
 export default function NewsSimpleInfo({ data }: { data: NewsType }) {
   return (
     <Link to={`/news/${data.id}`}>
-      <div className="w-[321px] h-[540px] max-lg:w-[369px] max-md:w-[320px]  max-md:h-[180px] flex flex-col justify-between font-pretendard hover:scale-[1.02]">
+      <div className="w-[321px] h-[540px] max-lg:w-[369px] max-md:w-[320px]  max-md:h-[180px] flex flex-col justify-between font-pretendard hover:scale-[1.02] duration-300">
         <div className="max-md:flex max-md:gap-2 ">
           <img
             src={data.imgUrl}
@@ -18,7 +18,7 @@ export default function NewsSimpleInfo({ data }: { data: NewsType }) {
               {data.title}
             </div>
             <div className="flex justify-between text-[16px] max-md:text-[10px]">
-              <span>{data.newsType}</span>
+              <span>{newsCompany[data.newsType] || data.newsType}</span>
               <span>{new Date(data.deliveryTime).toLocaleString()}</span>
             </div>
           </div>

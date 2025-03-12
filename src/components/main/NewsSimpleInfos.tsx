@@ -1,5 +1,5 @@
 import NewsSimpleInfo from "./NewsSimpleInfo";
-
+import { newsCompany } from "../../constants/index";
 import like from "../../assets/icons/like.svg";
 import bookmark from "../../assets/icons/bookmark.svg";
 import NewsSimpleInfosSkeleton from "../common/skeleton/main/NewsSimpleInfosSkeleton";
@@ -27,7 +27,7 @@ function LikeBookmarkSection({ datas }: { datas: NewsType[] }) {
 }
 function Desktop({ datas }: { datas: NewsType[] }) {
   return (
-    <div className="flex justify-center max-lg:hidden hover:scale-[1.02]">
+    <div className="flex justify-center max-lg:hidden hover:scale-[1.02] duration-300">
       <div className="w-full h-[311px] mb-[50px] flex">
         <img
           src={datas[0].imgUrl}
@@ -40,7 +40,7 @@ function Desktop({ datas }: { datas: NewsType[] }) {
               {datas[0].title}
             </div>
             <div className="flex justify-between text-[16px]">
-              <span>{datas[0].newsType}</span>
+              <span>{newsCompany[datas[0].newsType] || datas[0].newsType}</span>
               <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
             </div>
           </div>
@@ -56,7 +56,7 @@ function Desktop({ datas }: { datas: NewsType[] }) {
 
 function Tablet({ datas }: { datas: NewsType[] }) {
   return (
-    <div className="flex justify-center lg:hidden max-md:hidden hover:scale-[1.02]">
+    <div className="flex justify-center lg:hidden max-md:hidden hover:scale-[1.02] duration-300">
       <div className="w-[768px] h-[250px] mb-[50px] flex">
         <img
           src={datas[0].imgUrl}
@@ -69,7 +69,7 @@ function Tablet({ datas }: { datas: NewsType[] }) {
               {datas[0].title}
             </div>
             <div className="flex justify-between text-[16px]">
-              <span>{datas[0].newsType}</span>
+              <span>{newsCompany[datas[0].newsType] || datas[0].newsType}</span>
               <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
             </div>
           </div>
@@ -85,7 +85,7 @@ function Tablet({ datas }: { datas: NewsType[] }) {
 
 function Mobile({ datas }: { datas: NewsType[] }) {
   return (
-    <div className="flex justify-center lg:hidden md:hidden mb-[15px] hover:scale-[1.02]">
+    <div className="flex justify-center lg:hidden md:hidden mb-[15px] hover:scale-[1.02] duration-300">
       <div className="flex flex-col w-[320px] h-[180px]">
         <div className="flex">
           <img
@@ -99,7 +99,9 @@ function Mobile({ datas }: { datas: NewsType[] }) {
                 {datas[0].title}
               </div>
               <div className="flex justify-between text-[10px]">
-                <span>{datas[0].newsType}</span>
+                <span>
+                  {newsCompany[datas[0].newsType] || datas[0].newsType}
+                </span>
                 <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
               </div>
             </div>

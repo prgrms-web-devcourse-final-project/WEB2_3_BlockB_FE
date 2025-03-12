@@ -219,7 +219,10 @@ function ProfileSimpleInfo({
             삭제
           </button>
         )}
-        <button onClick={handleOpenReportModal} className="w-1 h-3">
+        <button
+          onClick={handleOpenReportModal}
+          className="flex justify-center w-5 h-5 "
+        >
           <img src={kebab} alt="신고 버튼" />
         </button>
       </div>

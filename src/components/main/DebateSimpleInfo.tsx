@@ -65,20 +65,20 @@ export default function DebateSimpleInfo({
           <img
             src={categoryIcon}
             alt="카테고리 아이콘"
-            className="w-9 h-9 mx-2 max-md:hidden mr-6 transition duration-200"
+            className="mx-2 mr-5 transition duration-200 w-9 h-9 max-md:hidden"
           />
 
-          <p className="flex-1 font-pretendard text-[18px] max-md:text-[12px] font-bold truncate">
+          <p className=" font-pretendard text-[18px] max-md:text-[12px] font-bold  max-md:w-32  break-words ">
             {title}
           </p>
         </div>
 
-        <div className="flex justify-between items-center w-[250px] font-pretendard text-[18px] max-md:text-[10px]">
+        <div className="flex justify-between items-center w-60 font-pretendard text-[18px] max-md:text-[10px]">
           <p className="flex justify-center items-center font-semibold rounded-[10px] bg-[#D9D9D9] w-[100px] h-8 max-md:h-4 max-md:mr-3 max-md:w-14 max-md:text-[10px]">
             {formattedTime}
           </p>
 
-          <p className="flex justify-center items-center font-semibold rounded-[10px] bg-[#D9D9D9] w-[60px] h-8 max-md:h-4 ">
+          <p className="flex justify-center items-center font-semibold rounded-[10px] bg-[#D9D9D9] w-12 h-8 max-md:h-4 ">
             {memberNumberType}:{memberNumberType}
           </p>
         </div>

@@ -23,7 +23,7 @@ interface NewsType {
   id: number;
   imgUrl: string;
   like: number;
-  newsType: string;
+  newsType: "JOONGANG" | "HANI" | "HANKYUNG" | "HANKOOK" | "SEGYE";
   title: string;
 }
 

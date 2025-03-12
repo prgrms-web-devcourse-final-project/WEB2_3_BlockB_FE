@@ -1,4 +1,3 @@
-
 export const continentChecklist: ChecklistItem[] = [
   { dbKey: "AS", key: "아시아/호주", isChecked: false },
   { dbKey: "AM", key: "미국/중남미", isChecked: false },
@@ -153,11 +152,22 @@ export const reportReasons: ChecklistItem[] = [
   { dbKey: "DODGE", key: "사유 없는 탈주", isChecked: false },
 ];
 
+// 뉴스 관련
+export const newsCompany = {
+  JOONGANG: "중앙일보",
+  HANI: "한겨레신문",
+  HANKYUNG: "한국경제",
+  HANKOOK: "한국일보",
+  SEGYE: "세계일보",
+};
+
 // 관리자 페이지
 
 type AdminFilter = {
-  label: string, value: string, width: string
-}
+  label: string;
+  value: string;
+  width: string;
+};
 
 // 신고 사유
 export const unprocessedFilters = [
@@ -174,11 +184,13 @@ export const unprocessedFilters = [
   { label: "사유없는 탈주", value: "DODGE", width: "w-[129px]" },
 ];
 
-export const findFilterValue = (filterType: AdminFilter[], selectedLabel: string): string | undefined => {
+export const findFilterValue = (
+  filterType: AdminFilter[],
+  selectedLabel: string
+): string | undefined => {
   const tag = filterType.find((selection) => selection.label === selectedLabel);
   return tag ? tag.value : undefined;
 };
-
 
 export const unprocessedHeader = [
   "신고 사유",
@@ -197,7 +209,6 @@ export const processedFilters = [
   { label: "처리없음", value: "NONE", width: "w-[100px]" },
 ];
 
-
 export const processedHeader = [
   "처리 옵션",
   "처리 대상자",
@@ -214,29 +225,37 @@ export const editOptions = [
 ];
 
 // TODO: 백엔드가 어떤 분류로 주는지 재확인
-export const continentKR:Record<string, string> = {
-  "AS": "아시아/호주",
-  "AM": "미국/중남미",
-  "EU": "유럽",
-  "CN": "중국",
-  "JP": "일본",
-  "AF": "아프리카/중동",
-  "KR": "국내"
-}
+export const continentKR: Record<string, string> = {
+  AS: "아시아/호주",
+  AM: "미국/중남미",
+  EU: "유럽",
+  CN: "중국",
+  JP: "일본",
+  AF: "아프리카/중동",
+  KR: "국내",
+};
 
-export const categoryKR:Record<string, string> = {
-  "PO": "정치",
-  "EC": "경제",
-  "SO": "사회",
-  "CU": "문화",
-  "EN": "엔터",
-  "SP": "스포츠",
-  "IT": "IT/과학",
-  "CO": "칼럼",
-  "ETC": "기타",
-}
+export const categoryKR: Record<string, string> = {
+  PO: "정치",
+  EC: "경제",
+  SO: "사회",
+  CU: "문화",
+  EN: "엔터",
+  SP: "스포츠",
+  IT: "IT/과학",
+  CO: "칼럼",
+  ETC: "기타",
+};
 
-export const timeMap: Record<number, Time> = {  30: "T3", 40: "T4", 50: "T5", 60: "T6", 90: "T9", 120: "T12", 150: "T15"};
+export const timeMap: Record<number, Time> = {
+  30: "T3",
+  40: "T4",
+  50: "T5",
+  60: "T6",
+  90: "T9",
+  120: "T12",
+  150: "T15",
+};
 export const speakCountMap: Record<number, SpeakCount> = {
   3: "THREE",
   4: "FOUR",
@@ -249,8 +268,8 @@ export const speakCountMap: Record<number, SpeakCount> = {
 };
 
 export const roomStatusMap: Record<string, string> = {
-  "waiting" : "WAITING",
-  "ongoing": "DEBATE",
-  "voting": "VOTING",
-  "result": "CLOSED",
-}
+  waiting: "WAITING",
+  ongoing: "DEBATE",
+  voting: "VOTING",
+  result: "CLOSED",
+};
