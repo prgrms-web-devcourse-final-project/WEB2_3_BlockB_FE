@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import { useRoomStore } from "../stores/roomStateStore";
 import { debateRoomApi } from "../api/debatezone";
 import { useObservingStore } from "../stores/observingStateStore";
+import { useObserverWebSocket } from "./ObserverWebSocketContext";
 
 type DebateWebSockContextType = {
   websocketStatus: WebSocketStatus;
@@ -27,6 +28,7 @@ type DebateWebSockContextType = {
   hasVoted: boolean;
   setHasVoted: (hasVoted: boolean) => void;
   voteResult: VoteResult
+  winnerByDefault: "PRO" | "CON" | undefined
 }
 
 const DebateWebSockContext = createContext<DebateWebSockContextType | undefined>(undefined);
@@ -55,6 +57,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     proUsers: [],
     conUsers: [],
   })
+
   const [isResultEnabled, setResultEnabled] = useState<boolean>(false)
   const [voteResult, setVoteResult] = useState<VoteResult>({agreeNumber: 0, disagreeNumber: 0, neutralNumber: 0})
   const [position, _] = useState<string | null>(initialPosition); 
@@ -62,6 +65,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   const [leftTurn, setLeftTurn] = useState<number>(0)
   const [debateCountDown, setDebateCountDown] = useState<number>(0)
   const [websocketStatus, setWebSocketStatus] = useState<WebSocketStatus>("WAITING")
+  const [winnerByDefault, setWinnerByDefault] = useState<"PRO" | "CON" | undefined>(undefined)
 
   const { setRoomState } = useRoomStore();
   const { setObservingState } = useObservingStore()
@@ -76,32 +80,47 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
       });
     }
   };
-
   
   const { roomState } = useRoomStore();
-  const getRoomInfoDetails = async () => {
+
+  const getRoomWaitingRoomInfo = async () => {
     if (roomId) {
-      const response = roomState === "waiting"
-        ? await debateRoomApi.fetchWaitingRoomInfo(roomId) 
-        : await debateRoomApi.fetchOngoingRoomInfo(roomId);
-      
-      const { data: roomInfoData } = response;
+
+      const { data: roomInfoData } = await debateRoomApi.fetchWaitingRoomInfo(roomId) 
       setRoomInfoDetails(roomInfoData);
-      setResultEnabled(roomInfoData.resultEnabled);
+      setResultEnabled(roomInfoData.resultEnabled);      
     }
   };
 
-  const getParticipantsList = async () => {
-    if (!roomId) return;
+  const getOngoingRoomInfo = async () => {
+    if (roomId) {
+    const { data: roomInfoData } = await debateRoomApi.fetchOngoingRoomInfo(roomId);
+    setRoomInfoDetails(roomInfoData);
+    setResultEnabled(roomInfoData.resultEnabled);
 
-    const { proUsers, conUsers } = roomInfoDetails
-    const isPro = position === "pro";
+  }
+  }
+
+  const {setObserverRoomInfoDetails} = useObserverWebSocket()
   
-    setMyTeamList(isPro ? proUsers : conUsers);
-    setOppentTeamList(isPro ? conUsers : proUsers);
-  };
+  const getObserverOngoingInfo = async () => {
+    if (roomId) {
+      const { data: roomInfoData } = await debateRoomApi.fetchObserverOngoingRoomInfo(roomId);
+      setObserverRoomInfoDetails(roomInfoData);
+    }
+  }
 
   useEffect(()=> {
+    const getParticipantsList = async () => {
+      if (!roomId) return;
+  
+      const { proUsers, conUsers } = roomInfoDetails
+      const isPro = position === "pro";
+    
+      setMyTeamList(isPro ? proUsers : conUsers);
+      setOppentTeamList(isPro ? conUsers : proUsers);
+    };
+  
     getParticipantsList()
   },[roomInfoDetails])
 
@@ -145,24 +164,26 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
 
       const getDebateLeftTurn = async() => {
         if (!roomId) return
+        if (position !== "observer") return
         const {data: turnData} = await debateRoomApi.fetchDebateLeftTurn(roomId)
-        setLeftTurnAtObserverView(turnData.turnCount) // flagType 도 있음
+        setLeftTurnAtObserverView(turnData.turnCount) 
       }
       getDebateLeftTurn()
     }, [roomId, userName, roomState])
 
-  const [voteTimer, setVoteTimer] = useState<number>(100)
+  const [voteTimer, setVoteTimer] = useState<number>(30)
+  
   // 투표 시간 타이머
   useEffect(() => {
-    if (websocketStatus === "VOTING") {
+    if (websocketStatus === "VOTING" && voteTimer > 0) {
       const countdownInterval = setTimeout(() => {
         setVoteTimer((prev) => prev - 1);
       }, 1000);
   
       return () => clearTimeout(countdownInterval);
     }
+  }, [websocketStatus, voteTimer]);
   
-  }, [websocketStatus]);
 
     
   // WebSocket 연결 및 메시지 처리
@@ -177,15 +198,13 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         position,
         roomId,
       },
-      debug: (msg) => console.log("[STOMP DEBUG]:", msg),
+      // debug: (msg) => console.log("[STOMP DEBUG]:", msg),
       reconnectDelay: 8000,
     });
 
-    getRoomInfoDetails()
-
     client.onConnect = () => {
       client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
-        console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
+        // console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
         const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
         console.log("✅ subscribe 전달 받음 => 메시지 변형", parsedMessage);
 
@@ -207,6 +226,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
 
         if (parsedMessage.event === "STATUS") {
           if (parsedMessage.status === "DEBATE") {
+            setWebSocketStatus("DEBATE")
             setRoomState("ongoing");
             setObservingState("ongoing");
             setMessages((prevMessages) => [...prevMessages, parsedMessage]);
@@ -214,20 +234,22 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
             setInitialTurnCount();
           }
           if (parsedMessage.status === "VOTING") {
+            setWebSocketStatus("VOTING")
             setIsWaitingVote(false);
           }
           if (parsedMessage.status === "CLOSED") { 
             setWebSocketStatus("CLOSED")   
             stompClient?.deactivate();
-            setTimeout(() => {
-              navigate("/main");
-            }, 10000); 
+            // setTimeout(() => {
+            //   navigate("/main");
+            // }, 10000); 
           }
           
         }
 
         if (parsedMessage.event === "NOTIFICATION") {
          if (parsedMessage.message === "잠시 후 토론이 시작됩니다... ") {
+           getOngoingRoomInfo()
            setIsWaitingRecruitment(false);
          }
          if (parsedMessage.message === "잠시 후 투표가 시작됩니다.") {
@@ -245,8 +267,21 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         }
 
         if (parsedMessage.event === "user_joined") {
-          getRoomInfoDetails();
+          getRoomWaitingRoomInfo();
         }
+        
+        if (parsedMessage.event === "user_left") {
+            getOngoingRoomInfo(); 
+            getObserverOngoingInfo()
+        }
+
+        if (parsedMessage.event === "WIN_BY_DEFAULT") {
+
+          setRoomState("won-by-default")
+          setObservingState("won-by-default")
+          setWinnerByDefault(parsedMessage.winner)
+        }
+
       });
     };
 
@@ -255,13 +290,13 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
 
     return () => {
       client.deactivate();
-      setRoomState("waiting"); // 컴포넌트 언마운트 시 상태 초기화
+      setRoomState("waiting");
       setObservingState("waiting");
     };
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ websocketStatus, messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, leftTurnAtObserverView, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, voteTimer, isWaitngVote, setHasVoted, voteResult }}>
+    <DebateWebSockContext.Provider value={{ websocketStatus, messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, leftTurnAtObserverView, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, voteTimer, isWaitngVote, setHasVoted, voteResult, winnerByDefault }}>
       {children}
     </DebateWebSockContext.Provider>
   );

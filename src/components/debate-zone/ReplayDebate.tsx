@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { userApi } from "../../api/user";
 import { useVote } from "../../hooks/useVote";
 import { useNavigate } from "react-router";
+import clock from "../../assets/icons/clock.svg"
 
 export default function ReplayDebate({
   isObserver = false,
@@ -19,6 +20,7 @@ export default function ReplayDebate({
   const { messages, position} = useDebateWebSocket()
   const {hasVoted} = useDebateWebSocket()
   const [userNickname, setUserNickname] = useState<string | null>(null);
+  
   useEffect(() => {
         const fetchUserNickname = async () => {
           const userResponse = await userApi.fetchMyProfile();
@@ -36,7 +38,7 @@ export default function ReplayDebate({
 
   const {moveState} = useVote(isObserver)
 
-  const {websocketStatus} = useDebateWebSocket()
+  const {websocketStatus, voteTimer} = useDebateWebSocket()
 
   const replayAnnounceMessage = () => {
     if (websocketStatus === "CLOSED") return "이미 투표가 완료됐습니다"
@@ -48,6 +50,11 @@ export default function ReplayDebate({
       <h1 className="text-white font-pretendard font-bold md:text-[24px] text-[18px] text-center md:mb-[30px] mt-[10px] mb-5">
         찬반 투표가 진행중입니다...
       </h1>
+      {websocketStatus==="VOTING" && 
+      <div className="flex items-center gap-[10px] mt-2 md:mt-0">
+            <img src={clock} className="w-[20px] md:w-[25px] h-[20px] md:h-[25px]" />
+            <p className="font-sofiaSans font-bold text-white text-[18px] md:text-[20px]">{voteTimer}</p>
+        </div>}
       <div className="flex md:flex-row flex-col justify-between md:gap-[200px] gap-5 h-9/10">
         {/* 채팅창 */}
         <section className="md:max-w-[500px] md:min-w-[370px] max-w-[700px] min-w-[320px] w-full md:h-[500px] h-[300px] flex flex-grow md:bg-neutral-50/30 rounded-lg md:shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] md:border md:border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse">

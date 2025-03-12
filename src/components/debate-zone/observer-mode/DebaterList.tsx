@@ -1,16 +1,14 @@
-import { useParams } from "react-router";
+
 import flag from "../../../assets/icons/flag-white.svg";
 import profile from "../../../assets/icons/profile-white.svg";
 import { useReportModalStore } from "../../../stores/reportModalStore";
-import { useEffect, useCallback } from "react";
-import { debateRoomApi } from "../../../api/debatezone";
-import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
+import { useCallback, useEffect, useState } from "react";
 import { memo } from "react";
+import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
 
 const AudienceList = () => {
   const { openModal } = useReportModalStore();
-  const { roomId } = useParams();
-  const { setRoomInfoDetails, roomInfoDetails } = useDebateWebSocket();
+  const { observerRoomInfoDetails } = useObserverWebSocket();
 
   const handleOpenReportModal = useCallback(
     (userNickname: string, userId: number) => (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -25,15 +23,6 @@ const AudienceList = () => {
     [openModal]
   );
 
-  useEffect(() => {
-    const fetchRoomInfoInObserverZone = async () => {
-      if (!roomId) return;
-      const { data } = await debateRoomApi.fetchObserverOngoingRoomInfo(roomId);
-      setRoomInfoDetails(data);
-    };
-    fetchRoomInfoInObserverZone();
-  }, [roomId, setRoomInfoDetails]);
-
   return (
     <div className="hidden md:flex w-full h-[176px] font-jersey text-white flex-col justify-normal items-end gap-[5px]">
       <div className="w-[188px] flex justify-start">
@@ -41,7 +30,7 @@ const AudienceList = () => {
       </div>
       <div className="flex flex-col gap-[5px] overflow-y-auto">
         <p className="font-jersey">pro</p>
-        {roomInfoDetails.proUsers.map((user) => (
+        {observerRoomInfoDetails.proUsers.map((user) => (
           <figure
             key={user.id}
             className="flex justify-between px-[5px] py-[2px] items-center bg-white bg-opacity-40 w-[188px] h-[33px] rounded-[10px]"
@@ -56,7 +45,7 @@ const AudienceList = () => {
           </figure>
         ))}
         <p className="font-jersey">con</p>
-        {roomInfoDetails.conUsers.map((user) => (
+        {observerRoomInfoDetails.conUsers.map((user) => (
           <figure
             key={user.id}
             className="flex justify-between px-[5px] py-[2px] items-center bg-white bg-opacity-40 w-[188px] h-[33px] rounded-[10px]"
@@ -75,5 +64,5 @@ const AudienceList = () => {
   );
 };
 
-// 메모이제이션 적용
+
 export default memo(AudienceList);

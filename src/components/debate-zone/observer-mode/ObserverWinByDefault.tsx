@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router";
-import ParticipantBox from "./ParticipantBox";
-import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
+import ParticipantBox from "../ParticipantBox";
+import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
-export default function WinByDefault() {
+export default function ObserverWinByDefault() {
   const navigate = useNavigate();
-  const {roomInfoDetails, winnerByDefault} = useDebateWebSocket()
+  const {observerRoomInfoDetails} = useObserverWebSocket();
+  const {winnerByDefault} = useDebateWebSocket()
 
-  
+
   return (
     <div className="flex flex-col justify-center items-center gap-[30px] md:mt-[60px] min-h-screen">
       <h1 className="text-white font-pretendard font-bold  md:text-[24px] text-[16px]">
@@ -20,9 +22,7 @@ export default function WinByDefault() {
           >
             {winnerByDefault === "PRO" ? "부전승" : "부전패"}
           </h2>
-          <div className="h-full flex items-start">
-           <ParticipantBox label="PROS" labelAlignment="center" participants={roomInfoDetails.proUsers}/>  
-          </div>
+          <ParticipantBox label="PROS" labelAlignment="center" participants={observerRoomInfoDetails.proUsers}/>
         </div>
         <p className="md:block hidden text-white font-bold md:text-[24px] text-[20px] font-jersey pt-[10px]">vs</p>
         <div>
@@ -32,9 +32,7 @@ export default function WinByDefault() {
           >
             {winnerByDefault === "CON" ? "부전승" : "부전패"}
           </h2>
-          <div className="h-full flex items-start">
-            <ParticipantBox label="CONS" color="blue" labelAlignment="center"  participants={roomInfoDetails.conUsers}/>
-          </div>
+          <ParticipantBox label="CONS" color="blue" labelAlignment="center" participants={observerRoomInfoDetails.conUsers}/>
         </div>
       </section>
       <button
