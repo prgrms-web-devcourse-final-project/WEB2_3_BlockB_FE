@@ -3,6 +3,7 @@ import { useRef } from "react";
 import bookmark from "../../assets/icons/bookmark.svg";
 import like from "../../assets/icons/like.svg";
 import TopButton from "../common/TopButton";
+import { newsCompany } from "../../constants/index";
 
 export default function NewsList({
   newsData,
@@ -34,7 +35,7 @@ export default function NewsList({
               {news.title}
             </h3>
             <div className="flex justify-between mt-2 text-sm text-gray-500">
-              <p>{news.newsType}</p>
+              <p>{newsCompany[news.newsType]}</p>
               <p>{new Date(news.deliveryTime).toLocaleString()}</p>
             </div>
             <p className="mt-2 text-sm text-gray-700 md:h-[180px] sm:h-[200px] h-[160px] overflow-hidden break-words pb-2">

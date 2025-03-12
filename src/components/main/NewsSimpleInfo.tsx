@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-
+import { newsCompany } from "../../constants/index";
 import like from "../../assets/icons/like.svg";
 import bookmark from "../../assets/icons/bookmark.svg";
 
@@ -18,7 +18,7 @@ export default function NewsSimpleInfo({ data }: { data: NewsType }) {
               {data.title}
             </div>
             <div className="flex justify-between text-[16px] max-md:text-[10px]">
-              <span>{data.newsType}</span>
+              <span>{newsCompany[data.newsType] || data.newsType}</span>
               <span>{new Date(data.deliveryTime).toLocaleString()}</span>
             </div>
           </div>

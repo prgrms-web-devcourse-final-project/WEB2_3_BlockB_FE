@@ -1,5 +1,5 @@
 import NewsSimpleInfo from "./NewsSimpleInfo";
-
+import { newsCompany } from "../../constants/index";
 import like from "../../assets/icons/like.svg";
 import bookmark from "../../assets/icons/bookmark.svg";
 import NewsSimpleInfosSkeleton from "../common/skeleton/main/NewsSimpleInfosSkeleton";
@@ -40,7 +40,7 @@ function Desktop({ datas }: { datas: NewsType[] }) {
               {datas[0].title}
             </div>
             <div className="flex justify-between text-[16px]">
-              <span>{datas[0].newsType}</span>
+              <span>{newsCompany[datas[0].newsType] || datas[0].newsType}</span>
               <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
             </div>
           </div>
@@ -69,7 +69,7 @@ function Tablet({ datas }: { datas: NewsType[] }) {
               {datas[0].title}
             </div>
             <div className="flex justify-between text-[16px]">
-              <span>{datas[0].newsType}</span>
+              <span>{newsCompany[datas[0].newsType] || datas[0].newsType}</span>
               <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
             </div>
           </div>
@@ -99,7 +99,9 @@ function Mobile({ datas }: { datas: NewsType[] }) {
                 {datas[0].title}
               </div>
               <div className="flex justify-between text-[10px]">
-                <span>{datas[0].newsType}</span>
+                <span>
+                  {newsCompany[datas[0].newsType] || datas[0].newsType}
+                </span>
                 <span>{new Date(datas[0].deliveryTime).toLocaleString()}</span>
               </div>
             </div>
