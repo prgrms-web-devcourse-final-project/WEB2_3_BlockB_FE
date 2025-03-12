@@ -24,6 +24,7 @@ import GeneratingRoom from "./pages/GeneratingRoom";
 import AdminRoute from "./layouts/AdminRoute";
 import "./utils/firebase/foregroundMessage";
 import DebateRoomGate from "./pages/DebateRoomGate";
+import ArchivedRoom from "./pages/ArchivedRoom";
 
 function App() {
   useTokenRefresh();
@@ -63,8 +64,8 @@ function App() {
             />
             <Route path="/debate-zone/:roomId" element={<DebateZone />} />
             <Route path="/observing-zone/:roomId" element={<ObservingZone />} />
+            <Route path="/archived-room/:roomId" element={<ArchivedRoom />} />
           </Route>
-
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<Admin />} />
           </Route>

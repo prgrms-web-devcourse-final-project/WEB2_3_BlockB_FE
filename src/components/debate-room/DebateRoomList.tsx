@@ -106,44 +106,55 @@ export default function DebateRoomList({
                   </span>
                 </td>
                 <td className="p-3 flex space-x-2 justify-center">
-                  <button
-                    disabled={isFinished || room.proUsersCount === room.member}
-                    className={`px-3 py-1 text-white rounded-md ${
-                      isFinished || room.proUsersCount === room.member
-                        ? "bg-gray03 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-[#0044aa]"
-                    }`}
-                    onClick={() =>
-                      !isFinished &&
-                      navigate(`/debate-zone/${room.roomId}`, {
-                        state: { stance: "pro" },
-                      })
-                    }
-                  >
-                    찬성
-                  </button>
-                  <button
-                    disabled={isFinished || room.conUsersCount === room.member}
-                    className={`px-3 py-1 text-white rounded-md ${
-                      isFinished || room.conUsersCount === room.member
-                        ? "bg-gray03 cursor-not-allowed"
-                        : "bg-blue-500 hover:bg-[#0044aa]"
-                    }`}
-                    onClick={() =>
-                      !isFinished &&
-                      navigate(`/debate-zone/${room.roomId}`, {
-                        state: { stance: "con" },
-                      })
-                    }
-                  >
-                    반대
-                  </button>
-                  <button
-                    className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
-                    onClick={() => navigate(`/observing-zone/${room.roomId}`)}
-                  >
-                    참관
-                  </button>
+                  {isFinished ? (
+                    <button
+                      className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
+                      onClick={() => navigate(`/archived-room/${room.roomId}`)}
+                    >
+                      보러가기
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        disabled={room.proUsersCount === room.member}
+                        className={`px-3 py-1 text-white rounded-md ${
+                          room.proUsersCount === room.member
+                            ? "bg-gray03 cursor-not-allowed"
+                            : "bg-blue-500 hover:bg-[#0044aa]"
+                        }`}
+                        onClick={() =>
+                          navigate(`/debate-zone/${room.roomId}`, {
+                            state: { stance: "pro" },
+                          })
+                        }
+                      >
+                        찬성
+                      </button>
+                      <button
+                        disabled={room.conUsersCount === room.member}
+                        className={`px-3 py-1 text-white rounded-md ${
+                          room.conUsersCount === room.member
+                            ? "bg-gray03 cursor-not-allowed"
+                            : "bg-blue-500 hover:bg-[#0044aa]"
+                        }`}
+                        onClick={() =>
+                          navigate(`/debate-zone/${room.roomId}`, {
+                            state: { stance: "con" },
+                          })
+                        }
+                      >
+                        반대
+                      </button>
+                      <button
+                        className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
+                        onClick={() =>
+                          navigate(`/observing-zone/${room.roomId}`)
+                        }
+                      >
+                        참관
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             );
@@ -180,44 +191,53 @@ export default function DebateRoomList({
                 </span>
               </div>
               <div className="flex space-x-2 justify-end">
-                <button
-                  disabled={isFinished || room.proUsersCount === room.member}
-                  className={`px-3 py-1 text-white rounded-md ${
-                    isFinished || room.proUsersCount === room.member
-                      ? "bg-gray03 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-[#0044aa]"
-                  }`}
-                  onClick={() =>
-                    !isFinished &&
-                    navigate(`/debate-zone/${room.roomId}`, {
-                      state: { stance: "pro" },
-                    })
-                  }
-                >
-                  찬성
-                </button>
-                <button
-                  disabled={isFinished || room.conUsersCount === room.member}
-                  className={`px-3 py-1 text-white rounded-md ${
-                    isFinished || room.conUsersCount === room.member
-                      ? "bg-gray03 cursor-not-allowed"
-                      : "bg-blue-500 hover:bg-[#0044aa]"
-                  }`}
-                  onClick={() =>
-                    !isFinished &&
-                    navigate(`/debate-zone/${room.roomId}`, {
-                      state: { stance: "con" },
-                    })
-                  }
-                >
-                  반대
-                </button>
-                <button
-                  className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
-                  onClick={() => navigate(`/observing-zone/${room.roomId}`)}
-                >
-                  참관
-                </button>
+                {isFinished ? (
+                  <button
+                    className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
+                    onClick={() => navigate(`/archived-room/${room.roomId}`)}
+                  >
+                    보러가기
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      disabled={room.proUsersCount === room.member}
+                      className={`px-3 py-1 text-white rounded-md ${
+                        room.proUsersCount === room.member
+                          ? "bg-gray03 cursor-not-allowed"
+                          : "bg-blue-500 hover:bg-[#0044aa]"
+                      }`}
+                      onClick={() =>
+                        navigate(`/debate-zone/${room.roomId}`, {
+                          state: { stance: "pro" },
+                        })
+                      }
+                    >
+                      찬성
+                    </button>
+                    <button
+                      disabled={room.conUsersCount === room.member}
+                      className={`px-3 py-1 text-white rounded-md ${
+                        room.conUsersCount === room.member
+                          ? "bg-gray03 cursor-not-allowed"
+                          : "bg-blue-500 hover:bg-[#0044aa]"
+                      }`}
+                      onClick={() =>
+                        navigate(`/debate-zone/${room.roomId}`, {
+                          state: { stance: "con" },
+                        })
+                      }
+                    >
+                      반대
+                    </button>
+                    <button
+                      className="px-3 py-1 bg-blue03 text-white rounded-md hover:bg-[#0044aa]"
+                      onClick={() => navigate(`/observing-zone/${room.roomId}`)}
+                    >
+                      참관
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           );

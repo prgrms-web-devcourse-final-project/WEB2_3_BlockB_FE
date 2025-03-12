@@ -37,12 +37,21 @@ const fetchOngoingRoomInfo = async (roomId: string) => {
 const fetchObserverOngoingRoomInfo = async (roomId: string) => {
     try {
         const response = await axiosInstance.get(`/api/debates/observer/${roomId}`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error("❌ 진행 중인 토론방(참관자용) 정보를 불러오지 못했습니다", error);
     }
 };
+
+// ✅ 토론중 채팅의 남은 턴 정보 가져오기
+const fetchDebateLeftTurn = async (roomId: string) => {
+    try {
+        const response = await axiosInstance.get(`/api/debates/turn/${roomId}`);
+        return response.data;
+    } catch (error) {
+        console.error("❌ 채팅방의 남은 턴 정보를 가져오지 못했습니다", error);
+    }
+}
 
 // ✅ 토론방 채팅 신고 - 참여자용 (유저 신고와 별도)
 const reportInRoomByDebater = async (roomId: string) => {
@@ -103,6 +112,7 @@ export const debateRoomApi = {
     fetchWaitingRoomInfo,
     fetchOngoingRoomInfo,
     fetchObserverOngoingRoomInfo,
+    fetchDebateLeftTurn,
     reportInRoomByDebater,
     reportInRoomByObserver,
     sendDebateVote,

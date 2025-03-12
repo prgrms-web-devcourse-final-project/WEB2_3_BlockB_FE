@@ -15,7 +15,6 @@ export default function ObserverChatSection({currentUserName}: {currentUserName:
 
   return (
     <div className="md:w-[378px] md:h-[376px] flex flex-col flex-grow p-[10px] font-pretendard flex flex-col gap-[12px] overflow-y-auto">
-      {/* 상대방 메시지 */}
       {observerMessages.map((msg)=>
       <ChatObserverChatBubble
         isMine={msg.userName === currentUserName}

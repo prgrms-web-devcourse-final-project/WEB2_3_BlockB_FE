@@ -15,6 +15,7 @@ type DebateWebSockContextType = {
   isMyTurn: boolean;
   leftTurn: number;
   debateCountDown: number;
+  leftTurnAtObserverView: number;
   stompClient: Client | null;
   position: string | null; 
   isResultEnabled: boolean;
@@ -22,6 +23,7 @@ type DebateWebSockContextType = {
   roomInfoDetails: DebateRoomInfo;
   setRoomInfoDetails: (info: DebateRoomInfo) => void
   isWaitngVote: boolean,
+  voteTimer: number,
   hasVoted: boolean;
   setHasVoted: (hasVoted: boolean) => void;
   voteResult: VoteResult
@@ -101,7 +103,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
 
   useEffect(()=> {
     getParticipantsList()
-  }),[roomInfoDetails]
+  },[roomInfoDetails])
 
   const setInitialTurnCount = () => {
     setLeftTurn(roomInfoDetails.speakCountType * 2);
@@ -136,6 +138,33 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     setIsCountingVotes(false)
   }
 
+  // 관찰자용 턴 변경 메서드
+    const [leftTurnAtObserverView, setLeftTurnAtObserverView] = useState<number>(0)
+  
+    useEffect(()=> {
+
+      const getDebateLeftTurn = async() => {
+        if (!roomId) return
+        const {data: turnData} = await debateRoomApi.fetchDebateLeftTurn(roomId)
+        setLeftTurnAtObserverView(turnData.turnCount) // flagType 도 있음
+      }
+      getDebateLeftTurn()
+    }, [roomId, userName, roomState])
+
+  const [voteTimer, setVoteTimer] = useState<number>(100)
+  // 투표 시간 타이머
+  useEffect(() => {
+    if (websocketStatus === "VOTING") {
+      const countdownInterval = setTimeout(() => {
+        setVoteTimer((prev) => prev - 1);
+      }, 1000);
+  
+      return () => clearTimeout(countdownInterval);
+    }
+  
+  }, [websocketStatus]);
+
+    
   // WebSocket 연결 및 메시지 처리
   useEffect(() => {
     if (!roomId || !userName || !position) return;
@@ -155,7 +184,6 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
     getRoomInfoDetails()
 
     client.onConnect = () => {
-      console.log("유저의 이름:", userName);
       client.subscribe(`/topic/debate/${roomId}`, (message: Message) => {
         console.log("✅ subscribe 전달 받음 => 메시지 원본", message);
         const parsedMessage: WebSocketCommunicationType = JSON.parse(message.body as string);
@@ -171,11 +199,9 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
 
         if (parsedMessage.event === "TURN") {
           updateTurnCount();
-          console.log("현재턴은", parsedMessage.turn, ", 내 포지션은", position?.toUpperCase());
+          setLeftTurnAtObserverView(prev => prev - 1)
           setIsMyTurn(parsedMessage.turn === position?.toUpperCase());
           setMessages((prevMessages) => [...prevMessages, parsedMessage]);
-
-          // TURN 메시지 수신 시 카운트 초기화 및 타이머 재설정
           setDebateCountDown(roomInfoDetails.timeType);
         }
 
@@ -235,7 +261,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
   }, [roomId, userName, position]);
 
   return (
-    <DebateWebSockContext.Provider value={{ websocketStatus, messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, isWaitngVote, setHasVoted, voteResult }}>
+    <DebateWebSockContext.Provider value={{ websocketStatus, messages, sendMessage, isWaitingRecruitment, myTeamList, opponentTeamList, isMyTurn, leftTurn, debateCountDown, leftTurnAtObserverView, stompClient, position, isResultEnabled, isCountingVotes, roomInfoDetails, setRoomInfoDetails, hasVoted, voteTimer, isWaitngVote, setHasVoted, voteResult }}>
       {children}
     </DebateWebSockContext.Provider>
   );
