@@ -73,7 +73,7 @@ export default function OngoingDebate() {
                 <AudienceCard profile={profile} nickname="imaria0219" />
                 <AudienceCard profile={profile} nickname="imaria0219" />
               </section> */}
-              <div className="flex justify-end">
+              <div className="flex justify-end mt-10">
                 <button
                   onClick={handleExitClick}
                 >
