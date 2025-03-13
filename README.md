@@ -11,65 +11,34 @@
 
 📅 <strong>개발 기간</strong>: 2025.02.12 ~ 03.12
 
-## 🧑🏻‍💻Developers👩🏻‍💻
+## 🧑🏻‍💻 Developers 👩🏻‍💻
 
 <table>
 <thead>
   <tr>
-    <th colspan="3">Frontend</th>
-    <th colspan="5">Backend</th>
+    <th colspan="3" width="50%">Frontend</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td align="center">김동찬</td>
-    <td align="center">김내현</td>
-    <td align="center">김예빈</td>
-    <td align="center">홍진웅</td>
-    <td align="center">오수진</td>
-    <td align="center">오창식</td>
-    <td align="center">박현욱</td>
-    <td align="center">이정은</td>
+    <td align="center" width="33%">김동찬</td>
+    <td align="center" width="33%">김내현</td>
+    <td align="center" width="33%">김예빈</td>
   </tr>
   <tr>
-    <td>
+    <td align="center" width="33%">
       <a href="https://github.com/kdc9050">
-        <img src="https://github.com/kdc9050.png" style="width:230px"/>
+        <img src="https://github.com/kdc9050.png" style="width:200px; height:200px; border-radius:10px"/>
       </a>
     </td>
-    <td>
+    <td align="center" width="33%">
       <a href="https://github.com/kimnaehyun">
-        <img src="https://github.com/kimnaehyun.png" style="width:230px"/>
+        <img src="https://github.com/kimnaehyun.png" style="width:200px; height:200px; border-radius:10px"/>
       </a>
     </td>
-    <td>
+    <td align="center" width="33%">
       <a href="https://github.com/engsal-bin">
-        <img src="https://github.com/engsal-bin.png" style="width:230px"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/JinWoong9607">
-        <img src="https://github.com/JinWoong9607.png" style="width:230px"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/ohdeng02">
-        <img src="https://github.com/ohdeng02.png" style="width:230px"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/ku-ocs">
-        <img src="https://github.com/ku-ocs.png" style="width:230px"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/Wookindeye">
-        <img src="https://github.com/Wookindeye.png" style="width:230px"/>
-      </a>
-    </td>
-    <td>
-      <a href="https://github.com/Jeongeun0179">
-        <img src="https://github.com/Jeongeun0179.png" style="width:230px"/>
+        <img src="https://github.com/engsal-bin.png" style="width:200px; height:200px; border-radius:10px"/>
       </a>
     </td>
   </tr>
@@ -77,6 +46,54 @@
     <td align="center"><a href="https://github.com/kdc9050">@kdc9050</a></td>
     <td align="center"><a href="https://github.com/kimnaehyun">@kimnaehyun</a></td>
     <td align="center"><a href="https://github.com/engsal-bin">@engsal-bin</a></td>
+  </tr>
+</tbody>
+</table>
+
+<br/>
+
+<table>
+<thead>
+  <tr>
+    <th colspan="5" width="50%">Backend</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td align="center" width="20%">홍진웅</td>
+    <td align="center" width="20%">오수진</td>
+    <td align="center" width="20%">오창식</td>
+    <td align="center" width="20%">박현욱</td>
+    <td align="center" width="20%">이정은</td>
+  </tr>
+  <tr>
+    <td align="center" width="20%">
+      <a href="https://github.com/JinWoong9607">
+        <img src="https://github.com/JinWoong9607.png" style="width:150px; height:150px; border-radius:10px"/>
+      </a>
+    </td>
+    <td align="center" width="20%">
+      <a href="https://github.com/ohdeng02">
+        <img src="https://github.com/ohdeng02.png" style="width:150px; height:150px; border-radius:10px"/>
+      </a>
+    </td>
+    <td align="center" width="20%">
+      <a href="https://github.com/ku-ocs">
+        <img src="https://github.com/ku-ocs.png" style="width:150px; height:150px; border-radius:10px"/>
+      </a>
+    </td>
+    <td align="center" width="20%">
+      <a href="https://github.com/Wookindeye">
+        <img src="https://github.com/Wookindeye.png" style="width:150px; height:150px; border-radius:10px"/>
+      </a>
+    </td>
+    <td align="center" width="20%">
+      <a href="https://github.com/Jeongeun0179">
+        <img src="https://github.com/Jeongeun0179.png" style="width:150px; height:150px; border-radius:10px"/>
+      </a>
+    </td>
+  </tr>
+  <tr>
     <td align="center"><a href="https://github.com/JinWoong9607">@JinWoong9607</a></td>
     <td align="center"><a href="https://github.com/ohdeng02">@ohdeng02</a></td>
     <td align="center"><a href="https://github.com/ku-ocs">@ku-ocs</a></td>
@@ -85,6 +102,8 @@
   </tr>
 </tbody>
 </table>
+
+
 
 
 ## 🚀 Tech Stack
