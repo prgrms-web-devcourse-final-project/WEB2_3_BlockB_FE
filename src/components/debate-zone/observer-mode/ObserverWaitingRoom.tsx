@@ -1,23 +1,21 @@
 import ObserverMatchingInterface from "./ObserverMatchingInterface";
 import ParticipantBox from "./../ParticipantBox";
 import InfoDropdwon from "../InfoDrodown";
-import { useState } from "react";
-import AudienceListBox from "./AudienceListBox";
 import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
-
+import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 export default function ObserverWaitingRoom() {
-  const [isWaiting, setIsWaiting] = useState<boolean>(true);
-    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
-  if (isWaiting)
+  const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
+  const {isWaitingRecruitment} = useDebateWebSocket()
+  
+  if (isWaitingRecruitment)
     return (
       <section className="px-[40px] flex flex-col gap-[250px] relative min-h-screen">
         <div className="w-full flex justify-between">
           <InfoDropdwon />
-          <AudienceListBox setIsWaiting={setIsWaiting} />
           {/* TODO: 대기 완료 전환 버튼은 임시로 제작해 놓은 것으로 실제 구현시 props 및 버튼을 삭제하십시오 */}
         </div>
-        <ObserverMatchingInterface isWaiting={isWaiting} />
+        <ObserverMatchingInterface isWaiting={isWaitingRecruitment} />
       </section>
     );
   else
