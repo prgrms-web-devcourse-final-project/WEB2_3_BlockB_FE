@@ -1,14 +1,15 @@
 
 import flag from "../../../assets/icons/flag-white.svg";
 import profile from "../../../assets/icons/profile-white.svg";
+import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
 import { useReportModalStore } from "../../../stores/reportModalStore";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { memo } from "react";
-import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
 
 const AudienceList = () => {
   const { openModal } = useReportModalStore();
-  const { observerRoomInfoDetails } = useObserverWebSocket();
+  
+  const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
   const handleOpenReportModal = useCallback(
     (userNickname: string, userId: number) => (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

@@ -4,24 +4,25 @@ import React, { useState, useMemo } from "react";
 import { timeFormatter } from "../../utils/timeFormatter";
 import { getKeyFromDbKey } from "../../constants";
 import { useDebateWebSocket } from "../../contexts/DebateWebSocketContext";
+import { useObserverRoomStore } from "../../stores/observerRoomInfoStore";
 
-
-const InfoDrodown = React.memo(() => {
+const InfoDrodown = React.memo(({isObserver=false}: {isObserver?: boolean}) => {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
   const { roomInfoDetails } = useDebateWebSocket();
+    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
   const memoizedRoomInfo = useMemo(() => {
     return {
-      title: roomInfoDetails?.title,
-      description: roomInfoDetails?.description,
-      continentType: getKeyFromDbKey(roomInfoDetails?.continentType!),
-      categoryType: getKeyFromDbKey(roomInfoDetails?.categoryType!),
-      speakCountTime: timeFormatter(roomInfoDetails?.speakCountType! * roomInfoDetails?.timeType! * 2),
-      memberNumberType: roomInfoDetails?.memberNumberType,
-      resultEnabled: getKeyFromDbKey(roomInfoDetails?.resultEnabled!),
+      title: isObserver? observerRoomInfoDetails.title : roomInfoDetails?.title,
+      description: isObserver ? observerRoomInfoDetails.description : roomInfoDetails?.description,
+      continentType: getKeyFromDbKey(isObserver?  observerRoomInfoDetails.continentType : roomInfoDetails?.continentType!),
+      categoryType: getKeyFromDbKey(isObserver ? observerRoomInfoDetails.categoryType : roomInfoDetails?.categoryType!),
+      speakCountTime: timeFormatter(isObserver ? observerRoomInfoDetails.speakCountType * observerRoomInfoDetails.timeType * 2 : roomInfoDetails?.speakCountType! * roomInfoDetails?.timeType! * 2),
+      memberNumberType: isObserver? observerRoomInfoDetails.memberNumberType : roomInfoDetails?.memberNumberType,
+      resultEnabled: getKeyFromDbKey(isObserver ? observerRoomInfoDetails.resultEnabled : roomInfoDetails?.resultEnabled!),
       newsUrl: roomInfoDetails?.newsUrl
     };
-  }, [roomInfoDetails]);
+  }, [roomInfoDetails, observerRoomInfoDetails]);
 
   return (
     <div className="flex gap-[10px] items-start z-40 relative">

@@ -1,18 +1,17 @@
 import { useNavigate } from "react-router";
 import ParticipantBox from "../ParticipantBox";
-import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
+import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
 
 export default function ObserverWinByDefault() {
   const navigate = useNavigate();
-  const {observerRoomInfoDetails} = useObserverWebSocket();
+    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
   const {winnerByDefault} = useDebateWebSocket()
-
 
   return (
     <div className="flex flex-col justify-center items-center gap-[30px] md:mt-[60px] min-h-screen">
       <h1 className="text-white font-pretendard font-bold  md:text-[24px] text-[16px]">
-        한 측의 모든 디베이터가 나갔으므로 승패가 결정됩니다
+      {observerRoomInfoDetails.memberNumberType === 1 ? "한 측의 디베이터가 나갔으므로 승패가 결정됩니다" : "한 측의 디베이터가 한 명만 나갔으므로 승패가 결정됩니다"}
       </h1>
       <section className="flex items-center md:gap-[26px] gap-[18px]">
         <div className="flex flex-col">

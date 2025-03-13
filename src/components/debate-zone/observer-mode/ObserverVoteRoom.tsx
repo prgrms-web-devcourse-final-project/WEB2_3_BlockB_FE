@@ -1,10 +1,10 @@
 
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
-import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
 import { useVote } from "../../../hooks/useVote";
 import clock from "../../../assets/icons/clock.svg"
 import LoadingBar from "../../common/LoadingBar";
 import ParticipantBox from "../ParticipantBox";
+import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
 
 export default function ObserverVoteRoom() {
   const { moveState, onVoteWithStageChanged } = useVote(true);
@@ -12,7 +12,7 @@ export default function ObserverVoteRoom() {
     "white-space md:w-[46px] w-[42px] md:h-[30px] h-[20px] px-2 md:py-[4px] bg-white text-black01 font-bold font-pretendard rounded-[5px] hover:bg-gray-300 hover:bg-game_blue01 hover:text-white transition-colors duration-300";
 
     const {roomInfoDetails, isWaitngVote, voteTimer } = useDebateWebSocket()  
-    const {observerRoomInfoDetails} = useObserverWebSocket()
+    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
   if (isWaitngVote) return <LoadingBar isLoading={isWaitngVote} color="white" speed={30}/>
 

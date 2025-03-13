@@ -7,7 +7,7 @@ import Counter from "../ongoing-debate/Counter";
 import ExitModal from "../../common/Modal";
 import { useNavigate } from "react-router";
 import { useModalStore } from "../../../stores/useModal";
-import { useObserverWebSocket } from "../../../contexts/ObserverWebSocketContext";
+import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
 
 export default function ObserverMobileChatMenu() {
     const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(false)
@@ -37,7 +37,7 @@ export default function ObserverMobileChatMenu() {
       });
     };
 
-    const {observerRoomInfoDetails} = useObserverWebSocket()
+  const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
   return (
     <div className="md:hidden flex h-[40px] justify-between items-center relative p-2">
