@@ -174,7 +174,7 @@ type DebateRoomInfo = {
 }
 
 // WebSocket Context Type
-type WebSocketEvent = "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left" | "WIN_BY_DEFAULT";
+type WebSocketEvent = "JOIN" | "MESSAGE" | "EXIT" | "STATUS" | "TURN" | "NOTIFICATION" | "user_joined" | "error" | "user_left" | "WIN_BY_DEFAULT" | "EXIT_OVERFLOW_NULL"
 type WebSocketStatus = "WAITING" | "DEBATE" | "VOTING" | "CLOSED"
 
 type WebSocketCommunicationType = {

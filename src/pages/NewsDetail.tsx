@@ -70,7 +70,7 @@ export default function NewsDetail() {
               <div className="my-6 border-t border-gray-300"></div>
 
               {/* 좋아요, 북마크, 커넥트 버튼 */}
-              <div className="flex flex-col items-center justify-between gap-4 text-lg text-gray-600 md:flex-row">
+              <div className="flex flex-col items-center justify-between gap-4 text-lg text-gray-600 md:flex-row mb-10">
                 <div className="flex justify-between w-full md:w-auto md:space-x-6">
                   <button
                     className="flex items-center space-x-2"

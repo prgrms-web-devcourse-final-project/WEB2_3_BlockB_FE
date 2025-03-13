@@ -1,4 +1,5 @@
 
+import { useParams } from "react-router";
 import flag from "../../../assets/icons/flag-white.svg";
 import profile from "../../../assets/icons/profile-white.svg";
 import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
@@ -11,14 +12,16 @@ const AudienceList = () => {
   
   const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
+  const {roomId} = useParams()
   const handleOpenReportModal = useCallback(
     (userNickname: string, userId: number) => (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      if (!roomId) return
       e.stopPropagation();
       openModal({
         targetNickname: userNickname,
         targetUserId: userId,
         targetType: "CHAT",
-        roomId: null,
+        roomId: roomId,
       });
     },
     [openModal]

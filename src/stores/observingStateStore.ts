@@ -6,7 +6,8 @@ type ObservingState =
   | "won-by-default"
   | "voting"
   | "replay"
-  | "result";
+  | "result"
+  | "exit_overflow_null"
 
 interface ObservingStateStore {
   observingState: ObservingState;

@@ -32,7 +32,7 @@ export default function ParticipantBox({
         {!!participants && participants?.length > 0 ?
           participants?.map((participant, index) => 
                   <ProfileCard key={index} color={color} hasReportBtn={hasReportBtn} participant={participant}/>
-          ) : <div className="font-jersey md:text-16px text-14px text-gray03 text-center">NO USER YET</div>
+          ) : <div className="font-jersey md:text-16px text-14px text-gray03 text-center">NO USER</div>
         }
 
       </div>

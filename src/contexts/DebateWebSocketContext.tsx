@@ -283,6 +283,14 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
           setRoomState("won-by-default")
           setObservingState("won-by-default")
           setWinnerByDefault(parsedMessage.winner)
+          client.deactivate()
+        }
+
+        if (parsedMessage.event === "EXIT_OVERFLOW_NULL") {
+          console.log("🍆승패결정없이 부전승 조건 이동")
+          setRoomState("exit_overflow_null")
+          setObservingState("exit_overflow_null")
+          client.deactivate()
         }
 
       });
