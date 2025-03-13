@@ -18,7 +18,7 @@ export default function ObserverChatSection({currentUserName}: {currentUserName:
       {observerMessages.map((msg)=>
       <ChatObserverChatBubble
         isMine={msg.userName === currentUserName}
-        username={currentUserName}
+        username={msg.userName!}
         message={msg.message}
         profileUrl={msg.imageUrl || profile}
       />)}

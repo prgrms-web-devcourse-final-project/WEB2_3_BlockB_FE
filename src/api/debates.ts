@@ -95,7 +95,7 @@ const getFinishedDebates = async (
 
     return {
       content: data.content.map((room: DebateRoomInfoRaw): DebateRoomInfo => {
-        const totalSeconds = room.timeType * room.speakCountType;
+        const totalSeconds = room.timeType * room.speakCountType * 2;
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
         const formattedTime = `${minutes > 0 ? `${minutes}분` : ""} ${

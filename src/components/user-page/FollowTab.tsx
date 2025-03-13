@@ -221,7 +221,7 @@ function ProfileSimpleInfo({
         )}
         <button
           onClick={handleOpenReportModal}
-          className="flex justify-center w-5 h-5 "
+          className="flex justify-center w-10 h-5 px-3"
         >
           <img src={kebab} alt="신고 버튼" />
         </button>
