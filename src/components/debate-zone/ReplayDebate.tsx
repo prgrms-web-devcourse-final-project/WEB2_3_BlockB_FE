@@ -68,7 +68,7 @@ export default function ReplayDebate({
       )}
       <div className="flex md:flex-row flex-col justify-between md:gap-[200px] gap-5 h-9/10">
         {/* 채팅창 */}
-        <section className="md:max-w-[500px] md:min-w-[370px] max-w-[700px] min-w-[320px] w-full md:h-[500px] h-[300px] flex flex-grow md:bg-neutral-50/30 rounded-lg md:shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] md:border md:border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse gap-[18px]">
+        <section className="md:max-w-[500px] md:min-w-[370px] max-w-[700px] min-w-[320px] w-full md:h-[500px] h-[300px] flex flex-grow col-reverse md:bg-neutral-50/30 rounded-lg md:shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] md:border md:border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse gap-[18px]">
           {messages.map((msg, index) => (
             <MessageItem
               uniqueKey={`${index}${msg.timestamp}`}
