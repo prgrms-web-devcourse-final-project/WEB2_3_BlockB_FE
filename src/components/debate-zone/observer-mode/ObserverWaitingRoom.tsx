@@ -7,12 +7,12 @@ export default function ObserverWaitingRoom() {
 
   const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
   const {isWaitingRecruitment} = useDebateWebSocket()
-  
+
   if (isWaitingRecruitment)
     return (
       <section className="px-[40px] flex flex-col gap-[250px] relative min-h-screen">
         <div className="w-full flex justify-between">
-          <InfoDropdwon />
+          <InfoDropdwon isObserver={true}/>
           {/* TODO: 대기 완료 전환 버튼은 임시로 제작해 놓은 것으로 실제 구현시 props 및 버튼을 삭제하십시오 */}
         </div>
         <ObserverMatchingInterface isWaiting={isWaitingRecruitment} />

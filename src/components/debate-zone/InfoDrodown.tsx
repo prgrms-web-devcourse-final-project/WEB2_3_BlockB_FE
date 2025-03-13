@@ -9,7 +9,7 @@ import { useObserverRoomStore } from "../../stores/observerRoomInfoStore";
 const InfoDrodown = React.memo(({isObserver=false}: {isObserver?: boolean}) => {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
   const { roomInfoDetails } = useDebateWebSocket();
-    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
+  const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
   const memoizedRoomInfo = useMemo(() => {
     return {
