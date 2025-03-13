@@ -66,7 +66,6 @@ export default function GeneratingRoom() {
       initialRoomInfos.newsId = Number(newsId);
       initialRoomInfos.newsUrl = `/news/${newsId}`;
     }
-    console.log("초기 방 세팅", initialRoomInfos);
     const roomIdResponse = await debateRoomApi.generateDebateRoom(
       initialRoomInfos
     );

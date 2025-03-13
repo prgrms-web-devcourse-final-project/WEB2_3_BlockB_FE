@@ -3,11 +3,11 @@ import ParticipantBox from "./../ParticipantBox";
 import InfoDropdwon from "../InfoDrodown";
 import { useState } from "react";
 import AudienceListBox from "./AudienceListBox";
-import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
+import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
 
 export default function ObserverWaitingRoom() {
   const [isWaiting, setIsWaiting] = useState<boolean>(true);
-  const { roomInfoDetails } = useDebateWebSocket()
+    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
 
   if (isWaiting)
     return (
@@ -26,9 +26,9 @@ export default function ObserverWaitingRoom() {
         <div></div>
         <div className=" w-full flex flex-col items-center justify-center min-h-screen">
           <div className="flex items-center md:gap-[26px] sm:gap-[10px] gap-[5px]">
-            <ParticipantBox label="PROS" participants={roomInfoDetails.proUsers} />
+            <ParticipantBox label="PROS" participants={observerRoomInfoDetails.proUsers} />
             <p className="font-jersey text-white md:text-[30px] text-[18px]">vs</p>
-            <ParticipantBox label="CONS" participants={roomInfoDetails.conUsers} />
+            <ParticipantBox label="CONS" participants={observerRoomInfoDetails.conUsers} />
           </div>
           <p className="text-white font-pretendard md:text-[20px] sm:text-[16px] text-[14px] font-bold mt-[50px]">
             매칭이 완료되었습니다. 곧 토론이 시작됩니다.
