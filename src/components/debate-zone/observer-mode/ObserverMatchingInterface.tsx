@@ -1,6 +1,6 @@
 import ParticipantBox from "./../ParticipantBox";
 import { useWaveAnimation } from "../../../hooks/useWaveAnimation";
-import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
+import { useObserverRoomStore } from "../../../stores/observerRoomInfoStore";
 
 export default function ObserverMatchingInterface({
   isWaiting,
@@ -15,14 +15,14 @@ export default function ObserverMatchingInterface({
     "border-neutral-50/30",
   ];
 
-  const {roomInfoDetails} = useDebateWebSocket()
+    const observerRoomInfoDetails = useObserverRoomStore((state) => state.observerRoomInfoDetails);
   return (
     <div className="absolute  left-1/2 transform -translate-x-1/2 text-white flex flex-col justify-center items-center min-h-screen">
       <div className="relative flex flex-wrap w-[153px] justify-center gap-[10px]">
         <div className="relative flex md:gap-[26px] sm:gap-[10px] gap-[5px] items-center">
-          <ParticipantBox label="PROS" participants={roomInfoDetails.proUsers}/>
+          <ParticipantBox label="PROS" participants={observerRoomInfoDetails.proUsers}/>
           <p className="font-jersey md:text-[30px] text-[18px] pt-[10px]">vs</p>
-          <ParticipantBox label="CONS" participants={roomInfoDetails.conUsers}/>
+          <ParticipantBox label="CONS" participants={observerRoomInfoDetails.conUsers}/>
         </div>
         {/* 파동 애니메이션 요소 */}
         {isWaiting &&

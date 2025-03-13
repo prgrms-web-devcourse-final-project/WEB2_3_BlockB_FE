@@ -83,6 +83,8 @@ export default function NotificationList({
     }
   }, [inView]);
 
+  const notifications =
+    data?.pages.flatMap((page) => page.data.notifications.content) ?? [];
   const bgColor =
     status === "debate-waiting"
       ? "bg-gray-800"
@@ -146,9 +148,9 @@ export default function NotificationList({
         {/* 알림 리스트 */}
         <div className="space-y-2 max-h-[70vh] overflow-y-auto font-pretendard ${textColor}">
           {localStorage.getItem("fcmToken") ? (
-            data!.pages[0].data.notifications.content.length > 0 ? (
+            notifications.length > 0 ? (
               <>
-                {data!.pages[0].data.notifications.content.map(
+                {notifications.map(
                   (notification: NotificationType, index: number) => (
                     <NotificationItem
                       key={index}

@@ -39,11 +39,9 @@ export default function ReplayDebate({
   const { websocketStatus, voteTimer } = useDebateWebSocket();
 
   const replayAnnounceMessage = () => {
-    if (websocketStatus === "CLOSED") return "이미 투표가 완료됐습니다";
+    if (websocketStatus === "CLOSED") return "이미 완료된 토론 방입니다";
     else if (hasVoted) return "이미 투표권을 행사하셨습니다";
   };
-
-
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
@@ -68,15 +66,23 @@ export default function ReplayDebate({
       )}
       <div className="flex md:flex-row flex-col justify-between md:gap-[200px] gap-5 h-9/10">
         {/* 채팅창 */}
-        <section className="md:max-w-[500px] md:min-w-[370px] max-w-[700px] min-w-[320px] w-full md:h-[500px] h-[300px] flex flex-grow md:bg-neutral-50/30 rounded-lg md:shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] md:border md:border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse gap-[18px]">
-          {messages.map((msg, index) => (
+        <section className="md:max-w-[500px] md:min-w-[370px] max-w-[700px] min-w-[320px] w-full md:h-[500px] h-[300px] flex flex-grow  md:bg-neutral-50/30 rounded-lg md:shadow-[0px_4px_20px_0px_rgba(251,251,251,1.00)] md:border md:border-neutral-50 animate-slide-up p-[10px] overflow-y-auto flex flex-col-reverse gap-[18px]">
+        {[...messages].reverse().map((msg, index) => (
             <MessageItem
               uniqueKey={`${index}${msg.timestamp}`}
               message={msg.message}
               nickname={msg.userName! || "공지"}
               profile={msg.imageUrl || profile}
-              isMine={isObserver ? msg.position === "pro" : msg.userName === userNickname}
-              isOppenent={isObserver ? msg.position === "con" : position !== msg.position || false}
+              isMine={
+                isObserver
+                  ? msg.position === "pro"
+                  : msg.userName === userNickname
+              }
+              isOppenent={
+                isObserver
+                  ? msg.position === "con"
+                  : position !== msg.position || false
+              }
             />
           ))}
         </section>
@@ -87,7 +93,7 @@ export default function ReplayDebate({
             <p className="font-jersey text-[24px]">VOTE</p>
             <div className="flex flex-col gap-[20px]">
               {voteList.map((voteInfo, index) => (
-                <VoteButton key={index} voteInfo={voteInfo} />
+                <VoteButton key={index} voteInfo={voteInfo} isObserver={isObserver}/>
               ))}
             </div>
           </section>

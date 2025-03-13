@@ -81,15 +81,21 @@ export default function AdminModal({
             <p>신고 날짜: <span>{reportDetails?.createdAt}</span></p>
             <p>
               신고 위치:
-              <Link
-                to={`/user-page/${reportDetails?.targetUserId}`} //TODO: 토론 아카이빙 라우팅 파지고 토론 기능 구현 완료 시 주소 변경
+              {
+                reportDetails?.targetRoomId && 
+                <>
+                <Link
+                to={`/archived-room/${reportDetails?.targetRoomId}`} //TODO: 토론 아카이빙 라우팅 파지고 토론 기능 구현 완료 시 주소 변경
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline ml-1"
               >
-                토론방 링크
+                토론방 링크 
               </Link>
               |
+                </>
+              }
+
               <Link
                 to={`/user-page/${reportDetails?.targetUserId}`}
                 target="_blank"

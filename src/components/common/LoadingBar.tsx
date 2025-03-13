@@ -29,7 +29,7 @@ const LoadingBar: React.FC<LoadingBarProps> = ({ isLoading, color, speed }) => {
           }
           return prev + 1;
         });
-      }, speed || 7); // 70ms마다 1%씩 증가
+      }, speed || 15); // 150ms마다 1%씩 증가
     } else if (!isLoading && progress < 100) {
       // 로딩이 완료되면 진행률을 100%로 설정
       setProgress(100);

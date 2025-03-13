@@ -34,6 +34,11 @@ export default function ArchivedRoom() {
         };
         loadArchivedDebateLogs();
     }, [roomId]);
+
+    useEffect(()=>{
+        console.log("디베이터 채팅 로그입니다", debaterChatLogs)
+        console.log("옵져버 채팅 로그입니다2", observerChatLogs)
+    },[debaterChatLogs, observerChatLogs])
     
 
     if (!archivedRoomInfoDetails) return <div></div>
