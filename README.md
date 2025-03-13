@@ -168,7 +168,8 @@
 ## 🛢 Database ERD
 
 <div align="center">
-  <img width="100%" alt="ERD" src="" />
+  <img width="100%" alt="ERD" src="https://github.com/user-attachments/assets/af41da09-1071-4fe3-a741-7b1795072a82" />
+
 </div>
 
 ## 📝 Commit Convention
