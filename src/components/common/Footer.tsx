@@ -14,7 +14,12 @@ export default function Footer({ status }: { status: FooterStatusType }) {
         <a href="/about" className="hover:underline">
           about
         </a>
-        <a href="/blog" className="hover:underline">
+        <a
+          href="https://linktr.ee/earthtalk_blogs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
           blog
         </a>
         <a
@@ -26,7 +31,7 @@ export default function Footer({ status }: { status: FooterStatusType }) {
           github
         </a>
         <a
-          href="https://linkedin.com"
+          href="https://linktr.ee/earthtalk_blog"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:underline"
@@ -44,5 +49,5 @@ export default function Footer({ status }: { status: FooterStatusType }) {
         copyright | website made by team BlockB
       </p>
     </footer>
-  )
+  );
 }
