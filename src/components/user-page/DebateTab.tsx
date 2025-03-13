@@ -11,7 +11,7 @@ export default function DebateTab({ tab, user }: { tab: string, user: UserInfo |
       if (!user) return 
       const loadDebateList = async () => {
         const myDebateResponse = await userApi.fetchArchivedDebateList(user.id)
-        setMyDebates(myDebateResponse.data.filter((debate: ArchivedDebate)=>  debate.status === "CLOSED"))
+        setMyDebates(myDebateResponse.data.filter((debate: ArchivedDebate)=>  debate.status === "CLOSED").reverse())
       }
       loadDebateList()
     },[tab, user])
