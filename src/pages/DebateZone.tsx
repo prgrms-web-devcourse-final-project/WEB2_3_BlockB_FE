@@ -12,6 +12,7 @@ import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
 import { useLocation, useParams } from "react-router";
 import { userApi } from "../api/user";
 import { useCheckRoomId } from "../hooks/useCheckRoomId";
+import ExitOverFlowNull from "../components/debate-zone/ExitOverFlowNull";
 
 export default function DebateZone() {
   const { roomId } = useParams();
@@ -61,6 +62,7 @@ export default function DebateZone() {
         {roomState === "replay" && <ReplayDebate />}
         {roomState === "voting" && <VoteRoom />}
         {roomState === "result" && <VoteResult />}
+        {roomState === "exit_overflow_null" && <ExitOverFlowNull />}
       </div>
     </DebateWebSocketProvider>
   );

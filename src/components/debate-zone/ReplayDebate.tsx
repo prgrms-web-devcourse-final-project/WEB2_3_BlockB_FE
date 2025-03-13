@@ -39,7 +39,7 @@ export default function ReplayDebate({
   const { websocketStatus, voteTimer } = useDebateWebSocket();
 
   const replayAnnounceMessage = () => {
-    if (websocketStatus === "CLOSED") return "이미 투표가 완료됐습니다";
+    if (websocketStatus === "CLOSED") return "이미 완료된 토론 방입니다";
     else if (hasVoted) return "이미 투표권을 행사하셨습니다";
   };
 

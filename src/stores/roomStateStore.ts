@@ -6,7 +6,8 @@ type RoomState =
   | "won-by-default"
   | "voting"
   | "replay"
-  | "result";
+  | "result"
+  | "exit_overflow_null";
 
 interface RoomStateStore {
   roomState: RoomState;

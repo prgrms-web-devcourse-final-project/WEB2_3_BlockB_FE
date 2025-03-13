@@ -12,6 +12,7 @@ import { DebateWebSocketProvider } from "../contexts/DebateWebSocketContext";
 import { userApi } from "../api/user";
 import ObserverVoteRoom from "../components/debate-zone/observer-mode/ObserverVoteRoom";
 import ObserverWinByDefault from "../components/debate-zone/observer-mode/ObserverWinByDefault";
+import ExitOverFlowNull from "../components/debate-zone/ExitOverFlowNull";
 
 export default function ObservingZone() {
   const { observingState } = useObservingStore();
@@ -56,6 +57,7 @@ export default function ObservingZone() {
           {observingState === "voting" && <ObserverVoteRoom/>}
           {observingState === "replay" && <ReplayDebate isObserver={true} />}
           {observingState === "result" && <VoteResult isObserver={true} />}
+          {observingState === "exit_overflow_null" && <ExitOverFlowNull />}
         </div>
       </DebateWebSocketProvider>
     </ObserverWebSocketContextProvider>
