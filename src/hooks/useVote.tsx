@@ -14,8 +14,12 @@ export function useVote(isObserver: boolean) {
   const { roomId } = useParams();
 
   const moveState = (stage: DestinationStage) => {
-    if (isObserver) setObservingState(stage);
-    else setRoomState(stage);
+    if (isObserver) {
+      setObservingState(stage);
+    }
+    else {
+      setRoomState(stage);
+    }
   };
 
   const voteToOnePosition = async (stance: VoteSelection) => {

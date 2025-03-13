@@ -276,6 +276,7 @@ export const DebateWebSocketProvider = ({ children, userName, initialPosition }:
         if (parsedMessage.event === "user_left") {
           getOngoingRoomInfo(); 
           getObserverOngoingInfo();
+          setMessages((prevMessages) => [...prevMessages, parsedMessage]);
         }
 
         if (parsedMessage.event === "WIN_BY_DEFAULT") {
