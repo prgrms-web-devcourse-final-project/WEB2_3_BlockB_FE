@@ -133,12 +133,12 @@ export default function DebateRooms() {
           setDebateRooms(response.content);
           setTotalPages(response.totalPages);
         } catch (error) {
-          // console.error("종료된 토론방 데이터 가져오기 실패:", error);
+          console.error("종료된 토론방 데이터 가져오기 실패:", error);
         } finally {
           setIsLoading(false);
         }
       } else {
-        // console.log("STOMP 웹소켓 활성화 시도...");
+        console.log("STOMP 웹소켓 활성화 시도...");
 
         const WS_URL = import.meta.env.VITE_WS_URL;
         const client = new Client({
@@ -148,19 +148,19 @@ export default function DebateRooms() {
             categoryCode
           )}&member=${encodeURIComponent(participantCode)}`,
           connectHeaders: {},
-          // debug: (msg) => console.log("[STOMP DEBUG]:", msg),
+          debug: (msg) => console.log("[STOMP DEBUG]:", msg),
           reconnectDelay: 5000,
         });
 
         clientRef.current = client;
 
         client.onConnect = (frame: Frame) => {
-          // console.log("STOMP 웹소켓 연결 성공:", frame);
+          console.log("STOMP 웹소켓 연결 성공:", frame);
 
           client.subscribe("/topic/filteredStatus", (message: IMessage) => {
             try {
               const parsedData = JSON.parse(message.body);
-              // console.log("웹소켓 메시지 수신:", parsedData);
+              console.log("웹소켓 메시지 수신:", parsedData);
 
               let debateRoomsData = [];
               if (latestSort.current === "최신순") {
@@ -172,7 +172,7 @@ export default function DebateRooms() {
               }
 
               if (!debateRoomsData) {
-                // console.warn("웹소켓 메시지에 유효한 토론방 데이터가 없음");
+                console.warn("웹소켓 메시지에 유효한 토론방 데이터가 없음");
                 setDebateRooms([]);
                 return;
               }
@@ -180,7 +180,7 @@ export default function DebateRooms() {
               const transformedData = debateRoomsData
                 .map((room: any) => {
                   if (!room.debateRoomResponse) {
-                    // console.warn("유효한 debateRoomResponse 없음", room);
+                    console.warn("유효한 debateRoomResponse 없음", room);
                     return null;
                   }
 
@@ -211,7 +211,7 @@ export default function DebateRooms() {
               setDebateRooms(transformedData);
               setIsLoading(false);
             } catch (error) {
-              // console.error("웹소켓 데이터 변환 오류:", error);
+              console.error("웹소켓 데이터 변환 오류:", error);
             }
           });
 
@@ -228,20 +228,20 @@ export default function DebateRooms() {
             }
           }, 500);
 
-          // const intervalId = setInterval(() => {
-          //   if (client.connected) {
-          //     client.publish({
-          //       destination: "/app/filteredUpdate",
-          //       body: JSON.stringify({ message: "최신 토론방 요청" }),
-          //     });
-          //     console.log("5초 간격 요청");
-          //   }
-          // }, 5000);
+          const intervalId = setInterval(() => {
+            if (client.connected) {
+              client.publish({
+                destination: "/app/filteredUpdate",
+                body: JSON.stringify({ message: "최신 토론방 요청" }),
+              });
+              console.log("5초 간격 요청");
+            }
+          }, 5000);
 
           return () => {
             console.log("웹소켓 연결 종료");
             client.deactivate();
-            // clearInterval(intervalId);
+            clearInterval(intervalId);
           };
         };
 
