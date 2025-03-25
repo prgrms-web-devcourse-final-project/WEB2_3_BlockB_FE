@@ -4,9 +4,13 @@ import info from "../../assets/icons/info-btn.svg";
 import { timeFormatter } from "../../utils/timeFormatter";
 import { getKeyFromDbKey } from "../../constants";
 
-export default function ArchivedRoomInfoDropdown({ roomInfo }: { roomInfo: DebateRoomInfo }) {
+export default function ArchivedRoomInfoDropdown({
+  roomInfo,
+}: {
+  roomInfo: DebateRoomInfo;
+}) {
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
-  
+
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}
@@ -47,10 +51,14 @@ export default function ArchivedRoomInfoDropdown({ roomInfo }: { roomInfo: Debat
               <p>{getKeyFromDbKey(roomInfo.categoryType)}</p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{timeFormatter(roomInfo.timeType * roomInfo.speakCountType * 2)}</p>
+              <p>
+                {timeFormatter(roomInfo.timeType * roomInfo.speakCountType * 2)}
+              </p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
-              <p>{roomInfo.memberNumberType} : {roomInfo.memberNumberType}</p>
+              <p>
+                {roomInfo.memberNumberType} : {roomInfo.memberNumberType}
+              </p>
             </div>
             <div className="h-7 px-2.5 py-1 md:bg-neutral-50/70 rounded-3xl border border-gray03 justify-start items-center gap-2 inline-flex">
               <p>{getKeyFromDbKey(roomInfo.resultEnabled)}</p>
@@ -58,14 +66,14 @@ export default function ArchivedRoomInfoDropdown({ roomInfo }: { roomInfo: Debat
           </div>
           {/* 링크 */}
           <div>
-            {roomInfo.newsUrl && 
+            {roomInfo.newsUrl && (
               <figure className="flex items-center w-full gap-2">
                 <img src={link} alt="연관된 뉴스 링크" />
                 <figcaption className="md:text-gray02 text-gray03  md:text-[10px] text-[8px] leading-0">
                   {roomInfo.newsUrl}
                 </figcaption>
               </figure>
-            }
+            )}
           </div>
         </div>
       )}
