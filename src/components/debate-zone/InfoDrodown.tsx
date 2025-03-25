@@ -24,6 +24,7 @@ const InfoDrodown = React.memo(({isObserver=false}: {isObserver?: boolean}) => {
     };
   }, [roomInfoDetails, observerRoomInfoDetails]);
 
+  
   return (
     <div className="flex gap-[10px] items-start z-40 relative">
       {/* 드롭다운전 */}
