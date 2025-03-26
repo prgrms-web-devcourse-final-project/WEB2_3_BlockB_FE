@@ -40,7 +40,7 @@ export default function ArchivedRoom() {
         );
         const { data: roomInfoDetails } =
           await debateRoomApi.fetchOngoingRoomInfo(roomId);
-        setArchivedRoomInfoDetails(roomInfoDetails.data);
+        setArchivedRoomInfoDetails(roomInfoDetails);
       } catch (error) {
         console.log("저장된 토론방 정보 가져오는 도중 애러 발생", error);
         navigate("/not-found");
