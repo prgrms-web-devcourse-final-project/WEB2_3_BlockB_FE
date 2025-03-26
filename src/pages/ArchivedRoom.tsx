@@ -38,6 +38,7 @@ export default function ArchivedRoom() {
             .filter((chat: ArchivedChatLog) => chat.position === "NO_POSITION")
             .reverse()
         );
+        console.log(debaterChatLogs, observerChatLogs);
         const { data: roomInfoDetails } =
           await debateRoomApi.fetchOngoingRoomInfo(roomId);
         setArchivedRoomInfoDetails(roomInfoDetails);
