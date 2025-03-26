@@ -102,8 +102,8 @@ export const DebateWebSocketProvider = ({
       const { data: roomInfoData } = await debateRoomApi.fetchWaitingRoomInfo(
         roomId
       );
-      setRoomInfoDetails(roomInfoData.data);
-      setResultEnabled(roomInfoData.data.resultEnabled);
+      setRoomInfoDetails(roomInfoData);
+      setResultEnabled(roomInfoData.resultEnabled);
     }
   };
 
@@ -112,8 +112,8 @@ export const DebateWebSocketProvider = ({
       const { data: roomInfoData } = await debateRoomApi.fetchOngoingRoomInfo(
         roomId
       );
-      setRoomInfoDetails(roomInfoData.data);
-      setResultEnabled(roomInfoData.data.resultEnabled);
+      setRoomInfoDetails(roomInfoData);
+      setResultEnabled(roomInfoData.resultEnabled);
     }
   };
 
