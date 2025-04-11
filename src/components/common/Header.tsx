@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
 import Modal from "./Modal";
 import useGetNotifications from "../../hooks/useGetNotifications";
-import { useQueryClient } from "@tanstack/react-query";
+import { Client, Frame, IMessage } from "@stomp/stompjs";
+import { useAuthStore } from "../../stores/authStore";
 
 // TODO: 삼항 연산자 기준으로 함수 나누기 (파일 내에서)
 
@@ -20,19 +21,68 @@ export default function Header({ status }: { status: HeaderStatusType }) {
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { userId, profileUrl, role } = useUserStore();
-
-  const { data } = useGetNotifications(userId!);
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (data) {
-      queryClient.invalidateQueries({ queryKey: ["notifications"] });
-    }
-  }, [data]);
+  const { accessToken } = useAuthStore.getState();
+  const { data, refetch } = useGetNotifications(userId!);
 
   if (status === "debate-ing") {
     return null;
   }
+
+  useEffect(() => {
+    const WS_URL = import.meta.env.VITE_WS_URL;
+    const tempId = crypto.randomUUID(); // handshake용 임시 ID
+
+    const client = new Client({
+      brokerURL: `${WS_URL}/notification`,
+      connectHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      debug: (msg) => console.log("[STOMP DEBUG]:", msg),
+      reconnectDelay: 5000,
+    });
+
+    client.onConnect = (frame: Frame) => {
+      console.log("STOMP 웹소켓 연결 성공:", frame);
+
+      // 1. 서버로 handshake용 메시지 전송
+      client.subscribe(`/queue/handshake-${tempId}`, (msg) => {
+        const mySessionId = msg.body;
+        console.log("세션 ID 수신:", mySessionId);
+
+        // 2. 세션 ID 기반으로 알림 채널 구독
+        client.subscribe(
+          `/queue/notification-${mySessionId}`,
+          (message: IMessage) => {
+            try {
+              console.log("알림 수신:", message.body);
+
+              const parsedData = JSON.parse(message.body);
+              console.log("파싱된 알림 데이터:", parsedData);
+
+              // 여기서 알림 상태 업데이트 등 처리
+              refetch();
+            } catch (error) {
+              console.error("웹소켓 데이터 파싱 실패:", error);
+            }
+          }
+        );
+      });
+
+      // 3. 서버에 handshake 등록 요청 전송
+      if (client.connected) {
+        client.publish({
+          destination: "/app/noti",
+          body: tempId,
+        });
+      }
+      console.log("웹소켓 메시지 전송 완료!");
+    };
+    client.activate();
+
+    return () => {
+      client.deactivate();
+    };
+  }, []);
 
   return (
     <>
@@ -42,7 +92,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
           <div className="w-full h-[80px] flex max-md:px-[12px] px-[40px] max-md:h-[40px] justify-between items-center bg-black01 text-white">
             <img
               src={logoWhite}
-              className="max-md:w-7 max-md:h-7 w-12 h-12 max-md:object-cover"
+              className="w-12 h-12 max-md:w-7 max-md:h-7 max-md:object-cover"
             />
             <p className="font-unifrakturCook text-[40px] max-md:text-[24px]">
               Earth Talk
@@ -73,7 +123,7 @@ export default function Header({ status }: { status: HeaderStatusType }) {
               <Link to={"/main"}>
                 <img
                   src={status === "debate-waiting" ? logoWhite : logo}
-                  className="md:w-11 md:h-11 w-6 h-6 max-md:object-cover"
+                  className="w-6 h-6 md:w-11 md:h-11 max-md:object-cover"
                 />
               </Link>
               <div
