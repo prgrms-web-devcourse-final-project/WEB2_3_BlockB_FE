@@ -5,9 +5,8 @@ import WaitingInfoDrodown from "../InfoDrodown";
 import Ment from "./Ment";
 import { useDebateWebSocket } from "../../../contexts/DebateWebSocketContext";
 
-
 export default function WaitingRoom() {
-  const {isWaitingRecruitment} = useDebateWebSocket()
+  const { isWaitingRecruitment } = useDebateWebSocket();
   const [countDown, setCountDown] = useState(5);
 
   useEffect(() => {
@@ -20,15 +19,22 @@ export default function WaitingRoom() {
     }
   }, [isWaitingRecruitment]);
 
-  const { myTeamList, opponentTeamList } = useDebateWebSocket()
+  const { myTeamList, opponentTeamList } = useDebateWebSocket();
 
   return (
     <section className="md:px-[40px] px-[20px] flex flex-col gap-[300px] relative">
       <div className="flex justify-between gap-2">
-        <WaitingInfoDrodown isObserver={true}/>
-        <ParticipantBox label="OPONENTS" labelAlignment="end" participants={opponentTeamList} />
+        <WaitingInfoDrodown />
+        <ParticipantBox
+          label="OPONENTS"
+          labelAlignment="end"
+          participants={opponentTeamList}
+        />
       </div>
-      <MatchingInterface isWaiting={isWaitingRecruitment} participants={myTeamList} />
+      <MatchingInterface
+        isWaiting={isWaitingRecruitment}
+        participants={myTeamList}
+      />
 
       {isWaitingRecruitment ? (
         <Ment />

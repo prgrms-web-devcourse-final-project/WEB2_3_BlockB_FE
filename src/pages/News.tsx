@@ -89,6 +89,10 @@ export default function News() {
     fetchAllNews(currentSort, true, continentCode!);
   }, [currentSort]);
 
+  useEffect(() => {
+    console.log("❤️ 배포가 잘 반영되는지 테스트");
+  }, []);
+
   return (
     <div className="w-full h-screen overflow-y-hidden font-pretendard">
       <div className="flex flex-col h-full p-6 mx-auto overflow-auto max-w-10xl md:flex-row md:pr-0">
